@@ -32,8 +32,8 @@ def main():
 
     logger.info(f'Running report pipeline for date: {date_str}')
 
-    # Load configuration
-    cfg = ConfigLoader(os.path.join(os.getcwd(), 'config', 'columns_config.yaml'))
+    # Load configuration from TOML
+    cfg = ConfigLoader(os.path.join(os.getcwd(), 'config', 'config.toml'))
 
     # Fetch emails and save CSVs
     fetcher = EmailFetcher(cfg)

@@ -53,6 +53,7 @@ class CSVTransformer:
             file_path = os.path.join(self.raw_dir, filename)
             self.logger.info(f"Processing file: {filename}")
 
+
             # Determine matching rule
             rule = None
             sheet_name = None
@@ -66,16 +67,19 @@ class CSVTransformer:
                 self.logger.warning(f"No matching rule for: {filename}")
                 continue
 
-            col_range = rule.get('range')
-            if not col_range:
-                self.logger.warning(f"No 'range' defined for: {filename}")
+            columns = rule.get('columns')
+            if not columns:
+                self.logger.warning(f"No 'columns' defined for: {filename}")
                 continue
 
             try:
-                # Read and slice CSV
+                # Read and select columns by name
                 df = pd.read_csv(file_path)
-                start_idx, end_idx = parse_excel_range(col_range)
-                df = df.iloc[:, start_idx:end_idx + 1]
+                missing_cols = [col for col in columns if col not in df.columns]
+                if missing_cols:
+                    self.logger.error(f"Missing columns {missing_cols} in {filename}")
+                    continue
+                df = df[columns]
 
                 # Insert date column if missing
                 if 'email_received_date' not in df.columns:

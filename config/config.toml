@@ -1,0 +1,24 @@
+[general]
+debug = false
+log_level = "INFO"
+date_format = "%Y-%m-%d"
+
+[email]
+outlook_folder = "Inbox/Genesys"
+sender = ["reports@example.com"]
+subject_contains = ["Daily Report"]
+
+[attachments]
+"IB_Calls.csv"              = ["Agent Name", "Handle", "Avg Handle"]
+"QCBs.csv"                  = ["Agent Name", "Handle"]
+"Dials.csv"                 = ["Agent Name", "Handle", "Avg Handle", "Avg Talk", "Avg Hold"]
+"Productivity.csv"          = ["Agent Name", "Logged In", "On Queue", "Idle", "Off Queue", "Interacting"]
+"Campaign_Interactions.csv" = ["Date", "Initial Direction", "First Queue"]
+"ACQ.csv"                   = ["Agent Name", "Handle"]
+"RESC.csv"                  = ["Agent Name", "Handle"]
+
+
+[output]
+excel_dir = "reports"
+archive_dir = "data/archive"
+excel_prefix = "report_"
