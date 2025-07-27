@@ -1,0 +1,17 @@
+pandas>=2.0.0
+openpyxl>=3.1.0
+pywin32>=306; sys_platform == 'win32'
+tomli; python_version < '3.11'
+pytest>=7.0.0
+# Standard library modules (for reference, not installable via pip):
+# argparse
+# datetime
+# os
+# shutil
+# re
+# typing
+# logging
+# tomllib; python_version >= '3.11'
+#
+# For legacy/compatibility (if any old YAML files remain):
+pyyaml

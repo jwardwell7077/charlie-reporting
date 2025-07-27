@@ -1,4 +1,66 @@
 import os
+import pandas as pd
+import pytest
+from config_loader import ConfigLoader
+from transformer import CSVTransformer
+
+data_dir = os.path.join(os.path.dirname(__file__), 'data')
+config_path = os.path.join(os.path.dirname(__file__), '..', 'config', 'config.toml')
+
+@pytest.fixture(scope="module")
+def config():
+    return ConfigLoader(config_path)
+
+@pytest.mark.parametrize("filename", [
+    "ACQ.csv",
+    "Dials.csv",
+    "IB_Calls.csv",
+    "Productivity.csv",
+    "QCBs.csv",
+    "RESC.csv",
+    "Campaign_Interactions.csv",
+])
+def test_transformer_output_columns(config, filename):
+    filepath = os.path.join(data_dir, filename)
+    df = pd.read_csv(filepath)
+    transformer = CSVTransformer(config)
+    result = transformer.transform(filename, df)
+    expected_columns = set(config.get_columns(filename))
+    assert set(result.columns) == expected_columns, f"{filename}: Columns mismatch"
+
+
+def test_transformer_handles_missing_columns(config):
+    # Remove a required column from ACQ.csv
+    filepath = os.path.join(data_dir, "ACQ.csv")
+    df = pd.read_csv(filepath)
+    missing_col = config.get_columns("ACQ.csv")[0]
+    df = df.drop(columns=[missing_col])
+    transformer = CSVTransformer(config)
+    result = transformer.transform("ACQ.csv", df)
+    # Should still return a DataFrame with the expected columns (may be NaN)
+    expected_columns = set(config.get_columns("ACQ.csv"))
+    assert set(result.columns) == expected_columns
+
+
+def test_transformer_handles_extra_columns(config):
+    filepath = os.path.join(data_dir, "Dials.csv")
+    df = pd.read_csv(filepath)
+    df["ExtraCol"] = 123
+    transformer = CSVTransformer(config)
+    result = transformer.transform("Dials.csv", df)
+    expected_columns = set(config.get_columns("Dials.csv"))
+    assert set(result.columns) == expected_columns
+
+
+def test_transformer_handles_empty_file(config):
+    # Create an empty DataFrame with correct columns
+    columns = config.get_columns("RESC.csv")
+    df = pd.DataFrame(columns=columns)
+    transformer = CSVTransformer(config)
+    result = transformer.transform("RESC.csv", df)
+    assert result.empty
+    assert set(result.columns) == set(columns)
+import os
 import sys
 import shutil
 import pandas as pd

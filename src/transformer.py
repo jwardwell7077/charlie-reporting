@@ -4,7 +4,7 @@ import pandas as pd
 
 from logger import LoggerFactory
 from config_loader import ConfigLoader
-from utils import parse_excel_range
+
 
 
 class CSVTransformer:
