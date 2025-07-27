@@ -1,3 +1,12 @@
+"""
+archiver.py
+-----------
+Handles archiving of processed files.
+
+Author: Jonathan Wardwell, Copilot, GPT-4o
+License: MIT
+"""
+
 import os
 import shutil
 

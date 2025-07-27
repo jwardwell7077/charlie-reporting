@@ -1,3 +1,12 @@
+"""
+utils.py
+--------
+Utility functions for the reporting pipeline.
+
+Author: Jonathan Wardwell, Copilot, GPT-4o
+License: MIT
+"""
+
 import os
 import re
 from typing import Optional, Tuple
@@ -7,6 +16,10 @@ from openpyxl.utils import column_index_from_string
 def sanitize_filename(name: str) -> str:
     """
     Remove or replace invalid filesystem characters from a filename.
+    Args:
+        name (str): Input filename or base name.
+    Returns:
+        str: Sanitized filename.
     """
     # Allow alphanumerics, spaces, underscores, hyphens, and dots
     cleaned = re.sub(r'[^\w\s\-\.]', '', name)

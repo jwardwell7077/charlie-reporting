@@ -1,3 +1,5 @@
+# PyCharm project files
+.idea/
 # Ignore everything in helper directory
 helper/
 # Ignore Copilot master prompt file

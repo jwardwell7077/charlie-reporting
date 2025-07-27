@@ -15,35 +15,45 @@
 #     ├── test_excel_writer.py         # tests for excel_writer.py
 #     └── test_archiver.py             # tests for archiver.py
 
-# Example conftest.py
-doctest_content = '''
+
+# conftest.py
+# Pytest fixtures for the reporting pipeline tests.
+
+"""
+conftest.py
+-----------
+Pytest fixtures for the reporting pipeline tests.
+
+Author: Jonathan Wardwell, Copilot, GPT-4o
+License: MIT
+"""
+
 import os
 import pytest
 from config_loader import ConfigLoader
+from transformer import CSVTransformer
 
-@ pytest.fixture(scope='session')
-def config_loader(tmp_path_factory):
-    # Copy a sample YAML into a temp directory
-    sample = tmp_path_factory.mktemp('data') / 'columns_config.yaml'
-    src = os.path.join(os.getcwd(), 'tests', 'data', 'columns_config.yaml')
-    with open(src) as f_src, open(sample, 'w') as f_dst:
-        f_dst.write(f_src.read())
-    return ConfigLoader(str(sample))
+@pytest.fixture(scope='session')
+def config_loader():
+    """
+    Fixture for loading the TOML config for tests.
+    Returns:
+        ConfigLoader: Loaded config object.
+    """
+    config_path = os.path.join(os.path.dirname(__file__), '..', 'config', 'config.toml')
+    return ConfigLoader(config_path)
 
-@ pytest.fixture
-
-def utils():
-    import utils
-    return utils
-
-@ pytest.fixture
-
+@pytest.fixture
 def transformer(tmp_path, config_loader):
-    import transformer
+    """
+    Fixture for creating a CSVTransformer with loaded config.
+    Args:
+        config_loader (ConfigLoader): Loaded config fixture.
+    Returns:
+        CSVTransformer: Transformer instance.
+    """
     raw = tmp_path / 'raw'
     archive = tmp_path / 'archive'
     raw.mkdir()
     archive.mkdir()
-    return transformer.CSVTransformer(config_loader, raw_dir=str(raw), archive_dir=str(archive))
-'''  
-print(doctest_content)  # placeholder; code will be split into files
+    return CSVTransformer(config_loader, raw_dir=str(raw), archive_dir=str(archive))
