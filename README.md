@@ -3,7 +3,7 @@
 A modern, extensible Python ETL/reporting tool for automating daily CSV/Excel data transformation and reporting.
 
 ## Features
-- Modular OOP design (easy to extend)
+- Modular OOP design with microservice architecture
 - TOML-based config (no YAML)
 - Column mapping by name
 - Robust logging
@@ -38,7 +38,13 @@ MIT License (see LICENSE file)
 ## Project Structure
 ```
 charlie-reporting/
-├── src/                # Main source code
+├── services/           # Service-based architecture
+│   ├── common/         # Shared utilities
+│   ├── email_service/  # Email fetching service
+│   ├── db_service/     # Database storage and query service
+│   ├── report_service/ # Report generation service
+│   └── main.py         # Entry point
+├── src/                # Legacy source code
 ├── config/             # TOML config
 ├── tests/              # Unit tests & sample data
 ├── docs/               # Documentation
