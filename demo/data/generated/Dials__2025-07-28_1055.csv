@@ -1,0 +1,6 @@
+Interval Start,Interval End,Interval Complete,Filters,Media Type,Agent Id,Agent Name,Handle,Avg Handle,Avg Talk,Avg Hold,Avg ACW,Total Handle,Total Talk,Total Hold,Total ACW
+2025-07-28 10:55:00,2025-07-28 11:55:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,3775a1f6-e5fd-47bd-8039-e8f8d3a1a6bf,Leo Young,96,104618,12281,4364,22980,10043328,1178976,418944,2826048
+2025-07-28 10:55:00,2025-07-28 11:55:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,f4e29da3-1c4e-4bd9-9c9f-5a0c7e18e7f8,Amber Gonzalez,4,63025,51029,17017,26727,252100,204116,68068,69556
+2025-07-28 10:55:00,2025-07-28 11:55:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,a16bfe90-f4bd-4b7c-af6e-881454647f5f,Eve Adams,198,99167,58949,2948,27295,19635066,11671902,583704,5137110
+2025-07-28 10:55:00,2025-07-28 11:55:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,5cce8f28-359c-4531-9d91-93f103f4edc1,Dana White,93,184320,39222,13136,25142,17141760,3647646,1221648,843417
+2025-07-28 10:55:00,2025-07-28 11:55:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,e258b370-9093-401d-bcbf-d939ab51b265,Steve Phillips,104,166482,38599,17179,29470,17314128,4014296,1786616,1462136

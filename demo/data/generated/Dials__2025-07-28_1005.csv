@@ -1,0 +1,7 @@
+Interval Start,Interval End,Interval Complete,Filters,Media Type,Agent Id,Agent Name,Handle,Avg Handle,Avg Talk,Avg Hold,Avg ACW,Total Handle,Total Talk,Total Hold,Total ACW
+2025-07-28 10:05:00,2025-07-28 11:05:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,,,26,138097,70593,27012,25851,3590522,1835418,702312,763022
+2025-07-28 10:05:00,2025-07-28 11:05:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,7b6c2d91-3f28-4e66-b2a1-5f9e2f8d3a4b,Victor Ramirez,163,54872,75524,25888,25692,8944136,12310412,4219744,3054946
+2025-07-28 10:05:00,2025-07-28 11:05:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,c7ca8c70-fce5-4eee-a913-813af2d2b9a4,Frank Miller,164,133257,50622,15864,16831,21854148,8302008,2601696,1327416
+2025-07-28 10:05:00,2025-07-28 11:05:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,4ab904ce-5677-4eb1-8354-109907f0f7d8,Quincy Wright,136,109473,24875,9709,14336,14888328,3383000,1320424,822528
+2025-07-28 10:05:00,2025-07-28 11:05:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,1be98524-f56c-41bb-a6ff-3e14bb3dfb84,Judy Walker,214,187569,76977,2127,11745,40139766,16473078,455178,4174926
+2025-07-28 10:05:00,2025-07-28 11:05:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,5cce8f28-359c-4531-9d91-93f103f4edc1,Dana White,29,58314,75602,26430,5177,1691106,2192458,766470,452139

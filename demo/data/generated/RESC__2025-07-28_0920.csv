@@ -1,0 +1,10 @@
+Interval Start,Interval End,Interval Complete,Filters,Media Type,Agent Id,Agent Name,Handle
+2025-07-28 09:20:00,2025-07-28 10:20:00,0.0,Initial Direction: Inbound; Queue: LLSA-RESC-DM,voice,d1f3a0e2-47b9-4c73-a3d9-0c1e7f4b6c29,Ursula Rivera,9
+2025-07-28 09:20:00,2025-07-28 10:20:00,0.0,Initial Direction: Inbound; Queue: LLSA-RESC-DM,voice,589f3a7c-22e4-451f-91c0-8adc6b4e7f3d,Xavier Nguyen,1
+2025-07-28 09:20:00,2025-07-28 10:20:00,0.0,Initial Direction: Inbound; Queue: LLSA-RESC-DM,voice,a16bfe90-f4bd-4b7c-af6e-881454647f5f,Eve Adams,2
+2025-07-28 09:20:00,2025-07-28 10:20:00,0.0,Initial Direction: Inbound; Queue: LLSA-RESC-DM,voice,8c5912fa-6b3e-4baa-9c0e-3f5a423e4d18,Brian Perez,7
+2025-07-28 09:20:00,2025-07-28 10:20:00,0.0,Initial Direction: Inbound; Queue: LLSA-RESC-DM,voice,fd3c454b-47c9-491e-9c37-5bc54c413ca4,Nathan Scott,5
+2025-07-28 09:20:00,2025-07-28 10:20:00,0.0,Initial Direction: Inbound; Queue: LLSA-RESC-DM,voice,08f54f08-058a-4e0b-9ec4-a738a595da3c,Charlie Brown,3
+2025-07-28 09:20:00,2025-07-28 10:20:00,0.0,Initial Direction: Inbound; Queue: LLSA-RESC-DM,voice,9b585b97-8826-4653-9363-696d3fa4570e,Peter Baker,3
+2025-07-28 09:20:00,2025-07-28 10:20:00,0.0,Initial Direction: Inbound; Queue: LLSA-RESC-DM,voice,3775a1f6-e5fd-47bd-8039-e8f8d3a1a6bf,Leo Young,1
+2025-07-28 09:20:00,2025-07-28 10:20:00,0.0,Initial Direction: Inbound; Queue: LLSA-RESC-DM,voice,5cce8f28-359c-4531-9d91-93f103f4edc1,Dana White,9

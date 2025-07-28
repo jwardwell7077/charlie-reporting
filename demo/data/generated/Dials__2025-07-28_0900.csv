@@ -1,0 +1,5 @@
+Interval Start,Interval End,Interval Complete,Filters,Media Type,Agent Id,Agent Name,Handle,Avg Handle,Avg Talk,Avg Hold,Avg ACW,Total Handle,Total Talk,Total Hold,Total ACW
+2025-07-28 09:00:00,2025-07-28 10:00:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,8c5912fa-6b3e-4baa-9c0e-3f5a423e4d18,Brian Perez,41,52166,31180,2560,27362,2138806,1278380,104960,503931
+2025-07-28 09:00:00,2025-07-28 10:00:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,9b585b97-8826-4653-9363-696d3fa4570e,Peter Baker,155,188161,79460,23097,8148,29164955,12316300,3580035,4636205
+2025-07-28 09:00:00,2025-07-28 10:00:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,d1f3a0e2-47b9-4c73-a3d9-0c1e7f4b6c29,Ursula Rivera,128,137551,11221,13168,21724,17606528,1436288,1685504,2491008
+2025-07-28 09:00:00,2025-07-28 10:00:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,fd3c454b-47c9-491e-9c37-5bc54c413ca4,Nathan Scott,23,143028,64902,9402,15993,3289644,1492746,216246,271998

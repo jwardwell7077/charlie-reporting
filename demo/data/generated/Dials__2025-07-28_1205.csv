@@ -1,0 +1,7 @@
+Interval Start,Interval End,Interval Complete,Filters,Media Type,Agent Id,Agent Name,Handle,Avg Handle,Avg Talk,Avg Hold,Avg ACW,Total Handle,Total Talk,Total Hold,Total ACW
+2025-07-28 12:05:00,2025-07-28 13:05:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,758a9386-a5db-43ee-8c79-cafe99a9d541,Rachel Turner,194,217452,59308,1504,12639,42185688,11505752,291776,1563058
+2025-07-28 12:05:00,2025-07-28 13:05:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,,,131,193079,13563,20817,16558,25293349,1776753,2727027,1459209
+2025-07-28 12:05:00,2025-07-28 13:05:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,589f3a7c-22e4-451f-91c0-8adc6b4e7f3d,Xavier Nguyen,177,75718,59063,5570,28648,13402086,10454151,985890,2714118
+2025-07-28 12:05:00,2025-07-28 13:05:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,24bb913e-5636-4db3-aab7-1213b0928274,Bob Johnson,232,40675,38101,22821,24577,9436600,8839432,5294472,5100752
+2025-07-28 12:05:00,2025-07-28 13:05:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,a16bfe90-f4bd-4b7c-af6e-881454647f5f,Eve Adams,35,146421,11485,22010,12985,5124735,401975,770350,410165
+2025-07-28 12:05:00,2025-07-28 13:05:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,9b585b97-8826-4653-9363-696d3fa4570e,Peter Baker,12,138697,57849,27163,12468,1664364,694188,325956,346056

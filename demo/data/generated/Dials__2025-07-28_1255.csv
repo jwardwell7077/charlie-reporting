@@ -1,0 +1,5 @@
+Interval Start,Interval End,Interval Complete,Filters,Media Type,Agent Id,Agent Name,Handle,Avg Handle,Avg Talk,Avg Hold,Avg ACW,Total Handle,Total Talk,Total Hold,Total ACW
+2025-07-28 12:55:00,2025-07-28 13:55:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,a16bfe90-f4bd-4b7c-af6e-881454647f5f,Eve Adams,127,192852,68873,2688,12048,24492204,8746871,341376,1555750
+2025-07-28 12:55:00,2025-07-28 13:55:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,a0c1e2b3-3d4e-5a6f-7b8c-9d0e1f2a3b4c,Derek Parker,148,151712,10410,10217,28265,22453376,1540680,1512116,2393308
+2025-07-28 12:55:00,2025-07-28 13:55:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,6c7bba2a-d8ec-4b53-9934-cf52606b282a,Alice Smith,113,225477,24095,26886,7392,25478901,2722735,3038118,799814
+2025-07-28 12:55:00,2025-07-28 13:55:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,9b585b97-8826-4653-9363-696d3fa4570e,Peter Baker,39,106114,49388,29382,29250,4138446,1926132,1145898,223158

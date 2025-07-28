@@ -1,0 +1,6 @@
+Interval Start,Interval End,Interval Complete,Filters,Media Type,Agent Id,Agent Name,Handle,Avg Handle,Avg Talk,Avg Hold,Avg ACW,Total Handle,Total Talk,Total Hold,Total ACW
+2025-07-28 11:35:00,2025-07-28 12:35:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,,,240,162691,65415,633,13234,39045840,15699600,151920,5010960
+2025-07-28 11:35:00,2025-07-28 12:35:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,3775a1f6-e5fd-47bd-8039-e8f8d3a1a6bf,Leo Young,82,206254,62270,10221,12396,16912828,5106140,838122,1903384
+2025-07-28 11:35:00,2025-07-28 12:35:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,08f54f08-058a-4e0b-9ec4-a738a595da3c,Charlie Brown,239,129999,61826,28039,7652,31069761,14776414,6701321,1657943
+2025-07-28 11:35:00,2025-07-28 12:35:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,8c5912fa-6b3e-4baa-9c0e-3f5a423e4d18,Brian Perez,70,191439,38471,8980,24390,13400730,2692970,628600,1366820
+2025-07-28 11:35:00,2025-07-28 12:35:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,24bb913e-5636-4db3-aab7-1213b0928274,Bob Johnson,229,163500,29474,7004,25504,37441500,6749546,1603916,1917417

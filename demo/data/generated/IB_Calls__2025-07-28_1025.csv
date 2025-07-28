@@ -1,0 +1,6 @@
+Interval Start,Interval End,Interval Complete,Filters,Media Type,Agent Id,Agent Name,Handle,Avg Handle
+2025-07-28 10:25:00,2025-07-28 11:25:00,0.0,Initial Direction: Inbound; Queue: Demo Queue,voice,fd3c454b-47c9-491e-9c37-5bc54c413ca4,Nathan Scott,22,28:33
+2025-07-28 10:25:00,2025-07-28 11:25:00,0.0,Initial Direction: Inbound; Queue: Demo Queue,voice,1be98524-f56c-41bb-a6ff-3e14bb3dfb84,Judy Walker,25,20:43
+2025-07-28 10:25:00,2025-07-28 11:25:00,0.0,Initial Direction: Inbound; Queue: Demo Queue,voice,9b585b97-8826-4653-9363-696d3fa4570e,Peter Baker,26,14:26
+2025-07-28 10:25:00,2025-07-28 11:25:00,0.0,Initial Direction: Inbound; Queue: Demo Queue,voice,3775a1f6-e5fd-47bd-8039-e8f8d3a1a6bf,Leo Young,25,11:27
+2025-07-28 10:25:00,2025-07-28 11:25:00,0.0,Initial Direction: Inbound; Queue: Demo Queue,voice,ce4e5d79-18a2-4b0f-9c9d-7b1e3f5a2c6d,Wendy Flores,13,10:58

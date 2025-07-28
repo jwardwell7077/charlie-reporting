@@ -1,0 +1,9 @@
+Interval Start,Interval End,Interval Complete,Filters,Media Type,Agent Id,Agent Name,Handle
+2025-07-28 12:05:00,2025-07-28 13:05:00,0.0,Initial Direction: Inbound; Queue: LLSA-RESC-DM,voice,f4e29da3-1c4e-4bd9-9c9f-5a0c7e18e7f8,Amber Gonzalez,5
+2025-07-28 12:05:00,2025-07-28 13:05:00,0.0,Initial Direction: Inbound; Queue: LLSA-RESC-DM,voice,589f3a7c-22e4-451f-91c0-8adc6b4e7f3d,Xavier Nguyen,7
+2025-07-28 12:05:00,2025-07-28 13:05:00,0.0,Initial Direction: Inbound; Queue: LLSA-RESC-DM,voice,6c7bba2a-d8ec-4b53-9934-cf52606b282a,Alice Smith,5
+2025-07-28 12:05:00,2025-07-28 13:05:00,0.0,Initial Direction: Inbound; Queue: LLSA-RESC-DM,voice,e258b370-9093-401d-bcbf-d939ab51b265,Steve Phillips,3
+2025-07-28 12:05:00,2025-07-28 13:05:00,0.0,Initial Direction: Inbound; Queue: LLSA-RESC-DM,voice,c7ca8c70-fce5-4eee-a913-813af2d2b9a4,Frank Miller,4
+2025-07-28 12:05:00,2025-07-28 13:05:00,0.0,Initial Direction: Inbound; Queue: LLSA-RESC-DM,voice,,,6
+2025-07-28 12:05:00,2025-07-28 13:05:00,0.0,Initial Direction: Inbound; Queue: LLSA-RESC-DM,voice,08f54f08-058a-4e0b-9ec4-a738a595da3c,Charlie Brown,3
+2025-07-28 12:05:00,2025-07-28 13:05:00,0.0,Initial Direction: Inbound; Queue: LLSA-RESC-DM,voice,c3aaf240-163b-40cd-aaed-2d10d7def648,Ivan Lewis,4

@@ -1,0 +1,6 @@
+Interval Start,Interval End,Interval Complete,Filters,Media Type,Agent Id,Agent Name,Handle
+2025-07-28 12:20:00,2025-07-28 13:20:00,0.0,Queue: Outbound-IB_QCB,callback,c3aaf240-163b-40cd-aaed-2d10d7def648,Ivan Lewis,2
+2025-07-28 12:20:00,2025-07-28 13:20:00,0.0,Queue: Outbound-IB_QCB,callback,9b585b97-8826-4653-9363-696d3fa4570e,Peter Baker,6
+2025-07-28 12:20:00,2025-07-28 13:20:00,0.0,Queue: Outbound-IB_QCB,callback,758a9386-a5db-43ee-8c79-cafe99a9d541,Rachel Turner,2
+2025-07-28 12:20:00,2025-07-28 13:20:00,0.0,Queue: Outbound-IB_QCB,callback,65fe4098-4972-4d06-8d5e-cfebc479b2ac,Grace Lee,3
+2025-07-28 12:20:00,2025-07-28 13:20:00,0.0,Queue: Outbound-IB_QCB,callback,a0c1e2b3-3d4e-5a6f-7b8c-9d0e1f2a3b4c,Derek Parker,4

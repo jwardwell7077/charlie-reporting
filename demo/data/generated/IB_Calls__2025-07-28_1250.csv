@@ -1,0 +1,9 @@
+Interval Start,Interval End,Interval Complete,Filters,Media Type,Agent Id,Agent Name,Handle,Avg Handle
+2025-07-28 12:50:00,2025-07-28 13:50:00,0.0,Initial Direction: Inbound; Queue: Demo Queue,voice,fd3c454b-47c9-491e-9c37-5bc54c413ca4,Nathan Scott,26,22:39
+2025-07-28 12:50:00,2025-07-28 13:50:00,0.0,Initial Direction: Inbound; Queue: Demo Queue,voice,4ab904ce-5677-4eb1-8354-109907f0f7d8,Quincy Wright,2,30:53
+2025-07-28 12:50:00,2025-07-28 13:50:00,0.0,Initial Direction: Inbound; Queue: Demo Queue,voice,589f3a7c-22e4-451f-91c0-8adc6b4e7f3d,Xavier Nguyen,6,30:30
+2025-07-28 12:50:00,2025-07-28 13:50:00,0.0,Initial Direction: Inbound; Queue: Demo Queue,voice,7b6c2d91-3f28-4e66-b2a1-5f9e2f8d3a4b,Victor Ramirez,7,20:47
+2025-07-28 12:50:00,2025-07-28 13:50:00,0.0,Initial Direction: Inbound; Queue: Demo Queue,voice,758a9386-a5db-43ee-8c79-cafe99a9d541,Rachel Turner,15,05:38
+2025-07-28 12:50:00,2025-07-28 13:50:00,0.0,Initial Direction: Inbound; Queue: Demo Queue,voice,9b585b97-8826-4653-9363-696d3fa4570e,Peter Baker,22,07:35
+2025-07-28 12:50:00,2025-07-28 13:50:00,0.0,Initial Direction: Inbound; Queue: Demo Queue,voice,ce4e5d79-18a2-4b0f-9c9d-7b1e3f5a2c6d,Wendy Flores,25,14:06
+2025-07-28 12:50:00,2025-07-28 13:50:00,0.0,Initial Direction: Inbound; Queue: Demo Queue,voice,e258b370-9093-401d-bcbf-d939ab51b265,Steve Phillips,26,21:49

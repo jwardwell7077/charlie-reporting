@@ -1,0 +1,4 @@
+Interval Start,Interval End,Interval Complete,Filters,Media Type,Agent Id,Agent Name,Handle
+2025-07-28 11:20:00,2025-07-28 12:20:00,0.0,Queue: Outbound-IB_QCB,callback,5cce8f28-359c-4531-9d91-93f103f4edc1,Dana White,8
+2025-07-28 11:20:00,2025-07-28 12:20:00,0.0,Queue: Outbound-IB_QCB,callback,38fcc711-e80e-4f78-88c2-1e88a75706c3,Olivia Green,4
+2025-07-28 11:20:00,2025-07-28 12:20:00,0.0,Queue: Outbound-IB_QCB,callback,,,9

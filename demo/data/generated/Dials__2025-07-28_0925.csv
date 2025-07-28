@@ -1,0 +1,9 @@
+Interval Start,Interval End,Interval Complete,Filters,Media Type,Agent Id,Agent Name,Handle,Avg Handle,Avg Talk,Avg Hold,Avg ACW,Total Handle,Total Talk,Total Hold,Total ACW
+2025-07-28 09:25:00,2025-07-28 10:25:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,589f3a7c-22e4-451f-91c0-8adc6b4e7f3d,Xavier Nguyen,136,147142,14454,24791,15595,20011312,1965744,3371576,1388560
+2025-07-28 09:25:00,2025-07-28 10:25:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,ce4e5d79-18a2-4b0f-9c9d-7b1e3f5a2c6d,Wendy Flores,62,181471,25347,24552,7951,11251202,1571514,1522224,657882
+2025-07-28 09:25:00,2025-07-28 10:25:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,4ab904ce-5677-4eb1-8354-109907f0f7d8,Quincy Wright,190,84263,32305,2921,14327,16009970,6137950,554990,2063780
+2025-07-28 09:25:00,2025-07-28 10:25:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,38fcc711-e80e-4f78-88c2-1e88a75706c3,Olivia Green,154,38756,24219,10270,10507,5968424,3729726,1581580,2981440
+2025-07-28 09:25:00,2025-07-28 10:25:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,fd3c454b-47c9-491e-9c37-5bc54c413ca4,Nathan Scott,232,173467,13678,197,24145,40244344,3173296,45704,2019792
+2025-07-28 09:25:00,2025-07-28 10:25:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,a16bfe90-f4bd-4b7c-af6e-881454647f5f,Eve Adams,26,25529,48876,4903,20503,663754,1270776,127478,347282
+2025-07-28 09:25:00,2025-07-28 10:25:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,c7ca8c70-fce5-4eee-a913-813af2d2b9a4,Frank Miller,14,81480,33554,6268,21045,1140720,469756,87752,81438
+2025-07-28 09:25:00,2025-07-28 10:25:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,8c5912fa-6b3e-4baa-9c0e-3f5a423e4d18,Brian Perez,141,29927,35148,14257,16422,4219707,4955868,2010237,1642227

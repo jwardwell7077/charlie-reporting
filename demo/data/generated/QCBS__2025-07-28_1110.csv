@@ -1,0 +1,4 @@
+Interval Start,Interval End,Interval Complete,Filters,Media Type,Agent Id,Agent Name,Handle
+2025-07-28 11:10:00,2025-07-28 12:10:00,0.0,Queue: Outbound-IB_QCB,callback,c3aaf240-163b-40cd-aaed-2d10d7def648,Ivan Lewis,3
+2025-07-28 11:10:00,2025-07-28 12:10:00,0.0,Queue: Outbound-IB_QCB,callback,589f3a7c-22e4-451f-91c0-8adc6b4e7f3d,Xavier Nguyen,7
+2025-07-28 11:10:00,2025-07-28 12:10:00,0.0,Queue: Outbound-IB_QCB,callback,a10dac0a-bb6c-4eb3-81df-d8f45f96770f,Marie King,6

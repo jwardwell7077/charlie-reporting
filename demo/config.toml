@@ -4,10 +4,23 @@ log_level = "INFO"
 date_format = "%Y-%m-%d"
 
 [email]
-outlook_folder = "Inbox/Genesys"
+outlook_folder = "Inbox"
 outlook_account = "jontajon191@gmail.com"  # Your secondary email
-sender = ["genesysreports@genesysdev.com"]
-subject_contains = ["Hourly Report", "Call Center Data"]
+sender = ["charlie.reporting.dev@gmail.com"]
+subject_contains = ["Test CSV Attachment", "Hourly Report", "Call Center Data"]
+
+# SMTP Configuration for sending demo emails
+[smtp]
+server = "smtp.gmail.com"
+port = 587
+sender_email = "jwardwell7077@gmail.com"  # Can be overridden by GMAIL_ADDRESS env var
+sender_name = "Genesys Call Center Reports"  # Display name for emails
+target_email = "jontajon191@gmail.com"  # Can be overridden by TARGET_EMAIL env var
+
+# Authentication method: "env_vars", "oauth", or "app_password"
+auth_method = "env_vars"
+credentials_file = "credentials.json"  # For OAuth or service account
+token_file = "token.json"  # For OAuth token storage
 
 [directory_scan]
 enabled = false

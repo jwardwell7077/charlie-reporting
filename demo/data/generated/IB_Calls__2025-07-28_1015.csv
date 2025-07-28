@@ -1,0 +1,8 @@
+Interval Start,Interval End,Interval Complete,Filters,Media Type,Agent Id,Agent Name,Handle,Avg Handle
+2025-07-28 10:15:00,2025-07-28 11:15:00,0.0,Initial Direction: Inbound; Queue: Demo Queue,voice,08f54f08-058a-4e0b-9ec4-a738a595da3c,Charlie Brown,26,19:10
+2025-07-28 10:15:00,2025-07-28 11:15:00,0.0,Initial Direction: Inbound; Queue: Demo Queue,voice,65fe4098-4972-4d06-8d5e-cfebc479b2ac,Grace Lee,19,25:56
+2025-07-28 10:15:00,2025-07-28 11:15:00,0.0,Initial Direction: Inbound; Queue: Demo Queue,voice,7b6c2d91-3f28-4e66-b2a1-5f9e2f8d3a4b,Victor Ramirez,4,11:50
+2025-07-28 10:15:00,2025-07-28 11:15:00,0.0,Initial Direction: Inbound; Queue: Demo Queue,voice,c3aaf240-163b-40cd-aaed-2d10d7def648,Ivan Lewis,19,30:22
+2025-07-28 10:15:00,2025-07-28 11:15:00,0.0,Initial Direction: Inbound; Queue: Demo Queue,voice,a07d4b63-36f1-4972-8e9b-c1d2e3f4a5b6,Yolanda Morales,20,23:59
+2025-07-28 10:15:00,2025-07-28 11:15:00,0.0,Initial Direction: Inbound; Queue: Demo Queue,voice,e258b370-9093-401d-bcbf-d939ab51b265,Steve Phillips,26,18:06
+2025-07-28 10:15:00,2025-07-28 11:15:00,0.0,Initial Direction: Inbound; Queue: Demo Queue,voice,5cce8f28-359c-4531-9d91-93f103f4edc1,Dana White,25,22:02

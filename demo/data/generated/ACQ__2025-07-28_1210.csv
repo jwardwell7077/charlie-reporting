@@ -1,0 +1,5 @@
+Interval Start,Interval End,Interval Complete,Filters,Media Type,Agent Id,Agent Name,Handle
+2025-07-28 12:10:00,2025-07-28 13:10:00,0.0,Initial Direction: Inbound; Queue: LLSA-ACQ-DM,voice,,,6
+2025-07-28 12:10:00,2025-07-28 13:10:00,0.0,Initial Direction: Inbound; Queue: LLSA-ACQ-DM,voice,24bb913e-5636-4db3-aab7-1213b0928274,Bob Johnson,11
+2025-07-28 12:10:00,2025-07-28 13:10:00,0.0,Initial Direction: Inbound; Queue: LLSA-ACQ-DM,voice,ce4e5d79-18a2-4b0f-9c9d-7b1e3f5a2c6d,Wendy Flores,7
+2025-07-28 12:10:00,2025-07-28 13:10:00,0.0,Initial Direction: Inbound; Queue: LLSA-ACQ-DM,voice,1be98524-f56c-41bb-a6ff-3e14bb3dfb84,Judy Walker,5

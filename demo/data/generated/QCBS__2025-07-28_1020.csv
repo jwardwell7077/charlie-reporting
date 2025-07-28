@@ -1,0 +1,4 @@
+Interval Start,Interval End,Interval Complete,Filters,Media Type,Agent Id,Agent Name,Handle
+2025-07-28 10:20:00,2025-07-28 11:20:00,0.0,Queue: Outbound-IB_QCB,callback,8c5912fa-6b3e-4baa-9c0e-3f5a423e4d18,Brian Perez,2
+2025-07-28 10:20:00,2025-07-28 11:20:00,0.0,Queue: Outbound-IB_QCB,callback,,,2
+2025-07-28 10:20:00,2025-07-28 11:20:00,0.0,Queue: Outbound-IB_QCB,callback,c7ca8c70-fce5-4eee-a913-813af2d2b9a4,Frank Miller,7

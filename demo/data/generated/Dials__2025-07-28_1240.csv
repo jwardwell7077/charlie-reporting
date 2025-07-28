@@ -1,0 +1,5 @@
+Interval Start,Interval End,Interval Complete,Filters,Media Type,Agent Id,Agent Name,Handle,Avg Handle,Avg Talk,Avg Hold,Avg ACW,Total Handle,Total Talk,Total Hold,Total ACW
+2025-07-28 12:40:00,2025-07-28 13:40:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,a16bfe90-f4bd-4b7c-af6e-881454647f5f,Eve Adams,213,238108,12317,16075,29644,50717004,2623521,3423975,3239730
+2025-07-28 12:40:00,2025-07-28 13:40:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,a10dac0a-bb6c-4eb3-81df-d8f45f96770f,Marie King,78,61541,23504,22100,12108,4800198,1833312,1723800,912210
+2025-07-28 12:40:00,2025-07-28 13:40:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,24bb913e-5636-4db3-aab7-1213b0928274,Bob Johnson,146,78275,30648,7972,17646,11428150,4474608,1163912,3338144
+2025-07-28 12:40:00,2025-07-28 13:40:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,4898a757-15ec-47cc-b6be-d2e9b249e011,Tina Campbell,171,205123,24625,25797,13011,35076033,4210875,4411287,1936575

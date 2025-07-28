@@ -1,0 +1,5 @@
+Interval Start,Interval End,Interval Complete,Filters,Media Type,Agent Id,Agent Name,Handle,Avg Handle
+2025-07-28 09:15:00,2025-07-28 10:15:00,0.0,Initial Direction: Inbound; Queue: Demo Queue,voice,c7ca8c70-fce5-4eee-a913-813af2d2b9a4,Frank Miller,7,14:27
+2025-07-28 09:15:00,2025-07-28 10:15:00,0.0,Initial Direction: Inbound; Queue: Demo Queue,voice,6c7bba2a-d8ec-4b53-9934-cf52606b282a,Alice Smith,25,32:26
+2025-07-28 09:15:00,2025-07-28 10:15:00,0.0,Initial Direction: Inbound; Queue: Demo Queue,voice,8c5912fa-6b3e-4baa-9c0e-3f5a423e4d18,Brian Perez,3,05:44
+2025-07-28 09:15:00,2025-07-28 10:15:00,0.0,Initial Direction: Inbound; Queue: Demo Queue,voice,5cce8f28-359c-4531-9d91-93f103f4edc1,Dana White,23,23:40

@@ -1,0 +1,4 @@
+Interval Start,Interval End,Interval Complete,Filters,Media Type,Agent Id,Agent Name,Handle
+2025-07-28 09:20:00,2025-07-28 10:20:00,0.0,Queue: Outbound-IB_QCB,callback,4898a757-15ec-47cc-b6be-d2e9b249e011,Tina Campbell,9
+2025-07-28 09:20:00,2025-07-28 10:20:00,0.0,Queue: Outbound-IB_QCB,callback,38fcc711-e80e-4f78-88c2-1e88a75706c3,Olivia Green,3
+2025-07-28 09:20:00,2025-07-28 10:20:00,0.0,Queue: Outbound-IB_QCB,callback,1be98524-f56c-41bb-a6ff-3e14bb3dfb84,Judy Walker,7

@@ -1,0 +1,5 @@
+Interval Start,Interval End,Interval Complete,Filters,Media Type,Agent Id,Agent Name,Handle,Avg Handle,Avg Talk,Avg Hold,Avg ACW,Total Handle,Total Talk,Total Hold,Total ACW
+2025-07-28 11:10:00,2025-07-28 12:10:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,,,160,164339,62769,25799,16654,26294240,10043040,4127840,1376800
+2025-07-28 11:10:00,2025-07-28 12:10:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,38fcc711-e80e-4f78-88c2-1e88a75706c3,Olivia Green,89,247636,69493,16842,7392,22039604,6184877,1498938,2623453
+2025-07-28 11:10:00,2025-07-28 12:10:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,5d3eedaf-cbf2-4fdc-aaf9-2e39f1c21e12,Heidi Clark,161,154414,75458,11169,22786,24860654,12148738,1798209,2455894
+2025-07-28 11:10:00,2025-07-28 12:10:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,08f54f08-058a-4e0b-9ec4-a738a595da3c,Charlie Brown,132,206604,79481,24452,15954,27271728,10491492,3227664,1210836

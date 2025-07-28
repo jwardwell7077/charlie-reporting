@@ -1,0 +1,8 @@
+Interval Start,Interval End,Interval Complete,Filters,Media Type,Agent Id,Agent Name,Handle
+2025-07-28 12:40:00,2025-07-28 13:40:00,0.0,Queue: Outbound-IB_QCB,callback,fd3c454b-47c9-491e-9c37-5bc54c413ca4,Nathan Scott,8
+2025-07-28 12:40:00,2025-07-28 13:40:00,0.0,Queue: Outbound-IB_QCB,callback,65fe4098-4972-4d06-8d5e-cfebc479b2ac,Grace Lee,4
+2025-07-28 12:40:00,2025-07-28 13:40:00,0.0,Queue: Outbound-IB_QCB,callback,9b585b97-8826-4653-9363-696d3fa4570e,Peter Baker,3
+2025-07-28 12:40:00,2025-07-28 13:40:00,0.0,Queue: Outbound-IB_QCB,callback,08f54f08-058a-4e0b-9ec4-a738a595da3c,Charlie Brown,9
+2025-07-28 12:40:00,2025-07-28 13:40:00,0.0,Queue: Outbound-IB_QCB,callback,a16bfe90-f4bd-4b7c-af6e-881454647f5f,Eve Adams,4
+2025-07-28 12:40:00,2025-07-28 13:40:00,0.0,Queue: Outbound-IB_QCB,callback,,,5
+2025-07-28 12:40:00,2025-07-28 13:40:00,0.0,Queue: Outbound-IB_QCB,callback,5d3eedaf-cbf2-4fdc-aaf9-2e39f1c21e12,Heidi Clark,4

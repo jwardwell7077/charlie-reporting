@@ -1,0 +1,6 @@
+Interval Start,Interval End,Interval Complete,Filters,Media Type,Agent Id,Agent Name,Handle,Avg Handle,Avg Talk,Avg Hold,Avg ACW,Total Handle,Total Talk,Total Hold,Total ACW
+2025-07-28 09:50:00,2025-07-28 10:50:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,ce4e5d79-18a2-4b0f-9c9d-7b1e3f5a2c6d,Wendy Flores,58,55868,22024,27243,9257,3240344,1277392,1580094,330774
+2025-07-28 09:50:00,2025-07-28 10:50:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,c3aaf240-163b-40cd-aaed-2d10d7def648,Ivan Lewis,39,199373,68866,18340,13665,7775547,2685774,715260,933738
+2025-07-28 09:50:00,2025-07-28 10:50:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,8c5912fa-6b3e-4baa-9c0e-3f5a423e4d18,Brian Perez,61,243126,34523,13203,24988,14830686,2105903,805383,317627
+2025-07-28 09:50:00,2025-07-28 10:50:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,d1f3a0e2-47b9-4c73-a3d9-0c1e7f4b6c29,Ursula Rivera,232,98938,27450,13854,8047,22953616,6368400,3214128,6229664
+2025-07-28 09:50:00,2025-07-28 10:50:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,4ab904ce-5677-4eb1-8354-109907f0f7d8,Quincy Wright,240,69940,37954,3661,17761,16785600,9108960,878640,2514480

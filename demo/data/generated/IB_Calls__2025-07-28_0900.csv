@@ -1,0 +1,4 @@
+Interval Start,Interval End,Interval Complete,Filters,Media Type,Agent Id,Agent Name,Handle,Avg Handle
+2025-07-28 09:00:00,2025-07-28 10:00:00,0.0,Initial Direction: Inbound; Queue: Demo Queue,voice,7b6c2d91-3f28-4e66-b2a1-5f9e2f8d3a4b,Victor Ramirez,24,28:42
+2025-07-28 09:00:00,2025-07-28 10:00:00,0.0,Initial Direction: Inbound; Queue: Demo Queue,voice,24bb913e-5636-4db3-aab7-1213b0928274,Bob Johnson,16,21:48
+2025-07-28 09:00:00,2025-07-28 10:00:00,0.0,Initial Direction: Inbound; Queue: Demo Queue,voice,65fe4098-4972-4d06-8d5e-cfebc479b2ac,Grace Lee,17,33:07

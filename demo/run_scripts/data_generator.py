@@ -22,10 +22,16 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', 'src'))
 from utils import sanitize_filename
 
 class RealisticDataGenerator:
-    def __init__(self, base_data_dir: str = "tests/data"):
+    def __init__(self, base_data_dir: str = None):
         """Initialize with source data templates"""
-        self.base_data_dir = base_data_dir
-        self.output_dir = "demo/data/generated"
+        if base_data_dir is None:
+            # Calculate path relative to this script's location
+            script_dir = os.path.dirname(os.path.abspath(__file__))
+            self.base_data_dir = os.path.join(script_dir, "..", "..", "tests", "data")
+        else:
+            self.base_data_dir = base_data_dir
+            
+        self.output_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "data", "generated")
         os.makedirs(self.output_dir, exist_ok=True)
         
         # Load template data to get agent names and realistic ranges
@@ -207,6 +213,125 @@ class RealisticDataGenerator:
         
         return pd.DataFrame(data)
     
+    def generate_acq_data(self, timestamp: datetime, num_agents: int = None) -> pd.DataFrame:
+        """Generate realistic ACQ data for a specific timestamp"""
+        if num_agents is None:
+            num_agents = min(random.randint(4, 10), len(self.agents))
+        
+        selected_agents = random.sample(self.agents, num_agents)
+        
+        data = []
+        interval_start = timestamp.strftime('%Y-%m-%d %H:%M:%S')
+        interval_end = (timestamp + timedelta(hours=1)).strftime('%Y-%m-%d %H:%M:%S')
+        
+        for agent_id, agent_name in selected_agents:
+            # Generate realistic ACQ handle counts (typically lower than IB_Calls)
+            handle_count = random.randint(1, 12)
+            
+            data.append({
+                'Interval Start': interval_start,
+                'Interval End': interval_end,
+                'Interval Complete': 0.0,
+                'Filters': 'Initial Direction: Inbound; Queue: LLSA-ACQ-DM',
+                'Media Type': 'voice',
+                'Agent Id': agent_id,
+                'Agent Name': agent_name,
+                'Handle': handle_count
+            })
+        
+        return pd.DataFrame(data)
+    
+    def generate_campaign_interactions_data(self, timestamp: datetime, num_records: int = None) -> pd.DataFrame:
+        """Generate realistic Campaign Interactions data for a specific timestamp"""
+        if num_records is None:
+            num_records = random.randint(8, 25)
+        
+        queues = [
+            'Mid Year Health Check',
+            'Outbound-Gift Card Follow Up', 
+            'Outbound-One Life Renewal Scheduling',
+            'Outbound-Mid Year Health Check'
+        ]
+        
+        data = []
+        
+        for _ in range(num_records):
+            # Randomize timestamp within the interval
+            interval_start = timestamp
+            random_minutes = random.randint(0, 59)
+            interaction_time = interval_start + timedelta(minutes=random_minutes)
+            
+            # Sometimes include user name, sometimes empty
+            user_name = random.choice([random.choice([name for _, name in self.agents]), ""])
+            
+            data.append({
+                'Full Export Completed': 'YES',
+                'Partial Result Timestamp': '',
+                'Filters': 'Limit Interactions[ACD-routed: YES; Match Any: YES]; Queue: Outbound-Mid Year Health Check; Queue: Outbound-Gift Card Follow Up; Queue: Outbound-One Life Renewal Scheduling; Queue: Mid Year Health Check',
+                'Users': user_name,
+                'Date': interaction_time.strftime('%Y-%m-%d %H:%M:%S'),
+                'Initial Direction': 'Inbound',
+                'First Queue': random.choice(queues)
+            })
+        
+        return pd.DataFrame(data)
+    
+    def generate_qcbs_data(self, timestamp: datetime, num_agents: int = None) -> pd.DataFrame:
+        """Generate realistic QCBS (Queue Callback) data for a specific timestamp"""
+        if num_agents is None:
+            num_agents = min(random.randint(3, 8), len(self.agents))
+        
+        selected_agents = random.sample(self.agents, num_agents)
+        
+        data = []
+        interval_start = timestamp.strftime('%Y-%m-%d %H:%M:%S')
+        interval_end = (timestamp + timedelta(hours=1)).strftime('%Y-%m-%d %H:%M:%S')
+        
+        for agent_id, agent_name in selected_agents:
+            # Generate realistic callback handle counts (typically lower volume)
+            handle_count = random.randint(2, 9)
+            
+            data.append({
+                'Interval Start': interval_start,
+                'Interval End': interval_end,
+                'Interval Complete': 0.0,
+                'Filters': 'Queue: Outbound-IB_QCB',
+                'Media Type': 'callback',
+                'Agent Id': agent_id,
+                'Agent Name': agent_name,
+                'Handle': handle_count
+            })
+        
+        return pd.DataFrame(data)
+    
+    def generate_resc_data(self, timestamp: datetime, num_agents: int = None) -> pd.DataFrame:
+        """Generate realistic RESC data for a specific timestamp"""
+        if num_agents is None:
+            num_agents = min(random.randint(4, 9), len(self.agents))
+        
+        selected_agents = random.sample(self.agents, num_agents)
+        
+        data = []
+        interval_start = timestamp.strftime('%Y-%m-%d %H:%M:%S')
+        interval_end = (timestamp + timedelta(hours=1)).strftime('%Y-%m-%d %H:%M:%S')
+        
+        for agent_id, agent_name in selected_agents:
+            # Generate realistic RESC handle counts
+            handle_count = random.randint(1, 9)
+            
+            data.append({
+                'Interval Start': interval_start,
+                'Interval End': interval_end,
+                'Interval Complete': 0.0,
+                'Filters': 'Initial Direction: Inbound; Queue: LLSA-RESC-DM',
+                'Media Type': 'voice',
+                'Agent Id': agent_id,
+                'Agent Name': agent_name,
+                'Handle': handle_count
+            })
+        
+        return pd.DataFrame(data)
+    
     def _ms_to_mmss(self, milliseconds: int) -> str:
         """Convert milliseconds to MM:SS format"""
         total_seconds = milliseconds // 1000
@@ -221,19 +346,23 @@ class RealisticDataGenerator:
         # Format timestamp for filename
         time_str = timestamp.strftime('%Y-%m-%d_%H%M')
         
-        # Generate IB_Calls
-        ib_data = self.generate_ib_calls_data(timestamp)
-        ib_filename = f"IB_Calls__{time_str}.csv"
-        ib_path = os.path.join(self.output_dir, ib_filename)
-        ib_data.to_csv(ib_path, index=False)
-        generated_files.append(ib_path)
+        # Generate all 7 CSV types
+        csv_generators = [
+            ('IB_Calls', self.generate_ib_calls_data),
+            ('Dials', self.generate_dials_data),
+            ('ACQ', self.generate_acq_data),
+            ('QCBS', self.generate_qcbs_data),
+            ('RESC', self.generate_resc_data),
+            ('Campaign_Interactions', self.generate_campaign_interactions_data)
+        ]
         
-        # Generate Dials
-        dials_data = self.generate_dials_data(timestamp)
-        dials_filename = f"Dials__{time_str}.csv"
-        dials_path = os.path.join(self.output_dir, dials_filename)
-        dials_data.to_csv(dials_path, index=False)
-        generated_files.append(dials_path)
+        # Generate core CSV files every interval
+        for csv_type, generator_func in csv_generators:
+            data = generator_func(timestamp)
+            filename = f"{csv_type}__{time_str}.csv"
+            file_path = os.path.join(self.output_dir, filename)
+            data.to_csv(file_path, index=False)
+            generated_files.append(file_path)
         
         # Generate Productivity (every other interval to simulate less frequent updates)
         if timestamp.minute % 10 == 0:  # Every 10 minutes

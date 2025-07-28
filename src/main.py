@@ -17,7 +17,8 @@ from datetime import datetime, timedelta
 from typing import Dict, List, Optional
 from config_loader import ConfigLoader
 from email_fetcher import EmailFetcher
-from transformer import CSVTransformer
+# from db_service.db_processor import DBProcessor  # Temporarily disabled for demo
+# from db_service.report_generator import ReportGenerator  # Temporarily disabled for demo
 from excel_writer import ExcelWriter
 from logger import LoggerFactory
 
@@ -39,7 +40,8 @@ class ReportProcessor:
         
         # Initialize components
         self.email_fetcher = EmailFetcher(config)
-        self.transformer = CSVTransformer(config)
+        # self.db_processor = DBProcessor(config)  # Database temporarily disabled
+        # self.report_generator = ReportGenerator()  # Database temporarily disabled
         self.excel_writer = ExcelWriter()
         
         # Track processing state
@@ -64,29 +66,35 @@ class ReportProcessor:
             
         hour_str = target_datetime.strftime('%Y-%m-%d_%H')
         date_str = target_datetime.strftime('%Y-%m-%d')
-        
+        hour = target_datetime.hour
+
         self.logger.info(f'Starting hourly processing for: {hour_str}')
-        
+
         try:
             # Fetch emails for this specific hour
             self.email_fetcher.fetch(date_str)
-            
-            # Transform any new CSVs
-            report_data = self.transformer.transform(date_str)
-            
-            if report_data:
-                # Update daily cache
-                self._update_daily_cache(date_str, report_data)
-                
+
+            # Process CSVs into database (temporarily disabled for demo)
+            # processed_data = self.db_processor.process(date_str)
+            processed_data = None  # Database processing disabled
+
+            if processed_data:
+                # Update daily cache for backward compatibility
+                self._update_daily_cache(date_str, processed_data)
+
+                # Get hourly data from database (temporarily disabled for demo)
+                # report_data = self.report_generator.get_hourly_report(date_str, hour)
+                report_data = None  # Database reporting disabled
+
                 # Write incremental Excel update
                 self.excel_writer.write_incremental(report_data, date_str, hour_str)
-                
-                self.logger.info(f'Hourly processing completed for {hour_str}: {len(report_data)} datasets processed')
+
+                self.logger.info(f'Hourly processing completed for {hour_str}: {len(processed_data)} datasets processed')
             else:
                 self.logger.info(f'No new data found for {hour_str}')
-                
+
             self.last_processed_time = target_datetime
-            return report_data
+            return processed_data
             
         except Exception as e:
             self.logger.error(f'Error in hourly processing for {hour_str}: {e}', exc_info=True)
@@ -106,16 +114,13 @@ class ReportProcessor:
         self.logger.info(f'Generating on-demand report for {date_str}')
         
         try:
-            # Get all data for the date (from cache or by reprocessing)
-            daily_data = self._get_daily_data(date_str)
-            
+            # Get data from the database for the date (temporarily disabled for demo)
+            # daily_data = self.report_generator.get_daily_report(date_str, report_types)
+            daily_data = None  # Database reporting disabled
+
             if not daily_data:
                 self.logger.warning(f'No data available for on-demand report: {date_str}')
                 return None
-                
-            # Filter by report types if specified
-            if report_types:
-                daily_data = {k: v for k, v in daily_data.items() if k in report_types}
             
             # Generate report with timestamp
             timestamp = datetime.now().strftime('%H%M%S')
@@ -142,21 +147,40 @@ class ReportProcessor:
         self.logger.info(f'Generating end-of-day summary for {date_str}')
         
         try:
-            # Get complete daily data
-            daily_data = self._get_daily_data(date_str)
-            
+            # Get data from the database for the date (temporarily disabled for demo)
+            # daily_data = self.report_generator.get_daily_report(date_str)
+            daily_data = None  # Database reporting disabled
+
             if not daily_data:
                 self.logger.warning(f'No data available for end-of-day summary: {date_str}')
                 return None
-            
-            # Add summary statistics and metadata
-            enhanced_data = self._add_summary_statistics(daily_data, date_str)
-            
+
+            # Get summary statistics from database (temporarily disabled for demo)
+            # summary_df = self.report_generator.get_summary_statistics(date_str)
+            summary_df = None  # Database reporting disabled
+
+            # Add to the report data
+            enhanced_data = daily_data.copy()
+            enhanced_data['Report_Summary'] = [summary_df]
+
+            # Add metadata sheet
+            import pandas as pd
+            metadata = pd.DataFrame({
+                'Metric': ['Report Date', 'Generated At', 'Total Sheets', 'Total Records'],
+                'Value': [
+                    date_str,
+                    datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+                    len(daily_data),
+                    sum(len(df_list[0]) for df_list in daily_data.values())
+                ]
+            })
+            enhanced_data['Report_Metadata'] = [metadata]
+
             # Generate comprehensive report
             summary_filename = f'eod_summary_{date_str}.xlsx'
             report_path = self.excel_writer.write_summary(enhanced_data, summary_filename)
-            
-            # Clear daily cache after successful summary
+
+            # Clear daily cache after successful summary (for backward compatibility)
             if date_str in self.daily_data_cache:
                 del self.daily_data_cache[date_str]
             
@@ -195,42 +219,14 @@ class ReportProcessor:
                 time.sleep(check_interval)
     
     def _update_daily_cache(self, date_str: str, new_data: Dict):
-        """Update the daily data cache with new hourly data."""
+        """Update the daily data cache with new hourly data (for backward compatibility)."""
         if date_str not in self.daily_data_cache:
             self.daily_data_cache[date_str] = {}
-        
+
         for sheet_name, df_list in new_data.items():
             if sheet_name not in self.daily_data_cache[date_str]:
                 self.daily_data_cache[date_str][sheet_name] = []
             self.daily_data_cache[date_str][sheet_name].extend(df_list)
-    
-    def _get_daily_data(self, date_str: str) -> Dict:
-        """Get all data for a date, from cache or by reprocessing."""
-        if date_str in self.daily_data_cache:
-            return self.daily_data_cache[date_str]
-        
-        # If not in cache, try to reprocess from archived files
-        self.logger.info(f'Reprocessing data for {date_str} from archives')
-        return self.transformer.transform(date_str)
-    
-    def _add_summary_statistics(self, daily_data: Dict, date_str: str) -> Dict:
-        """Add summary statistics and metadata to daily data."""
-        enhanced_data = daily_data.copy()
-        
-        # Add metadata sheet
-        import pandas as pd
-        metadata = pd.DataFrame({
-            'Metric': ['Report Date', 'Generated At', 'Total Sheets', 'Total Records'],
-            'Value': [
-                date_str,
-                datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
-                len(daily_data),
-                sum(len(df_list) for df_list in daily_data.values())
-            ]
-        })
-        enhanced_data['Report_Metadata'] = [metadata]
-        
-        return enhanced_data
 
 
 def main():

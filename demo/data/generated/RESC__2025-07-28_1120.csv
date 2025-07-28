@@ -1,0 +1,8 @@
+Interval Start,Interval End,Interval Complete,Filters,Media Type,Agent Id,Agent Name,Handle
+2025-07-28 11:20:00,2025-07-28 12:20:00,0.0,Initial Direction: Inbound; Queue: LLSA-RESC-DM,voice,f4e29da3-1c4e-4bd9-9c9f-5a0c7e18e7f8,Amber Gonzalez,9
+2025-07-28 11:20:00,2025-07-28 12:20:00,0.0,Initial Direction: Inbound; Queue: LLSA-RESC-DM,voice,c7ca8c70-fce5-4eee-a913-813af2d2b9a4,Frank Miller,1
+2025-07-28 11:20:00,2025-07-28 12:20:00,0.0,Initial Direction: Inbound; Queue: LLSA-RESC-DM,voice,08f54f08-058a-4e0b-9ec4-a738a595da3c,Charlie Brown,5
+2025-07-28 11:20:00,2025-07-28 12:20:00,0.0,Initial Direction: Inbound; Queue: LLSA-RESC-DM,voice,a16bfe90-f4bd-4b7c-af6e-881454647f5f,Eve Adams,4
+2025-07-28 11:20:00,2025-07-28 12:20:00,0.0,Initial Direction: Inbound; Queue: LLSA-RESC-DM,voice,24bb913e-5636-4db3-aab7-1213b0928274,Bob Johnson,6
+2025-07-28 11:20:00,2025-07-28 12:20:00,0.0,Initial Direction: Inbound; Queue: LLSA-RESC-DM,voice,9b585b97-8826-4653-9363-696d3fa4570e,Peter Baker,1
+2025-07-28 11:20:00,2025-07-28 12:20:00,0.0,Initial Direction: Inbound; Queue: LLSA-RESC-DM,voice,a10dac0a-bb6c-4eb3-81df-d8f45f96770f,Marie King,3

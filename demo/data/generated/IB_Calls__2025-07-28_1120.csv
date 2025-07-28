@@ -1,0 +1,4 @@
+Interval Start,Interval End,Interval Complete,Filters,Media Type,Agent Id,Agent Name,Handle,Avg Handle
+2025-07-28 11:20:00,2025-07-28 12:20:00,0.0,Initial Direction: Inbound; Queue: Demo Queue,voice,fd3c454b-47c9-491e-9c37-5bc54c413ca4,Nathan Scott,3,19:34
+2025-07-28 11:20:00,2025-07-28 12:20:00,0.0,Initial Direction: Inbound; Queue: Demo Queue,voice,3775a1f6-e5fd-47bd-8039-e8f8d3a1a6bf,Leo Young,7,29:01
+2025-07-28 11:20:00,2025-07-28 12:20:00,0.0,Initial Direction: Inbound; Queue: Demo Queue,voice,38fcc711-e80e-4f78-88c2-1e88a75706c3,Olivia Green,10,29:22

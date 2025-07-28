@@ -1,0 +1,4 @@
+Interval Start,Interval End,Interval Complete,Filters,Media Type,Agent Id,Agent Name,Handle,Avg Handle,Avg Talk,Avg Hold,Avg ACW,Total Handle,Total Talk,Total Hold,Total ACW
+2025-07-28 11:45:00,2025-07-28 12:45:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,3775a1f6-e5fd-47bd-8039-e8f8d3a1a6bf,Leo Young,204,99967,63546,6679,24928,20393268,12963384,1362516,2881500
+2025-07-28 11:45:00,2025-07-28 12:45:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,ce4e5d79-18a2-4b0f-9c9d-7b1e3f5a2c6d,Wendy Flores,220,138516,19324,15248,10816,30473520,4251280,3354560,4393840
+2025-07-28 11:45:00,2025-07-28 12:45:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,7b6c2d91-3f28-4e66-b2a1-5f9e2f8d3a4b,Victor Ramirez,101,36098,65881,3765,7599,3645898,6653981,380265,1787296

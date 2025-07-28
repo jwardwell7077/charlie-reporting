@@ -1,0 +1,6 @@
+Interval Start,Interval End,Interval Complete,Filters,Media Type,Agent Id,Agent Name,Handle,Avg Handle,Avg Talk,Avg Hold,Avg ACW,Total Handle,Total Talk,Total Hold,Total ACW
+2025-07-28 12:50:00,2025-07-28 13:50:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,4ab904ce-5677-4eb1-8354-109907f0f7d8,Quincy Wright,37,133158,45273,27700,15981,4926846,1675101,1024900,320901
+2025-07-28 12:50:00,2025-07-28 13:50:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,c3aaf240-163b-40cd-aaed-2d10d7def648,Ivan Lewis,196,96851,64253,14860,23604,18982796,12593588,2912560,1503908
+2025-07-28 12:50:00,2025-07-28 13:50:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,fd3c454b-47c9-491e-9c37-5bc54c413ca4,Nathan Scott,95,86250,64746,27384,28812,8193750,6150870,2601480,1490360
+2025-07-28 12:50:00,2025-07-28 13:50:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,8c5912fa-6b3e-4baa-9c0e-3f5a423e4d18,Brian Perez,94,229184,39268,6114,7992,21543296,3691192,574716,1374938
+2025-07-28 12:50:00,2025-07-28 13:50:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,1be98524-f56c-41bb-a6ff-3e14bb3dfb84,Judy Walker,18,219555,78370,447,18975,3951990,1410660,8046,306198

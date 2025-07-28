@@ -1,0 +1,8 @@
+Interval Start,Interval End,Interval Complete,Filters,Media Type,Agent Id,Agent Name,Handle,Avg Handle
+2025-07-28 09:25:00,2025-07-28 10:25:00,0.0,Initial Direction: Inbound; Queue: Demo Queue,voice,589f3a7c-22e4-451f-91c0-8adc6b4e7f3d,Xavier Nguyen,23,22:17
+2025-07-28 09:25:00,2025-07-28 10:25:00,0.0,Initial Direction: Inbound; Queue: Demo Queue,voice,4898a757-15ec-47cc-b6be-d2e9b249e011,Tina Campbell,16,26:34
+2025-07-28 09:25:00,2025-07-28 10:25:00,0.0,Initial Direction: Inbound; Queue: Demo Queue,voice,758a9386-a5db-43ee-8c79-cafe99a9d541,Rachel Turner,7,32:06
+2025-07-28 09:25:00,2025-07-28 10:25:00,0.0,Initial Direction: Inbound; Queue: Demo Queue,voice,f4e29da3-1c4e-4bd9-9c9f-5a0c7e18e7f8,Amber Gonzalez,17,27:49
+2025-07-28 09:25:00,2025-07-28 10:25:00,0.0,Initial Direction: Inbound; Queue: Demo Queue,voice,,,26,05:11
+2025-07-28 09:25:00,2025-07-28 10:25:00,0.0,Initial Direction: Inbound; Queue: Demo Queue,voice,a16bfe90-f4bd-4b7c-af6e-881454647f5f,Eve Adams,16,31:38
+2025-07-28 09:25:00,2025-07-28 10:25:00,0.0,Initial Direction: Inbound; Queue: Demo Queue,voice,4ab904ce-5677-4eb1-8354-109907f0f7d8,Quincy Wright,9,22:50

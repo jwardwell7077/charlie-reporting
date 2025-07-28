@@ -1,0 +1,6 @@
+Interval Start,Interval End,Interval Complete,Filters,Media Type,Agent Id,Agent Name,Handle,Avg Handle,Avg Talk,Avg Hold,Avg ACW,Total Handle,Total Talk,Total Hold,Total ACW
+2025-07-28 10:15:00,2025-07-28 11:15:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,3775a1f6-e5fd-47bd-8039-e8f8d3a1a6bf,Leo Young,209,247201,42405,29191,18322,51665009,8862645,6100919,4647742
+2025-07-28 10:15:00,2025-07-28 11:15:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,1ed81f99-e294-4ba6-81d4-bb8752c69693,Karen Hall,29,186323,65123,21471,28017,5403367,1888567,622659,176146
+2025-07-28 10:15:00,2025-07-28 11:15:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,6c7bba2a-d8ec-4b53-9934-cf52606b282a,Alice Smith,190,172273,33225,3428,23429,32731870,6312750,651320,3784800
+2025-07-28 10:15:00,2025-07-28 11:15:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,08f54f08-058a-4e0b-9ec4-a738a595da3c,Charlie Brown,190,76152,60725,8937,11826,14468880,11537750,1698030,4214390
+2025-07-28 10:15:00,2025-07-28 11:15:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,,,59,246899,68045,27351,17007,14567041,4014655,1613709,1693241

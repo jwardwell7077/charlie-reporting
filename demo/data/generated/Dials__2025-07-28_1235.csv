@@ -1,0 +1,4 @@
+Interval Start,Interval End,Interval Complete,Filters,Media Type,Agent Id,Agent Name,Handle,Avg Handle,Avg Talk,Avg Hold,Avg ACW,Total Handle,Total Talk,Total Hold,Total ACW
+2025-07-28 12:35:00,2025-07-28 13:35:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,24bb913e-5636-4db3-aab7-1213b0928274,Bob Johnson,95,24184,60137,21224,15705,2297480,5713015,2016280,2828815
+2025-07-28 12:35:00,2025-07-28 13:35:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,fd3c454b-47c9-491e-9c37-5bc54c413ca4,Nathan Scott,187,99919,15411,7410,5838,18684853,2881857,1385670,5001315
+2025-07-28 12:35:00,2025-07-28 13:35:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,7b6c2d91-3f28-4e66-b2a1-5f9e2f8d3a4b,Victor Ramirez,225,164246,47453,16438,28138,36955350,10676925,3698550,2095650

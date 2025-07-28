@@ -1,0 +1,5 @@
+Interval Start,Interval End,Interval Complete,Filters,Media Type,Agent Id,Agent Name,Handle
+2025-07-28 12:30:00,2025-07-28 13:30:00,0.0,Initial Direction: Inbound; Queue: LLSA-RESC-DM,voice,38fcc711-e80e-4f78-88c2-1e88a75706c3,Olivia Green,9
+2025-07-28 12:30:00,2025-07-28 13:30:00,0.0,Initial Direction: Inbound; Queue: LLSA-RESC-DM,voice,1ed81f99-e294-4ba6-81d4-bb8752c69693,Karen Hall,6
+2025-07-28 12:30:00,2025-07-28 13:30:00,0.0,Initial Direction: Inbound; Queue: LLSA-RESC-DM,voice,8c5912fa-6b3e-4baa-9c0e-3f5a423e4d18,Brian Perez,9
+2025-07-28 12:30:00,2025-07-28 13:30:00,0.0,Initial Direction: Inbound; Queue: LLSA-RESC-DM,voice,5cce8f28-359c-4531-9d91-93f103f4edc1,Dana White,7

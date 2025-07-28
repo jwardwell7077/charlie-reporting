@@ -1,0 +1,4 @@
+Interval Start,Interval End,Interval Complete,Filters,Media Type,Agent Id,Agent Name,Handle
+2025-07-28 11:30:00,2025-07-28 12:30:00,0.0,Queue: Outbound-IB_QCB,callback,3775a1f6-e5fd-47bd-8039-e8f8d3a1a6bf,Leo Young,3
+2025-07-28 11:30:00,2025-07-28 12:30:00,0.0,Queue: Outbound-IB_QCB,callback,5d3eedaf-cbf2-4fdc-aaf9-2e39f1c21e12,Heidi Clark,5
+2025-07-28 11:30:00,2025-07-28 12:30:00,0.0,Queue: Outbound-IB_QCB,callback,c7ca8c70-fce5-4eee-a913-813af2d2b9a4,Frank Miller,5

@@ -1,0 +1,5 @@
+Interval Start,Interval End,Interval Complete,Filters,Media Type,Agent Id,Agent Name,Handle
+2025-07-28 11:50:00,2025-07-28 12:50:00,0.0,Initial Direction: Inbound; Queue: LLSA-RESC-DM,voice,a0c1e2b3-3d4e-5a6f-7b8c-9d0e1f2a3b4c,Derek Parker,8
+2025-07-28 11:50:00,2025-07-28 12:50:00,0.0,Initial Direction: Inbound; Queue: LLSA-RESC-DM,voice,a16bfe90-f4bd-4b7c-af6e-881454647f5f,Eve Adams,4
+2025-07-28 11:50:00,2025-07-28 12:50:00,0.0,Initial Direction: Inbound; Queue: LLSA-RESC-DM,voice,1be98524-f56c-41bb-a6ff-3e14bb3dfb84,Judy Walker,6
+2025-07-28 11:50:00,2025-07-28 12:50:00,0.0,Initial Direction: Inbound; Queue: LLSA-RESC-DM,voice,c3aaf240-163b-40cd-aaed-2d10d7def648,Ivan Lewis,7

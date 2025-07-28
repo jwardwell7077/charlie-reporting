@@ -1,0 +1,4 @@
+Interval Start,Interval End,Interval Complete,Filters,Media Type,Agent Id,Agent Name,Handle
+2025-07-28 11:00:00,2025-07-28 12:00:00,0.0,Queue: Outbound-IB_QCB,callback,1ed81f99-e294-4ba6-81d4-bb8752c69693,Karen Hall,9
+2025-07-28 11:00:00,2025-07-28 12:00:00,0.0,Queue: Outbound-IB_QCB,callback,8c5912fa-6b3e-4baa-9c0e-3f5a423e4d18,Brian Perez,8
+2025-07-28 11:00:00,2025-07-28 12:00:00,0.0,Queue: Outbound-IB_QCB,callback,589f3a7c-22e4-451f-91c0-8adc6b4e7f3d,Xavier Nguyen,5

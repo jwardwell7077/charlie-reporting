@@ -1,0 +1,7 @@
+Interval Start,Interval End,Interval Complete,Filters,Media Type,Agent Id,Agent Name,Handle
+2025-07-28 09:25:00,2025-07-28 10:25:00,0.0,Queue: Outbound-IB_QCB,callback,1ed81f99-e294-4ba6-81d4-bb8752c69693,Karen Hall,9
+2025-07-28 09:25:00,2025-07-28 10:25:00,0.0,Queue: Outbound-IB_QCB,callback,9b585b97-8826-4653-9363-696d3fa4570e,Peter Baker,6
+2025-07-28 09:25:00,2025-07-28 10:25:00,0.0,Queue: Outbound-IB_QCB,callback,38fcc711-e80e-4f78-88c2-1e88a75706c3,Olivia Green,8
+2025-07-28 09:25:00,2025-07-28 10:25:00,0.0,Queue: Outbound-IB_QCB,callback,4898a757-15ec-47cc-b6be-d2e9b249e011,Tina Campbell,2
+2025-07-28 09:25:00,2025-07-28 10:25:00,0.0,Queue: Outbound-IB_QCB,callback,c3aaf240-163b-40cd-aaed-2d10d7def648,Ivan Lewis,4
+2025-07-28 09:25:00,2025-07-28 10:25:00,0.0,Queue: Outbound-IB_QCB,callback,e258b370-9093-401d-bcbf-d939ab51b265,Steve Phillips,7
