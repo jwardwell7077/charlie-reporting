@@ -1,18 +1,18 @@
 [general]
-debug = false
+debug = true
 log_level = "INFO"
 date_format = "%Y-%m-%d"
 
 [email]
 outlook_folder = "Inbox/Genesys"
-outlook_account = "user@company.com"  # Specific account email to use (optional)
-sender = ["reports@example.com"]
-subject_contains = ["Daily Report"]
+outlook_account = "jontajon191@gmail.com"  # Your secondary email
+sender = ["genesysreports@genesysdev.com"]
+subject_contains = ["Hourly Report", "Call Center Data"]
 
 [directory_scan]
 enabled = false
-scan_path = "data/incoming"  # Directory to scan for CSV files
-process_subdirs = false  # Whether to scan subdirectories
+scan_path = "demo/data/raw"  # Demo data directory
+process_subdirs = false
 
 [attachments]
 "IB_Calls.csv"              = ["Agent Name", "Handle", "Avg Handle"]
@@ -23,8 +23,17 @@ process_subdirs = false  # Whether to scan subdirectories
 "ACQ.csv"                   = ["Agent Name", "Handle"]
 "RESC.csv"                  = ["Agent Name", "Handle"]
 
-
 [output]
-excel_dir = "reports"
-archive_dir = "data/archive"
-excel_prefix = "report_"
+excel_dir = "demo/data/output"
+archive_dir = "demo/data/archive"
+excel_prefix = "demo_report_"
+
+[directories]
+data_dir = "demo/data"
+logs_dir = "demo/logs"
+archive_dir = "demo/data/archive"
+
+[processing]
+mode = "interval"  # Support for sub-hourly processing
+enable_summaries = true
+archive_after_processing = true

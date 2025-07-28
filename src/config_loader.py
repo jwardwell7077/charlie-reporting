@@ -44,6 +44,11 @@ class ConfigLoader:
         return self._config.get('attachments', {})
 
     @property
+    def directory_scan(self):
+        """Directory scanning settings from the config (dict)."""
+        return self._config.get('directory_scan', {})
+
+    @property
     def global_filter(self):
         """Legacy compatibility: returns sender and subject_contains as a dict."""
         return {
