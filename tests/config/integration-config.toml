@@ -11,12 +11,12 @@ test_subject_prefix = "INTEGRATION_TEST"
 test_timeout_seconds = 300
 default_timeout_seconds = 60
 
-# Platform-specific settings
+# Platform-specific settings - WSL2/Linux Configuration
 # Options: "auto", "windows", "imap"
 # "auto" = detect platform automatically
 # "windows" = force Windows Outlook COM interface
 # "imap" = force IMAP email verification (WSL2/Linux compatible)
-email_checker_platform = "auto"
+email_checker_platform = "imap"  # Force IMAP for WSL2/Linux development
 
 [email]
 test_sender_address = "jwardwell7077@gmail.com"  # Sending account

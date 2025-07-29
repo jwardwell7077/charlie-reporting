@@ -11,7 +11,7 @@ subject_contains = ["Daily Report"]
 
 [directory_scan]
 enabled = false
-scan_path = "data/incoming"  # Directory to scan for CSV files
+scan_path = "./data/incoming"  # Directory to scan for CSV files - Linux/WSL2 path
 process_subdirs = false  # Whether to scan subdirectories
 
 [attachments]
@@ -25,6 +25,6 @@ process_subdirs = false  # Whether to scan subdirectories
 
 
 [output]
-excel_dir = "reports"
-archive_dir = "data/archive"
+excel_dir = "./reports"  # Linux/WSL2 path
+archive_dir = "./data/archive"  # Linux/WSL2 path
 excel_prefix = "report_"
