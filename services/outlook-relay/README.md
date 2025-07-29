@@ -1,10 +1,13 @@
 # Outlook-Relay Service
 
 ## Overview
+
 Email proxy for Outlook/Exchange operations
 
 ## Current Code Migration
+
 **Source Files**:
+
 - src/email_fetcher.py
 - src/utils.py (email parts)
 
@@ -27,29 +30,35 @@ python scripts/run-dev.py
 ## Architecture
 
 ### Business Layer
+
 - **Models**: email.py, outlook.py, attachment.py
 - **Services**: email_fetcher.py, attachment_processor.py, outlook_connector.py
 
 ### Infrastructure Layer
+
 - **Components**: outlook/com_client.py, outlook/graph_client.py
 
 ## Configuration
+
 - `config/local.toml` - Development settings
 - `config/settings.py` - Pydantic configuration model
 
 ## Development
+
 ```bash
 cd services/outlook-relay/
 python scripts/run-dev.py
 ```
 
-Service will be available at: http://localhost:8080
+Service will be available at: <http://localhost:8080>
 
 ## Testing
+
 ```bash
 pytest tests/
 ```
 
 ## Monitoring
-- Health: http://localhost:8080/health
-- Metrics: http://localhost:9090/metrics
+
+- Health: <http://localhost:8080/health>
+- Metrics: <http://localhost:9090/metrics>

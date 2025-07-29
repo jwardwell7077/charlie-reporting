@@ -4,7 +4,7 @@
 
 Every service follows this exact structure for consistency, maintainability, and developer experience:
 
-```
+```text
 service-name/
 ├── config/                           # Configuration Management
 │   ├── __init__.py
@@ -133,7 +133,7 @@ service-name/
 ├── Makefile                          # Common tasks
 ├── README.md                         # Service documentation
 └── pyproject.toml                    # Python project configuration
-```
+```text
 
 ## Layer Responsibilities
 
@@ -248,7 +248,7 @@ class BaseService(ABC):
         """Handle shutdown signals"""
         self.logger.info("Received shutdown signal", signal=signum)
         asyncio.create_task(self.stop())
-```
+```text
 
 ### Standard Configuration
 ```python
@@ -303,7 +303,7 @@ class BaseServiceConfig(BaseSettings):
             config_data = toml.load(config_file)
             return cls(**config_data)
         return cls()
-```
+```text
 
 ### Standard Metrics
 ```python
@@ -386,7 +386,7 @@ class ServiceMetrics:
     def set_health_status(self, healthy: bool):
         """Set service health status"""
         self.service_health.labels(service=self.service_name).set(1 if healthy else 0)
-```
+```text
 
 ### Standard REST Interface
 ```python
@@ -424,8 +424,8 @@ class BaseAPI:
             CORSMiddleware,
             allow_origins=self.config.allowed_origins,
             allow_credentials=True,
-            allow_methods=["*"],
-            allow_headers=["*"],
+            allow_methods=[""],
+            allow_headers=[""],
         )
         
         # Request logging and metrics
@@ -495,7 +495,7 @@ class BaseAPI:
                 "version": self.config.service_version,
                 "status": "running"
             }
-```
+```text
 
 ## Service-Specific Examples
 
@@ -541,7 +541,7 @@ router = APIRouter()
 async def fetch_emails(request: FetchEmailsRequest, processor: EmailProcessor = Depends()):
     """Fetch emails endpoint"""
     pass
-```
+```text
 
 This structure ensures:
 1. **Consistency** across all services

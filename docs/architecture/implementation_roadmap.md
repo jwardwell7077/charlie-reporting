@@ -8,7 +8,7 @@
 mkdir -p services/{outlook-relay,db-service,scheduler,report-generator,email-service}
 mkdir -p shared config scripts docs/api tests/integration
 mkdir -p monitoring/{prometheus,grafana,logging}
-```
+```text
 
 ### 1.2 Shared Components
 - **shared/service_client.py** - Base HTTP client for inter-service communication
@@ -35,7 +35,7 @@ app = FastAPI(title="Outlook Relay Service")
 app.include_router(health.router, prefix="/health")
 app.include_router(emails.router, prefix="/api/emails")
 app.include_router(accounts.router, prefix="/api/accounts")
-```
+```text
 
 ### 2.2 Key Endpoints
 - `POST /api/emails/fetch` - Fetch emails by date/time range
@@ -66,7 +66,7 @@ class EmailData(Base):
     date_received = Column(DateTime, index=True)
     data_json = Column(Text)  # JSON blob of CSV data
     processed = Column(Boolean, default=False)
-```
+```text
 
 ### 3.2 Key Endpoints
 - `POST /api/data/ingest` - Receive CSV data from Outlook Relay
@@ -99,7 +99,7 @@ class JobManager:
         # 2. Wait for data ingestion
         # 3. Trigger report generation
         # 4. Send reports
-```
+```text
 
 ### 4.2 Key Endpoints
 - `POST /api/jobs/schedule` - Schedule recurring jobs
@@ -131,7 +131,7 @@ class ExcelBuilder:
         # Apply Excel formatting
         # Save to file storage
         # Return file path
-```
+```text
 
 ### 5.2 Key Endpoints
 - `POST /api/reports/generate` - Generate reports for date
@@ -159,7 +159,7 @@ class EmailTemplateEngine:
     def render_report_email(self, report_data: dict) -> str:
         template = self.env.get_template('daily_report.html')
         return template.render(**report_data)
-```
+```text
 
 ### 6.2 Key Endpoints
 - `POST /api/emails/send-reports` - Send reports with attachments
@@ -188,7 +188,7 @@ async def test_full_pipeline():
     # Trigger job via Scheduler
     # Verify data flow through all services
     # Check final email delivery
-```
+```text
 
 ### 7.2 Error Scenario Testing
 - Service unavailability handling
@@ -213,7 +213,7 @@ scrape_configs:
   - job_name: 'db-service'
     static_configs:
       - targets: ['db-service:8081']
-```
+```text
 
 ### 8.2 Logging Standardization
 - Structured logging with correlation IDs
@@ -271,7 +271,7 @@ DB_SERVICE_URL=http://localhost:8081
 SCHEDULER_URL=http://localhost:8082
 REPORT_GENERATOR_URL=http://localhost:8083
 EMAIL_SERVICE_URL=http://localhost:8084
-```
+```text
 
 ### Production Environment
 ```bash
@@ -284,7 +284,7 @@ DB_SERVICE_URL=https://db-service.company.com
 SCHEDULER_URL=https://scheduler.company.com
 REPORT_GENERATOR_URL=https://reports.company.com
 EMAIL_SERVICE_URL=https://email.company.com
-```
+```text
 
 ## Success Metrics
 

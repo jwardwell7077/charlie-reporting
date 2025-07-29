@@ -69,14 +69,14 @@
 
 ### File Structure Impact
 
-```
+```text
 📁 Project now uses relative paths consistently:
    ├── data/raw          (EmailFetcher save directory)
    ├── data/output       (ExcelWriter output)  
    ├── data/archive      (Archiver destination)
    ├── data/incoming     (Directory scanner)
    └── reports/          (Final reports)
-```
+```text
 
 ### Configuration Example
 
@@ -87,7 +87,7 @@ scan_path = "data/incoming"    # Works on Windows, Linux, macOS
 [output]  
 excel_dir = "reports"          # pathlib converts to correct separators
 archive_dir = "data/archive"   # C:\data\archive or /data/archive automatically
-```
+```text
 
 ## 🎯 Result
 

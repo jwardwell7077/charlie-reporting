@@ -39,13 +39,13 @@ We have successfully **phased out the old monolithic code** from `src/` and **fu
 
 ### 1. **Microservices Architecture**
 
-```
+```text
 ✅ services/report-generator/    # CSV processing + Excel generation
 ✅ services/email-service/       # Email handling
 ✅ services/api-gateway/         # Request routing
 ✅ services/scheduler-service/   # Task scheduling
 ✅ shared/                       # Common utilities
-```
+```text
 
 ### 2. **Enhanced API Endpoints**
 
@@ -115,21 +115,21 @@ We have successfully **phased out the old monolithic code** from `src/` and **fu
    ```bash
    # Migrate remaining email functionality
    # services/email-service/ with Graph API integration
-   ```
+   ```text
 
 2. **Remove src/ Directory** (when ready)
 
    ```bash
    # After full validation, remove old code
    rm -rf src/
-   ```
+   ```text
 
 3. **Deploy Microservices**
 
    ```bash
    # Deploy with Docker Compose
    docker-compose up -d
-   ```
+   ```text
 
 ## 🏆 Architecture Achievement
 
@@ -144,7 +144,7 @@ from src.excel_writer import ExcelWriter
 
 transformer = CSVTransformer(config)
 writer = ExcelWriter()
-```
+```text
 
 **Phase 2 (Microservices)**
 
@@ -157,7 +157,7 @@ response = await client.post("/process", json={
     "files": ["data.csv"],
     "output_format": "xlsx"
 })
-```
+```text
 
 ## 📈 Benefits Realized
 

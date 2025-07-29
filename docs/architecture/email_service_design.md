@@ -23,16 +23,16 @@ A Windows service that handles Outlook email fetching via COM API and exposes a 
 ### Endpoints
 
 #### Health & Status
-```
+```text
 GET /health
 Response: {"status": "healthy", "outlook_connected": true, "version": "1.0.0"}
 
 GET /status  
 Response: {"current_operation": "idle", "last_fetch": "2025-07-28T14:30:00Z"}
-```
+```text
 
 #### Email Fetching
-```
+```text
 POST /emails/fetch
 Body: {
   "date": "2025-07-28",
@@ -60,10 +60,10 @@ Response: {
 POST /emails/fetch-recent
 Body: {"hours": 2, "filters": {...}, "attachment_rules": {...}}
 Response: {same as above}
-```
+```text
 
 #### Account Management
-```
+```text
 GET /accounts
 Response: {
   "accounts": [
@@ -71,10 +71,10 @@ Response: {
     {"email": "user2@company.com", "display_name": "User Two", "is_default": true}
   ]
 }
-```
+```text
 
 #### File Download
-```
+```text
 GET /files/{filename}
 Response: Binary file content with appropriate headers
 
@@ -85,7 +85,7 @@ Response: {
     ...
   ]
 }
-```
+```text
 
 ## Security Considerations
 
@@ -124,7 +124,7 @@ retry_attempts = 3
 output_directory = "C:\\EmailService\\Output"
 retention_days = 7
 max_file_size_mb = 100
-```
+```text
 
 ### Main App Config
 ```toml
@@ -137,7 +137,7 @@ retry_attempts = 2
 [fallback]
 enabled = true
 directory_scan_path = "/shared/network/emails"  # Network share fallback
-```
+```text
 
 ## Deployment Strategy
 

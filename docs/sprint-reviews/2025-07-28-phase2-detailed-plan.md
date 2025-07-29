@@ -28,7 +28,7 @@ duration: 2 weeks (July 29 - August 11, 2025)
 2. Setup coverage reporting with HTML output
 3. Configure test data fixtures and sample files
 4. Establish test directory structure for microservices
-```
+```text
 
 **Deliverables:**
 
@@ -48,7 +48,7 @@ duration: 2 weeks (July 29 - August 11, 2025)
     "label": "Performance Benchmark", 
     "command": "python scripts/performance_benchmark.py"
 }
-```
+```text
 
 #### **🧪 Legacy Test Migration Analysis**
 
@@ -59,7 +59,7 @@ tests/test_excel_writer_enhanced.py        → tests/services/report-generator/
 tests/test_transformer.py                  → tests/services/report-generator/
 tests/test_integration_complete.py         → tests/integration/
 tests/test_main_processor.py              → tests/integration/
-```
+```text
 
 **Migration Strategy:**
 
@@ -78,7 +78,7 @@ tests/services/report-generator/test_csv_transformer.py
 tests/services/report-generator/test_excel_service.py
 tests/services/report-generator/test_business_models.py
 tests/services/report-generator/test_main_phase1.py
-```
+```text
 
 **Test Coverage Targets:**
 
@@ -114,7 +114,7 @@ tests/data/services/report-generator/
 └── fixtures/
     ├── csv_rules.json
     └── report_configs.json
-```
+```text
 
 ### **Day 5: Integration Testing Framework**
 
@@ -125,7 +125,7 @@ tests/data/services/report-generator/
 tests/integration/test_phase1_workflow.py
 tests/integration/test_service_health.py
 tests/integration/test_data_flow.py
-```
+```text
 
 **Integration Test Scenarios:**
 
@@ -139,7 +139,7 @@ tests/integration/test_data_flow.py
 ```python
 # Performance test script:
 scripts/performance_benchmark.py
-```
+```text
 
 **Benchmark Metrics:**
 
@@ -179,7 +179,7 @@ services/{service-name}/
 └── config/
     ├── local.toml              # Development configuration
     └── settings.py             # Pydantic configuration model
-```
+```text
 
 #### **🌐 Report Generator API Implementation**
 
@@ -193,7 +193,7 @@ GET  /api/csv/rules                 # Available transformation rules
 POST /api/csv/validate             # Validate CSV format
 GET  /health                       # Service health check
 GET  /metrics                      # Prometheus metrics
-```
+```text
 
 **API Implementation Priority:**
 
@@ -214,7 +214,7 @@ shared/clients/
 ├── report_generator_client.py  # Report Generator service client
 ├── database_client.py          # Database service client (future)
 └── outlook_relay_client.py     # Outlook Relay service client (future)
-```
+```text
 
 **Client Features:**
 
@@ -234,7 +234,7 @@ tests/api/report-generator/
 ├── test_report_endpoints.py
 ├── test_authentication.py
 └── test_error_handling.py
-```
+```text
 
 **API Test Categories:**
 
@@ -256,7 +256,7 @@ services/report-generator/docs/
 └── examples/                 # Request/response examples
     ├── curl_examples.sh
     └── python_examples.py
-```
+```text
 
 **Documentation Requirements:**
 
@@ -270,7 +270,7 @@ services/report-generator/docs/
 ```bash
 # Validation checklist script:
 scripts/phase2_validation.py
-```
+```text
 
 **Validation Criteria:**
 
@@ -304,7 +304,7 @@ scripts/phase2_validation.py
 ✅ shared/clients/ with HTTP client framework
 ✅ API documentation with OpenAPI specification
 ✅ Phase 2 validation script confirming all requirements
-```
+```text
 
 ### **Development Workflow Integration**
 
@@ -318,7 +318,7 @@ scripts/phase2_validation.py
     "label": "Start Report Generator API",
     "label": "Test API Endpoints"
 }
-```
+```text
 
 ---
 

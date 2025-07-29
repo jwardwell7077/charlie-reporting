@@ -6,7 +6,7 @@ The root directory has been successfully organized and cleaned up!
 
 ### 📁 **Current Root Structure (Clean & Organized)**
 
-```
+```text
 charlie-reporting/
 ├── .copilot-context.md     # 🤖 Copilot context (kept for AI assistance)
 ├── .env/.env.linux         # 🔧 Environment configuration
@@ -54,7 +54,7 @@ charlie-reporting/
 ├── demos/                  # 🎪 Demo applications
 ├── logs/                   # 📋 Application logs
 └── legacy_backup/          # 💾 Backup of migrated code
-```
+```text
 
 ### 🎯 **Key Improvements**
 

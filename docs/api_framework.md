@@ -1,6 +1,6 @@
 # Charlie Reporting API Framework
 
-# Phase 2: Microservices Architecture Implementation
+## Phase 2: Microservices Architecture Implementation
 
 ## API Service Templates
 
@@ -67,7 +67,7 @@ async def download_report(task_id: str):
     """Download generated report"""
     # Implementation for file download
     pass
-```
+```text
 
 ### 2. File Management Service
 
@@ -110,7 +110,7 @@ async def delete_file(file_id: str):
     """Delete uploaded file"""
     # Implementation for file deletion
     pass
-```
+```text
 
 ### 3. Notification Service
 
@@ -149,7 +149,7 @@ async def send_report_notification(report_id: str, recipients: List[EmailStr]):
     """Send report completion notification"""
     # Implementation for report notifications
     pass
-```
+```text
 
 ## API Gateway Configuration
 
@@ -167,9 +167,9 @@ app = FastAPI(
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=[""],
     allow_credentials=True,
-    allow_methods=["*"],
+    allow_methods=[""],
     allow_headers=["*"],
 )
 
@@ -193,7 +193,7 @@ async def health_check():
                 status[service] = "unreachable"
     
     return {"gateway": "healthy", "services": status}
-```
+```text
 
 ## Docker Configuration
 
@@ -213,7 +213,7 @@ COPY . .
 EXPOSE 8001
 
 CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8001"]
-```
+```text
 
 ### Docker Compose
 
@@ -249,7 +249,7 @@ services:
     build: ./services/notification
     ports:
       - "8003:8003"
-```
+```text
 
 ## API Testing Framework
 
@@ -284,7 +284,7 @@ async def test_complete_api_workflow():
         }
         notify_response = await client.post("http://localhost:8003/send-email", json=notification_data)
         assert notify_response.status_code == 200
-```
+```text
 
 ## Development Workflow
 
@@ -299,7 +299,7 @@ pytest tests/api/ -v
 
 # Check service health
 curl http://localhost:8000/health
-```
+```text
 
 ### 2. Service Development
 
@@ -310,7 +310,7 @@ uvicorn main:app --reload --port 8001
 
 # Test service endpoints
 curl http://localhost:8001/health
-```
+```text
 
 ### 3. API Documentation
 

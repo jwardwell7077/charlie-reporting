@@ -94,7 +94,7 @@ pip install pytest-cov pytest-asyncio httpx pytest-mock
 # Update pytest.ini for coverage
 # Create service-specific test migration
 # Establish baseline coverage metrics
-```
+```text
 
 ### **Day 2: API Implementation**
 
@@ -103,7 +103,7 @@ pip install pytest-cov pytest-asyncio httpx pytest-mock
 # Create basic business logic APIs
 # Add HTTP client framework for inter-service communication
 # Basic API documentation generation
-```
+```text
 
 ### **Day 3: Integration & Validation**
 
@@ -112,7 +112,7 @@ pip install pytest-cov pytest-asyncio httpx pytest-mock
 # Performance baseline establishment
 # Complete Phase 2 validation (target: 85%+ completion)
 # Documentation updates
-```
+```text
 
 ---
 

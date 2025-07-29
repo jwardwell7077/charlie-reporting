@@ -50,7 +50,7 @@ services/report-generator/src/business/services/csv_transformer.py
 services/report-generator/src/business/services/excel_service.py
 services/report-generator/src/business/models/csv_data.py
 services/report-generator/src/business/models/report.py
-```
+```text
 
 #### **Development Infrastructure**
 
@@ -61,11 +61,11 @@ services/report-generator/src/business/models/report.py
 .vscode/tasks.json        # 8 development and testing tasks
 .vscode/launch.json       # 5 debug configurations
 requirements-unified.txt  # 80+ packages, all installed successfully
-```
+```text
 
 #### **Project Architecture**
 
-```
+```text
 charlie-reporting/
 ├── services/             # ✅ Microservices structure established
 │   ├── outlook-relay/    # ✅ Service skeleton with business logic
@@ -74,7 +74,7 @@ charlie-reporting/
 ├── .vscode/              # ✅ Fresh WSL-optimized configuration
 ├── tests/                # ✅ Legacy tests ready for migration
 └── docs/                 # ✅ Architecture documentation complete
-```
+```text
 
 ---
 

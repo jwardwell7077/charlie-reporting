@@ -34,7 +34,7 @@ Transform Phase 1 business logic into a production-ready foundation with compreh
 │   │   └── utils/                # Utility function tests
 │   ├── integration/              # Integration test suite
 │   └── fixtures/                 # Test data and mocking
-```
+```text
 
 **Technical Requirements:**
 
@@ -66,7 +66,7 @@ Transform Phase 1 business logic into a production-ready foundation with compreh
     "label": "Run Integration Tests Only", 
     "command": "python -m pytest tests/integration/ -v"
 }
-```
+```text
 
 **Integration Points:**
 
@@ -88,7 +88,7 @@ tests/test_excel_writer_enhanced.py          → tests/unit/services/excel_servi
 tests/test_email_fetcher_enhanced.py         → tests/unit/services/email_fetcher_test.py
 tests/test_integration_complete.py           → tests/integration/phase1_workflow_test.py
 tests/test_main_processor.py                 → tests/integration/main_processor_test.py
-```
+```text
 
 **Migration Strategy:**
 
@@ -122,7 +122,7 @@ test_excel_service.py:
   - Multiple worksheet handling
   - File output validation
   - Memory usage optimization testing
-```
+```text
 
 **Performance Benchmarking:**
 
@@ -142,7 +142,7 @@ scripts/
 ├── coverage_report.py            # Coverage analysis and reporting
 ├── performance_benchmark.py      # Automated performance testing
 └── test_data_generator.py        # Generate test datasets
-```
+```text
 
 **VS Code Task Integration:**
 
@@ -181,7 +181,7 @@ class BaseAPIService:
         
     def setup_metrics(self):
         # Prometheus metrics integration
-```
+```text
 
 **Service Template Features:**
 
@@ -207,7 +207,7 @@ class BaseAPIService:
 └── middleware/
     ├── auth.py                  # API authentication
     └── logging.py               # Request logging
-```
+```text
 
 **API Endpoints Design:**
 
@@ -229,7 +229,7 @@ POST /api/csv/transform
   
 GET /health
   - Response: Service health + dependencies
-```
+```text
 
 ### **Day 8-9: Service Integration & Communication**
 
@@ -250,7 +250,7 @@ class ServiceClient:
         
     async def get(self, endpoint: str, params: dict = None) -> dict:
         # With timeout, circuit breaker patterns
-```
+```text
 
 **Integration Patterns:**
 
@@ -278,7 +278,7 @@ test_end_to_end_workflow.py:
   - Complete Phase 1 workflow via APIs
   - Performance testing with realistic data
   - Error recovery scenario testing
-```
+```text
 
 ### **Day 10: API Documentation & Validation**
 
@@ -290,7 +290,7 @@ test_end_to_end_workflow.py:
 ├── openapi.json                 # OpenAPI specification
 ├── swagger-ui/                  # Interactive API documentation
 └── postman/                     # Postman collection exports
-```
+```text
 
 **Documentation Features:**
 
@@ -310,7 +310,7 @@ scripts/validate_phase2.py:
   - Performance benchmark comparison
   - Integration test execution
   - Coverage report generation
-```
+```text
 
 ---
 
@@ -357,7 +357,7 @@ scripts/validate_phase2.py:
 "Performance Benchmark"          # Run performance tests
 "Validate Phase 2"              # Comprehensive validation
 "Start Report Generator API"     # Launch API service for testing
-```
+```text
 
 ### **Quality Assurance**
 

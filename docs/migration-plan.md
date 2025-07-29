@@ -69,7 +69,7 @@ class CSVProcessor:
 # services/report-generator/excel_generator.py  
 class ExcelGenerator:
     """Migrated from src/excel_writer.py"""
-```
+```text
 
 #### B. Email Service Implementation
 
@@ -77,7 +77,7 @@ class ExcelGenerator:
 # services/email-service/main.py
 class EmailProcessor:
     """Migrated from src/email_fetcher.py"""
-```
+```text
 
 #### C. Shared Utilities
 
@@ -88,7 +88,7 @@ class ConfigManager:
     
 # shared/utils.py
 """Migrated utilities from src/utils.py"""
-```
+```text
 
 ### Step 3: API Gateway Integration
 
@@ -155,7 +155,7 @@ Temporary compatibility layer:
 
 ### New Service Structure
 
-```
+```text
 services/
 ├── api-gateway/           # Central API routing
 ├── report-generator/      # CSV processing + Excel generation
@@ -169,7 +169,7 @@ shared/
 ├── logging_utils.py       # Centralized logging
 ├── utils.py              # Common utilities
 └── models/               # Shared data models
-```
+```text
 
 ## Migration Benefits
 

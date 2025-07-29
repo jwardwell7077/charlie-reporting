@@ -6,7 +6,7 @@ The project currently has all services in a single `src/` directory, but needs t
 ## Proposed Directory Structure
 
 ### Root Repository Structure
-```
+```text
 charlie-reporting/                    # Main orchestration repository
 ├── shared/                          # Shared components (Git submodule or package)
 ├── services/                        # Local service development
@@ -21,12 +21,12 @@ charlie-reporting/                    # Main orchestration repository
 │   └── scripts/
 ├── docs/                           # Overall architecture documentation
 └── tools/                          # Development and deployment tools
-```
+```text
 
 ### Individual Service Structure (Repo-Ready)
 Each service follows this structure, making it easy to copy into a new repository:
 
-```
+```text
 outlook-relay/                       # Service root (future repo root)
 ├── .github/                        # GitHub Actions (CI/CD)
 │   └── workflows/
@@ -109,7 +109,7 @@ outlook-relay/                       # Service root (future repo root)
 ├── README.md                    # Service-specific documentation
 ├── CHANGELOG.md                 # Service version history
 └── .gitignore                   # Service-specific ignore patterns
-```
+```text
 
 ## Service-Specific Mapping
 
@@ -155,13 +155,13 @@ outlook-relay/                       # Service root (future repo root)
 ```bash
 # In each service repository
 git submodule add https://github.com/yourorg/charlie-shared.git shared
-```
+```text
 
 ### Option 2: Python Package (Recommended for Production)
 ```bash
 # Publish shared components as a package
 pip install charlie-shared==1.0.0
-```
+```text
 
 ### Option 3: Copy + Sync (Simple but Manual)
 - Copy `/shared/` into each service
@@ -198,7 +198,7 @@ python src/main.py
 # Work on database service
 cd services/database-service/
 python src/main.py
-```
+```text
 
 ### Multi-Repository Development (Future)
 ```bash
@@ -207,7 +207,7 @@ git clone https://github.com/yourorg/outlook-relay.git
 cd outlook-relay/
 git submodule update --init --recursive
 python src/main.py
-```
+```text
 
 ## Benefits of This Structure
 
@@ -256,7 +256,7 @@ python src/main.py
 
 # Run all services (development script)
 python tools/run-all-services.py
-```
+```text
 
 ### Shared Components Integration
 For development, we'll use symlinks to share components:
@@ -267,6 +267,6 @@ ln -s ../../shared ./shared
 
 cd services/database-service/  
 ln -s ../../shared ./shared
-```
+```text
 
 This approach gives you both the immediate benefits of organized code and the future flexibility of independent repositories, while keeping development simple with native Python execution.

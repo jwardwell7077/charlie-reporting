@@ -82,7 +82,7 @@ next_phase: Phase 2.5 Mini-Sprint Required
 
 The project now demonstrates **production-ready microservices patterns**:
 
-```
+```text
 charlie-reporting/                    # 🏆 Clean, professional structure
 ├── services/                         # 5 microservices with business logic
 ├── shared/                          # Enterprise-grade shared components  
@@ -90,7 +90,7 @@ charlie-reporting/                    # 🏆 Clean, professional structure
 ├── scripts/                        # Automation and tooling
 ├── archive/                        # Complete development history preservation
 └── tools/                          # Development and deployment utilities
-```
+```text
 
 ### **🧹 Comprehensive Project Cleanup**
 
@@ -131,7 +131,7 @@ tests/
 ├── integration/            # Cross-service tests  
 ├── performance/            # Benchmark tests
 └── fixtures/               # Test data and mocking
-```
+```text
 
 ### **🌐 API Implementation Gaps**
 
@@ -144,7 +144,7 @@ services/report-generator/src/api/
 │   └── csv.py             # CSV processing  
 ├── middleware/
 └── models/
-```
+```text
 
 ### **📊 Performance & Metrics**
 
@@ -154,7 +154,7 @@ services/report-generator/src/api/
 - Test coverage measurement  
 - API response time testing
 - End-to-end workflow validation
-```
+```text
 
 ---
 

@@ -5,8 +5,9 @@ This directory contains shared components used across all microservices in the C
 ## Components
 
 ### Base Service (`base_service.py`)
+
 - **Purpose**: Abstract base class providing standardized service lifecycle management
-- **Features**: 
+- **Features**:
   - Async startup/shutdown procedures
   - Signal handling for graceful shutdown
   - Health monitoring integration
@@ -14,6 +15,7 @@ This directory contains shared components used across all microservices in the C
 - **Usage**: All microservices inherit from `BaseService`
 
 ### Configuration System (`config.py`)
+
 - **Purpose**: Centralized configuration management with environment-specific loading
 - **Features**:
   - TOML and environment variable support
@@ -23,6 +25,7 @@ This directory contains shared components used across all microservices in the C
 - **Usage**: Each service extends `BaseServiceConfig`
 
 ### Metrics Collection (`metrics.py`)
+
 - **Purpose**: Prometheus-compatible metrics collection for all services
 - **Features**:
   - HTTP request metrics (count, duration, status)
@@ -32,6 +35,7 @@ This directory contains shared components used across all microservices in the C
 - **Usage**: `ServiceMetrics` class provides standardized metrics collection
 
 ### Logging System (`logging.py`)
+
 - **Purpose**: Structured logging with service-aware context
 - **Features**:
   - JSON structured logging
@@ -41,6 +45,7 @@ This directory contains shared components used across all microservices in the C
 - **Usage**: `ServiceLogger` with context managers and operation tracking
 
 ### Health Monitoring (`health.py`)
+
 - **Purpose**: Comprehensive health checking system for services and dependencies
 - **Features**:
   - Component-level health checks
@@ -50,6 +55,7 @@ This directory contains shared components used across all microservices in the C
 - **Usage**: `HealthMonitor` with pluggable health checkers
 
 ### Service Discovery (`discovery.py`)
+
 - **Purpose**: Service registry and inter-service communication
 - **Features**:
   - Service registration and heartbeat
@@ -59,6 +65,7 @@ This directory contains shared components used across all microservices in the C
 - **Usage**: `ServiceDiscoveryMixin` for automatic registration
 
 ### Utilities (`utils.py`)
+
 - **Purpose**: Common helper functions and utilities
 - **Features**:
   - Date/time handling
@@ -69,6 +76,7 @@ This directory contains shared components used across all microservices in the C
 - **Usage**: Import specific utility classes as needed
 
 ### HTTP Utilities (`http_utils.py`)
+
 - **Purpose**: FastAPI middleware, error handlers, and HTTP utilities
 - **Features**:
   - Request logging middleware
@@ -81,14 +89,18 @@ This directory contains shared components used across all microservices in the C
 ## Architecture Patterns
 
 ### Separation of Concerns
+
 All shared components follow clear separation of concerns:
+
 - **Infrastructure**: Database connections, external service clients
 - **Interface**: HTTP handlers, API models, middleware
 - **Business**: Core business logic and operations
 - **Utilities**: Cross-cutting concerns (logging, metrics, health)
 
 ### Dependency Injection
+
 Components are designed for easy dependency injection:
+
 ```python
 # Service setup
 logger = ServiceLogger("my-service")
@@ -102,7 +114,9 @@ class MyService(BaseService):
 ```
 
 ### Configuration Management
+
 Environment-specific configuration with validation:
+
 ```python
 class MyServiceConfig(BaseServiceConfig):
     database_url: str
@@ -114,7 +128,9 @@ config = ConfigLoader.load_config(MyServiceConfig, "my-service")
 ```
 
 ### Health Monitoring
+
 Pluggable health check system:
+
 ```python
 monitor = HealthMonitor("my-service")
 monitor.add_checker(DatabaseHealthChecker("main_db", test_connection))
@@ -125,31 +141,38 @@ await monitor.start_monitoring()
 ## Development Setup
 
 ### Dependencies
+
 Install shared component dependencies:
+
 ```bash
 pip install -r shared/requirements.txt
 ```
 
 ### Import Resolution
+
 The current environment may not have all dependencies installed. The shared components include fallback implementations for missing dependencies to ensure the codebase remains functional during development.
 
 ### Testing
+
 Each component includes comprehensive examples and usage patterns in docstrings. Integration tests validate component interactions.
 
 ## Production Considerations
 
 ### External Dependencies
+
 - **Service Registry**: Replace `InMemoryServiceRegistry` with Consul or etcd
 - **Metrics**: Integrate with Prometheus/Grafana stack
 - **Logging**: Configure structured log forwarding to ELK stack
 - **Health Checks**: Integrate with Kubernetes liveness/readiness probes
 
 ### Security
+
 - All HTTP traffic should use TLS in production
 - Service-to-service authentication via JWT or mTLS
 - Configuration secrets via Kubernetes secrets or external vault
 
 ### Observability
+
 - Distributed tracing with OpenTelemetry
 - Centralized logging with correlation IDs
 - Comprehensive metrics and alerting

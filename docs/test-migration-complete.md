@@ -6,7 +6,7 @@ Successfully migrated all tests from the centralized `tests/` directory into ind
 
 ## 🏗️ **New Test Structure**
 
-```
+```text
 ├── services/
 │   ├── report_generator/tests/
 │   │   ├── test_api.py                    # API endpoint tests
@@ -58,7 +58,7 @@ Successfully migrated all tests from the centralized `tests/` directory into ind
     ├── test_runner.py                     # Service-based test runner
     ├── run_integration_tests.py           # Integration test runner
     └── check_integration_dependencies.py  # Dependency checker
-```
+```text
 
 ## 🎯 **Key Benefits**
 
@@ -102,7 +102,7 @@ markers =
     email: Tests requiring email server connection
     database: Tests requiring database connection
     outlook: Tests requiring Outlook/Exchange connection
-```
+```text
 
 ### **Test Runner**
 
@@ -128,7 +128,7 @@ python3 scripts/test_runner.py --list
 
 # Generate coverage report
 python3 scripts/test_runner.py --coverage
-```
+```text
 
 ## 📊 **Migration Statistics**
 

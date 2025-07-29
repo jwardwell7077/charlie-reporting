@@ -41,7 +41,7 @@ echo "pytest-cov>=4.0.0" >> requirements.txt
 echo "pytest-asyncio>=0.21.0" >> requirements.txt
 echo "httpx>=0.24.0" >> requirements.txt
 echo "pytest-mock>=3.11.0" >> requirements.txt
-```
+```text
 
 #### **Afternoon: Test Structure Setup**
 
@@ -60,11 +60,11 @@ echo "pytest-mock>=3.11.0" >> requirements.txt
    python_functions = test_*
    addopts = --cov=src --cov=services --cov-report=html --cov-report=term-missing
    asyncio_mode = auto
-   ```
+   ```text
 
 3. **Create test directory structure**
 
-   ```
+   ```text
    tests/
    ├── unit/
    │   ├── services/
@@ -72,7 +72,7 @@ echo "pytest-mock>=3.11.0" >> requirements.txt
    ├── integration/
    ├── fixtures/
    └── performance/
-   ```
+   ```text
 
 #### **Evening: Baseline Coverage**
 
@@ -102,7 +102,7 @@ echo "pytest-mock>=3.11.0" >> requirements.txt
    async def readiness_check():
        # Add actual service dependency checks
        return {"status": "ready", "dependencies": "ok"}
-   ```
+   ```text
 
 2. **CSV Processor API** (`services/csv-processor/src/api/`)
 
@@ -118,7 +118,7 @@ echo "pytest-mock>=3.11.0" >> requirements.txt
        processor = CSVProcessor()
        result = await processor.process_file(file)
        return {"status": "processed", "result": result}
-   ```
+   ```text
 
 #### **Afternoon: Service Integration**
 
@@ -137,7 +137,7 @@ echo "pytest-mock>=3.11.0" >> requirements.txt
            response = await self.client.get(endpoint)
            response.raise_for_status()
            return response.json()
-   ```
+   ```text
 
 2. **Connect business logic to APIs**
    - Link existing CSV/Excel functionality
@@ -174,7 +174,7 @@ echo "pytest-mock>=3.11.0" >> requirements.txt
            # Generate Excel report
            response = await client.post("/reports/excel", json={"data": processed_data})
            assert response.status_code == 200
-   ```
+   ```text
 
 2. **Service communication tests**
    - Test inter-service HTTP calls
@@ -201,7 +201,7 @@ echo "pytest-mock>=3.11.0" >> requirements.txt
        processing_time = time.time() - start_time
        assert processing_time < 5.0  # 5 second baseline
        assert len(result.records) > 1000  # Verify data processed
-   ```
+   ```text
 
 2. **Establish baseline metrics**
    - CSV processing speed
@@ -240,7 +240,7 @@ echo "pytest-mock>=3.11.0" >> requirements.txt
    ```bash
    python3 scripts/phase2_validation.py
    # Target: 85%+ completion (21+ of 25 checks passing)
-   ```
+   ```text
 
 2. **CI/CD Preparation**
    - Automated test execution

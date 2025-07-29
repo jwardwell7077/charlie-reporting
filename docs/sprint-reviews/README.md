@@ -36,7 +36,7 @@ sprint: Sprint Name/Focus
 status: Complete ✅ | In Progress 🚧 | Planned 📅
 participants: Team members involved
 ---
-```
+```text
 
 ---
 

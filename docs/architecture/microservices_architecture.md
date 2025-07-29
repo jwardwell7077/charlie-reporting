@@ -5,7 +5,7 @@ A distributed microservices architecture for email-based reporting pipeline with
 
 ## Architecture Components
 
-```
+```text
 ┌──────────────────┐      ┌────────────────────┐      ┌────────────────────┐
 │ Outlook Relay    │─────▶│    DB Service      │◀─────│  Email Service     │
 │   Service        │ REST │  (Data Backend)    │ REST │  (Outbound Mail)   │
@@ -23,7 +23,7 @@ A distributed microservices architecture for email-based reporting pipeline with
         └────────────────────────────────────────────────│ File Storage    │
                                                          │ (Local/OneDrive)│
                                                          └─────────────────┘
-```
+```text
 
 ## Service Definitions
 
@@ -40,13 +40,13 @@ A distributed microservices architecture for email-based reporting pipeline with
 - Handle multiple Outlook accounts and profiles
 
 **API Endpoints**:
-```
+```text
 GET  /health                          # Service health and Outlook connectivity
 POST /emails/fetch                    # Fetch emails by date/filters
 POST /emails/send                     # Send outbound emails
 GET  /accounts                        # List available email accounts
 POST /attachments/extract             # Extract and forward attachments to DB Service
-```
+```text
 
 ### 2. DB Service  
 **Purpose**: Canonical data backend with REST API
@@ -62,14 +62,14 @@ POST /attachments/extract             # Extract and forward attachments to DB Se
 - Handle data archiving and retention policies
 
 **API Endpoints**:
-```
+```text
 POST /data/ingest                     # Ingest CSV data from Outlook Relay
 GET  /data/query                      # Query data for report generation
 GET  /data/schemas                    # Get available data schemas
 POST /data/transform                  # Apply transformations to raw data
 GET  /data/stats                      # Data statistics and health metrics
 DELETE /data/cleanup                  # Archive old data
-```
+```text
 
 ### 3. Scheduler Service / User Console
 **Purpose**: Central orchestrator and user interface
@@ -85,14 +85,14 @@ DELETE /data/cleanup                  # Archive old data
 - Provide real-time monitoring dashboard
 
 **API Endpoints**:
-```
+```text
 POST /jobs/schedule                   # Schedule recurring jobs
 POST /jobs/trigger                    # Trigger manual job runs
 GET  /jobs/status/{job_id}           # Get job status and logs
 GET  /jobs/history                    # Job execution history
 POST /jobs/cancel/{job_id}           # Cancel running job
 GET  /dashboard                       # Web dashboard (HTML)
-```
+```text
 
 ### 4. Report Generator Service
 **Purpose**: Excel report building and file management
@@ -108,13 +108,13 @@ GET  /dashboard                       # Web dashboard (HTML)
 - Hand off generated files to Email Service for distribution
 
 **API Endpoints**:
-```
+```text
 POST /reports/generate               # Generate report for specific date
 GET  /reports/templates              # Available report templates
 GET  /reports/files                  # List generated report files
 GET  /reports/download/{filename}    # Download specific report
 POST /reports/archive                # Archive old reports
-```
+```text
 
 ### 5. Email Service
 **Purpose**: Outbound email delivery and templating
@@ -130,18 +130,18 @@ POST /reports/archive                # Archive old reports
 - Provide delivery notifications to Scheduler Service
 
 **API Endpoints**:
-```
+```text
 POST /emails/send-reports            # Send reports via email
 GET  /emails/templates               # Email template management
 GET  /emails/status/{email_id}       # Email delivery status
 POST /emails/templates/create        # Create/update email templates
 GET  /emails/delivery-log            # Email delivery history
-```
+```text
 
 ## Data Flow Scenarios
 
 ### Daily Automated Run
-```
+```text
 1. Scheduler triggers daily job at 6:00 AM
 2. Scheduler → Outlook Relay: "Fetch CSVs for yesterday"
 3. Outlook Relay → DB Service: "Store these CSV files" (POST /data/ingest)
@@ -152,24 +152,24 @@ GET  /emails/delivery-log            # Email delivery history
 8. Report Generator → Email Service: "Send these reports to recipients"
 9. Email Service → Outlook Relay: "Send these emails with attachments"
 10. Email Service → Scheduler: "Delivery complete" (status callback)
-```
+```text
 
 ### Manual Reprocessing
-```
+```text
 1. User via Console: "Reprocess data for 2025-07-15"
 2. Scheduler → DB Service: "Clear data for 2025-07-15"
 3. Scheduler → Outlook Relay: "Re-fetch emails for 2025-07-15"
 4. [Standard flow continues from step 3 above]
-```
+```text
 
 ### Hourly Incremental Updates
-```
+```text
 1. Scheduler triggers hourly job
 2. Outlook Relay fetches last hour's emails
 3. DB Service merges new data with existing
 4. Report Generator updates live dashboard reports
 5. Email Service sends alerts if thresholds exceeded
-```
+```text
 
 ## Service Configuration
 
@@ -187,7 +187,7 @@ email_service = "http://email-server:8084"
 api_key = "shared-service-key"
 inter_service_timeout = 30
 retry_attempts = 3
-```
+```text
 
 ### Service Discovery & Health Monitoring
 ```toml
@@ -200,7 +200,7 @@ endpoints = [
     "http://report-generator:8083/health",
     "http://email-service:8084/health"
 ]
-```
+```text
 
 ## Technology Stack by Service
 
@@ -240,7 +240,7 @@ python db_service.py              # Port 8081
 python scheduler_service.py       # Port 8082
 python report_generator_service.py # Port 8083
 python email_service.py           # Port 8084
-```
+```text
 
 ### Option 2: Docker Compose
 ```yaml
@@ -267,7 +267,7 @@ services:
   email-service:
     build: ./services/email-service
     ports: ["8084:8084"]
-```
+```text
 
 ### Option 3: Distributed Deployment
 - Outlook Relay: Windows server with Outlook

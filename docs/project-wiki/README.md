@@ -8,15 +8,15 @@ Welcome to the Charlie Reporting project wiki! This documentation system tracks 
 
 Track development progress, achievements, and learnings through regular sprint retrospectives.
 
-### 📋 [Project Milestones](#project-milestones)
+### 📋 [Project Milestones](# project-milestones)
 
 Major achievement tracking and phase completion status.
 
-### 🏗️ [Architecture Documentation](#architecture-docs)
+### 🏗️ [Architecture Documentation](# architecture-docs)
 
 Technical architecture, design decisions, and system blueprints.
 
-### 📈 [Development Metrics](#development-metrics)
+### 📈 [Development Metrics](# /docs/project-wiki/README.md#development-metrics)
 
 Code quality, performance benchmarks, and technical debt tracking.
 
@@ -72,7 +72,7 @@ Charlie Reporting is a microservices-based email automation platform that transf
 
 ### **Core Services Architecture**
 
-```
+```text
 ┌──────────────────┐    ┌────────────────────┐    ┌────────────────────┐
 │ Outlook Relay    │────│    Database        │────│  Report Generator  │
 │ Service (8080)   │    │   Service (8081)   │    │   Service (8083)   │
@@ -89,7 +89,7 @@ Charlie Reporting is a microservices-based email automation platform that transf
                 │        Email Service            │
                 │          (8084)                 │
                 └─────────────────────────────────┘
-```
+```text
 
 ### **Technical Documentation**
 

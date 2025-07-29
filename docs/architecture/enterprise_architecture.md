@@ -10,7 +10,7 @@ A production-ready microservices platform demonstrating enterprise patterns:
 ## Core Architecture Principles
 
 ### 1. Separation of Concerns (SoC)
-```
+```text
 ┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
 │   Business      │    │   Interface     │    │   Infrastructure│
 │   Logic Layer   │    │   Layer         │    │   Layer         │
@@ -20,12 +20,12 @@ A production-ready microservices platform demonstrating enterprise patterns:
 │ • Validators    │    │ • CLI Commands  │    │ • Health Checks │
 │ • Rules Engine  │    │ • Web Dashboard │    │ • Config Mgmt   │
 └─────────────────┘    └─────────────────┘    └─────────────────┘
-```
+```text
 
 ### 2. Service Architecture Pattern
 Each service follows the same structure for consistency and maintainability:
 
-```
+```text
 service-name/
 ├── app/
 │   ├── business/          # Business Logic Layer
@@ -46,7 +46,7 @@ service-name/
 ├── Dockerfile
 ├── requirements.txt
 └── service.bat           # Windows service runner
-```
+```text
 
 ## Service Definitions with Enterprise Patterns
 
@@ -73,7 +73,7 @@ class EmailMetrics:
     emails_processed_total = Counter()
     email_processing_duration = Histogram()
     outlook_connection_status = Gauge()
-```
+```text
 
 ### 2. Data Service
 **Business Logic**: Data ingestion, deduplication, transformation, storage
@@ -98,7 +98,7 @@ class DataMetrics:
     records_ingested_total = Counter()
     duplicate_records_found = Counter()
     data_processing_duration = Histogram()
-```
+```text
 
 ### 3. Scheduler Service (Orchestrator)
 **Business Logic**: Job scheduling, workflow orchestration, dependency management
@@ -123,7 +123,7 @@ class SchedulerMetrics:
     jobs_scheduled_total = Counter()
     job_execution_duration = Histogram()
     workflow_success_rate = Gauge()
-```
+```text
 
 ### 4. Report Generator Service
 **Business Logic**: Excel generation, template management, data aggregation
@@ -148,7 +148,7 @@ class ReportMetrics:
     reports_generated_total = Counter()
     report_generation_duration = Histogram()
     template_usage_count = Counter()
-```
+```text
 
 ### 5. Email Delivery Service
 **Business Logic**: Email templating, delivery management, recipient handling
@@ -173,7 +173,7 @@ class EmailDeliveryMetrics:
     emails_sent_total = Counter()
     email_delivery_duration = Histogram()
     delivery_success_rate = Gauge()
-```
+```text
 
 ## Common Service Infrastructure
 
@@ -218,7 +218,7 @@ class BaseService(ABC):
             timestamp=datetime.utcnow(),
             dependencies=await self._check_dependencies()
         )
-```
+```text
 
 ### 2. Service Communication Layer
 ```python
@@ -261,7 +261,7 @@ class EventPublisher:
         # For now, HTTP callback
         # Later: await self.producer.send(topic, event.dict())
         pass
-```
+```text
 
 ### 3. Configuration Management
 ```python
@@ -301,7 +301,7 @@ class DataServiceConfig(ServiceConfig):
     database_url: str = Field(..., env="DATABASE_URL")
     max_batch_size: int = 1000
     dedup_strategy: str = "strict"
-```
+```text
 
 ### 4. Observability Stack
 ```python
@@ -379,7 +379,7 @@ class HealthChecker:
                 health_status["status"] = "degraded"
         
         return health_status
-```
+```text
 
 ## Windows Desktop Deployment (Phase 1)
 
@@ -459,7 +459,7 @@ class ServiceManager:
 if __name__ == "__main__":
     manager = ServiceManager()
     manager.start_all()
-```
+```text
 
 ### Windows Batch File
 ```batch
@@ -482,7 +482,7 @@ REM Start service manager
 python scripts/run_services.py
 
 pause
-```
+```text
 
 ## Portfolio Demonstration Value
 

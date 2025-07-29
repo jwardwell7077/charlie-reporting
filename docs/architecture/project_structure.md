@@ -1,6 +1,6 @@
 # Charlie Reporting - Microservices Project Structure
 
-```
+```text
 charlie-reporting/
 ├── README.md
 ├── docker-compose.yml                    # Multi-service deployment
@@ -186,7 +186,7 @@ charlie-reporting/
     └── ansible/
         ├── playbook.yml
         └── roles/
-```
+```text
 
 ## File Templates
 
@@ -219,8 +219,8 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=settings.allowed_origins,
     allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_methods=[""],
+    allow_headers=[""],
 )
 
 # Include routers
@@ -245,7 +245,7 @@ if __name__ == "__main__":
         reload=settings.debug,
         log_level=settings.log_level.lower()
     )
-```
+```text
 
 ### Docker Compose Template
 ```yaml
@@ -357,7 +357,7 @@ services:
 
 volumes:
   postgres_data:
-```
+```text
 
 ## Implementation Priority
 

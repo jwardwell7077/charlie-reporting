@@ -26,7 +26,6 @@ python3 scripts/start_dev_services.py
 
 ## 📁 Project Structure
 
-```
 ├── services/              # Microservices
 │   ├── report_generator/   # CSV processing & Excel generation
 │   ├── email-service/      # Email processing
@@ -61,7 +60,6 @@ python3 scripts/start_dev_services.py
 ├── demo/                 # Demo data & scripts
 ├── logs/                 # Application logs
 └── legacy_backup/        # Backup of migrated code
-```
 
 ## 🏗️ Architecture
 
