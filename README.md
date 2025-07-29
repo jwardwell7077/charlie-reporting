@@ -8,6 +8,7 @@ A modern, enterprise-grade microservices platform for email-based CSV data proce
 **Overall Progress**: Foundation established, business logic implemented, moving to full microservices API implementation
 
 ### **Recent Achievements**
+
 - ✅ **Phase 1 Business Logic**: Complete CSV transformation and Excel report generation services
 - ✅ **WSL Development Environment**: Permanent setup with 80+ enterprise packages  
 - ✅ **Microservices Architecture**: Service structure established with clean separation of concerns
@@ -16,11 +17,13 @@ A modern, enterprise-grade microservices platform for email-based CSV data proce
 ## 📚 Documentation & Project Wiki
 
 ### **🏃‍♂️ [Sprint Reviews & Progress Tracking](/docs/sprint-reviews/)**
+
 - **[Latest: Phase 1 Review & Phase 2 Planning](/docs/sprint-reviews/2025-07-28-phase1-review.md)** *(July 28, 2025)*
 - Regular sprint retrospectives with technical achievements and learning outcomes
 - Comprehensive project milestone tracking and decision documentation
 
 ### **📋 [Project Wiki & Milestones](/docs/project-wiki/)**
+
 - **[Project Overview & Navigation](/docs/project-wiki/README.md)**: Complete documentation system
 - **[Phase Tracking & Success Metrics](/docs/project-wiki/milestones.md)**: Detailed milestone progress
 - **[Architecture Documentation](/docs/project-wiki/README.md#architecture-docs)**: Technical design and patterns
@@ -28,6 +31,7 @@ A modern, enterprise-grade microservices platform for email-based CSV data proce
 ## 🏗️ Architecture Overview
 
 ### **Microservices Design** *(5 Services)*
+
 ```
 ┌──────────────────┐    ┌────────────────────┐    ┌────────────────────┐
 │ Outlook Relay    │────│    Database        │────│  Report Generator  │
@@ -48,6 +52,7 @@ A modern, enterprise-grade microservices platform for email-based CSV data proce
 ```
 
 ### **Technology Stack**
+
 - **Backend**: Python, FastAPI, SQLAlchemy, Pydantic
 - **Testing**: pytest, coverage, black, flake8
 - **Development**: WSL2, VS Code, automated task workflow
@@ -55,6 +60,7 @@ A modern, enterprise-grade microservices platform for email-based CSV data proce
 - **Monitoring**: Prometheus, Grafana (planned)
 
 ## Features
+
 - **Enterprise Microservices Architecture**: 5 independent services with REST APIs
 - **Production-Ready Patterns**: Health checks, monitoring, error handling, retry logic
 - **Developer Experience**: Comprehensive VS Code integration with automated workflows
@@ -63,16 +69,19 @@ A modern, enterprise-grade microservices platform for email-based CSV data proce
 - **Modern Configuration**: TOML-based config with environment-specific settings
 
 ## Authors & Credits
+
 - Jonathan Wardwell
 - GitHub Copilot (AI code assistant)
 - Prompt inspiration: GPT-4o
 
 ## License
+
 MIT License (see LICENSE file)
 
 ## Quick Start
 
 ### **Development Environment Setup**
+
 ```bash
 # Clone and setup (WSL2/Linux recommended)
 git clone https://github.com/jwardwell7077/charlie-reporting.git
@@ -88,6 +97,7 @@ pip install -r requirements-unified.txt
 ```
 
 ### **VS Code Development Workflow**
+
 The project includes comprehensive VS Code integration with automated tasks:
 
 ```bash
@@ -103,6 +113,7 @@ The project includes comprehensive VS Code integration with automated tasks:
 ```
 
 ### **Phase 1 Business Logic Demo**
+
 ```bash
 # Run Phase 1 implementation demo
 python services/report-generator/src/main_phase1.py
@@ -111,6 +122,7 @@ python services/report-generator/src/main_phase1.py
 ```
 
 ### **Testing & Quality**
+
 ```bash
 # Run comprehensive test suite
 python -m pytest -v --tb=short tests/
@@ -125,6 +137,7 @@ python -m black .
 ```
 
 ## Project Structure
+
 ```
 charlie-reporting/
 ├── services/                    # 🏗️ Microservices architecture
@@ -148,23 +161,30 @@ charlie-reporting/
 ```
 
 ## Quickstart
+
 1. Clone the repo and create a virtual environment:
+
    ```sh
    python -m venv .venv
    .venv\Scripts\activate  # Windows
    pip install -r requirements.txt
    ```
+
 2. Edit `config/config.toml` to match your data and reporting needs.
 3. Run the main pipeline:
+
    ```sh
    python src/main.py
    ```
+
 4. Run tests:
+
    ```sh
    python -m pytest --maxfail=3 --disable-warnings -v
    ```
 
 ## Project Structure
+
 ```
 charlie-reporting/
 ├── services/           # Service-based architecture
@@ -186,10 +206,12 @@ charlie-reporting/
 ```
 
 ## Extending
+
 - Add new report types or data sources by subclassing and updating the config.
 - All config and column mapping is TOML-based for clarity and future DB integration.
 
 ---
 
 *Built with ❤️ by Jonathan Wardwell, Copilot, and GPT-4o inspiration.*
+
 # charlie-reporting
