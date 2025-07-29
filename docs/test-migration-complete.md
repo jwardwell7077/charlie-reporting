@@ -63,21 +63,25 @@ Successfully migrated all tests from the centralized `tests/` directory into ind
 ## 🎯 **Key Benefits**
 
 ### **1. Co-location**
+
 - Tests are now located with their respective services
 - Easier to find and maintain tests for specific functionality
 - Clear ownership and responsibility
 
 ### **2. Service Independence**
+
 - Each service can have its own test configuration
 - Independent test execution per service
 - Isolated test environments
 
 ### **3. Better Organization**
+
 - Clear separation between unit, integration, API, and performance tests
 - Legacy tests clearly marked and separated
 - Shared utilities in dedicated location
 
 ### **4. Improved Maintainability**
+
 - Easier to add new tests when developing features
 - Better test discovery and execution
 - Clear test hierarchy
@@ -85,6 +89,7 @@ Successfully migrated all tests from the centralized `tests/` directory into ind
 ## 🔧 **Updated Configuration**
 
 ### **pytest.ini Updates**
+
 ```ini
 testpaths = services/*/tests shared/tests scripts
 pythonpath = . shared services/report_generator services/email-service services/outlook-relay
@@ -100,9 +105,11 @@ markers =
 ```
 
 ### **Test Runner**
+
 New service-based test runner: `scripts/test_runner.py`
 
 **Usage Examples:**
+
 ```bash
 # Run all tests
 python3 scripts/test_runner.py
