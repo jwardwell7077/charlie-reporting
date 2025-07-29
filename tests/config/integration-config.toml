@@ -3,6 +3,9 @@ debug = true
 log_level = "DEBUG"
 date_format = "%Y-%m-%d"
 
+# Cross-platform note: All paths use forward slashes
+# pathlib will automatically convert to the correct OS-specific format
+
 [integration_tests]
 enabled = true  # ENABLED: Ready to run integration tests
 cleanup_emails = true

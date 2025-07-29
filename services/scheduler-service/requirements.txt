@@ -1,0 +1,14 @@
+# Scheduler-Service Service Requirements
+
+# === Shared Components ===
+# Install shared requirements: pip install -r ../../shared/requirements.txt
+
+# === Service-Specific Dependencies ===
+
+# Scheduling
+apscheduler>=3.10.0
+croniter>=1.4.0
+
+# Background tasks
+celery>=5.3.0
+redis>=5.0.0

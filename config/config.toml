@@ -3,15 +3,24 @@ debug = false
 log_level = "INFO"
 date_format = "%Y-%m-%d"
 
+# Cross-platform note: All paths use forward slashes
+# pathlib will automatically convert to the correct OS-specific format
+
 [email]
 outlook_folder = "Inbox/Genesys"
 outlook_account = "user@company.com"  # Specific account email to use (optional)
 sender = ["reports@example.com"]
 subject_contains = ["Daily Report"]
 
+# IMAP Settings (for Linux/WSL2)
+imap_server = "imap.gmail.com"  # Gmail IMAP server
+# imap_server = "outlook.office365.com"  # Office 365 IMAP server
+imap_port = 993
+receiver_address = ""  # Will be read from INTEGRATION_TEST_RECEIVER_EMAIL environment variable
+
 [directory_scan]
 enabled = false
-scan_path = "./data/incoming"  # Directory to scan for CSV files - Linux/WSL2 path
+scan_path = "data/incoming"  # Cross-platform path - forward slashes work on both Linux and Windows
 process_subdirs = false  # Whether to scan subdirectories
 
 [attachments]
@@ -25,6 +34,6 @@ process_subdirs = false  # Whether to scan subdirectories
 
 
 [output]
-excel_dir = "./reports"  # Linux/WSL2 path
-archive_dir = "./data/archive"  # Linux/WSL2 path
+excel_dir = "reports"        # Cross-platform path - pathlib will handle OS-specific separators
+archive_dir = "data/archive" # Cross-platform path - pathlib will handle OS-specific separators
 excel_prefix = "report_"

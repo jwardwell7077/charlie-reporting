@@ -3,6 +3,7 @@ excel_writer.py
 ---------------
 Handles writing DataFrames to Excel files with support for incremental updates,
 custom reports, and end-of-day summaries.
+Uses pathlib for cross-platform path handling.
 
 Author: Jonathan Wardwell, Copilot, GPT-4o
 License: MIT
@@ -12,6 +13,7 @@ import os
 import pandas as pd
 from datetime import datetime
 from typing import Dict, List, Optional
+from pathlib import Path
 from openpyxl import load_workbook, Workbook
 from logger import LoggerFactory
 
@@ -23,10 +25,12 @@ class ExcelWriter:
     - Incremental hourly updates
     - On-demand custom reports
     - End-of-day summary reports
+    
+    Uses pathlib for cross-platform path compatibility.
     """
     
     def __init__(self, output_dir: str = 'data/output', log_file: str = 'report.log'):
-        self.output_dir = output_dir
+        self.output_dir = Path(output_dir)  # Convert to Path object
         self.logger = LoggerFactory.get_logger('excel_writer', log_file)
         self.logger.debug("ExcelWriter.__init__: Starting initialization")
         self.logger.debug(f"ExcelWriter.__init__: output_dir={output_dir}, log_file={log_file}")
@@ -52,13 +56,13 @@ class ExcelWriter:
             self.logger.debug("ExcelWriter.write: Method completed - no data")
             return None
 
-        output_path = os.path.join(self.output_dir, f'report_{date_str}.xlsx')
+        output_path = self.output_dir / f'report_{date_str}.xlsx'
         self.logger.info(f'Writing Excel report to {output_path}')
         self.logger.debug(f"ExcelWriter.write: output_path={output_path}")
 
         try:
             # Ensure output directory exists
-            os.makedirs(self.output_dir, exist_ok=True)
+            self.output_dir.mkdir(parents=True, exist_ok=True)
             self.logger.debug("ExcelWriter.write: Output directory created/verified")
             
             with pd.ExcelWriter(output_path, engine='openpyxl') as writer:
@@ -90,15 +94,15 @@ class ExcelWriter:
             self.logger.info('No incremental data to write.')
             return None
 
-        daily_file_path = os.path.join(self.output_dir, f'daily_{date_str}.xlsx')
+        daily_file_path = self.output_dir / f'daily_{date_str}.xlsx'
         self.logger.info(f'Writing incremental data for {hour_str} to {daily_file_path}')
 
         try:
             # Ensure output directory exists
-            os.makedirs(self.output_dir, exist_ok=True)
+            self.output_dir.mkdir(parents=True, exist_ok=True)
             
             # Load existing workbook or create new one
-            if os.path.exists(daily_file_path):
+            if daily_file_path.exists():
                 workbook = load_workbook(daily_file_path)
                 existing_data = self._load_existing_data(daily_file_path)
             else:
@@ -140,12 +144,12 @@ class ExcelWriter:
             self.logger.warning('No data for custom report.')
             return None
 
-        output_path = os.path.join(self.output_dir, filename)
+        output_path = self.output_dir / filename
         self.logger.info(f'Writing custom report to {output_path}')
 
         try:
             # Ensure output directory exists
-            os.makedirs(self.output_dir, exist_ok=True)
+            self.output_dir.mkdir(parents=True, exist_ok=True)
             
             with pd.ExcelWriter(output_path, engine='openpyxl') as writer:
                 for sheet_name, df_list in report_data.items():
@@ -174,12 +178,12 @@ class ExcelWriter:
             self.logger.warning('No data for summary report.')
             return None
 
-        output_path = os.path.join(self.output_dir, filename)
+        output_path = self.output_dir / filename
         self.logger.info(f'Writing summary report to {output_path}')
 
         try:
             # Ensure output directory exists
-            os.makedirs(self.output_dir, exist_ok=True)
+            self.output_dir.mkdir(parents=True, exist_ok=True)
             
             with pd.ExcelWriter(output_path, engine='openpyxl') as writer:
                 # Write metadata sheet first if it exists

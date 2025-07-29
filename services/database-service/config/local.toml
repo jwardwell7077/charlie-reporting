@@ -1,0 +1,18 @@
+[service]
+name = "database-service"
+host = "localhost"
+port = 8081
+debug = true
+environment = "local"
+
+[logging]
+level = "DEBUG"
+file = "logs/database-service-local.log"
+json_format = true
+
+[metrics]
+enabled = true
+port = 9091
+
+[health]
+check_interval = 30.0

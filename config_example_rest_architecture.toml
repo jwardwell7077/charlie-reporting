@@ -1,0 +1,68 @@
+# Configuration for REST API Email Architecture
+# This shows how to configure both the Windows email service and the main application
+
+# Main Application Configuration (runs on Linux/cross-platform)
+[email_service]
+url = "http://email-server.company.com:8080"
+api_key = "your-secure-api-key-here"
+timeout_seconds = 60
+retry_attempts = 2
+
+# Fallback configuration - directory scanning when email service is unavailable
+[directory_scan]
+enabled = true
+scan_path = "/shared/network/emails"  # Network share or local path
+process_subdirs = false
+
+# Email filtering (sent to Windows service)
+[global_filter]
+sender = ["reports@example.com", "automation@company.com"]
+subject_contains = ["Daily Report", "Hourly Data"]
+
+# Attachment processing rules (sent to Windows service)
+[attachment_rules]
+"IB_Calls.csv" = { columns = ["Agent Name", "Phone Number"] }
+"Dials.csv" = { columns = ["Agent Name", "Handle", "Campaign"] }
+"Productivity.csv" = { columns = ["Agent Name", "Talk Time"] }
+"QCBS.csv" = { columns = ["Agent Name", "QC Score"] }
+
+# Output settings
+[output]
+data_dir = "data/raw"
+archive_dir = "data/archive"
+
+# =====================================
+# Windows Email Service Configuration
+# (Place this in a separate config file on the Windows server)
+# =====================================
+
+# Service settings
+[service]
+port = 8080
+host = "0.0.0.0"  # Listen on all interfaces
+log_level = "INFO"
+max_concurrent_requests = 5
+
+# Security settings
+[security]
+api_key = "your-secure-api-key-here"  # Must match main app config
+# Optional: restrict access by IP
+allowed_ips = ["192.168.1.0/24", "10.0.0.0/8"]
+
+# Outlook configuration
+[outlook]
+profile_name = "EmailService"  # Outlook profile name for service account
+timeout_seconds = 30
+retry_attempts = 3
+
+# File storage on Windows service
+[file_storage]
+output_directory = "C:/EmailService/Output"
+retention_days = 7  # Clean up old files
+max_file_size_mb = 100
+
+# Logging configuration
+[logging]
+log_file = "C:/EmailService/Logs/email_service.log"
+max_log_size_mb = 50
+backup_count = 5

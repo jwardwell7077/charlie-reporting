@@ -15,6 +15,7 @@ import argparse
 import time
 from datetime import datetime, timedelta
 from typing import Dict, List, Optional
+from pathlib import Path
 from config_loader import ConfigLoader
 from email_fetcher import EmailFetcher
 # from db_service.db_processor import DBProcessor  # Temporarily disabled for demo
@@ -292,21 +293,24 @@ def main():
     config_path = None
     if args.config:
         # User specified a config path
-        config_path = args.config
-        if not os.path.exists(config_path):
+        config_path = Path(args.config)
+        if not config_path.exists():
             print(f"❌ Specified config file not found: {config_path}")
             sys.exit(1)
     else:
         # Try default locations in priority order
+        current_dir = Path.cwd()
+        src_dir = Path(__file__).parent
+        
         default_paths = [
-            os.path.join(os.getcwd(), 'config.toml'),            # ./config.toml (demo directory)
-            os.path.join(os.getcwd(), 'config', 'config.toml'),  # ./config/config.toml (main project)
-            os.path.join(os.path.dirname(os.getcwd()), 'config', 'config.toml'),  # ../config/config.toml
-            os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'config', 'config.toml'),  # src/../config/config.toml
+            current_dir / 'config.toml',                    # ./config.toml (demo directory)
+            current_dir / 'config' / 'config.toml',        # ./config/config.toml (main project)
+            current_dir.parent / 'config' / 'config.toml', # ../config/config.toml
+            src_dir.parent / 'config' / 'config.toml',     # src/../config/config.toml
         ]
         
         for path in default_paths:
-            if os.path.exists(path):
+            if path.exists():
                 config_path = path
                 break
         

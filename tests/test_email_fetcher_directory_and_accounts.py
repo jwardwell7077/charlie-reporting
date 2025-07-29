@@ -1,7 +1,8 @@
 """
 test_email_fetcher_directory_and_accounts.py
 ---------------------------------------------
-Tests for directory scanning and multiple Outlook account functionality in EmailFetcher.
+Tests for directory scanning and REST API email service functionality in EmailFetcher.
+Updated to test the new Windows Email Service + REST API architecture.
 
 Author: Jonathan Wardwell, Copilot, GPT-4o
 License: MIT
@@ -12,8 +13,9 @@ import pytest
 import tempfile
 import shutil
 from datetime import datetime, timedelta
-from unittest.mock import Mock, patch
+from unittest.mock import Mock, patch, MagicMock
 import glob
+import json
 
 # Import the classes we're testing
 import sys
