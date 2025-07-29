@@ -18,17 +18,27 @@ class EmailFetcher:
         self.config = config
         self.save_dir = save_dir
         self.logger = LoggerFactory.get_logger('email_fetcher', log_file)
+        self.logger.debug("EmailFetcher.__init__: Starting initialization")
+        self.logger.debug(f"EmailFetcher.__init__: save_dir={save_dir}, log_file={log_file}")
+        self.logger.debug("EmailFetcher.__init__: Initialization complete")
 
     def fetch(self, date_str: str):
         """
         Legacy method: Fetch emails received on date_str (YYYY-MM-DD), apply filters, and save CSV attachments.
         Also scans directory if enabled in config.
         """
+        self.logger.debug("EmailFetcher.fetch: Starting method")
+        self.logger.debug(f"EmailFetcher.fetch: date_str={date_str}")
         self.fetch_for_timeframe(date_str)
         
         # Also scan directory if enabled
         if hasattr(self.config, 'directory_scan') and self.config.directory_scan.get('enabled', False):
+            self.logger.debug("EmailFetcher.fetch: Directory scan enabled, calling _scan_directory_for_date")
             self._scan_directory_for_date(date_str)
+        else:
+            self.logger.debug("EmailFetcher.fetch: Directory scan disabled or not configured")
+        
+        self.logger.debug("EmailFetcher.fetch: Method completed")
 
     def fetch_for_timeframe(self, date_str: str, start_hour: Optional[int] = None, end_hour: Optional[int] = None):
         """
@@ -39,11 +49,16 @@ class EmailFetcher:
             start_hour: Starting hour (0-23), None for full day
             end_hour: Ending hour (0-23), None for full day
         """
+        self.logger.debug("EmailFetcher.fetch_for_timeframe: Starting method")
+        self.logger.debug(f"EmailFetcher.fetch_for_timeframe: date_str={date_str}, start_hour={start_hour}, end_hour={end_hour}")
+        
         # Parse target date
         try:
             target_date = datetime.strptime(date_str, '%Y-%m-%d').date()
+            self.logger.debug(f"EmailFetcher.fetch_for_timeframe: Parsed target_date={target_date}")
         except ValueError:
             self.logger.error(f"Invalid date format: {date_str}. Expected YYYY-MM-DD.")
+            self.logger.debug("EmailFetcher.fetch_for_timeframe: Method completed with error")
             return
 
         # Set time boundaries
@@ -51,25 +66,32 @@ class EmailFetcher:
             start_time = datetime.combine(target_date, datetime.min.time()).replace(hour=start_hour)
             end_time = datetime.combine(target_date, datetime.min.time()).replace(hour=end_hour, minute=59, second=59)
             self.logger.info(f"Fetching emails from {start_time} to {end_time}")
+            self.logger.debug(f"EmailFetcher.fetch_for_timeframe: Time range - start_time={start_time}, end_time={end_time}")
         else:
             start_time = datetime.combine(target_date, datetime.min.time())
             end_time = datetime.combine(target_date, datetime.max.time())
             self.logger.info(f"Fetching emails for full day: {target_date}")
+            self.logger.debug(f"EmailFetcher.fetch_for_timeframe: Full day - start_time={start_time}, end_time={end_time}")
 
         global_filter = self.config.global_filter
         attachment_rules = self.config.attachment_rules
+        self.logger.debug(f"EmailFetcher.fetch_for_timeframe: Loaded {len(attachment_rules)} attachment rules")
 
         # Connect to Outlook
         try:
+            self.logger.debug("EmailFetcher.fetch_for_timeframe: Connecting to Outlook")
             outlook = win32com.client.Dispatch('Outlook.Application').GetNamespace('MAPI')
             inbox = self._get_inbox_for_account(outlook)
             messages = inbox.Items
             messages.Sort('[ReceivedTime]', True)
+            self.logger.debug(f"EmailFetcher.fetch_for_timeframe: Connected to Outlook, found {messages.Count} messages")
         except Exception as e:
             self.logger.error(f"Failed to connect to Outlook: {e}")
+            self.logger.debug("EmailFetcher.fetch_for_timeframe: Method completed with Outlook connection error")
             return
 
         processed_count = 0
+        self.logger.debug("EmailFetcher.fetch_for_timeframe: Starting email processing loop")
         for msg in messages:
             try:
                 # Get email received time as datetime
@@ -88,12 +110,16 @@ class EmailFetcher:
                     self.logger.debug(f"Skipping email from {getattr(msg, 'SenderEmailAddress', 'Unknown')} - filter mismatch")
                     continue
 
+                self.logger.debug(f"EmailFetcher.fetch_for_timeframe: Processing valid email from {getattr(msg, 'SenderEmailAddress', 'Unknown')} received at {received_dt}")
+
                 # Process attachments
                 attachment_count = getattr(msg, 'Attachments', {})
                 if hasattr(attachment_count, 'Count'):
+                    self.logger.debug(f"EmailFetcher.fetch_for_timeframe: Found {attachment_count.Count} attachments")
                     for i in range(1, attachment_count.Count + 1):
                         attachment = attachment_count.Item(i)
                         filename = getattr(attachment, 'FileName', '')
+                        self.logger.debug(f"EmailFetcher.fetch_for_timeframe: Processing attachment {i}: {filename}")
 
                         if not filename.lower().endswith('.csv'):
                             self.logger.debug(f"Skipping non-CSV attachment: {filename}")
@@ -103,6 +129,8 @@ class EmailFetcher:
                         if not rule:
                             self.logger.info(f"No matching rule for attachment: {filename}")
                             continue
+
+                        self.logger.debug(f"EmailFetcher.fetch_for_timeframe: Found matching rule for {filename}")
 
                         # Build new filename with timestamp for hourly processing
                         base, ext = os.path.splitext(filename)
@@ -121,6 +149,7 @@ class EmailFetcher:
                             self.logger.debug(f"File already exists, skipping: {new_name}")
                             continue
                         
+                        self.logger.debug(f"EmailFetcher.fetch_for_timeframe: Saving attachment as: {new_name}")
                         attachment.SaveAsFile(save_path)
                         processed_count += 1
 

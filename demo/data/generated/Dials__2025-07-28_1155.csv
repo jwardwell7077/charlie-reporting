@@ -1,7 +1,4 @@
 Interval Start,Interval End,Interval Complete,Filters,Media Type,Agent Id,Agent Name,Handle,Avg Handle,Avg Talk,Avg Hold,Avg ACW,Total Handle,Total Talk,Total Hold,Total ACW
-2025-07-28 11:55:00,2025-07-28 12:55:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,3775a1f6-e5fd-47bd-8039-e8f8d3a1a6bf,Leo Young,166,188402,38510,26695,18517,31274732,6392660,4431370,3332284
-2025-07-28 11:55:00,2025-07-28 12:55:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,1be98524-f56c-41bb-a6ff-3e14bb3dfb84,Judy Walker,230,83939,22651,11113,19888,19305970,5209730,2555990,4074220
-2025-07-28 11:55:00,2025-07-28 12:55:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,24bb913e-5636-4db3-aab7-1213b0928274,Bob Johnson,116,100940,57983,17348,12728,11709040,6726028,2012368,3367596
-2025-07-28 11:55:00,2025-07-28 12:55:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,589f3a7c-22e4-451f-91c0-8adc6b4e7f3d,Xavier Nguyen,15,91946,64645,6997,12643,1379190,969675,104955,390585
-2025-07-28 11:55:00,2025-07-28 12:55:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,8c5912fa-6b3e-4baa-9c0e-3f5a423e4d18,Brian Perez,172,217905,35733,14929,23593,37479660,6146076,2567788,2873604
-2025-07-28 11:55:00,2025-07-28 12:55:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,a07d4b63-36f1-4972-8e9b-c1d2e3f4a5b6,Yolanda Morales,87,217192,18702,918,6350,18895704,1627074,79866,2526219
+2025-07-28 11:55:00,2025-07-28 12:55:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,a10dac0a-bb6c-4eb3-81df-d8f45f96770f,Marie King,194,135403,67108,5125,28733,26268182,13018952,994250,4814886
+2025-07-28 11:55:00,2025-07-28 12:55:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,37f0a1b2-2e3d-4f4c-b9fa-1d2e3a4b5c6d,Christine Roberts,67,115736,19001,1546,19879,7754312,1273067,103582,1137526
+2025-07-28 11:55:00,2025-07-28 12:55:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,3775a1f6-e5fd-47bd-8039-e8f8d3a1a6bf,Leo Young,24,31308,47634,14693,29831,751392,1143216,352632,618768

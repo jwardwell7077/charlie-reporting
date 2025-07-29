@@ -1,7 +1,7 @@
 Interval Start,Interval End,Interval Complete,Filters,Media Type,Agent Id,Agent Name,Handle,Avg Handle,Avg Talk,Avg Hold,Avg ACW,Total Handle,Total Talk,Total Hold,Total ACW
-2025-07-28 12:30:00,2025-07-28 13:30:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,a10dac0a-bb6c-4eb3-81df-d8f45f96770f,Marie King,225,153614,53632,5306,6679,34563150,12067200,1193850,1209375
-2025-07-28 12:30:00,2025-07-28 13:30:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,,,190,166351,17654,13134,8778,31606690,3354260,2495460,4646830
-2025-07-28 12:30:00,2025-07-28 13:30:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,65fe4098-4972-4d06-8d5e-cfebc479b2ac,Grace Lee,56,197824,45768,29323,14354,11078144,2563008,1642088,805112
-2025-07-28 12:30:00,2025-07-28 13:30:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,c7ca8c70-fce5-4eee-a913-813af2d2b9a4,Frank Miller,38,72308,11102,8684,27971,2747704,421876,329992,271168
-2025-07-28 12:30:00,2025-07-28 13:30:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,8c5912fa-6b3e-4baa-9c0e-3f5a423e4d18,Brian Perez,180,143297,39162,17519,27247,25793460,7049160,3153420,4055580
-2025-07-28 12:30:00,2025-07-28 13:30:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,5d3eedaf-cbf2-4fdc-aaf9-2e39f1c21e12,Heidi Clark,10,139111,64209,27266,21804,1391110,642090,272660,61880
+2025-07-28 12:30:00,2025-07-28 13:30:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,7b6c2d91-3f28-4e66-b2a1-5f9e2f8d3a4b,Victor Ramirez,155,217306,31664,13492,25961,33682430,4907920,2091260,2671425
+2025-07-28 12:30:00,2025-07-28 13:30:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,758a9386-a5db-43ee-8c79-cafe99a9d541,Rachel Turner,221,68314,67373,28758,8937,15097394,14889433,6355518,6236620
+2025-07-28 12:30:00,2025-07-28 13:30:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,e258b370-9093-401d-bcbf-d939ab51b265,Steve Phillips,38,243883,40372,21415,28874,9267554,1534136,813770,929936
+2025-07-28 12:30:00,2025-07-28 13:30:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,08f54f08-058a-4e0b-9ec4-a738a595da3c,Charlie Brown,76,233906,79869,18458,16399,17776856,6070044,1402808,590824
+2025-07-28 12:30:00,2025-07-28 13:30:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,589f3a7c-22e4-451f-91c0-8adc6b4e7f3d,Xavier Nguyen,234,199297,49935,9135,11917,46635498,11684790,2137590,4732650
+2025-07-28 12:30:00,2025-07-28 13:30:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,24bb913e-5636-4db3-aab7-1213b0928274,Bob Johnson,221,170937,29260,1646,22732,37777077,6466460,363766,1465451

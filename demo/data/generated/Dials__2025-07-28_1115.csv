@@ -1,5 +1,8 @@
 Interval Start,Interval End,Interval Complete,Filters,Media Type,Agent Id,Agent Name,Handle,Avg Handle,Avg Talk,Avg Hold,Avg ACW,Total Handle,Total Talk,Total Hold,Total ACW
-2025-07-28 11:15:00,2025-07-28 12:15:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,08f54f08-058a-4e0b-9ec4-a738a595da3c,Charlie Brown,201,216152,41727,5290,24533,43446552,8387127,1063290,3062436
-2025-07-28 11:15:00,2025-07-28 12:15:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,5d3eedaf-cbf2-4fdc-aaf9-2e39f1c21e12,Heidi Clark,56,211334,56321,13623,29584,11834704,3153976,762888,1389080
-2025-07-28 11:15:00,2025-07-28 12:15:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,5cce8f28-359c-4531-9d91-93f103f4edc1,Dana White,226,21505,12206,4600,18169,4860130,2758556,1039600,2832232
-2025-07-28 11:15:00,2025-07-28 12:15:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,ce4e5d79-18a2-4b0f-9c9d-7b1e3f5a2c6d,Wendy Flores,75,211599,63597,25160,17641,15869925,4769775,1887000,1478250
+2025-07-28 11:15:00,2025-07-28 12:15:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,ce4e5d79-18a2-4b0f-9c9d-7b1e3f5a2c6d,Wendy Flores,139,30901,75941,10546,11900,4295239,10555799,1465894,3123886
+2025-07-28 11:15:00,2025-07-28 12:15:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,fd3c454b-47c9-491e-9c37-5bc54c413ca4,Nathan Scott,81,27793,20735,4296,12085,2251233,1679535,347976,2034153
+2025-07-28 11:15:00,2025-07-28 12:15:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,65fe4098-4972-4d06-8d5e-cfebc479b2ac,Grace Lee,186,101713,59797,29265,20308,18918618,11122242,5443290,4633632
+2025-07-28 11:15:00,2025-07-28 12:15:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,a16bfe90-f4bd-4b7c-af6e-881454647f5f,Eve Adams,223,100170,54307,26382,8015,22337910,12110461,5883186,1513947
+2025-07-28 11:15:00,2025-07-28 12:15:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,d1f3a0e2-47b9-4c73-a3d9-0c1e7f4b6c29,Ursula Rivera,201,182651,58721,17180,25157,36712851,11802921,3453180,5692923
+2025-07-28 11:15:00,2025-07-28 12:15:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,5d3eedaf-cbf2-4fdc-aaf9-2e39f1c21e12,Heidi Clark,211,155565,51690,6680,17066,32824215,10906590,1409480,2047122
+2025-07-28 11:15:00,2025-07-28 12:15:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,f4e29da3-1c4e-4bd9-9c9f-5a0c7e18e7f8,Amber Gonzalez,232,161875,39773,7689,28364,37555000,9227336,1783848,3054280

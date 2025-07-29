@@ -1,0 +1,57 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Run Integration Tests",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/tests/run_integration_tests.py",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}",
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}/src;${workspaceFolder}/tests"
+            },
+            "envFile": "${workspaceFolder}/.env",
+            "python": "${workspaceFolder}/.venv/Scripts/python.exe"
+        },
+        {
+            "name": "Check Dependencies",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/tests/check_integration_dependencies.py",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}",
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}/src;${workspaceFolder}/tests"
+            },
+            "envFile": "${workspaceFolder}/.env",
+            "python": "${workspaceFolder}/.venv/Scripts/python.exe"
+        },
+        {
+            "name": "Run Main Application",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/run.py",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}",
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}/src"
+            },
+            "envFile": "${workspaceFolder}/.env",
+            "python": "${workspaceFolder}/.venv/Scripts/python.exe"
+        },
+        {
+            "name": "Debug Current File",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}",
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}/src;${workspaceFolder}/tests"
+            },
+            "envFile": "${workspaceFolder}/.env",
+            "python": "${workspaceFolder}/.venv/Scripts/python.exe"
+        }
+    ]
+}

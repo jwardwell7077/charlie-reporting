@@ -1,7 +1,5 @@
 Interval Start,Interval End,Interval Complete,Filters,Media Type,Agent Id,Agent Name,Handle,Avg Handle,Avg Talk,Avg Hold,Avg ACW,Total Handle,Total Talk,Total Hold,Total ACW
-2025-07-28 11:00:00,2025-07-28 12:00:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,a10dac0a-bb6c-4eb3-81df-d8f45f96770f,Marie King,158,151923,43704,19324,20640,24003834,6905232,3053192,3905128
-2025-07-28 11:00:00,2025-07-28 12:00:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,e258b370-9093-401d-bcbf-d939ab51b265,Steve Phillips,69,27545,19022,1018,19980,1900605,1312518,70242,531645
-2025-07-28 11:00:00,2025-07-28 12:00:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,fd3c454b-47c9-491e-9c37-5bc54c413ca4,Nathan Scott,189,45697,12225,8620,9882,8636733,2310525,1629180,5642973
-2025-07-28 11:00:00,2025-07-28 12:00:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,5cce8f28-359c-4531-9d91-93f103f4edc1,Dana White,80,89866,76285,17242,11708,7189280,6102800,1379360,882720
-2025-07-28 11:00:00,2025-07-28 12:00:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,1ed81f99-e294-4ba6-81d4-bb8752c69693,Karen Hall,48,234804,25213,540,22273,11270592,1210224,25920,1171968
-2025-07-28 11:00:00,2025-07-28 12:00:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,08f54f08-058a-4e0b-9ec4-a738a595da3c,Charlie Brown,70,237483,28027,19275,15111,16623810,1961890,1349250,893410
+2025-07-28 11:00:00,2025-07-28 12:00:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,c7ca8c70-fce5-4eee-a913-813af2d2b9a4,Frank Miller,96,27185,77488,7947,23027,2609760,7438848,762912,1560000
+2025-07-28 11:00:00,2025-07-28 12:00:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,1be98524-f56c-41bb-a6ff-3e14bb3dfb84,Judy Walker,52,156251,30451,4472,5541,8125052,1583452,232544,342264
+2025-07-28 11:00:00,2025-07-28 12:00:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,d1f3a0e2-47b9-4c73-a3d9-0c1e7f4b6c29,Ursula Rivera,182,62411,28534,23441,27849,11358802,5193188,4266262,4994990
+2025-07-28 11:00:00,2025-07-28 12:00:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,a10dac0a-bb6c-4eb3-81df-d8f45f96770f,Marie King,25,39791,65932,19763,29479,994775,1648300,494075,201675

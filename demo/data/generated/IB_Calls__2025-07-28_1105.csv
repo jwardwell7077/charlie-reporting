@@ -1,5 +1,4 @@
 Interval Start,Interval End,Interval Complete,Filters,Media Type,Agent Id,Agent Name,Handle,Avg Handle
-2025-07-28 11:05:00,2025-07-28 12:05:00,0.0,Initial Direction: Inbound; Queue: Demo Queue,voice,f4e29da3-1c4e-4bd9-9c9f-5a0c7e18e7f8,Amber Gonzalez,24,09:05
-2025-07-28 11:05:00,2025-07-28 12:05:00,0.0,Initial Direction: Inbound; Queue: Demo Queue,voice,c7ca8c70-fce5-4eee-a913-813af2d2b9a4,Frank Miller,26,27:10
-2025-07-28 11:05:00,2025-07-28 12:05:00,0.0,Initial Direction: Inbound; Queue: Demo Queue,voice,37f0a1b2-2e3d-4f4c-b9fa-1d2e3a4b5c6d,Christine Roberts,18,13:36
-2025-07-28 11:05:00,2025-07-28 12:05:00,0.0,Initial Direction: Inbound; Queue: Demo Queue,voice,9b585b97-8826-4653-9363-696d3fa4570e,Peter Baker,3,26:24
+2025-07-28 11:05:00,2025-07-28 12:05:00,0.0,Initial Direction: Inbound; Queue: Demo Queue,voice,fd3c454b-47c9-491e-9c37-5bc54c413ca4,Nathan Scott,8,05:16
+2025-07-28 11:05:00,2025-07-28 12:05:00,0.0,Initial Direction: Inbound; Queue: Demo Queue,voice,65fe4098-4972-4d06-8d5e-cfebc479b2ac,Grace Lee,3,20:11
+2025-07-28 11:05:00,2025-07-28 12:05:00,0.0,Initial Direction: Inbound; Queue: Demo Queue,voice,08f54f08-058a-4e0b-9ec4-a738a595da3c,Charlie Brown,18,17:04

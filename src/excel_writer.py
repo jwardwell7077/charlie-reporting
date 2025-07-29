@@ -28,7 +28,10 @@ class ExcelWriter:
     def __init__(self, output_dir: str = 'data/output', log_file: str = 'report.log'):
         self.output_dir = output_dir
         self.logger = LoggerFactory.get_logger('excel_writer', log_file)
+        self.logger.debug("ExcelWriter.__init__: Starting initialization")
+        self.logger.debug(f"ExcelWriter.__init__: output_dir={output_dir}, log_file={log_file}")
         # Don't create directory in __init__ - let each method handle it
+        self.logger.debug("ExcelWriter.__init__: Initialization complete")
 
     def write(self, report_data: dict, date_str: str) -> str:
         """
@@ -41,22 +44,31 @@ class ExcelWriter:
         Returns:
             Path to created file
         """
+        self.logger.debug("ExcelWriter.write: Starting method")
+        self.logger.debug(f"ExcelWriter.write: date_str={date_str}")
+        
         if not report_data:
             self.logger.warning('No data to write to Excel.')
+            self.logger.debug("ExcelWriter.write: Method completed - no data")
             return None
 
         output_path = os.path.join(self.output_dir, f'report_{date_str}.xlsx')
         self.logger.info(f'Writing Excel report to {output_path}')
+        self.logger.debug(f"ExcelWriter.write: output_path={output_path}")
 
         try:
             # Ensure output directory exists
             os.makedirs(self.output_dir, exist_ok=True)
+            self.logger.debug("ExcelWriter.write: Output directory created/verified")
             
             with pd.ExcelWriter(output_path, engine='openpyxl') as writer:
                 for sheet_name, df_list in report_data.items():
+                    self.logger.debug(f"ExcelWriter.write: Processing sheet {sheet_name} with {len(df_list)} DataFrames")
                     combined_df = pd.concat(df_list, ignore_index=True)
                     combined_df.to_excel(writer, sheet_name=sheet_name, index=False)
+                    self.logger.debug(f"ExcelWriter.write: Sheet {sheet_name} written with {len(combined_df)} rows")
             self.logger.info('Excel report generation complete.')
+            self.logger.debug("ExcelWriter.write: Method completed successfully")
             return output_path
         except Exception as e:
             self.logger.error(f'Failed to write Excel report: {e}', exc_info=True)

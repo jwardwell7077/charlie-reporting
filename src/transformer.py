@@ -41,9 +41,13 @@ class CSVTransformer:
         self.raw_dir = raw_dir
         self.archive_dir = archive_dir
         self.logger = LoggerFactory.get_logger('csv_transformer', log_file)
+        self.logger.debug("CSVTransformer.__init__: Starting initialization")
+        self.logger.debug(f"CSVTransformer.__init__: raw_dir={raw_dir}, archive_dir={archive_dir}, log_file={log_file}")
 
         os.makedirs(self.raw_dir, exist_ok=True)
         os.makedirs(self.archive_dir, exist_ok=True)
+        self.logger.debug("CSVTransformer.__init__: Directories created/verified")
+        self.logger.debug("CSVTransformer.__init__: Initialization complete")
 
     def transform(self, date_str: str, hour_filter: str = None) -> dict:
         """
@@ -56,10 +60,14 @@ class CSVTransformer:
         Returns:
             dict: Mapping sheet_name to list of DataFrames.
         """
+        self.logger.debug("CSVTransformer.transform: Starting method")
+        self.logger.debug(f"CSVTransformer.transform: date_str={date_str}, hour_filter={hour_filter}")
+        
         if hour_filter:
             self.logger.info(f"Starting transformation for date: {date_str}, hour: {hour_filter}")
         else:
             self.logger.info(f"Starting transformation for date: {date_str}")
+            self.logger.debug("CSVTransformer.transform: Processing full day (no hour filter)")
 
         attachments_config = self.config.attachment_rules
         result_data = {}

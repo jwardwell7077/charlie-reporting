@@ -17,9 +17,14 @@ import random
 from datetime import datetime, timedelta
 from typing import Dict, List, Tuple
 
-# Add src to path for access to utilities
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', 'src'))
+# Add paths to access utilities and shared modules
+script_dir = os.path.dirname(os.path.abspath(__file__))
+project_root = os.path.join(script_dir, "..", "..", "..")
+sys.path.insert(0, os.path.join(project_root, 'src'))
+sys.path.insert(0, os.path.join(script_dir, ".."))
+
 from utils import sanitize_filename
+from shared_utils import get_generated_data_dir, ensure_directory_exists
 
 class RealisticDataGenerator:
     def __init__(self, base_data_dir: str = None):
@@ -27,12 +32,14 @@ class RealisticDataGenerator:
         if base_data_dir is None:
             # Calculate path relative to this script's location
             script_dir = os.path.dirname(os.path.abspath(__file__))
-            self.base_data_dir = os.path.join(script_dir, "..", "..", "tests", "data")
+            project_root = os.path.join(script_dir, "..", "..", "..")
+            self.base_data_dir = os.path.join(project_root, "tests", "data")
         else:
             self.base_data_dir = base_data_dir
             
-        self.output_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "data", "generated")
-        os.makedirs(self.output_dir, exist_ok=True)
+        # Use shared utility for output directory
+        self.output_dir = get_generated_data_dir()
+        ensure_directory_exists(self.output_dir)
         
         # Load template data to get agent names and realistic ranges
         self._load_agent_data()
@@ -361,7 +368,7 @@ class RealisticDataGenerator:
             data = generator_func(timestamp)
             filename = f"{csv_type}__{time_str}.csv"
             file_path = os.path.join(self.output_dir, filename)
-            data.to_csv(file_path, index=False)
+            data.to_csv(file_path, index=False, encoding='utf-8')
             generated_files.append(file_path)
         
         # Generate Productivity (every other interval to simulate less frequent updates)
@@ -369,7 +376,7 @@ class RealisticDataGenerator:
             prod_data = self.generate_productivity_data(timestamp)
             prod_filename = f"Productivity__{time_str}.csv"
             prod_path = os.path.join(self.output_dir, prod_filename)
-            prod_data.to_csv(prod_path, index=False)
+            prod_data.to_csv(prod_path, index=False, encoding='utf-8')
             generated_files.append(prod_path)
         
         return generated_files

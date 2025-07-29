@@ -1,9 +1,9 @@
 Interval Start,Interval End,Interval Complete,Filters,Media Type,Agent Id,Agent Name,Handle,Avg Handle,Avg Talk,Avg Hold,Avg ACW,Total Handle,Total Talk,Total Hold,Total ACW
-2025-07-28 12:10:00,2025-07-28 13:10:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,9b585b97-8826-4653-9363-696d3fa4570e,Peter Baker,230,41584,13624,9327,16536,9564320,3133520,2145210,5954930
-2025-07-28 12:10:00,2025-07-28 13:10:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,f4e29da3-1c4e-4bd9-9c9f-5a0c7e18e7f8,Amber Gonzalez,89,93474,44380,13021,17584,8319186,3949820,1158869,2128257
-2025-07-28 12:10:00,2025-07-28 13:10:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,758a9386-a5db-43ee-8c79-cafe99a9d541,Rachel Turner,36,207365,64557,13228,12989,7465140,2324052,476208,638604
-2025-07-28 12:10:00,2025-07-28 13:10:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,a0c1e2b3-3d4e-5a6f-7b8c-9d0e1f2a3b4c,Derek Parker,190,168486,39826,3015,16179,32012340,7566940,572850,3051590
-2025-07-28 12:10:00,2025-07-28 13:10:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,65fe4098-4972-4d06-8d5e-cfebc479b2ac,Grace Lee,204,138437,28227,9441,12484,28241148,5758308,1925964,5641416
-2025-07-28 12:10:00,2025-07-28 13:10:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,ce4e5d79-18a2-4b0f-9c9d-7b1e3f5a2c6d,Wendy Flores,29,104471,37451,15836,18779,3029659,1086079,459244,591281
-2025-07-28 12:10:00,2025-07-28 13:10:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,589f3a7c-22e4-451f-91c0-8adc6b4e7f3d,Xavier Nguyen,193,72805,69141,3556,13726,14051365,13344213,686308,5391069
-2025-07-28 12:10:00,2025-07-28 13:10:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,d1f3a0e2-47b9-4c73-a3d9-0c1e7f4b6c29,Ursula Rivera,55,31838,66079,28556,29548,1751090,3634345,1570580,675070
+2025-07-28 12:10:00,2025-07-28 13:10:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,3775a1f6-e5fd-47bd-8039-e8f8d3a1a6bf,Leo Young,92,181981,40607,16441,15521,16742252,3735844,1512572,1990604
+2025-07-28 12:10:00,2025-07-28 13:10:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,a10dac0a-bb6c-4eb3-81df-d8f45f96770f,Marie King,196,170408,15578,7713,10855,33399968,3053288,1511748,5179496
+2025-07-28 12:10:00,2025-07-28 13:10:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,a07d4b63-36f1-4972-8e9b-c1d2e3f4a5b6,Yolanda Morales,203,233871,12738,12868,5466,47475813,2585814,2612204,2940658
+2025-07-28 12:10:00,2025-07-28 13:10:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,ce4e5d79-18a2-4b0f-9c9d-7b1e3f5a2c6d,Wendy Flores,196,73535,11764,25858,24313,14412860,2305744,5068168,5758088
+2025-07-28 12:10:00,2025-07-28 13:10:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,a16bfe90-f4bd-4b7c-af6e-881454647f5f,Eve Adams,114,103670,57916,15324,27099,11818380,6602424,1746936,2005602
+2025-07-28 12:10:00,2025-07-28 13:10:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,f4e29da3-1c4e-4bd9-9c9f-5a0c7e18e7f8,Amber Gonzalez,100,164269,75752,5559,17564,16426900,7575200,555900,2746900
+2025-07-28 12:10:00,2025-07-28 13:10:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,a0c1e2b3-3d4e-5a6f-7b8c-9d0e1f2a3b4c,Derek Parker,57,162012,65117,14646,13023,9234684,3711669,834822,1323198
+2025-07-28 12:10:00,2025-07-28 13:10:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,38fcc711-e80e-4f78-88c2-1e88a75706c3,Olivia Green,6,66272,65751,22191,25951,397632,394506,133146,96006

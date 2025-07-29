@@ -32,6 +32,7 @@ class ReportProcessor:
     def __init__(self, config: ConfigLoader, debug: bool = False):
         self.config = config
         self.logger = LoggerFactory.get_logger('report_processor', log_file='main.log')
+        self.logger.debug("ReportProcessor.__init__: Starting initialization")
         
         if debug:
             self.logger.setLevel('DEBUG')
@@ -39,14 +40,17 @@ class ReportProcessor:
                 handler.setLevel('DEBUG')
         
         # Initialize components
+        self.logger.debug("ReportProcessor.__init__: Creating EmailFetcher instance")
         self.email_fetcher = EmailFetcher(config)
         # self.db_processor = DBProcessor(config)  # Database temporarily disabled
         # self.report_generator = ReportGenerator()  # Database temporarily disabled
+        self.logger.debug("ReportProcessor.__init__: Creating ExcelWriter instance")
         self.excel_writer = ExcelWriter()
         
         # Track processing state
         self.last_processed_time = None
         self.daily_data_cache = {}
+        self.logger.debug("ReportProcessor.__init__: Initialization complete")
         
     def process_hourly(self, target_datetime: Optional[datetime] = None) -> Dict:
         """
@@ -58,6 +62,8 @@ class ReportProcessor:
         Returns:
             Dict containing processed data for the hour
         """
+        self.logger.debug("ReportProcessor.process_hourly: Starting method")
+        
         if target_datetime is None:
             target_datetime = datetime.now().replace(minute=0, second=0, microsecond=0)
         else:
@@ -69,17 +75,21 @@ class ReportProcessor:
         hour = target_datetime.hour
 
         self.logger.info(f'Starting hourly processing for: {hour_str}')
+        self.logger.debug(f"ReportProcessor.process_hourly: Processing hour {hour} for date {date_str}")
 
         try:
             # Fetch emails for this specific hour
+            self.logger.debug("ReportProcessor.process_hourly: Calling email_fetcher.fetch")
             self.email_fetcher.fetch(date_str)
 
             # Process CSVs into database (temporarily disabled for demo)
             # processed_data = self.db_processor.process(date_str)
             processed_data = None  # Database processing disabled
+            self.logger.debug("ReportProcessor.process_hourly: Database processing skipped (disabled for demo)")
 
             if processed_data:
                 # Update daily cache for backward compatibility
+                self.logger.debug("ReportProcessor.process_hourly: Updating daily cache")
                 self._update_daily_cache(date_str, processed_data)
 
                 # Get hourly data from database (temporarily disabled for demo)
@@ -87,17 +97,21 @@ class ReportProcessor:
                 report_data = None  # Database reporting disabled
 
                 # Write incremental Excel update
+                self.logger.debug("ReportProcessor.process_hourly: Writing incremental Excel update")
                 self.excel_writer.write_incremental(report_data, date_str, hour_str)
 
                 self.logger.info(f'Hourly processing completed for {hour_str}: {len(processed_data)} datasets processed')
             else:
                 self.logger.info(f'No new data found for {hour_str}')
+                self.logger.debug("ReportProcessor.process_hourly: No processed data available")
 
             self.last_processed_time = target_datetime
+            self.logger.debug("ReportProcessor.process_hourly: Method completed successfully")
             return processed_data
             
         except Exception as e:
             self.logger.error(f'Error in hourly processing for {hour_str}: {e}', exc_info=True)
+            self.logger.debug("ReportProcessor.process_hourly: Method completed with error")
             return {}
     
     def generate_on_demand_report(self, date_str: str, report_types: Optional[List[str]] = None) -> str:
@@ -111,27 +125,34 @@ class ReportProcessor:
         Returns:
             Path to generated report file
         """
+        self.logger.debug("ReportProcessor.generate_on_demand_report: Starting method")
         self.logger.info(f'Generating on-demand report for {date_str}')
+        self.logger.debug(f"ReportProcessor.generate_on_demand_report: Report types: {report_types}")
         
         try:
             # Get data from the database for the date (temporarily disabled for demo)
             # daily_data = self.report_generator.get_daily_report(date_str, report_types)
             daily_data = None  # Database reporting disabled
+            self.logger.debug("ReportProcessor.generate_on_demand_report: Database querying skipped (disabled for demo)")
 
             if not daily_data:
                 self.logger.warning(f'No data available for on-demand report: {date_str}')
+                self.logger.debug("ReportProcessor.generate_on_demand_report: Method completed - no data")
                 return None
             
             # Generate report with timestamp
             timestamp = datetime.now().strftime('%H%M%S')
             report_filename = f'ondemand_{date_str}_{timestamp}.xlsx'
+            self.logger.debug(f"ReportProcessor.generate_on_demand_report: Generating report file: {report_filename}")
             report_path = self.excel_writer.write_custom(daily_data, report_filename)
             
             self.logger.info(f'On-demand report generated: {report_path}')
+            self.logger.debug("ReportProcessor.generate_on_demand_report: Method completed successfully")
             return report_path
             
         except Exception as e:
             self.logger.error(f'Error generating on-demand report for {date_str}: {e}', exc_info=True)
+            self.logger.debug("ReportProcessor.generate_on_demand_report: Method completed with error")
             return None
     
     def generate_end_of_day_summary(self, date_str: str) -> str:
@@ -144,20 +165,24 @@ class ReportProcessor:
         Returns:
             Path to generated summary report
         """
+        self.logger.debug("ReportProcessor.generate_end_of_day_summary: Starting method")
         self.logger.info(f'Generating end-of-day summary for {date_str}')
         
         try:
             # Get data from the database for the date (temporarily disabled for demo)
             # daily_data = self.report_generator.get_daily_report(date_str)
             daily_data = None  # Database reporting disabled
+            self.logger.debug("ReportProcessor.generate_end_of_day_summary: Database querying skipped (disabled for demo)")
 
             if not daily_data:
                 self.logger.warning(f'No data available for end-of-day summary: {date_str}')
+                self.logger.debug("ReportProcessor.generate_end_of_day_summary: Method completed - no data")
                 return None
 
             # Get summary statistics from database (temporarily disabled for demo)
             # summary_df = self.report_generator.get_summary_statistics(date_str)
             summary_df = None  # Database reporting disabled
+            self.logger.debug("ReportProcessor.generate_end_of_day_summary: Summary statistics generation skipped (disabled for demo)")
 
             # Add to the report data
             enhanced_data = daily_data.copy()
@@ -165,6 +190,7 @@ class ReportProcessor:
 
             # Add metadata sheet
             import pandas as pd
+            self.logger.debug("ReportProcessor.generate_end_of_day_summary: Creating metadata sheet")
             metadata = pd.DataFrame({
                 'Metric': ['Report Date', 'Generated At', 'Total Sheets', 'Total Records'],
                 'Value': [
@@ -178,11 +204,13 @@ class ReportProcessor:
 
             # Generate comprehensive report
             summary_filename = f'eod_summary_{date_str}.xlsx'
+            self.logger.debug(f"ReportProcessor.generate_end_of_day_summary: Generating summary file: {summary_filename}")
             report_path = self.excel_writer.write_summary(enhanced_data, summary_filename)
 
             # Clear daily cache after successful summary (for backward compatibility)
             if date_str in self.daily_data_cache:
                 del self.daily_data_cache[date_str]
+                self.logger.debug("ReportProcessor.generate_end_of_day_summary: Cleared daily cache for date")
             
             self.logger.info(f'End-of-day summary generated: {report_path}')
             return report_path
@@ -232,6 +260,10 @@ class ReportProcessor:
 def main():
     parser = argparse.ArgumentParser(description="Real-time Contact Center Report Automation")
     parser.add_argument(
+        '--config', type=str,
+        help='Path to config file (default: ./config/config.toml, then ../config/config.toml)'
+    )
+    parser.add_argument(
         '--mode', type=str, choices=['hourly', 'ondemand', 'eod', 'continuous'],
         default='hourly',
         help='Processing mode: hourly, ondemand, eod (end-of-day), continuous'
@@ -256,19 +288,62 @@ def main():
     
     args = parser.parse_args()
 
+    # Determine config path with fallback logic
+    config_path = None
+    if args.config:
+        # User specified a config path
+        config_path = args.config
+        if not os.path.exists(config_path):
+            print(f"❌ Specified config file not found: {config_path}")
+            sys.exit(1)
+    else:
+        # Try default locations in priority order
+        default_paths = [
+            os.path.join(os.getcwd(), 'config.toml'),            # ./config.toml (demo directory)
+            os.path.join(os.getcwd(), 'config', 'config.toml'),  # ./config/config.toml (main project)
+            os.path.join(os.path.dirname(os.getcwd()), 'config', 'config.toml'),  # ../config/config.toml
+            os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'config', 'config.toml'),  # src/../config/config.toml
+        ]
+        
+        for path in default_paths:
+            if os.path.exists(path):
+                config_path = path
+                break
+        
+        if not config_path:
+            print("❌ No config file found. Tried:")
+            for path in default_paths:
+                print(f"   - {path}")
+            print("\nUse --config to specify a custom config file location.")
+            sys.exit(1)
+    
+    print(f"📁 Using config: {config_path}")
+    
+    # Setup logging for main function
+    main_logger = LoggerFactory.get_logger('main', 'main.log')
+    main_logger.debug("main: Starting main function")
+    main_logger.debug(f"main: config_path={config_path}")
+    main_logger.debug(f"main: args={args}")
+    
     # Load configuration from TOML
-    config_path = os.path.join(os.getcwd(), 'config', 'config.toml')
+    main_logger.debug("main: Creating ConfigLoader instance")
     cfg = ConfigLoader(config_path)
     
     # Initialize processor
+    main_logger.debug("main: Creating ReportProcessor instance")
     processor = ReportProcessor(cfg, debug=args.debug)
     
     # Execute based on mode
+    main_logger.debug(f"main: Executing mode: {args.mode}")
     if args.mode == 'hourly':
+        main_logger.debug("main: Processing hourly mode")
         target_datetime = None
         if args.hour is not None:
             target_date = datetime.strptime(args.date, '%Y-%m-%d')
             target_datetime = target_date.replace(hour=args.hour, minute=0, second=0, microsecond=0)
+            main_logger.debug(f"main: target_datetime set to {target_datetime}")
+        else:
+            main_logger.debug("main: No specific hour specified, using current hour")
         
         result = processor.process_hourly(target_datetime)
         if result:

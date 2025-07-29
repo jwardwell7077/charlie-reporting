@@ -1,7 +1,4 @@
 Interval Start,Interval End,Interval Complete,Filters,Media Type,Agent Id,Agent Name,Handle,Avg Handle
-2025-07-28 11:40:00,2025-07-28 12:40:00,0.0,Initial Direction: Inbound; Queue: Demo Queue,voice,c7ca8c70-fce5-4eee-a913-813af2d2b9a4,Frank Miller,26,27:40
-2025-07-28 11:40:00,2025-07-28 12:40:00,0.0,Initial Direction: Inbound; Queue: Demo Queue,voice,24bb913e-5636-4db3-aab7-1213b0928274,Bob Johnson,5,26:41
-2025-07-28 11:40:00,2025-07-28 12:40:00,0.0,Initial Direction: Inbound; Queue: Demo Queue,voice,d1f3a0e2-47b9-4c73-a3d9-0c1e7f4b6c29,Ursula Rivera,4,08:31
-2025-07-28 11:40:00,2025-07-28 12:40:00,0.0,Initial Direction: Inbound; Queue: Demo Queue,voice,3775a1f6-e5fd-47bd-8039-e8f8d3a1a6bf,Leo Young,4,06:15
-2025-07-28 11:40:00,2025-07-28 12:40:00,0.0,Initial Direction: Inbound; Queue: Demo Queue,voice,a0c1e2b3-3d4e-5a6f-7b8c-9d0e1f2a3b4c,Derek Parker,18,10:27
-2025-07-28 11:40:00,2025-07-28 12:40:00,0.0,Initial Direction: Inbound; Queue: Demo Queue,voice,ce4e5d79-18a2-4b0f-9c9d-7b1e3f5a2c6d,Wendy Flores,10,17:12
+2025-07-28 11:40:00,2025-07-28 12:40:00,0.0,Initial Direction: Inbound; Queue: Demo Queue,voice,589f3a7c-22e4-451f-91c0-8adc6b4e7f3d,Xavier Nguyen,3,24:05
+2025-07-28 11:40:00,2025-07-28 12:40:00,0.0,Initial Direction: Inbound; Queue: Demo Queue,voice,a16bfe90-f4bd-4b7c-af6e-881454647f5f,Eve Adams,17,19:32
+2025-07-28 11:40:00,2025-07-28 12:40:00,0.0,Initial Direction: Inbound; Queue: Demo Queue,voice,758a9386-a5db-43ee-8c79-cafe99a9d541,Rachel Turner,19,20:44

@@ -1,6 +1,8 @@
 Interval Start,Interval End,Interval Complete,Filters,Media Type,Agent Id,Agent Name,Handle,Avg Handle
-2025-07-28 09:20:00,2025-07-28 10:20:00,0.0,Initial Direction: Inbound; Queue: Demo Queue,voice,a10dac0a-bb6c-4eb3-81df-d8f45f96770f,Marie King,15,18:55
-2025-07-28 09:20:00,2025-07-28 10:20:00,0.0,Initial Direction: Inbound; Queue: Demo Queue,voice,e258b370-9093-401d-bcbf-d939ab51b265,Steve Phillips,15,16:05
-2025-07-28 09:20:00,2025-07-28 10:20:00,0.0,Initial Direction: Inbound; Queue: Demo Queue,voice,a16bfe90-f4bd-4b7c-af6e-881454647f5f,Eve Adams,10,23:42
-2025-07-28 09:20:00,2025-07-28 10:20:00,0.0,Initial Direction: Inbound; Queue: Demo Queue,voice,c7ca8c70-fce5-4eee-a913-813af2d2b9a4,Frank Miller,25,19:54
-2025-07-28 09:20:00,2025-07-28 10:20:00,0.0,Initial Direction: Inbound; Queue: Demo Queue,voice,37f0a1b2-2e3d-4f4c-b9fa-1d2e3a4b5c6d,Christine Roberts,11,22:58
+2025-07-28 09:20:00,2025-07-28 10:20:00,0.0,Initial Direction: Inbound; Queue: Demo Queue,voice,e258b370-9093-401d-bcbf-d939ab51b265,Steve Phillips,3,16:11
+2025-07-28 09:20:00,2025-07-28 10:20:00,0.0,Initial Direction: Inbound; Queue: Demo Queue,voice,4ab904ce-5677-4eb1-8354-109907f0f7d8,Quincy Wright,23,11:18
+2025-07-28 09:20:00,2025-07-28 10:20:00,0.0,Initial Direction: Inbound; Queue: Demo Queue,voice,37f0a1b2-2e3d-4f4c-b9fa-1d2e3a4b5c6d,Christine Roberts,3,19:07
+2025-07-28 09:20:00,2025-07-28 10:20:00,0.0,Initial Direction: Inbound; Queue: Demo Queue,voice,3775a1f6-e5fd-47bd-8039-e8f8d3a1a6bf,Leo Young,13,09:04
+2025-07-28 09:20:00,2025-07-28 10:20:00,0.0,Initial Direction: Inbound; Queue: Demo Queue,voice,d1f3a0e2-47b9-4c73-a3d9-0c1e7f4b6c29,Ursula Rivera,26,17:48
+2025-07-28 09:20:00,2025-07-28 10:20:00,0.0,Initial Direction: Inbound; Queue: Demo Queue,voice,1ed81f99-e294-4ba6-81d4-bb8752c69693,Karen Hall,7,06:15
+2025-07-28 09:20:00,2025-07-28 10:20:00,0.0,Initial Direction: Inbound; Queue: Demo Queue,voice,8c5912fa-6b3e-4baa-9c0e-3f5a423e4d18,Brian Perez,6,26:16

@@ -1,5 +1,6 @@
 Interval Start,Interval End,Interval Complete,Filters,Media Type,Agent Id,Agent Name,Handle,Avg Handle,Avg Talk,Avg Hold,Avg ACW,Total Handle,Total Talk,Total Hold,Total ACW
-2025-07-28 11:40:00,2025-07-28 12:40:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,c3aaf240-163b-40cd-aaed-2d10d7def648,Ivan Lewis,61,171392,22566,17344,6081,10454912,1376526,1057984,512339
-2025-07-28 11:40:00,2025-07-28 12:40:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,9b585b97-8826-4653-9363-696d3fa4570e,Peter Baker,197,210436,36907,18626,26832,41455892,7270679,3669322,4395070
-2025-07-28 11:40:00,2025-07-28 12:40:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,8c5912fa-6b3e-4baa-9c0e-3f5a423e4d18,Brian Perez,76,25619,20884,29662,8696,1947044,1587184,2254312,623352
-2025-07-28 11:40:00,2025-07-28 12:40:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,1ed81f99-e294-4ba6-81d4-bb8752c69693,Karen Hall,202,232424,57752,21079,5872,46949648,11665904,4257958,1441876
+2025-07-28 11:40:00,2025-07-28 12:40:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,65fe4098-4972-4d06-8d5e-cfebc479b2ac,Grace Lee,55,134806,33785,5943,28884,7414330,1858175,326865,440495
+2025-07-28 11:40:00,2025-07-28 12:40:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,8c5912fa-6b3e-4baa-9c0e-3f5a423e4d18,Brian Perez,36,162137,41973,12381,17259,5836932,1511028,445716,418860
+2025-07-28 11:40:00,2025-07-28 12:40:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,589f3a7c-22e4-451f-91c0-8adc6b4e7f3d,Xavier Nguyen,187,79761,31179,10480,26018,14915307,5830473,1959760,5027121
+2025-07-28 11:40:00,2025-07-28 12:40:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,7b6c2d91-3f28-4e66-b2a1-5f9e2f8d3a4b,Victor Ramirez,94,147798,20322,1639,23177,13893012,1910268,154066,979104
+2025-07-28 11:40:00,2025-07-28 12:40:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,1ed81f99-e294-4ba6-81d4-bb8752c69693,Karen Hall,52,179325,60950,15611,17389,9324900,3169400,811772,555828

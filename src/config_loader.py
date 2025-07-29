@@ -10,6 +10,7 @@ License: MIT
 
 import tomllib
 import os
+from logger import LoggerFactory
 
 class ConfigLoader:
     """
@@ -17,11 +18,18 @@ class ConfigLoader:
     Exposes sections as properties and provides compatibility with legacy config access patterns.
     """
     def __init__(self, config_path=None):
+        self.logger = LoggerFactory.get_logger('config_loader', 'main.log')
+        self.logger.debug("ConfigLoader.__init__: Starting initialization")
+        
         if config_path is None:
             config_path = os.path.join(os.getcwd(), 'config', 'config.toml')
         self.config_path = config_path
+        self.logger.debug(f"ConfigLoader.__init__: config_path={config_path}")
+        
         with open(self.config_path, 'rb') as f:
             self._config = tomllib.load(f)
+        self.logger.debug("ConfigLoader.__init__: Configuration loaded successfully")
+        self.logger.debug("ConfigLoader.__init__: Initialization complete")
 
     @property
     def general(self):

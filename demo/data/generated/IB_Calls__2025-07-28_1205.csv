@@ -1,9 +1,9 @@
 Interval Start,Interval End,Interval Complete,Filters,Media Type,Agent Id,Agent Name,Handle,Avg Handle
-2025-07-28 12:05:00,2025-07-28 13:05:00,0.0,Initial Direction: Inbound; Queue: Demo Queue,voice,758a9386-a5db-43ee-8c79-cafe99a9d541,Rachel Turner,12,27:14
-2025-07-28 12:05:00,2025-07-28 13:05:00,0.0,Initial Direction: Inbound; Queue: Demo Queue,voice,6c7bba2a-d8ec-4b53-9934-cf52606b282a,Alice Smith,4,18:47
-2025-07-28 12:05:00,2025-07-28 13:05:00,0.0,Initial Direction: Inbound; Queue: Demo Queue,voice,4898a757-15ec-47cc-b6be-d2e9b249e011,Tina Campbell,5,23:05
-2025-07-28 12:05:00,2025-07-28 13:05:00,0.0,Initial Direction: Inbound; Queue: Demo Queue,voice,3775a1f6-e5fd-47bd-8039-e8f8d3a1a6bf,Leo Young,25,24:47
-2025-07-28 12:05:00,2025-07-28 13:05:00,0.0,Initial Direction: Inbound; Queue: Demo Queue,voice,7b6c2d91-3f28-4e66-b2a1-5f9e2f8d3a4b,Victor Ramirez,24,27:40
-2025-07-28 12:05:00,2025-07-28 13:05:00,0.0,Initial Direction: Inbound; Queue: Demo Queue,voice,65fe4098-4972-4d06-8d5e-cfebc479b2ac,Grace Lee,3,28:45
-2025-07-28 12:05:00,2025-07-28 13:05:00,0.0,Initial Direction: Inbound; Queue: Demo Queue,voice,fd3c454b-47c9-491e-9c37-5bc54c413ca4,Nathan Scott,14,22:42
-2025-07-28 12:05:00,2025-07-28 13:05:00,0.0,Initial Direction: Inbound; Queue: Demo Queue,voice,589f3a7c-22e4-451f-91c0-8adc6b4e7f3d,Xavier Nguyen,11,18:10
+2025-07-28 12:05:00,2025-07-28 13:05:00,0.0,Initial Direction: Inbound; Queue: Demo Queue,voice,589f3a7c-22e4-451f-91c0-8adc6b4e7f3d,Xavier Nguyen,9,11:25
+2025-07-28 12:05:00,2025-07-28 13:05:00,0.0,Initial Direction: Inbound; Queue: Demo Queue,voice,6c7bba2a-d8ec-4b53-9934-cf52606b282a,Alice Smith,18,20:10
+2025-07-28 12:05:00,2025-07-28 13:05:00,0.0,Initial Direction: Inbound; Queue: Demo Queue,voice,5d3eedaf-cbf2-4fdc-aaf9-2e39f1c21e12,Heidi Clark,11,17:38
+2025-07-28 12:05:00,2025-07-28 13:05:00,0.0,Initial Direction: Inbound; Queue: Demo Queue,voice,,,16,05:47
+2025-07-28 12:05:00,2025-07-28 13:05:00,0.0,Initial Direction: Inbound; Queue: Demo Queue,voice,ce4e5d79-18a2-4b0f-9c9d-7b1e3f5a2c6d,Wendy Flores,22,24:48
+2025-07-28 12:05:00,2025-07-28 13:05:00,0.0,Initial Direction: Inbound; Queue: Demo Queue,voice,37f0a1b2-2e3d-4f4c-b9fa-1d2e3a4b5c6d,Christine Roberts,5,12:37
+2025-07-28 12:05:00,2025-07-28 13:05:00,0.0,Initial Direction: Inbound; Queue: Demo Queue,voice,a07d4b63-36f1-4972-8e9b-c1d2e3f4a5b6,Yolanda Morales,14,06:35
+2025-07-28 12:05:00,2025-07-28 13:05:00,0.0,Initial Direction: Inbound; Queue: Demo Queue,voice,e258b370-9093-401d-bcbf-d939ab51b265,Steve Phillips,4,16:07
