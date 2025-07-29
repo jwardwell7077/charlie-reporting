@@ -96,15 +96,15 @@
 
 ### **🎤 Interview Talking Points:**
 
-#### *"Tell me about a complex project you've worked on"*
+#### "Tell me about a complex project you've worked on"
 
 "I led the modernization of a desktop application into a microservices architecture. Starting with a complex, monolithic codebase, I designed and implemented a 6-service distributed system while maintaining 100% business functionality. The project included comprehensive documentation, automated development tooling, and professional project organization that reduced complexity by 65%."
 
-#### *"How do you handle legacy system modernization?"*
+#### "How do you handle legacy system modernization?"
 
 "I use a systematic, phase-based approach. First, I establish comprehensive organization and documentation to understand the existing system. Then I design the target architecture with proper service boundaries. I implement the migration with complete preservation of business logic while adding modern development practices. This project demonstrates that approach - from desktop script to cloud-ready microservices."
 
-#### *"Describe your development process"*
+#### "Describe your development process"
 
 "I follow sprint-based development with comprehensive documentation and automated tooling. Each phase includes detailed planning, progress tracking, and thorough reviews. I emphasize automated development environments - in this project I created 8 VS Code tasks for development workflow, established professional documentation standards, and implemented systematic knowledge management."
 

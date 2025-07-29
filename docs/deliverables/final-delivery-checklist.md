@@ -58,13 +58,13 @@
 
 ### **🏗️ "How do you approach system architecture?"**
 
-*"I focus on proper domain separation and shared component design. In this project, I designed 6 services with clear boundaries: CSV processing, Excel generation, email automation, report generation, configuration management, and database services.*
-*I implemented shared utilities for cross-service functionality, established configuration management for multiple environments, and designed the architecture for cloud deployment readiness. The approach demonstrates scalable, maintainable system design principles."*
+"I focus on proper domain separation and shared component design. In this project, I designed 6 services with clear boundaries: CSV processing, Excel generation, email automation, report generation, configuration management, and database services.*
+*I implemented shared utilities for cross-service functionality, established configuration management for multiple environments, and designed the architecture for cloud deployment readiness. The approach demonstrates scalable, maintainable system design principles."
 
 ### **📚 "Describe your development process and project management approach"**
 
-*"I use systematic, sprint-based development with comprehensive documentation and automated tooling. This project included detailed phase planning, progress tracking through sprint reviews, and automated development environment setup.*
-*I emphasize knowledge management - the project includes complete architecture documentation, development process guides, and systematic preservation of technical decisions. I also implemented 8 automated VS Code tasks to optimize development workflow."*
+"I use systematic, sprint-based development with comprehensive documentation and automated tooling. This project included detailed phase planning, progress tracking through sprint reviews, and automated development environment setup.*
+*I emphasize knowledge management - the project includes complete architecture documentation, development process guides, and systematic preservation of technical decisions. I also implemented 8 automated VS Code tasks to optimize development workflow."
 
 ---
 
