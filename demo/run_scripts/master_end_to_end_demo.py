@@ -31,8 +31,8 @@ sys.path.insert(0, demo_dir)
 # Import project modules
 from config_loader import ConfigLoader
 from email_fetcher import EmailFetcher
-from transformer import CSVTransformer
-from excel_writer import ExcelWriter
+from services.report_generator.csv_processor import CSVTransformer
+from services.report_generator.excel_generator import ExcelWriter
 from main import ReportProcessor
 
 # Import demo modules

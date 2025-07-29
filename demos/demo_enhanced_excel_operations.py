@@ -22,7 +22,7 @@ from datetime import datetime, timedelta
 # Add src to path
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src'))
 
-from excel_writer import ExcelWriter
+from services.report_generator.excel_generator import ExcelWriter
 
 
 def create_sample_hourly_data():

@@ -12,7 +12,7 @@ import shutil
 import pandas as pd
 import pytest
 from datetime import datetime
-from transformer import CSVTransformer
+from services.report_generator.csv_processor import CSVTransformer
 
 # --- Fixtures ---
 @pytest.fixture

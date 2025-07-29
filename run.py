@@ -1,19 +1,47 @@
 #!/usr/bin/env python3
 """
-run.py - Convenience script to run the main application
-
-This script ensures proper module resolution and runs the main application.
+Application Entry Point
+Migrated to use new microservices architecture
 """
-
+import asyncio
 import sys
-import os
+from pathlib import Path
 
-# Add src directory to Python path
-src_path = os.path.join(os.path.dirname(__file__), 'src')
-if src_path not in sys.path:
-    sys.path.insert(0, src_path)
+# Add service paths
+services_path = Path(__file__).parent / 'services'
+sys.path.append(str(services_path / 'report-generator'))
+sys.path.append(str(services_path / 'email-service'))
+sys.path.append(str(Path(__file__).parent / 'shared'))
 
-# Run the main application
+from csv_processor import CSVProcessor
+from excel_generator import ExcelGenerator
+from email_processor import EmailProcessor
+import logging
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
+async def main():
+    """Main application entry point using new services."""
+    try:
+        logger.info("Starting application with new microservices architecture")
+        
+        # Initialize services
+        csv_processor = CSVProcessor()
+        excel_generator = ExcelGenerator()
+        email_processor = EmailProcessor()
+        
+        # Example workflow
+        logger.info("Services initialized successfully")
+        logger.info("Use FastAPI service at: uvicorn services.report-generator.main:app --reload")
+        logger.info("Or import and use services directly")
+        
+    except Exception as e:
+        logger.error(f"Application error: {e}")
+        return 1
+    
+    return 0
+
 if __name__ == "__main__":
-    from main import main
-    main()
+    exit_code = asyncio.run(main())
+    sys.exit(exit_code)

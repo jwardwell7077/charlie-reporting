@@ -26,8 +26,8 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src'))
 
 from config_loader import ConfigLoader
 from email_fetcher import EmailFetcher
-from transformer import CSVTransformer
-from excel_writer import ExcelWriter
+from services.report_generator.csv_processor import CSVTransformer
+from services.report_generator.excel_generator import ExcelWriter
 from main import ReportProcessor
 
 

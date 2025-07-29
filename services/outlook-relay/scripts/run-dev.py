@@ -34,7 +34,7 @@ def main():
             return 1
     
     try:
-        from src.main import main as service_main
+        from legacy_bridge import main as service_main
         import asyncio
         asyncio.run(service_main())
     except ImportError as e:

@@ -13,7 +13,7 @@ sys.path.insert(0, str(src_path))
 try:
     from config_loader import ConfigLoader
     from email_fetcher import EmailFetcher
-    from excel_writer import ExcelWriter
+    from services.report_generator.excel_generator import ExcelWriter
     from archiver import Archiver
     
     print("✅ All imports successful!")
