@@ -2,6 +2,15 @@
 
 A modern microservices-based reporting system for processing CSV data and generating Excel reports.
 
+**🎯 Portfolio Project**: This demonstrates enterprise-grade microservices architecture, professional development practices, and legacy system modernization.
+
+## 📖 **Project Documentation**
+
+- **[Development Diary](docs/development-diary.md)**: Complete journey from desktop app to microservices architecture
+- **[Final Deliverable](docs/deliverables/phase-2-final-deliverable.md)**: Portfolio-ready project summary and employment value
+- **[Architecture Documentation](docs/architecture/)**: Technical design and implementation details
+- **[Sprint Reviews](docs/sprint-reviews/)**: Professional project management and progress tracking
+
 ## 🚀 Quick Start
 
 ```bash

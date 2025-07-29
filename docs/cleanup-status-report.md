@@ -70,17 +70,20 @@ charlie-reporting/
 All legacy and demonstration files have been safely preserved in the archive:
 
 **archive/deprecated/:**
+
 - Debug scripts (`debug_*.py`) - Development debugging utilities
 - Setup scripts (`setup_*.py`) - Environment configuration tools  
 - Platform utilities (`convert_wsl2_to_windows.py`) - Migration helpers
 - Activation scripts (`.bat`, `.ps1`) - Environment activation helpers
 
 **archive/deprecated/phase1-demos/:**
+
 - `demo/` directory - Complete end-to-end demo system with data generation and README
 - `demos/` directory - Individual feature demonstration scripts from Phase 1
 - Original demonstration and example code showing system capabilities
 
 **archive/migration/:**
+
 - Legacy processing scripts (`fetch_csv_emails.py`)
 - Environment activation utilities
 
