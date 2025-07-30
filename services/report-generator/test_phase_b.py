@@ -8,10 +8,7 @@ import asyncio
 import sys
 from pathlib import Path
 
-# Add src to path for imports
-src_path = Path(__file__).parent.parent / "src"
-sys.path.insert(0, str(src_path))
-
+# Imports will work with PYTHONPATH set properly
 from business.services.report_processor import ReportProcessingService
 from infrastructure.file_system import DirectoryProcessorImpl, FileManagerImpl
 from infrastructure.config import ConfigManagerImpl
