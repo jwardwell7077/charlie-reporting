@@ -1,6 +1,7 @@
 # Charlie Reporting - Microservices Architecture Design
 
 ## Overview
+
 A distributed microservices architecture for email-based reporting pipeline with clear separation of concerns, REST API communication, and horizontal scalability.
 
 ## Architecture Components
