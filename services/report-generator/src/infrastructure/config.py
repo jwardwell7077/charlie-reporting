@@ -12,6 +12,7 @@ from dataclasses import dataclass, field
 from datetime import datetime
 
 from ..business.exceptions import ConfigurationException
+from ..business.interfaces import IConfigManager
 
 
 @dataclass
@@ -377,3 +378,44 @@ def get_config_manager(config_file: Optional[Union[str, Path]] = None) -> Config
 def get_config() -> ServiceConfig:
     """Get the current service configuration"""
     return get_config_manager().get_config()
+
+
+class ConfigManagerImpl(IConfigManager):
+    """
+    Implementation of IConfigManager interface
+    Adapter for the existing ConfigurationManager
+    """
+    
+    def __init__(self):
+        self._config_manager = get_config_manager()
+    
+    async def get_setting(self, key: str) -> Any:
+        """Get configuration setting by key"""
+        try:
+            config_dict = self._config_manager.get_config_dict()
+            return config_dict.get(key)
+        except Exception:
+            return None
+    
+    async def get_all_settings(self) -> Dict[str, Any]:
+        """Get all configuration settings"""
+        try:
+            return self._config_manager.get_config_dict()
+        except Exception:
+            return {}
+    
+    async def update_setting(self, key: str, value: Any) -> bool:
+        """Update configuration setting"""
+        try:
+            self._config_manager.update_config({key: value})
+            return True
+        except Exception:
+            return False
+    
+    async def reload_config(self) -> bool:
+        """Reload configuration from file"""
+        try:
+            self._config_manager.reload_configuration()
+            return True
+        except Exception:
+            return False

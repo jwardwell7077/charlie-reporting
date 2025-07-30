@@ -10,6 +10,8 @@ from datetime import datetime, timedelta
 import threading
 from collections import defaultdict, deque
 
+from ..business.interfaces import IMetricsCollector
+
 
 @dataclass
 class MetricData:
@@ -348,3 +350,87 @@ class MetricsCollector:
             recommendations.append("Consider increasing retention settings or implementing data archival")
         
         return recommendations
+
+
+# Global metrics collector instance
+_global_metrics: Optional[MetricsCollector] = None
+
+
+def get_metrics_collector() -> MetricsCollector:
+    """Get the global metrics collector"""
+    global _global_metrics
+    
+    if _global_metrics is None:
+        _global_metrics = MetricsCollector()
+    
+    return _global_metrics
+
+
+class MetricsCollectorImpl(IMetricsCollector):
+    """
+    Implementation of IMetricsCollector interface
+    Adapter for the existing MetricsCollector
+    """
+    
+    def __init__(self):
+        self._metrics = get_metrics_collector()
+    
+    async def increment_counter(
+        self, name: str, value: float = 1.0, **labels
+    ) -> None:
+        """Increment a counter metric"""
+        # Use the existing counters storage directly
+        with self._metrics._lock:
+            self._metrics._counters[name] += value
+    
+    async def set_gauge(self, name: str, value: float, **labels) -> None:
+        """Set a gauge metric value"""
+        # Use the existing gauges storage directly
+        with self._metrics._lock:
+            self._metrics._gauges[name] = value
+    
+    async def record_histogram(
+        self, name: str, value: float, **labels
+    ) -> None:
+        """Record a value in histogram metric"""
+        # Use the existing histograms storage directly
+        with self._metrics._lock:
+            self._metrics._histograms[name].append(value)
+    
+    async def record_processing_time(
+        self, 
+        operation: str, 
+        duration_seconds: float, 
+        success: bool = True, 
+        **metadata
+    ) -> None:
+        """Record processing operation timing"""
+        # Map to existing methods based on operation type
+        if operation == "directory_processing":
+            self._metrics.record_directory_processing(
+                files_processed=metadata.get("files_count", 0),
+                records_processed=metadata.get("records_count", 0),
+                duration_seconds=duration_seconds,
+                success=success
+            )
+        elif operation == "file_processing":
+            self._metrics.record_file_processing(
+                file_name=metadata.get("file_name", "unknown"),
+                records_processed=metadata.get("records_count", 0),
+                duration_seconds=duration_seconds,
+                success=success
+            )
+        else:
+            # Generic processing metric
+            metric = ProcessingMetric(
+                operation_type=operation,
+                duration_seconds=duration_seconds,
+                success=success,
+                files_count=metadata.get("files_count", 0),
+                records_count=metadata.get("records_count", 0)
+            )
+            self._metrics._processing_metrics.append(metric)
+    
+    async def get_metrics_summary(self) -> Dict[str, Any]:
+        """Get summary of all metrics"""
+        return self._metrics.get_metrics()

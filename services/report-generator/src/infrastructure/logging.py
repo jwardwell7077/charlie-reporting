@@ -13,6 +13,8 @@ import traceback
 from dataclasses import dataclass, asdict
 from enum import Enum
 
+from ..business.interfaces import ILogger
+
 
 class LogLevel(str, Enum):
     """Log level enumeration"""
@@ -360,3 +362,43 @@ def initialize_logging(service_name: str = "report-generator",
     )
     
     return _global_logger
+
+
+class StructuredLoggerImpl(ILogger):
+    """
+    Implementation of ILogger interface
+    Adapter for the existing StructuredLogger
+    """
+    
+    def __init__(self, component: Optional[str] = None):
+        self._logger = get_logger(component)
+    
+    async def info(self, message: str, **kwargs) -> None:
+        """Log info message"""
+        self._logger.info(message, **kwargs)
+    
+    async def warning(self, message: str, **kwargs) -> None:
+        """Log warning message"""
+        self._logger.warning(message, **kwargs)
+    
+    async def error(self, message: str, **kwargs) -> None:
+        """Log error message"""
+        self._logger.error(message, **kwargs)
+    
+    async def debug(self, message: str, **kwargs) -> None:
+        """Log debug message"""
+        self._logger.debug(message, **kwargs)
+    
+    async def log_operation(self, operation: str, result: str, duration_ms: float = None, **kwargs) -> None:
+        """Log operation with result and timing"""
+        metadata = {
+            "operation": operation,
+            "result": result,
+            "duration_ms": duration_ms,
+            **kwargs
+        }
+        self._logger.info(f"Operation {operation}: {result}", **metadata)
+    
+    async def log_exception(self, exception: Exception, operation: str = None, **kwargs) -> None:
+        """Log exception with context"""
+        self._logger.log_exception(exception, operation=operation, **kwargs)

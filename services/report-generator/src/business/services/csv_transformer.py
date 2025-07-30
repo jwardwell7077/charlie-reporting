@@ -12,6 +12,7 @@ import shutil
 
 from ..models.csv_data import CSVFile, CSVRule, CSVTransformationResult
 from ..models.report import Report, ReportSheet
+from ..interfaces import ICSVTransformer
 from datetime import datetime
 
 
@@ -253,3 +254,72 @@ class CSVTransformationService:
             return match.group(1)
         
         return None
+
+
+class CSVTransformerService(ICSVTransformer):
+    """
+    Implementation of ICSVTransformer interface
+    Adapter for the existing CSVTransformationService
+    """
+    
+    def __init__(self):
+        self._service = CSVTransformationService()
+    
+    async def transform_csv(
+        self, file_path: str, rules: Dict[str, Any]
+    ) -> Dict[str, Any]:
+        """Transform CSV file according to rules"""
+        try:
+            # Convert rules dict to CSVRule objects
+            transformation_rules = self._service.create_transformation_rules(
+                rules
+            )
+            
+            # Create CSV file object
+            csv_file = CSVFile(
+                filename=Path(file_path).name,
+                file_path=file_path,
+                date_str="",  # Will be extracted by service
+                hour_str="",  # Will be extracted by service
+                timestamp=datetime.utcnow(),
+                rule=transformation_rules[0] if transformation_rules else None
+            )
+            
+            # Perform transformation
+            result = self._service.transform_csv_file(csv_file)
+            
+            return {
+                "success": result.success,
+                "file_path": csv_file.file_path,
+                "dataframe": result.dataframe,
+                "message": "Transformation completed" if result.success else "Transformation failed",
+                "error": result.error_message,
+                "warnings": result.warnings or []
+            }
+            
+        except Exception as e:
+            return {
+                "success": False,
+                "error": str(e),
+                "message": "Transformation failed"
+            }
+    
+    async def validate_csv_format(self, file_path: str) -> Dict[str, Any]:
+        """Validate CSV file format"""
+        try:
+            # Use pandas to validate basic CSV structure
+            df = pd.read_csv(file_path, nrows=1)
+            
+            return {
+                "valid": True,
+                "columns": list(df.columns),
+                "column_count": len(df.columns),
+                "message": "CSV format is valid"
+            }
+            
+        except Exception as e:
+            return {
+                "valid": False,
+                "error": str(e),
+                "message": "Invalid CSV format"
+            }
