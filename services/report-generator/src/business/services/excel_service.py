@@ -18,7 +18,7 @@ class ExcelReportService:
     Pure domain logic without infrastructure dependencies
     """
     
-    def __init__(self, logger: logging.Logger = None):
+    def __init__(self, logger: Optional[logging.Logger] = None):
         self.logger = logger or logging.getLogger(__name__)
     
     def validate_report_for_excel(self, report: Report) -> Dict[str, Any]:

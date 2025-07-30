@@ -21,7 +21,7 @@ class CSVTransformationService:
     Pure domain logic without infrastructure dependencies
     """
     
-    def __init__(self, logger: logging.Logger = None):
+    def __init__(self, logger: Optional[logging.Logger] = None):
         self.logger = logger or logging.getLogger(__name__)
     
     def create_transformation_rules(self, attachment_config: Dict[str, Any]) -> List[CSVRule]:
@@ -175,7 +175,7 @@ class CSVTransformationService:
             if not result.success or result.dataframe is None:
                 continue
             
-            sheet_name = result.file.rule.get_safe_sheet_name()
+            sheet_name = result.file.rule.get_safe_sheet_name() if result.file.rule else "Unknown"
             
             if sheet_name not in sheets:
                 sheets[sheet_name] = ReportSheet(

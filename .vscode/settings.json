@@ -3,7 +3,7 @@
     "python.terminal.activateEnvironment": true,
     "python.terminal.activateEnvInCurrentTerminal": true,
     
-    // Testing Configuration
+
     "python.testing.pytestEnabled": true,
     "python.testing.unittestEnabled": false,
     "python.testing.pytestArgs": [
@@ -13,7 +13,7 @@
     ],
     "python.testing.autoTestDiscoverOnSaveEnabled": true,
     
-    // Python Path Configuration for Microservices
+
     "python.analysis.extraPaths": [
         "${workspaceFolder}/src",
         "${workspaceFolder}/tests", 
@@ -25,10 +25,9 @@
         "${workspaceFolder}/services/email-service/src"
     ],
     
-    // Environment Configuration
+
     "python.envFile": "${workspaceFolder}/.env",
-    
-    // Code Quality
+
     "python.linting.enabled": true,
     "python.linting.pylintEnabled": false,
     "python.linting.flake8Enabled": true,
@@ -36,25 +35,25 @@
     "python.analysis.typeCheckingMode": "basic",
     "python.analysis.autoImportCompletions": true,
     
-    // Terminal Environment for Linux/WSL
+
     "terminal.integrated.env.linux": {
         "PYTHONPATH": "${workspaceFolder}/src:${workspaceFolder}/tests:${workspaceFolder}/shared:${workspaceFolder}/services"
     },
     
-    // File Associations
+
     "files.associations": {
         "*.toml": "toml",
         "*.yml": "yaml",
         "*.yaml": "yaml"
     },
     
-    // Editor Configuration
+
     "editor.formatOnSave": true,
     "editor.codeActionsOnSave": {
         "source.organizeImports": "explicit"
     },
     
-    // Exclude patterns for cleaner workspace
+
     "files.exclude": {
         "**/__pycache__": true,
         "**/*.pyc": true,
@@ -63,7 +62,6 @@
         "**/.git": false
     },
     
-    // Search configuration
     "search.exclude": {
         "**/__pycache__": true,
         "**/*.pyc": true,

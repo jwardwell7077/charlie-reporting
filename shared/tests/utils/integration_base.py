@@ -11,7 +11,7 @@ import os
 import unittest
 import logging
 import time
-from typing import Dict, Any, Optional
+from typing import Dict, Any
 from datetime import datetime
 
 from .temp_manager import IntegrationTempManager

@@ -97,9 +97,9 @@ Total : 316 files,  13852 codes, 3219 comments, 3616 blanks, all 20687 lines
 | [scripts/performance\_benchmark.py](/scripts/performance_benchmark.py) | Python | 160 | 30 | 54 | 244 |
 | [scripts/validate\_phase2.py](/scripts/validate_phase2.py) | Python | 220 | 24 | 69 | 313 |
 | [services/database-service/README.md](/services/database-service/README.md) | Markdown | 39 | 0 | 16 | 55 |
-| [services/database-service/config/\_\_init\_\_.py](/services/database-service/config/__init__.py) | Python | 0 | 1 | 1 | 2 |
-| [services/database-service/config/local.toml](/services/database-service/config/local.toml) | TOML | 15 | 0 | 4 | 19 |
-| [services/database-service/config/settings.py](/services/database-service/config/settings.py) | Python | 25 | 7 | 9 | 41 |
+| [services/database-service/config/\_\_init\_\_.py](/config/__init__.py) | Python | 0 | 1 | 1 | 2 |
+| [services/database-service/config/local.toml](/config/local.toml) | TOML | 15 | 0 | 4 | 19 |
+| [services/database-service/config/settings.py](/config/settings.py) | Python | 25 | 7 | 9 | 41 |
 | [services/database-service/requirements.txt](/services/database-service/requirements.txt) | pip requirements | 4 | 6 | 5 | 15 |
 | [services/database-service/scripts/run-dev.py](/services/database-service/scripts/run-dev.py) | Python | 37 | 5 | 9 | 51 |
 | [services/database-service/src/\_\_init\_\_.py](/services/database-service/src/__init__.py) | Python | 0 | 1 | 1 | 2 |
@@ -122,9 +122,9 @@ Total : 316 files,  13852 codes, 3219 comments, 3616 blanks, all 20687 lines
 | [services/database-service/tests/integration/\_\_init\_\_.py](/services/database-service/tests/integration/__init__.py) | Python | 0 | 1 | 1 | 2 |
 | [services/database-service/tests/unit/\_\_init\_\_.py](/services/database-service/tests/unit/__init__.py) | Python | 0 | 1 | 1 | 2 |
 | [services/email-service/README.md](/services/email-service/README.md) | Markdown | 40 | 0 | 16 | 56 |
-| [services/email-service/config/\_\_init\_\_.py](/services/email-service/config/__init__.py) | Python | 0 | 1 | 1 | 2 |
-| [services/email-service/config/local.toml](/services/email-service/config/local.toml) | TOML | 15 | 0 | 4 | 19 |
-| [services/email-service/config/settings.py](/services/email-service/config/settings.py) | Python | 25 | 7 | 9 | 41 |
+| [services/email-service/config/\_\_init\_\_.py](/config/__init__.py) | Python | 0 | 1 | 1 | 2 |
+| [services/email-service/config/local.toml](/config/local.toml) | TOML | 15 | 0 | 4 | 19 |
+| [services/email-service/config/settings.py](/config/settings.py) | Python | 25 | 7 | 9 | 41 |
 | [services/email-service/requirements.txt](/services/email-service/requirements.txt) | pip requirements | 6 | 7 | 6 | 19 |
 | [services/email-service/scripts/run-dev.py](/services/email-service/scripts/run-dev.py) | Python | 37 | 5 | 9 | 51 |
 | [services/email-service/src/\_\_init\_\_.py](/services/email-service/src/__init__.py) | Python | 0 | 1 | 1 | 2 |
@@ -171,9 +171,9 @@ Total : 316 files,  13852 codes, 3219 comments, 3616 blanks, all 20687 lines
 | [services/outlook-relay/tests/integration/\_\_init\_\_.py](/services/outlook-relay/tests/integration/__init__.py) | Python | 0 | 1 | 1 | 2 |
 | [services/outlook-relay/tests/unit/\_\_init\_\_.py](/services/outlook-relay/tests/unit/__init__.py) | Python | 0 | 1 | 1 | 2 |
 | [services/report-generator/README.md](/services/report-generator/README.md) | Markdown | 40 | 0 | 16 | 56 |
-| [services/report-generator/config/\_\_init\_\_.py](/services/report-generator/config/__init__.py) | Python | 0 | 1 | 1 | 2 |
-| [services/report-generator/config/local.toml](/services/report-generator/config/local.toml) | TOML | 15 | 0 | 4 | 19 |
-| [services/report-generator/config/settings.py](/services/report-generator/config/settings.py) | Python | 25 | 7 | 9 | 41 |
+| [services/report-generator/config/\_\_init\_\_.py](/config/__init__.py) | Python | 0 | 1 | 1 | 2 |
+| [services/report-generator/config/local.toml](/config/local.toml) | TOML | 15 | 0 | 4 | 19 |
+| [services/report-generator/config/settings.py](/config/settings.py) | Python | 25 | 7 | 9 | 41 |
 | [services/report-generator/requirements.txt](/services/report-generator/requirements.txt) | pip requirements | 6 | 7 | 6 | 19 |
 | [services/report-generator/scripts/run-dev.py](/services/report-generator/scripts/run-dev.py) | Python | 37 | 5 | 9 | 51 |
 | [services/report-generator/src/\_\_init\_\_.py](/services/report-generator/src/__init__.py) | Python | 0 | 1 | 1 | 2 |

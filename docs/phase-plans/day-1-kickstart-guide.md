@@ -10,6 +10,7 @@
 ## ⚡ **QUICK START COMMANDS**
 
 ### **Step 1: Environment Preparation (5 minutes)**
+
 ```bash
 # Create Phase 2.5 branch
 git checkout -b phase-2.5-testing-framework

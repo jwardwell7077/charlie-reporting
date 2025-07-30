@@ -135,35 +135,91 @@ service-name/
 └── pyproject.toml                    # Python project configuration
 ```text
 
-## Layer Responsibilities
+## Layer Responsibilities & Testing Requirements
 
 ### 1. Business Layer (Pure Domain Logic)
 - **No external dependencies** - Can be tested in isolation
 - **Domain models** - Core business entities and rules
 - **Business services** - Pure business logic operations
 - **Domain events** - Business events that trigger workflows
+- **🧪 Testing**: Unit tests with 90%+ coverage, no mocks needed (pure functions)
 
 ### 2. Interface Layer (External Communication)
 - **REST APIs** - HTTP endpoints for external communication
 - **Event handlers** - Kafka consumers/producers (future)
 - **Service clients** - Communication with other services
 - **Protocol translation** - Convert between external and internal formats
+- **🧪 Testing**: Integration tests with TestClient, mock external services
 
 ### 3. Infrastructure Layer (Technical Concerns)
 - **Persistence** - Database operations and repositories
 - **Monitoring** - Metrics, health checks, tracing
 - **Messaging** - Message queue operations
 - **Security** - Authentication, authorization, encryption
+- **🧪 Testing**: Integration tests with real/mock dependencies, health check validation
 
 ### 4. Configuration Layer
 - **Environment-specific settings** - Dev, staging, production
 - **Service discovery** - Other service locations
 - **Feature flags** - Enable/disable functionality
 - **Secret management** - API keys, database credentials
+- **🧪 Testing**: Configuration validation tests, environment-specific test configs
+
+## 🏗️ **Mandatory Architectural Principles**
+
+### **1. Plan and Architect Before Implement**
+- All architectural changes MUST be documented in `/docs/architecture/` before implementation
+- Include reasoning, alternatives considered, and trade-offs analysis
+- Break down implementation into clear phases with deliverables
+- Update documentation to match implementation
+
+### **2. Test-Driven Development (TDD)**
+- Every feature MUST have tests written before implementation
+- Follow Red-Green-Refactor cycle for all development
+- Maintain minimum 80% test coverage for business logic
+- Use dependency injection to enable easy testing
+
+## 🧪 **Mandatory Test-Driven Development (TDD)**
+
+### Test Structure Requirements
+
+Every service MUST implement this exact test structure:
+
+```text
+tests/
+├── unit/                     # Pure business logic (no I/O)
+│   ├── business/            # Domain models and services
+│   └── utils/               # Pure utility functions
+├── integration/             # API endpoints with mocked dependencies  
+│   ├── test_api_endpoints.py
+│   ├── test_database_ops.py
+│   └── test_external_services.py
+├── e2e/                     # Full workflow tests
+│   └── test_complete_workflows.py
+├── fixtures/                # Test data and factories
+│   ├── data/               # Sample CSV, JSON, etc.
+│   └── factories.py        # Test data generators
+└── conftest.py             # Pytest configuration and shared fixtures
+```
+
+### TDD Workflow (MANDATORY)
+
+1. **🔴 Red**: Write failing test first (describe expected behavior)
+2. **🟢 Green**: Write minimal code to pass test (working implementation)
+3. **🔄 Refactor**: Improve code quality while keeping tests green
+4. **📊 Verify**: Ensure 80%+ coverage and all tests pass
+
+### Test Requirements by Layer
+
+- **Business Layer**: 90%+ coverage, pure unit tests, no external dependencies
+- **Interface Layer**: API integration tests with FastAPI TestClient
+- **Infrastructure Layer**: Mock external services, test error handling
+- **End-to-End**: Critical user workflows with realistic data
 
 ## Common Base Classes
 
 ### Base Service Class
+
 ```python
 # shared/base_service.py
 from abc import ABC, abstractmethod

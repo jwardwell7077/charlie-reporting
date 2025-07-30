@@ -4,6 +4,33 @@ A modern microservices-based reporting system for processing CSV data and genera
 
 **🎯 Portfolio Project**: This demonstrates enterprise-grade microservices architecture, professional development practices, and legacy system modernization.
 
+## 🧭 **Development Philosophy**
+
+This project follows two core engineering principles:
+
+### **1. Plan and Architect Before Implement**
+
+- **📋 Design First**: All architectural changes documented before implementation
+- **🔍 Justify Decisions**: Include reasoning, alternatives, and trade-offs
+- **📊 Impact Analysis**: Review effects on existing services and tests
+- **⚡ Phased Implementation**: Break down changes into clear deliverables
+
+### **2. Test-Driven Development (TDD)**
+
+- **🔴 Red**: Write failing tests for new features first
+- **🟢 Green**: Write minimal code to pass tests  
+- **🔄 Refactor**: Improve code while maintaining test coverage
+- **📊 Coverage**: Minimum 80% test coverage for all business logic
+- **🚀 Automation**: All tests run in CI/CD pipeline
+
+**Quality Standards**:
+
+- ✅ Unit tests for business logic (no external dependencies)
+- ✅ Integration tests for API endpoints and database operations
+- ✅ End-to-end tests for complete workflows
+- ✅ Pytest framework with comprehensive fixtures and mocks
+- ❌ Manual terminal testing for validation (automated only)
+
 ## 📖 **Project Documentation**
 
 - **[Development Diary](docs/development-diary.md)**: Complete journey from desktop app to microservices architecture
