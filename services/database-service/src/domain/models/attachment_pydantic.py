@@ -2,16 +2,17 @@
 Attachment domain model.
 Represents email attachments with file metadata.
 """
-
-from datetime import datetime, timezone
 from uuid import UUID, uuid4
-from typing import Optional
 from pydantic import BaseModel, Field, validator
+
+
+from typing import Optional
+from datetime import datetime, timezone
 
 
 class Attachment(BaseModel):
     """Domain model for email attachments"""
-    
+
     filename: str
     content_type: str
     size_bytes: int
@@ -22,39 +23,39 @@ class Attachment(BaseModel):
     created_at: datetime = Field(
         default_factory=lambda: datetime.now(timezone.utc)
     )
-    
+
     class Config:
         # Allow arbitrary types for UUID
         arbitrary_types_allowed = True
-    
+
     @validator('filename')
     def validate_filename(cls, v):
         if not v:
             raise ValueError("Filename cannot be empty")
         return v
-    
+
     @validator('content_type')
     def validate_content_type(cls, v):
         if not v:
             raise ValueError("Content type cannot be empty")
         return v
-    
+
     @validator('size_bytes')
     def validate_size_bytes(cls, v):
         if v < 0:
             raise ValueError("Size cannot be negative")
         return v
-    
+
     @property
     def size_mb(self) -> float:
         """Get attachment size in megabytes"""
         return self.size_bytes / (1024 * 1024)
-    
+
     @property
     def is_image(self) -> bool:
         """Check if attachment is an image"""
         return self.content_type.startswith('image/')
-    
+
     @property
     def is_document(self) -> bool:
         """Check if attachment is a document"""
@@ -66,7 +67,7 @@ class Attachment(BaseModel):
         ]
         return any(self.content_type.startswith(doc_type)
                    for doc_type in document_types)
-    
+
     def to_dict(self) -> dict:
         """Convert attachment to dictionary"""
         return {
@@ -79,7 +80,7 @@ class Attachment(BaseModel):
             'is_inline': self.is_inline,
             'created_at': self.created_at.isoformat()
         }
-    
+
     @classmethod
     def from_dict(cls, data: dict) -> 'Attachment':
         """Create attachment from dictionary"""
@@ -89,7 +90,7 @@ class Attachment(BaseModel):
             attachment_data['created_at']
         )
         return cls(**attachment_data)
-    
+
     def __repr__(self) -> str:
         return (f"Attachment(id={self.id}, filename='{self.filename}', "
                 f"size={self.size_bytes} bytes)")

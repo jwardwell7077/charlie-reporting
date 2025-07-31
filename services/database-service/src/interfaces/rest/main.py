@@ -5,7 +5,6 @@ Provides RESTful endpoints for email, user, and report management.
 
 import logging
 from contextlib import asynccontextmanager
-from typing import Dict, Any
 
 from fastapi import FastAPI, Request, status
 from fastapi.middleware.cors import CORSMiddleware
@@ -31,53 +30,53 @@ logger = logging.getLogger(__name__)
 
 
 class DatabaseServiceAPI:
-    """Database Service API application wrapper"""
-    
+        """Database Service API application wrapper"""
+
     def __init__(self, config: DatabaseServiceConfig):
-        self.config = config
+            self.config = config
         self.db_connection: DatabaseConnection = None
         self.email_service: EmailService = None
         self.user_service: UserService = None
         self.report_service: ReportService = None
         self.workflow_service: WorkflowService = None
-    
+
     async def initialize(self):
-        """Initialize database connection and services"""
+            """Initialize database connection and services"""
         try:
             # Initialize database
             db_config = DatabaseConfig(
                 database_url=self.config.database_url,
                 database_pool_size=self.config.database_pool_size,
                 environment=getattr(self.config, 'environment', 'development')
-            )
-            
-            self.db_connection = DatabaseConnection(db_config)
-            await self.db_connection.initialize()
-            
-            # Initialize repositories
+                )
+
+                self.db_connection = DatabaseConnection(db_config)
+                await self.db_connection.initialize()
+
+                # Initialize repositories
             email_mapper = EmailRecordMapper()
-            email_repository = EmailRepository(self.db_connection, email_mapper)
-            
-            # Initialize business services
+                email_repository = EmailRepository(self.db_connection, email_mapper)
+
+                # Initialize business services
             self.email_service = EmailService(email_repository)
-            self.user_service = UserService()  # TODO: Add user repository
-            self.report_service = ReportService()  # TODO: Add report repository
-            self.workflow_service = WorkflowService(
-                self.email_service, 
+                self.user_service = UserService()  # TODO: Add user repository
+                self.report_service = ReportService()  # TODO: Add report repository
+                self.workflow_service = WorkflowService(
+                self.email_service,
                 self.report_service
             )
-            
-            logger.info("Database service initialized successfully")
-            
-        except Exception as e:
+
+                logger.info("Database service initialized successfully")
+
+            except Exception:
             logger.error(f"Failed to initialize database service: {e}")
-            raise
-    
+                raise
+
     async def shutdown(self):
-        """Cleanup resources"""
+            """Cleanup resources"""
         if self.db_connection:
             await self.db_connection.close()
-        logger.info("Database service shutdown complete")
+            logger.info("Database service shutdown complete")
 
 
 # Global service instance
@@ -85,30 +84,31 @@ service: DatabaseServiceAPI = None
 
 
 @asynccontextmanager
+
 async def lifespan(app: FastAPI):
-    """Application lifespan management"""
+        """Application lifespan management"""
     global service
-    
+
     # Startup
     config = DatabaseServiceConfig()
-    service = DatabaseServiceAPI(config)
-    await service.initialize()
-    
-    # Store services in app state for dependency injection
+        service = DatabaseServiceAPI(config)
+        await service.initialize()
+
+        # Store services in app state for dependency injection
     app.state.email_service = service.email_service
     app.state.user_service = service.user_service
     app.state.report_service = service.report_service
     app.state.workflow_service = service.workflow_service
-    
+
     yield
-    
+
     # Shutdown
     await service.shutdown()
 
 
 def create_app() -> FastAPI:
-    """Create and configure FastAPI application"""
-    
+        """Create and configure FastAPI application"""
+
     app = FastAPI(
         title="Charlie Reporting - Database Service API",
         description="REST API for email, user, and report data management",
@@ -117,8 +117,8 @@ def create_app() -> FastAPI:
         docs_url="/docs",
         redoc_url="/redoc"
     )
-    
-    # Add CORS middleware
+
+        # Add CORS middleware
     app.add_middleware(
         CORSMiddleware,
         allow_origins=["*"],  # Configure appropriately for production
@@ -126,50 +126,54 @@ def create_app() -> FastAPI:
         allow_methods=["*"],
         allow_headers=["*"],
     )
-    
-    # Include routers
+
+        # Include routers
     app.include_router(health.router, prefix="/health", tags=["Health"])
-    app.include_router(emails.router, prefix="/api/v1/emails", tags=["Emails"])
-    app.include_router(users.router, prefix="/api/v1/users", tags=["Users"])
-    app.include_router(reports.router, prefix="/api/v1/reports", tags=["Reports"])
-    
-    # Global exception handlers
+        app.include_router(emails.router, prefix="/api/v1/emails", tags=["Emails"])
+        app.include_router(users.router, prefix="/api/v1/users", tags=["Users"])
+        app.include_router(reports.router, prefix="/api/v1/reports", tags=["Reports"])
+
+        # Global exception handlers
     @app.exception_handler(ValidationError)
-    async def validation_exception_handler(request: Request, exc: ValidationError):
-        return JSONResponse(
+
+
+        async def validation_exception_handler(request: Request, exc: ValidationError):
+            return JSONResponse(
             status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
             content={
                 "error": "Validation Error",
                 "details": exc.errors(),
-                "message": "The provided data is invalid"
+                    "message": "The provided data is invalid"
             }
         )
-    
-    @app.exception_handler(RequestValidationError)
-    async def request_validation_exception_handler(
+
+        @app.exception_handler(RequestValidationError)
+
+        async def request_validation_exception_handler(
         request: Request, exc: RequestValidationError
     ):
-        return JSONResponse(
+            return JSONResponse(
             status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
             content={
                 "error": "Request Validation Error",
                 "details": exc.errors(),
-                "message": "The request data is invalid"
+                    "message": "The request data is invalid"
             }
         )
-    
-    @app.exception_handler(Exception)
-    async def general_exception_handler(request: Request, exc: Exception):
-        logger.error(f"Unhandled exception: {exc}")
-        return JSONResponse(
+
+        @app.exception_handler(Exception)
+
+        async def general_exception_handler(request: Request, exc: Exception):
+            logger.error(f"Unhandled exception: {exc}")
+            return JSONResponse(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             content={
                 "error": "Internal Server Error",
                 "message": "An unexpected error occurred"
             }
         )
-    
-    return app
+
+        return app
 
 
 # Create the app instance
@@ -177,5 +181,5 @@ app = create_app()
 
 
 if __name__ == "__main__":
-    import uvicorn
+        import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=8000)
