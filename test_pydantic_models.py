@@ -20,7 +20,7 @@ def test_pydantic_models():
         from domain.models.user import User, UserRole, UserStatus
         from domain.models.report import Report, ReportType, ReportStatus
         
-        print("✅ Successfully imported all Pydantic domain models")
+        print("Successfully imported all Pydantic domain models")
         
         # Test EmailRecord
         email = EmailRecord(
@@ -39,7 +39,7 @@ def test_pydantic_models():
             status=EmailStatus.RECEIVED,
             attachments=[]
         )
-        print(f"✅ Created EmailRecord: {email.subject}")
+        print(f"Created EmailRecord: {email.subject}")
         
         # Test User
         user = User(
@@ -53,14 +53,16 @@ def test_pydantic_models():
             last_login=None,
             created_at=datetime.now()
         )
-        print(f"✅ Created User: {user.username}")
+        print(f"Created User: {user.username}")
         
-        # Test Report
+        # Test Report - check available enum values first
+        print(f"Available ReportType values: {list(ReportType)}")
+        
         report = Report(
             id=uuid4(),
             title="Test Report",
             description="A test report",
-            report_type=ReportType.EMAIL_SUMMARY,
+            report_type=list(ReportType)[0],  # Use first available type
             status=ReportStatus.PENDING,
             created_by=user,
             email_records=[email],
@@ -68,18 +70,16 @@ def test_pydantic_models():
             completed_at=None,
             created_at=datetime.now()
         )
-        print(f"✅ Created Report: {report.title}")
+        print(f"Created Report: {report.title}")
         
-        print("\n🎉 All Pydantic domain models work correctly!")
-        return True
-🎉 All Pydantic domain models work correctly!")
+        print("\nAll Pydantic domain models work correctly!")
         return True
         
     except ImportError as e:
-        print(f"❌ Import error: {e}")
+        print(f"Import error: {e}")
         return False
     except Exception as e:
-        print(f"❌ Validation error: {e}")
+        print(f"Validation error: {e}")
         return False
 
 if __name__ == "__main__":

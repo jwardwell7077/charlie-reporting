@@ -6,7 +6,7 @@ Represents email attachments with file metadata.
 from datetime import datetime, timezone
 from uuid import UUID, uuid4
 from typing import Optional
-from pydantic import BaseModel, Field, validator
+from pydantic import BaseModel, Field, field_validator, ConfigDict
 
 
 class Attachment(BaseModel):
@@ -23,23 +23,27 @@ class Attachment(BaseModel):
         default_factory=lambda: datetime.now(timezone.utc)
     )
     
-    class Config:
+    model_config = ConfigDict(
         # Allow arbitrary types for UUID
-        arbitrary_types_allowed = True
+        arbitrary_types_allowed=True
+    )
     
-    @validator('filename')
+    @field_validator('filename')
+    @classmethod
     def validate_filename(cls, v):
         if not v:
             raise ValueError("Filename cannot be empty")
         return v
     
-    @validator('content_type')
+    @field_validator('content_type')
+    @classmethod
     def validate_content_type(cls, v):
         if not v:
             raise ValueError("Content type cannot be empty")
         return v
     
-    @validator('size_bytes')
+    @field_validator('size_bytes')
+    @classmethod
     def validate_size_bytes(cls, v):
         if v < 0:
             raise ValueError("Size cannot be negative")

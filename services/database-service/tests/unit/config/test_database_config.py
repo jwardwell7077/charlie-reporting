@@ -9,7 +9,7 @@ from unittest.mock import patch, mock_open
 from pydantic import ValidationError
 
 from src.config.database import DatabaseConfig
-from src.config.settings import DatabaseserviceConfig
+from src.config.settings import DatabaseServiceConfig
 
 
 class TestDatabaseConfig:
@@ -135,7 +135,7 @@ class TestDatabaseConfig:
     
     def test_database_config_integration_with_service_config(self):
         """Test database config integrates with main service config"""
-        service_config = DatabaseserviceConfig(
+        service_config = DatabaseServiceConfig(
             database_url="postgresql+asyncpg://user:pass@localhost:5432/integration_test",
             database_pool_size=12
         )

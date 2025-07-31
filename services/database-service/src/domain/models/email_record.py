@@ -7,7 +7,7 @@ from datetime import datetime, timezone
 from enum import Enum
 from typing import List, Optional
 from uuid import UUID, uuid4
-from pydantic import BaseModel, Field, validator
+from pydantic import BaseModel, Field, field_validator, ConfigDict
 
 from .attachment import Attachment
 
@@ -51,30 +51,35 @@ class EmailRecord(BaseModel):
     )
     id: UUID = Field(default_factory=uuid4)
     
-    class Config:
+    model_config = ConfigDict(
         # Allow arbitrary types for UUID
-        arbitrary_types_allowed = True
+        arbitrary_types_allowed=True
+    )
     
-    @validator('message_id')
-    def validate_message_id(cls, v):
+    @field_validator('message_id')
+    @classmethod
+    def validate_message_id(cls, v: str) -> str:
         if not v:
             raise ValueError("Message ID cannot be empty")
         return v
     
-    @validator('subject')
-    def validate_subject(cls, v):
+    @field_validator('subject')
+    @classmethod
+    def validate_subject(cls, v: str) -> str:
         if not v:
             raise ValueError("Subject cannot be empty")
         return v
     
-    @validator('sender')
-    def validate_sender(cls, v):
+    @field_validator('sender')
+    @classmethod
+    def validate_sender(cls, v: str) -> str:
         if not v:
             raise ValueError("Sender cannot be empty")
         return v
     
-    @validator('recipients')
-    def validate_recipients(cls, v):
+    @field_validator('recipients')
+    @classmethod
+    def validate_recipients(cls, v: List[str]) -> List[str]:
         if not v:
             raise ValueError("At least one recipient is required")
         return v

@@ -2,8 +2,8 @@
 Database configuration module for database-service
 """
 
+from pydantic import BaseModel, Field, field_validator, ConfigDict
 from typing import Dict, Any
-from pydantic import BaseModel, Field, validator
 from urllib.parse import urlparse
 
 
@@ -35,8 +35,9 @@ class DatabaseConfig(BaseModel):
     )
     environment: str = Field(default="development", description="Environment")
     
-    @validator('database_url')
-    def validate_database_url(cls, v):
+    @field_validator('database_url')
+    @classmethod
+    def validate_database_url(cls, v: str) -> str:
         """Validate database URL format"""
         if not v:
             raise ValueError("Database URL cannot be empty")
@@ -48,17 +49,20 @@ class DatabaseConfig(BaseModel):
             
             # Check for supported schemes
             supported_schemes = {
-                'sqlite+aiosqlite', 'postgresql+asyncpg', 
+                'sqlite+aiosqlite', 'postgresql+asyncpg',
                 'mysql+aiomysql', 'oracle+cx_oracle'
             }
             
             if parsed.scheme not in supported_schemes:
                 # Allow if it looks like a database URL pattern
-                if '+' not in parsed.scheme and parsed.scheme not in ['http', 'https', 'ftp']:
+                if ('+' not in parsed.scheme and
+                        parsed.scheme not in ['http', 'https', 'ftp']):
                     # Might be a valid database scheme we don't know about
                     pass
                 else:
-                    raise ValueError(f"Unsupported database scheme: {parsed.scheme}")
+                    raise ValueError(
+                        f"Unsupported database scheme: {parsed.scheme}"
+                    )
             
         except Exception as e:
             if "Unsupported database scheme" in str(e):
@@ -67,10 +71,10 @@ class DatabaseConfig(BaseModel):
         
         return v
     
-    @validator('database_max_overflow')
-    def validate_max_overflow(cls, v, values):
+    @field_validator('database_max_overflow')
+    @classmethod
+    def validate_max_overflow(cls, v: int) -> int:
         """Validate max overflow is reasonable compared to pool size"""
-        pool_size = values.get('database_pool_size', 5)
         if v < 0:
             raise ValueError("Max overflow cannot be negative")
         return v

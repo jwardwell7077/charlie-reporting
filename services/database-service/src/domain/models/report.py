@@ -7,7 +7,7 @@ from datetime import datetime, timezone
 from enum import Enum
 from typing import List, Optional
 from uuid import UUID, uuid4
-from pydantic import BaseModel, Field, validator
+from pydantic import BaseModel, Field, field_validator, ConfigDict
 
 from .user import User
 from .email_record import EmailRecord
@@ -50,18 +50,21 @@ class Report(BaseModel):
         default_factory=lambda: datetime.now(timezone.utc)
     )
     
-    class Config:
+    model_config = ConfigDict(
         # Allow arbitrary types for UUID
-        arbitrary_types_allowed = True
+        arbitrary_types_allowed=True
+    )
     
-    @validator('title')
-    def validate_title(cls, v):
+    @field_validator('title')
+    @classmethod
+    def validate_title(cls, v: str) -> str:
         if not v:
             raise ValueError("Title cannot be empty")
         return v
     
-    @validator('created_by')
-    def validate_created_by(cls, v):
+    @field_validator('created_by')
+    @classmethod
+    def validate_created_by(cls, v: User) -> User:
         if v is None:
             raise ValueError("Created by user is required")
         return v
@@ -115,15 +118,23 @@ class Report(BaseModel):
             'report_type': self.report_type.value,
             'status': self.status.value,
             'created_by_id': str(self.created_by.id),
-            'email_record_ids': [str(email.id) for email in self.email_records],
+            'email_record_ids': [
+                str(email.id) for email in self.email_records
+            ],
             'file_path': self.file_path,
-            'completed_at': self.completed_at.isoformat() if self.completed_at else None,
+            'completed_at': (
+                self.completed_at.isoformat() if self.completed_at else None
+            ),
             'created_at': self.created_at.isoformat()
         }
     
     @classmethod
-    def from_dict(cls, data: dict, created_by_user: User,
-                  email_records: Optional[List[EmailRecord]] = None) -> 'Report':
+    def from_dict(
+        cls,
+        data: dict,
+        created_by_user: User,
+        email_records: Optional[List[EmailRecord]] = None
+    ) -> 'Report':
         """Create report from dictionary"""
         report_data = data.copy()
         report_data['id'] = UUID(report_data['id'])

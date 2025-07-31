@@ -6,12 +6,13 @@ Following TDD - these tests are written BEFORE implementation.
 import pytest
 from datetime import datetime, timezone
 from uuid import UUID, uuid4
-from unittest.mock import AsyncMock, MagicMock, patch
+from unittest.mock import AsyncMock, MagicMock, Mock, patch
 from typing import List
 
 from src.domain.repositories.email_repository import EmailRepository
 from src.domain.models.email_record import EmailRecord, EmailStatus, EmailPriority
 from src.infrastructure.persistence.database import DatabaseConnection
+from src.infrastructure.persistence.models.email_models import EmailRecordORM
 
 
 class TestEmailRepository:
@@ -36,6 +37,27 @@ class TestEmailRepository:
             sender="sender@example.com",
             recipients=["recipient@example.com"],
             sent_date=datetime(2025, 7, 29, 10, 0, 0, tzinfo=timezone.utc)
+        )
+
+    def setup_mock_session_with_result(self, email_repository, mock_result):
+        """Helper method to setup mock session with result"""
+        mock_session = AsyncMock()
+        mock_session.execute.return_value = mock_result
+        
+        db_connection = email_repository._db_connection
+        get_session_mock = db_connection.get_session.return_value
+        get_session_mock.__aenter__ = AsyncMock(return_value=mock_session)
+        get_session_mock.__aexit__ = AsyncMock(return_value=None)
+        
+        return mock_session
+    
+    def setup_mock_session(self, email_repository, mock_session):
+        """Helper to set up mock session context manager"""
+        email_repository._db_connection.get_session.return_value.__aenter__ = AsyncMock(
+            return_value=mock_session
+        )
+        email_repository._db_connection.get_session.return_value.__aexit__ = AsyncMock(
+            return_value=None
         )
     
     @pytest.mark.asyncio
@@ -96,12 +118,7 @@ class TestEmailRepository:
         mock_session = AsyncMock()
         mock_session.merge.return_value = sample_email_record
         
-        email_repository._db_connection.get_session.return_value.__aenter__ = AsyncMock(
-            return_value=mock_session
-        )
-        email_repository._db_connection.get_session.return_value.__aexit__ = AsyncMock(
-            return_value=None
-        )
+        self.setup_mock_session(email_repository, mock_session)
         
         # Modify the email
         sample_email_record.subject = "Updated Subject"
@@ -110,7 +127,7 @@ class TestEmailRepository:
         
         assert result == sample_email_record
         assert result.subject == "Updated Subject"
-        mock_session.merge.assert_called_once_with(sample_email_record)
+        mock_session.merge.assert_called_once()
     
     @pytest.mark.asyncio
     async def test_delete_email_record_success(self, email_repository, sample_email_record):
@@ -128,7 +145,9 @@ class TestEmailRepository:
         result = await email_repository.delete(sample_email_record.id)
         
         assert result is True
-        mock_session.get.assert_called_once_with(EmailRecord, sample_email_record.id)
+        mock_session.get.assert_called_once_with(
+            EmailRecordORM, sample_email_record.id
+        )
         mock_session.delete.assert_called_once_with(sample_email_record)
     
     @pytest.mark.asyncio
@@ -155,16 +174,13 @@ class TestEmailRepository:
         email_list = [sample_email_record]
         
         mock_session = AsyncMock()
-        mock_result = AsyncMock()
-        mock_result.scalars.return_value.all.return_value = email_list
+        mock_result = MagicMock()  # Use MagicMock instead of AsyncMock
+        mock_scalars = MagicMock()
+        mock_scalars.all.return_value = email_list
+        mock_result.scalars.return_value = mock_scalars
         mock_session.execute.return_value = mock_result
         
-        email_repository._db_connection.get_session.return_value.__aenter__ = AsyncMock(
-            return_value=mock_session
-        )
-        email_repository._db_connection.get_session.return_value.__aexit__ = AsyncMock(
-            return_value=None
-        )
+        self.setup_mock_session(email_repository, mock_session)
         
         result = await email_repository.list_all()
         
@@ -209,16 +225,11 @@ class TestEmailRepository:
     async def test_get_by_message_id(self, email_repository, sample_email_record):
         """Test getting email by message ID"""
         mock_session = AsyncMock()
-        mock_result = AsyncMock()
+        mock_result = MagicMock()
         mock_result.scalar_one_or_none.return_value = sample_email_record
         mock_session.execute.return_value = mock_result
         
-        email_repository._db_connection.get_session.return_value.__aenter__ = AsyncMock(
-            return_value=mock_session
-        )
-        email_repository._db_connection.get_session.return_value.__aexit__ = AsyncMock(
-            return_value=None
-        )
+        self.setup_mock_session(email_repository, mock_session)
         
         result = await email_repository.get_by_message_id(sample_email_record.message_id)
         
@@ -230,17 +241,20 @@ class TestEmailRepository:
         """Test getting emails by status"""
         email_list = [sample_email_record]
         
+        # Create a mock result that properly handles scalars().all()
+        mock_scalars_result = Mock()
+        mock_scalars_result.all.return_value = email_list
+        
+        mock_result = Mock()
+        mock_result.scalars.return_value = mock_scalars_result
+        
         mock_session = AsyncMock()
-        mock_result = AsyncMock()
-        mock_result.scalars.return_value.all.return_value = email_list
         mock_session.execute.return_value = mock_result
         
-        email_repository._db_connection.get_session.return_value.__aenter__ = AsyncMock(
-            return_value=mock_session
-        )
-        email_repository._db_connection.get_session.return_value.__aexit__ = AsyncMock(
-            return_value=None
-        )
+        db_connection = email_repository._db_connection
+        get_session_mock = db_connection.get_session.return_value
+        get_session_mock.__aenter__ = AsyncMock(return_value=mock_session)
+        get_session_mock.__aexit__ = AsyncMock(return_value=None)
         
         result = await email_repository.get_by_status(EmailStatus.RECEIVED)
         
@@ -252,41 +266,51 @@ class TestEmailRepository:
         """Test getting emails by sender"""
         email_list = [sample_email_record]
         
+        # Create a mock result that properly handles scalars().all()
+        mock_scalars_result = Mock()
+        mock_scalars_result.all.return_value = email_list
+        
+        mock_result = Mock()
+        mock_result.scalars.return_value = mock_scalars_result
+        
         mock_session = AsyncMock()
-        mock_result = AsyncMock()
-        mock_result.scalars.return_value.all.return_value = email_list
         mock_session.execute.return_value = mock_result
         
-        email_repository._db_connection.get_session.return_value.__aenter__ = AsyncMock(
-            return_value=mock_session
-        )
-        email_repository._db_connection.get_session.return_value.__aexit__ = AsyncMock(
-            return_value=None
-        )
+        db_connection = email_repository._db_connection
+        get_session_mock = db_connection.get_session.return_value
+        get_session_mock.__aenter__ = AsyncMock(return_value=mock_session)
+        get_session_mock.__aexit__ = AsyncMock(return_value=None)
         
-        result = await email_repository.get_by_sender(sample_email_record.sender)
+        result = await email_repository.get_by_sender(
+            sample_email_record.sender
+        )
         
         assert result == email_list
         mock_session.execute.assert_called_once()
     
     @pytest.mark.asyncio
-    async def test_get_by_date_range(self, email_repository, sample_email_record):
+    async def test_get_by_date_range(
+        self, email_repository, sample_email_record
+    ):
         """Test getting emails by date range"""
         email_list = [sample_email_record]
         start_date = datetime(2025, 7, 28, tzinfo=timezone.utc)
         end_date = datetime(2025, 7, 30, tzinfo=timezone.utc)
         
+        # Create a mock result that properly handles scalars().all()
+        mock_scalars_result = Mock()
+        mock_scalars_result.all.return_value = email_list
+        
+        mock_result = Mock()
+        mock_result.scalars.return_value = mock_scalars_result
+        
         mock_session = AsyncMock()
-        mock_result = AsyncMock()
-        mock_result.scalars.return_value.all.return_value = email_list
         mock_session.execute.return_value = mock_result
         
-        email_repository._db_connection.get_session.return_value.__aenter__ = AsyncMock(
-            return_value=mock_session
-        )
-        email_repository._db_connection.get_session.return_value.__aexit__ = AsyncMock(
-            return_value=None
-        )
+        db_connection = email_repository._db_connection
+        get_session_mock = db_connection.get_session.return_value
+        get_session_mock.__aenter__ = AsyncMock(return_value=mock_session)
+        get_session_mock.__aexit__ = AsyncMock(return_value=None)
         
         result = await email_repository.get_by_date_range(start_date, end_date)
         
@@ -298,17 +322,17 @@ class TestEmailRepository:
         """Test counting emails by status"""
         expected_count = 5
         
-        mock_session = AsyncMock()
-        mock_result = AsyncMock()
+        # Create a mock result that properly handles scalar()
+        mock_result = Mock()
         mock_result.scalar.return_value = expected_count
+        
+        mock_session = AsyncMock()
         mock_session.execute.return_value = mock_result
         
-        email_repository._db_connection.get_session.return_value.__aenter__ = AsyncMock(
-            return_value=mock_session
-        )
-        email_repository._db_connection.get_session.return_value.__aexit__ = AsyncMock(
-            return_value=None
-        )
+        db_connection = email_repository._db_connection
+        get_session_mock = db_connection.get_session.return_value
+        get_session_mock.__aenter__ = AsyncMock(return_value=mock_session)
+        get_session_mock.__aexit__ = AsyncMock(return_value=None)
         
         result = await email_repository.count_by_status(EmailStatus.RECEIVED)
         

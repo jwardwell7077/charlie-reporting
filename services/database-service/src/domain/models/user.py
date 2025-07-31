@@ -8,7 +8,7 @@ from datetime import datetime, timezone
 from enum import Enum
 from typing import Optional
 from uuid import UUID, uuid4
-from pydantic import BaseModel, Field, validator
+from pydantic import BaseModel, Field, field_validator, ConfigDict
 
 
 class UserRole(Enum):
@@ -43,24 +43,30 @@ class User(BaseModel):
         default_factory=lambda: datetime.now(timezone.utc)
     )
     
-    class Config:
+    model_config = ConfigDict(
         # Allow arbitrary types for UUID
-        arbitrary_types_allowed = True
+        arbitrary_types_allowed=True
+    )
     
-    @validator('email')
-    def validate_email(cls, v):
-        if not v:
-            raise ValueError("Email cannot be empty")
-        if not cls._is_valid_email(v):
-            raise ValueError("Invalid email format")
-        return v
-    
-    @validator('username')
-    def validate_username(cls, v):
-        if not v:
-            raise ValueError("Username cannot be empty")
-        return v
-    
+    @field_validator('email')
+    @classmethod
+    def validate_email(cls, v: str) -> str:
+        email_pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
+        if not re.match(email_pattern, v):
+            raise ValueError('Invalid email format')
+        return v.lower()
+
+    @field_validator('username')
+    @classmethod
+    def validate_username(cls, v: str) -> str:
+        if len(v) < 3:
+            raise ValueError('Username must be at least 3 characters long')
+        if not re.match(r'^[a-zA-Z0-9_]+$', v):
+            raise ValueError(
+                'Username can only contain letters, numbers, and underscores'
+            )
+        return v.lower()
+
     @classmethod
     def _is_valid_email(cls, email: str) -> bool:
         """Validate email format using regex"""
@@ -110,7 +116,9 @@ class User(BaseModel):
             'last_name': self.last_name,
             'role': self.role.value,
             'status': self.status.value,
-            'last_login': self.last_login.isoformat() if self.last_login else None,
+            'last_login': (
+                self.last_login.isoformat() if self.last_login else None
+            ),
             'created_at': self.created_at.isoformat()
         }
     
