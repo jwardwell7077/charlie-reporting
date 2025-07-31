@@ -54,7 +54,7 @@ python3 scripts/start_dev_services.py
 ## 📁 Project Structure
 
 ├── services/              # Microservices
-│   ├── report_generator/   # CSV processing & Excel generation
+│   ├── report-generator/   # CSV processing & Excel generation (TDD-refactored)
 │   ├── email-service/      # Email processing
 │   ├── outlook-relay/      # Outlook integration
 │   ├── database-service/   # Data persistence
@@ -105,7 +105,7 @@ This system follows a modern microservices architecture:
 python3 scripts/test_runner.py
 
 # Run tests for specific service
-python3 scripts/test_runner.py --service report_generator
+python3 scripts/test_runner.py --service report-generator
 
 # Run specific test types
 python3 scripts/test_runner.py --type unit
