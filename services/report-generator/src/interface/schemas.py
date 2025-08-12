@@ -1,6 +1,6 @@
 """
 API Schema Models for Report Generator Service
-Pydantic models for request/response validation and API documentation
+Pydantic models for request / response validation and API documentation
 """
 
 from typing import List, Dict, Any, Optional
@@ -25,22 +25,22 @@ class ReportType(str, Enum):
 
 
 class DirectoryProcessRequest(BaseModel):
-    """Request model for directory-based report processing"""
+    """Request model for directory - based report processing"""
     raw_directory: str = Field(..., description="Path to directory containing raw CSV files")
     archive_directory: str = Field(..., description="Path to directory for archiving processed files")
     output_directory: str = Field(..., description="Path to directory for output Excel files")
-    date_filter: str = Field(..., description="Date filter in YYYY-MM-DD format", pattern=r"^\d{4}-\d{2}-\d{2}$")
+    date_filter: str = Field(..., description="Date filter in YYYY - MM - DD format", pattern=r"^\d{4}-\d{2}-\d{2}$")
     hour_filter: Optional[str] = Field(None, description="Optional hour filter in HH format", pattern=r"^\d{2}$")
     attachment_config: Dict[str, Any] = Field(..., description="Configuration for file processing rules")
-    
+
     @validator('date_filter')
     def validate_date_format(cls, v):
         try:
             datetime.strptime(v, '%Y-%m-%d')
             return v
         except ValueError:
-            raise ValueError('Date must be in YYYY-MM-DD format')
-    
+            raise ValueError('Date must be in YYYY - MM - DD format')
+
     @validator('hour_filter')
     def validate_hour_format(cls, v):
         if v is not None:
@@ -67,19 +67,19 @@ class ProcessingResult(BaseModel):
     """Response model for processing results"""
     success: bool = Field(..., description="Whether processing was successful")
     processing_time_seconds: float = Field(..., description="Time taken for processing")
-    message: Optional[str] = Field(None, description="Human-readable status message")
-    
+    message: Optional[str] = Field(None, description="Human - readable status message")
+
     # File statistics
     discovered_files: Optional[int] = Field(None, description="Number of files discovered")
     matched_files: Optional[int] = Field(None, description="Number of files matched to rules")
     transformed_files: Optional[int] = Field(None, description="Number of successfully transformed files")
     failed_files: Optional[int] = Field(None, description="Number of files that failed processing")
-    
+
     # Report statistics
     report_sheets: Optional[int] = Field(None, description="Number of sheets in generated report")
     total_records: Optional[int] = Field(None, description="Total number of records processed")
     excel_filename: Optional[str] = Field(None, description="Name of generated Excel file")
-    
+
     # Processing details
     archived_files: List[str] = Field(default_factory=list, description="List of archived file names")
     warnings: List[str] = Field(default_factory=list, description="Processing warnings")
@@ -103,7 +103,7 @@ class DirectoryValidationResult(BaseModel):
 
 class ProcessingStatistics(BaseModel):
     """Enhanced processing statistics"""
-    success_rate: float = Field(..., description="Success rate as percentage (0-100)")
+    success_rate: float = Field(..., description="Success rate as percentage (0 - 100)")
     files_per_second: float = Field(..., description="Files processed per second")
     records_per_second: float = Field(..., description="Records processed per second")
     processing_efficiency: str = Field(..., description="Efficiency rating: excellent, good, moderate, slow")
@@ -182,6 +182,8 @@ class FileOperationResult(BaseModel):
 
 
 # API Response wrappers
+
+
 class APIResponse(BaseModel):
     """Generic API response wrapper"""
     success: bool = Field(..., description="Whether the API call was successful")
@@ -194,7 +196,7 @@ class PaginatedResponse(BaseModel):
     """Paginated response model"""
     items: List[Any] = Field(..., description="Items in current page")
     total_count: int = Field(..., description="Total number of items")
-    page: int = Field(..., description="Current page number (1-based)")
+    page: int = Field(..., description="Current page number (1 - based)")
     page_size: int = Field(..., description="Number of items per page")
     total_pages: int = Field(..., description="Total number of pages")
     has_next: bool = Field(..., description="Whether there is a next page")

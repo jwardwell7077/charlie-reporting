@@ -124,12 +124,37 @@ class IDBService(ABC):
 
 ## 📋 **Code Quality Standards**
 
-### **Code Style**
+### **Code Style & Linting**
 
 - [ ] **PEP 8 Compliance**: Code follows Python style guidelines
+- [ ] **Flake8 Clean**: All code passes `flake8` linting (mandatory)
+- [ ] **Line Length**: Maximum 88 characters per line (Black-compatible)
+- [ ] **Import Organization**: Imports organized using isort standards
 - [ ] **Type Hints**: All public methods have type hints
 - [ ] **Docstrings**: Public methods have descriptive docstrings
-- [ ] **Linting**: Code passes linting checks (pylint, flake8)
+
+### **Flake8 Configuration Standards**
+
+```ini
+# setup.cfg or .flake8
+[flake8]
+max-line-length = 88
+exclude = .git,__pycache__,migrations,.venv,build,dist
+ignore = 
+    E203,  # Whitespace before ':' (conflicts with Black)
+    W503,  # Line break before binary operator (conflicts with Black)
+    E501   # Line too long (handled by max-line-length)
+per-file-ignores =
+    __init__.py:F401  # Unused imports in __init__.py files
+max-complexity = 10
+```
+
+### **Quality Enforcement**
+
+- [ ] **Pre-commit Hooks**: Flake8 runs automatically before commits
+- [ ] **CI/CD Integration**: Linting checks in automated pipelines
+- [ ] **Zero Tolerance**: No flake8 errors allowed in production code
+- [ ] **Documentation**: Linting standards documented in project README
 
 ### **Error Handling**
 

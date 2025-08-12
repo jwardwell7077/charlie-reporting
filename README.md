@@ -31,6 +31,28 @@ This project follows two core engineering principles:
 - ✅ Pytest framework with comprehensive fixtures and mocks
 - ❌ Manual terminal testing for validation (automated only)
 
+### **3. Code Quality & Standards**
+
+- **🐍 PEP 8 Compliance**: All code follows Python style guidelines
+- **🔍 Flake8 Linting**: Zero tolerance policy for linting errors
+- **📏 Line Length**: Maximum 88 characters (Black-compatible)
+- **🏷️ Type Hints**: Required for all public methods and functions
+- **📝 Docstrings**: Comprehensive documentation for public APIs
+- **🔄 Pre-commit Hooks**: Automated code quality checks before commits
+
+**Code Quality Tools**:
+
+```bash
+# Run Flake8 linting on entire project
+flake8 .
+
+# Run on specific service
+flake8 services/report-generator/
+
+# Check specific file
+flake8 services/email-service/email_processor.py
+```
+
 ## 📖 **Project Documentation**
 
 - **[Development Diary](docs/development-diary.md)**: Complete journey from desktop app to microservices architecture

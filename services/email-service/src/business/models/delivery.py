@@ -1,20 +1,23 @@
 """
-Delivery domain model for email-service
+Delivery domain model for email - service
 """
 
 from dataclasses import dataclass
-from typing import Optional, List
+from typing import Optional
 from datetime import datetime
 
+
 @dataclass
+
+
 class Delivery:
     """
     Delivery domain model
     TODO: Define attributes and methods
     """
-    
+
     id: Optional[str] = None
     created_at: Optional[datetime] = None
     updated_at: Optional[datetime] = None
-    
-    # TODO: Add domain-specific attributes
+
+    # TODO: Add domain - specific attributes

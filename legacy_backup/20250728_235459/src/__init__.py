@@ -3,7 +3,7 @@ __init__.py
 -----------
 Reporting pipeline package initializer.
 
-Author: Jonathan Wardwell, Copilot, GPT-4o
+Author: Jonathan Wardwell, Copilot, GPT - 4o
 License: MIT
 """
 

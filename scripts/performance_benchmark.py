@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr / bin / env python3
 """
 Performance Benchmark Script for Charlie Reporting
 Establishes baseline metrics for Phase 1 services and tracks performance over time
@@ -9,7 +9,6 @@ import psutil
 import logging
 import sys
 from pathlib import Path
-from typing import Dict, Any
 import json
 from datetime import datetime
 
@@ -19,12 +18,11 @@ sys.path.append(str(Path(__file__).parent.parent / "services"))
 try:
     # Import with proper path handling for hyphens in directory names
     import importlib.util
-    import os
-    
-    # Add the report-generator service path
-    report_gen_path = Path(__file__).parent.parent / "services" / "report-generator" / "src"
+
+    # Add the report - generator service path
+    reportgen_path = Path(__file__).parent.parent / "services" / "report - generator" / "src"
     sys.path.insert(0, str(report_gen_path))
-    
+
     from business.services.csv_transformer import CSVTransformationService
     from business.services.excel_service import ExcelReportService
     from business.models.csv_data import CSVRule
@@ -41,7 +39,7 @@ def setup_logging():
         format='%(asctime)s - BENCHMARK - %(levelname)s - %(message)s',
         handlers=[
             logging.StreamHandler(),
-            logging.FileHandler('logs/performance_benchmarks.log')
+            logging.FileHandler('logs / performance_benchmarks.log')
         ]
     )
     return logging.getLogger(__name__)
@@ -49,22 +47,22 @@ def setup_logging():
 
 class PerformanceBenchmark:
     """Performance benchmarking for Charlie Reporting services"""
-    
+
     def __init__(self):
         self.logger = setup_logging()
         self.results = {}
-        
+
     def measure_memory_usage(self, func, *args, **kwargs):
         """Measure memory usage of a function execution"""
         process = psutil.Process()
-        memory_before = process.memory_info().rss / 1024 / 1024  # MB
-        
-        start_time = time.time()
+        memorybefore = process.memory_info().rss / 1024 / 1024  # MB
+
+        starttime = time.time()
         result = func(*args, **kwargs)
-        end_time = time.time()
-        
-        memory_after = process.memory_info().rss / 1024 / 1024  # MB
-        
+        endtime = time.time()
+
+        memoryafter = process.memory_info().rss / 1024 / 1024  # MB
+
         return {
             'result': result,
             'execution_time': end_time - start_time,
@@ -72,17 +70,17 @@ class PerformanceBenchmark:
             'memory_after_mb': memory_after,
             'memory_delta_mb': memory_after - memory_before
         }
-    
+
     def benchmark_csv_transformation(self):
         """Benchmark CSV transformation service performance"""
         if not CSVTransformationService:
             self.logger.warning("CSV Transformation service not available for benchmarking")
             return None
-            
+
         self.logger.info("Benchmarking CSV Transformation Service")
-        
+
         # Create test data
-        test_config = {
+        testconfig = {
             "ACQ.csv": {
                 "rules": [
                     {"filter_column": "Status", "filter_value": "Complete"},
@@ -90,15 +88,15 @@ class PerformanceBenchmark:
                 ]
             }
         }
-        
-        csv_transformer = CSVTransformationService(self.logger)
-        
+
+        csvtransformer = CSVTransformationService(self.logger)
+
         # Benchmark transformation
-        benchmark_data = self.measure_memory_usage(
+        benchmarkdata = self.measure_memory_usage(
             csv_transformer.apply_transformations,
             test_config
         )
-        
+
         results = {
             'service': 'CSV Transformation',
             'execution_time_seconds': benchmark_data['execution_time'],
@@ -106,37 +104,37 @@ class PerformanceBenchmark:
             'timestamp': datetime.now().isoformat(),
             'status': 'success' if benchmark_data['execution_time'] < 30 else 'warning'
         }
-        
+
         self.logger.info(f"CSV Transformation: {results['execution_time_seconds']:.2f}s, "
                         f"Memory: {results['memory_usage_mb']:.2f}MB")
-        
+
         return results
-    
+
     def benchmark_excel_generation(self):
         """Benchmark Excel report generation performance"""
         if not ExcelReportService:
             self.logger.warning("Excel Report service not available for benchmarking")
             return None
-            
+
         self.logger.info("Benchmarking Excel Report Generation Service")
-        
-        excel_service = ExcelReportService(self.logger)
-        
+
+        excelservice = ExcelReportService(self.logger)
+
         # Create test report data
-        test_data = {
+        testdata = {
             'ACQ': [
                 {'Client': 'Test Client 1', 'Amount': 1000, 'Status': 'Complete'},
                 {'Client': 'Test Client 2', 'Amount': 2000, 'Status': 'Pending'},
             ] * 100  # Simulate larger dataset
         }
-        
+
         # Benchmark Excel generation
-        benchmark_data = self.measure_memory_usage(
+        benchmarkdata = self.measure_memory_usage(
             excel_service.create_report,
             test_data,
             'benchmark_report.xlsx'
         )
-        
+
         results = {
             'service': 'Excel Generation',
             'execution_time_seconds': benchmark_data['execution_time'],
@@ -144,71 +142,71 @@ class PerformanceBenchmark:
             'timestamp': datetime.now().isoformat(),
             'status': 'success' if benchmark_data['execution_time'] < 120 else 'warning'
         }
-        
+
         self.logger.info(f"Excel Generation: {results['execution_time_seconds']:.2f}s, "
                         f"Memory: {results['memory_usage_mb']:.2f}MB")
-        
+
         return results
-    
+
     def run_all_benchmarks(self):
         """Execute all performance benchmarks"""
         self.logger.info("=== Starting Performance Benchmark Suite ===")
-        
+
         benchmarks = []
-        
+
         # CSV Transformation benchmark
-        csv_result = self.benchmark_csv_transformation()
+        csvresult = self.benchmark_csv_transformation()
         if csv_result:
             benchmarks.append(csv_result)
-            
+
         # Excel Generation benchmark
-        excel_result = self.benchmark_excel_generation()
+        excelresult = self.benchmark_excel_generation()
         if excel_result:
             benchmarks.append(excel_result)
-        
+
         # Save results
         self.save_benchmark_results(benchmarks)
-        
+
         # Display summary
         self.display_benchmark_summary(benchmarks)
-        
+
         return benchmarks
-    
+
     def save_benchmark_results(self, benchmarks: list):
         """Save benchmark results to file for tracking over time"""
-        results_file = Path("logs/benchmark_results.json")
+        resultsfile = Path("logs / benchmark_results.json")
         results_file.parent.mkdir(exist_ok=True)
-        
+
         # Load existing results
         if results_file.exists():
             with open(results_file, 'r') as f:
-                all_results = json.load(f)
+                allresults = json.load(f)
         else:
-            all_results = []
-        
+            allresults = []
+
         # Add new results
         all_results.extend(benchmarks)
-        
+
         # Save updated results
         with open(results_file, 'w') as f:
             json.dump(all_results, f, indent=2)
-            
+
         self.logger.info(f"Benchmark results saved to {results_file}")
-    
+
     def display_benchmark_summary(self, benchmarks: list):
         """Display formatted benchmark summary"""
         print("\n" + "="*60)
         print("PERFORMANCE BENCHMARK SUMMARY")
         print("="*60)
-        
+
         for benchmark in benchmarks:
-            status_icon = "✅" if benchmark['status'] == 'success' else "⚠️"
+            statusicon = "✅" if benchmark['status'] == 'success' else "⚠️"
             print(f"{status_icon} {benchmark['service']}")
             print(f"   Execution Time: {benchmark['execution_time_seconds']:.2f} seconds")
             print(f"   Memory Usage:   {benchmark['memory_usage_mb']:.2f} MB")
             print(f"   Timestamp:      {benchmark['timestamp']}")
             print()
-        
+
         # Performance targets
         print("PERFORMANCE TARGETS:")
         print("  CSV Processing:  < 30 seconds")
@@ -220,20 +218,20 @@ class PerformanceBenchmark:
 def main():
     """Main benchmark execution"""
     benchmark = PerformanceBenchmark()
-    
+
     try:
         results = benchmark.run_all_benchmarks()
-        
+
         # Check if any benchmarks failed
-        failed_benchmarks = [r for r in results if r['status'] != 'success']
-        
+        failedbenchmarks = [r for r in results if r['status'] != 'success']
+
         if failed_benchmarks:
             print(f"\n⚠️  {len(failed_benchmarks)} benchmark(s) exceeded performance targets")
             sys.exit(1)
         else:
             print(f"\n✅ All {len(results)} benchmarks passed performance targets")
             sys.exit(0)
-            
+
     except Exception as e:
         print(f"❌ Benchmark execution failed: {e}")
         sys.exit(1)

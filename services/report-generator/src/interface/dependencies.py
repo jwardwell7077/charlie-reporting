@@ -1,6 +1,6 @@
 """
 Dependency Injection Configuration for Report Generator Service
-FastAPI dependency injection with interface-based design for testing
+FastAPI dependency injection with interface - based design for testing
 """
 
 from functools import lru_cache
@@ -9,7 +9,7 @@ from fastapi import Depends
 
 from business.interfaces import (
     IDirectoryProcessor,
-    ICSVTransformer, 
+    ICSVTransformer,
     IExcelGenerator,
     IFileManager,
     IConfigManager,
@@ -21,6 +21,8 @@ from business.services.report_processor import ReportProcessingService
 
 
 @lru_cache()
+
+
 def get_directory_processor() -> IDirectoryProcessor:
     """Get directory processor implementation"""
     from infrastructure.file_system import DirectoryProcessorImpl
@@ -28,6 +30,8 @@ def get_directory_processor() -> IDirectoryProcessor:
 
 
 @lru_cache()
+
+
 def get_csv_transformer() -> ICSVTransformer:
     """Get CSV transformer implementation"""
     from business.services.csv_transformer import CSVTransformerService
@@ -35,13 +39,17 @@ def get_csv_transformer() -> ICSVTransformer:
 
 
 @lru_cache()
-def get_excel_generator() -> IExcelGenerator:
+
+
+def getexcel_generator() -> IExcelGenerator:
     """Get Excel generator implementation"""
     from business.services.excel_service import ExcelGeneratorService
     return ExcelGeneratorService()
 
 
 @lru_cache()
+
+
 def get_file_manager() -> IFileManager:
     """Get file manager implementation"""
     from infrastructure.file_system import FileManagerImpl
@@ -49,6 +57,8 @@ def get_file_manager() -> IFileManager:
 
 
 @lru_cache()
+
+
 def get_config_manager() -> IConfigManager:
     """Get configuration manager implementation"""
     from infrastructure.config import ConfigManagerImpl
@@ -56,6 +66,8 @@ def get_config_manager() -> IConfigManager:
 
 
 @lru_cache()
+
+
 def get_logger() -> ILogger:
     """Get logger implementation"""
     from infrastructure.logging import StructuredLoggerImpl
@@ -63,17 +75,21 @@ def get_logger() -> ILogger:
 
 
 @lru_cache()
+
+
 def get_metrics_collector() -> IMetricsCollector:
     """Get metrics collector implementation"""
     from infrastructure.metrics import MetricsCollectorImpl
     return MetricsCollectorImpl()
 
 
-@lru_cache()  
+@lru_cache()
+
+
 def get_report_processor(
     directory_processor: Annotated[IDirectoryProcessor, Depends(get_directory_processor)],
     csv_transformer: Annotated[ICSVTransformer, Depends(get_csv_transformer)],
-    excel_generator: Annotated[IExcelGenerator, Depends(get_excel_generator)],
+    excel_generator: Annotated[IExcelGenerator, Depends(getexcel_generator)],
     file_manager: Annotated[IFileManager, Depends(get_file_manager)],
     config_manager: Annotated[IConfigManager, Depends(get_config_manager)],
     logger: Annotated[ILogger, Depends(get_logger)],
@@ -81,7 +97,7 @@ def get_report_processor(
 ) -> ReportProcessingService:
     """
     Create main report processing service with all dependencies injected
-    
+
     This is the main service orchestrator that coordinates all other services
     """
     return ReportProcessingService(
@@ -96,19 +112,19 @@ def get_report_processor(
 
 
 # Test dependency overrides (used in testing)
-_test_overrides = {}
+test_overrides = {}
 
 
 def override_dependency(interface_type, implementation):
     """Override a dependency for testing purposes"""
-    _test_overrides[interface_type] = implementation
+    test_overrides[interface_type] = implementation
 
 
 def get_test_dependency(interface_type):
     """Get test override for dependency"""
-    return _test_overrides.get(interface_type)
+    return test_overrides.get(interface_type)
 
 
 def clear_test_overrides():
     """Clear all test dependency overrides"""
-    _test_overrides.clear()
+    test_overrides.clear()

@@ -12,7 +12,7 @@ import time
 import uuid
 from datetime import datetime
 from pathlib import Path
-from typing import Dict, Any, Optional
+from typing import Dict, Any
 
 from interface.schemas import (
     DirectoryProcessRequest,
@@ -39,11 +39,11 @@ from infrastructure.logging import StructuredLogger
 
 # Global service instances
 report_processor = ReportProcessingService()
-metrics_collector = MetricsCollector()
-structured_logger = StructuredLogger()
+metricscollector = MetricsCollector()
+structuredlogger = StructuredLogger()
 
 # Application startup time for uptime calculation
-app_start_time = time.time()
+appstart_time = time.time()
 
 # FastAPI application
 app = FastAPI(
@@ -66,6 +66,8 @@ app.add_middleware(
 
 
 # Custom exception handlers
+
+
 @app.exception_handler(BusinessException)
 async def business_exception_handler(request: Request, exc: BusinessException):
     """Handle business logic exceptions"""
@@ -75,7 +77,7 @@ async def business_exception_handler(request: Request, exc: BusinessException):
         request_path=request.url.path,
         request_method=request.method
     )
-    
+
     return JSONResponse(
         status_code=400,
         content=ErrorResponse(
@@ -96,7 +98,7 @@ async def validation_exception_handler(request: Request, exc: ValidationExceptio
         request_path=request.url.path,
         request_method=request.method
     )
-    
+
     return JSONResponse(
         status_code=422,
         content=ErrorResponse(
@@ -114,8 +116,8 @@ async def validation_exception_handler(request: Request, exc: ValidationExceptio
 @app.exception_handler(Exception)
 async def general_exception_handler(request: Request, exc: Exception):
     """Handle unexpected exceptions"""
-    request_id = str(uuid.uuid4())
-    
+    requestid = str(uuid.uuid4())
+
     structured_logger.log_error(
         "Unexpected exception occurred",
         error=str(exc),
@@ -124,7 +126,7 @@ async def general_exception_handler(request: Request, exc: Exception):
         request_method=request.method,
         request_id=request_id
     )
-    
+
     return JSONResponse(
         status_code=500,
         content=ErrorResponse(
@@ -137,6 +139,8 @@ async def general_exception_handler(request: Request, exc: Exception):
 
 
 # Dependency injection
+
+
 async def get_metrics_collector() -> MetricsCollector:
     """Dependency for metrics collector"""
     return metrics_collector
@@ -152,13 +156,15 @@ async def get_report_processor() -> ReportProcessingService:
     return report_processor
 
 
-# Middleware for request/response logging and metrics
+# Middleware for request / response logging and metrics
+
+
 @app.middleware("http")
 async def log_requests(request: Request, call_next):
     """Log all requests and collect metrics"""
-    start_time = time.time()
-    request_id = str(uuid.uuid4())
-    
+    starttime = time.time()
+    requestid = str(uuid.uuid4())
+
     # Log request
     structured_logger.log_info(
         "Request received",
@@ -167,13 +173,13 @@ async def log_requests(request: Request, call_next):
         path=request.url.path,
         query_params=str(request.query_params)
     )
-    
+
     # Process request
     response = await call_next(request)
-    
+
     # Calculate processing time
-    process_time = time.time() - start_time
-    
+    processtime = time.time() - start_time
+
     # Log response
     structured_logger.log_info(
         "Request completed",
@@ -183,7 +189,7 @@ async def log_requests(request: Request, call_next):
         status_code=response.status_code,
         process_time_seconds=process_time
     )
-    
+
     # Collect metrics
     metrics_collector.record_request(
         method=request.method,
@@ -191,31 +197,33 @@ async def log_requests(request: Request, call_next):
         status_code=response.status_code,
         duration_seconds=process_time
     )
-    
+
     # Add headers
-    response.headers["X-Request-ID"] = request_id
-    response.headers["X-Process-Time"] = str(process_time)
-    
+    response.headers["X - Request - ID"] = request_id
+    response.headers["X - Process - Time"] = str(process_time)
+
     return response
 
 
 # Health check endpoints
+
+
 @app.get("/health", response_model=HealthCheckResponse, tags=["Health"])
 async def health_check():
     """Health check endpoint"""
-    current_time = datetime.utcnow()
-    uptime = time.time() - app_start_time
-    
+    currenttime = datetime.utcnow()
+    uptime = time.time() - appstart_time
+
     # Perform health checks
     checks = {
         "service": True,  # Basic service availability
         "logging": structured_logger.is_healthy(),
         "metrics": metrics_collector.is_healthy(),
     }
-    
+
     # Determine overall status
-    overall_status = "healthy" if all(checks.values()) else "unhealthy"
-    
+    overallstatus = "healthy" if all(checks.values()) else "unhealthy"
+
     return HealthCheckResponse(
         status=overall_status,
         timestamp=current_time,
@@ -225,26 +233,28 @@ async def health_check():
     )
 
 
-@app.get("/health/ready", tags=["Health"])
+@app.get("/health / ready", tags=["Health"])
 async def readiness_check():
     """Kubernetes readiness probe"""
     return {"status": "ready"}
 
 
-@app.get("/health/live", tags=["Health"])
+@app.get("/health / live", tags=["Health"])
 async def liveness_check():
     """Kubernetes liveness probe"""
     return {"status": "alive"}
 
 
 # Metrics endpoint
+
+
 @app.get("/metrics", response_model=ServiceMetrics, tags=["Metrics"])
 async def get_metrics(collector: MetricsCollector = Depends(get_metrics_collector)):
     """Get service metrics"""
-    uptime = time.time() - app_start_time
-    
+    uptime = time.time() - appstart_time
+
     metrics = collector.get_metrics()
-    
+
     return ServiceMetrics(
         total_requests=metrics.get("total_requests", 0),
         successful_requests=metrics.get("successful_requests", 0),
@@ -257,7 +267,9 @@ async def get_metrics(collector: MetricsCollector = Depends(get_metrics_collecto
 
 
 # Main processing endpoints
-@app.post("/process/directory", response_model=ProcessingResult, tags=["Processing"])
+
+
+@app.post("/process / directory", response_model=ProcessingResult, tags=["Processing"])
 async def process_directory(
     request: DirectoryProcessRequest,
     background_tasks: BackgroundTasks,
@@ -267,24 +279,24 @@ async def process_directory(
 ):
     """
     Process CSV files in a directory and generate Excel report
-    
+
     This endpoint processes all CSV files in the specified directory that match
     the date and hour filters, transforms them according to the attachment
     configuration, and generates a consolidated Excel report.
     """
-    start_time = time.time()
-    
+    starttime = time.time()
+
     try:
-        logger.log_info("Starting directory processing", 
+        logger.log_info("Starting directory processing",
                        raw_directory=request.raw_directory,
                        date_filter=request.date_filter,
                        hour_filter=request.hour_filter)
-        
+
         # Convert paths to Path objects
-        raw_dir = Path(request.raw_directory)
-        archive_dir = Path(request.archive_directory)
-        output_dir = Path(request.output_directory)
-        
+        rawdir = Path(request.raw_directory)
+        archivedir = Path(request.archive_directory)
+        outputdir = Path(request.output_directory)
+
         # Process directory
         result = processor.process_directory_reports(
             raw_dir=raw_dir,
@@ -294,10 +306,10 @@ async def process_directory(
             date_filter=request.date_filter,
             hour_filter=request.hour_filter
         )
-        
+
         # Convert to API response model
-        processing_result = ProcessingResult(**result)
-        
+        processingresult = ProcessingResult(**result)
+
         # Collect metrics
         collector.record_directory_processing(
             files_processed=result.get("transformed_files", 0),
@@ -305,20 +317,20 @@ async def process_directory(
             success=result.get("success", False),
             duration_seconds=time.time() - start_time
         )
-        
-        logger.log_info("Directory processing completed", 
+
+        logger.log_info("Directory processing completed",
                        success=result.get("success"),
                        processing_time=time.time() - start_time)
-        
+
         return processing_result
-        
+
     except Exception as e:
         logger.log_error("Directory processing failed", error=str(e))
         collector.record_processing_error("directory_processing", str(e))
         raise
 
 
-@app.post("/process/file", response_model=ProcessingResult, tags=["Processing"])
+@app.post("/process / file", response_model=ProcessingResult, tags=["Processing"])
 async def process_single_file(
     request: SingleFileProcessRequest,
     processor: ReportProcessingService = Depends(get_report_processor),
@@ -327,15 +339,15 @@ async def process_single_file(
 ):
     """
     Process a single CSV file and generate Excel report
-    
+
     This endpoint processes a single CSV file with the specified transformation
     rule and generates an Excel report.
     """
-    start_time = time.time()
-    
+    starttime = time.time()
+
     try:
         logger.log_info("Starting single file processing", file_path=request.file_path)
-        
+
         # Create transformation rule from request
         rule = CSVRule(
             file_pattern=request.file_pattern,
@@ -343,21 +355,21 @@ async def process_single_file(
             sheet_name=request.sheet_name,
             required_columns=request.required_columns
         )
-        
+
         # Convert paths to Path objects
         file_path = Path(request.file_path)
-        output_dir = Path(request.output_directory)
-        
+        outputdir = Path(request.output_directory)
+
         # Process file
         result = processor.process_single_file(
             file_path=file_path,
             rule=rule,
             output_dir=output_dir
         )
-        
+
         # Convert to API response model
-        processing_result = ProcessingResult(**result)
-        
+        processingresult = ProcessingResult(**result)
+
         # Collect metrics
         collector.record_file_processing(
             file_name=file_path.name,
@@ -365,13 +377,13 @@ async def process_single_file(
             success=result.get("success", False),
             duration_seconds=time.time() - start_time
         )
-        
-        logger.log_info("Single file processing completed", 
+
+        logger.log_info("Single file processing completed",
                        success=result.get("success"),
                        processing_time=time.time() - start_time)
-        
+
         return processing_result
-        
+
     except Exception as e:
         logger.log_error("Single file processing failed", error=str(e))
         collector.record_processing_error("file_processing", str(e))
@@ -379,25 +391,27 @@ async def process_single_file(
 
 
 # Validation endpoints
-@app.post("/validate/directory", response_model=DirectoryValidationResult, tags=["Validation"])
+
+
+@app.post("/validate / directory", response_model=DirectoryValidationResult, tags=["Validation"])
 async def validate_directory(
     request: DirectoryValidationRequest,
     processor: ReportProcessingService = Depends(get_report_processor)
 ):
     """
     Validate a directory for processing
-    
+
     This endpoint checks if a directory exists, is accessible, and contains
     CSV files suitable for processing.
     """
     try:
         directory_path = Path(request.directory_path)
-        
+
         # Validate directory
         validation_result = processor.validate_input_directory(directory_path)
-        
+
         return DirectoryValidationResult(**validation_result)
-        
+
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Validation failed: {str(e)}")
 
@@ -409,20 +423,20 @@ async def get_processing_statistics(
 ):
     """
     Get enhanced processing statistics
-    
+
     This endpoint provides detailed statistics about processing performance
     and recommendations for optimization.
     """
     try:
         # Get metrics from collector
         metrics = collector.get_metrics()
-        
+
         # Calculate enhanced statistics
         if metrics.get("total_requests", 0) > 0:
-            success_rate = (metrics.get("successful_requests", 0) / metrics.get("total_requests")) * 100
+            successrate = (metrics.get("successful_requests", 0) / metrics.get("total_requests")) * 100
         else:
-            success_rate = 0.0
-        
+            successrate = 0.0
+
         return ProcessingStatistics(
             success_rate=success_rate,
             files_per_second=metrics.get("files_per_second", 0.0),
@@ -430,48 +444,50 @@ async def get_processing_statistics(
             processing_efficiency=metrics.get("processing_efficiency", "unknown"),
             recommendations=metrics.get("recommendations", [])
         )
-        
+
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Statistics retrieval failed: {str(e)}")
 
 
 # Custom OpenAPI schema
+
+
 def custom_openapi():
     if app.openapi_schema:
         return app.openapi_schema
-    
-    openapi_schema = get_openapi(
+
+    openapischema = get_openapi(
         title="Report Generator Service",
         version="1.0.0",
         description="""
         Microservice for processing CSV files and generating Excel reports.
-        
+
         This service provides endpoints for:
         - Processing directories of CSV files
         - Processing individual CSV files
         - Validating input directories
         - Health checks and metrics
         - Performance statistics
-        
+
         The service follows Clean Architecture principles with clear separation
         of concerns between business logic, interface, and infrastructure layers.
         """,
         routes=app.routes,
     )
-    
+
     # Add custom schema information
     openapi_schema["info"]["contact"] = {
         "name": "Report Generator API",
-        "url": "https://github.com/your-org/charlie-reporting",
+        "url": "https://github.com / your - org / charlie - reporting",
         "email": "support@yourorg.com"
     }
-    
+
     openapi_schema["info"]["license"] = {
         "name": "MIT License",
-        "url": "https://opensource.org/licenses/MIT"
+        "url": "https://opensource.org / licenses / MIT"
     }
-    
-    app.openapi_schema = openapi_schema
+
+    app.openapischema = openapi_schema
     return app.openapi_schema
 
 
@@ -479,6 +495,8 @@ app.openapi = custom_openapi
 
 
 # Startup and shutdown events
+
+
 @app.on_event("startup")
 async def startup_event():
     """Application startup initialization"""
@@ -495,7 +513,7 @@ async def shutdown_event():
 
 if __name__ == "__main__":
     import uvicorn
-    
+
     uvicorn.run(
         "app:app",
         host="0.0.0.0",

@@ -9,7 +9,6 @@ from abc import ABC, abstractmethod
 from datetime import datetime, timedelta
 from typing import Dict, List, Optional, Any, Callable
 from enum import Enum
-import json
 
 
 class HealthStatus(str, Enum):
@@ -22,17 +21,17 @@ class HealthStatus(str, Enum):
 
 class ComponentHealth:
     """Health status for a single component"""
-    
-    def __init__(self, name: str, status: HealthStatus, 
+
+    def __init__(self, name: str, status: HealthStatus,
                  message: str = "", details: Dict[str, Any] = None,
                  response_time_ms: Optional[float] = None):
         self.name = name
         self.status = status
         self.message = message
         self.details = details or {}
-        self.response_time_ms = response_time_ms
-        self.checked_at = datetime.utcnow()
-    
+        self.responsetime_ms = response_time_ms
+        self.checkedat = datetime.utcnow()
+
     def to_dict(self) -> Dict[str, Any]:
         """Convert to dictionary for serialization"""
         return {
@@ -47,24 +46,24 @@ class ComponentHealth:
 
 class ServiceHealth:
     """Overall service health aggregation"""
-    
+
     def __init__(self, service_name: str, service_version: str = "unknown"):
-        self.service_name = service_name
-        self.service_version = service_version
+        self.servicename = service_name
+        self.serviceversion = service_version
         self.components: Dict[str, ComponentHealth] = {}
-        self.start_time = datetime.utcnow()
-    
+        self.starttime = datetime.utcnow()
+
     def add_component(self, component: ComponentHealth):
         """Add component health"""
         self.components[component.name] = component
-    
+
     def get_overall_status(self) -> HealthStatus:
         """Calculate overall health status"""
         if not self.components:
             return HealthStatus.UNKNOWN
-        
+
         statuses = [comp.status for comp in self.components.values()]
-        
+
         if all(status == HealthStatus.HEALTHY for status in statuses):
             return HealthStatus.HEALTHY
         elif any(status == HealthStatus.UNHEALTHY for status in statuses):
@@ -73,11 +72,11 @@ class ServiceHealth:
             return HealthStatus.DEGRADED
         else:
             return HealthStatus.UNKNOWN
-    
+
     def get_uptime_seconds(self) -> float:
         """Get service uptime in seconds"""
         return (datetime.utcnow() - self.start_time).total_seconds()
-    
+
     def to_dict(self) -> Dict[str, Any]:
         """Convert to dictionary for API response"""
         return {
@@ -92,11 +91,11 @@ class ServiceHealth:
 
 class HealthChecker(ABC):
     """Abstract base class for health checkers"""
-    
+
     def __init__(self, name: str, timeout_seconds: float = 5.0):
         self.name = name
-        self.timeout_seconds = timeout_seconds
-    
+        self.timeoutseconds = timeout_seconds
+
     @abstractmethod
     async def check_health(self) -> ComponentHealth:
         """Perform health check and return component health"""
@@ -105,23 +104,23 @@ class HealthChecker(ABC):
 
 class DatabaseHealthChecker(HealthChecker):
     """Health checker for database connections"""
-    
-    def __init__(self, name: str = "database", 
+
+    def __init__(self, name: str = "database",
                  connection_test_func: Optional[Callable] = None,
                  timeout_seconds: float = 5.0):
         super().__init__(name, timeout_seconds)
-        self.connection_test_func = connection_test_func
-    
+        self.connectiontest_func = connection_test_func
+
     async def check_health(self) -> ComponentHealth:
         """Check database health"""
         start_time = time.time()
-        
+
         try:
             if self.connection_test_func:
                 # Use provided connection test function
                 if asyncio.iscoroutinefunction(self.connection_test_func):
                     await asyncio.wait_for(
-                        self.connection_test_func(), 
+                        self.connection_test_func(),
                         timeout=self.timeout_seconds
                     )
                 else:
@@ -132,18 +131,18 @@ class DatabaseHealthChecker(HealthChecker):
                         ),
                         timeout=self.timeout_seconds
                     )
-            
-            response_time = (time.time() - start_time) * 1000
-            
+
+            responsetime = (time.time() - start_time) * 1000
+
             return ComponentHealth(
                 name=self.name,
                 status=HealthStatus.HEALTHY,
                 message="Database connection successful",
                 response_time_ms=response_time
             )
-            
+
         except asyncio.TimeoutError:
-            response_time = (time.time() - start_time) * 1000
+            responsetime = (time.time() - start_time) * 1000
             return ComponentHealth(
                 name=self.name,
                 status=HealthStatus.UNHEALTHY,
@@ -151,7 +150,7 @@ class DatabaseHealthChecker(HealthChecker):
                 response_time_ms=response_time
             )
         except Exception as e:
-            response_time = (time.time() - start_time) * 1000
+            responsetime = (time.time() - start_time) * 1000
             return ComponentHealth(
                 name=self.name,
                 status=HealthStatus.UNHEALTHY,
@@ -162,28 +161,28 @@ class DatabaseHealthChecker(HealthChecker):
 
 class HTTPServiceHealthChecker(HealthChecker):
     """Health checker for HTTP service dependencies"""
-    
+
     def __init__(self, name: str, url: str, timeout_seconds: float = 5.0,
                  expected_status_codes: List[int] = None):
         super().__init__(name, timeout_seconds)
         self.url = url
-        self.expected_status_codes = expected_status_codes or [200]
-    
+        self.expectedstatus_codes = expected_status_codes or [200]
+
     async def check_health(self) -> ComponentHealth:
         """Check HTTP service health"""
         start_time = time.time()
-        
+
         try:
             # Basic HTTP check - in a real implementation, you'd use aiohttp or similar
             # For now, this is a placeholder that would need actual HTTP client
             import urllib.request
             import urllib.error
-            
+
             # This is synchronous - in practice use async HTTP client
             response = urllib.request.urlopen(self.url, timeout=self.timeout_seconds)
-            status_code = response.getcode()
-            response_time = (time.time() - start_time) * 1000
-            
+            statuscode = response.getcode()
+            responsetime = (time.time() - start_time) * 1000
+
             if status_code in self.expected_status_codes:
                 return ComponentHealth(
                     name=self.name,
@@ -200,9 +199,9 @@ class HTTPServiceHealthChecker(HealthChecker):
                     details={"status_code": status_code, "url": self.url},
                     response_time_ms=response_time
                 )
-                
+
         except Exception as e:
-            response_time = (time.time() - start_time) * 1000
+            responsetime = (time.time() - start_time) * 1000
             return ComponentHealth(
                 name=self.name,
                 status=HealthStatus.UNHEALTHY,
@@ -214,22 +213,22 @@ class HTTPServiceHealthChecker(HealthChecker):
 
 class MemoryHealthChecker(HealthChecker):
     """Health checker for memory usage"""
-    
-    def __init__(self, name: str = "memory", 
+
+    def __init__(self, name: str = "memory",
                  warning_threshold_mb: float = 500.0,
                  critical_threshold_mb: float = 1000.0):
         super().__init__(name)
-        self.warning_threshold_mb = warning_threshold_mb
-        self.critical_threshold_mb = critical_threshold_mb
-    
+        self.warningthreshold_mb = warning_threshold_mb
+        self.criticalthreshold_mb = critical_threshold_mb
+
     async def check_health(self) -> ComponentHealth:
         """Check memory usage"""
         try:
             import psutil
             process = psutil.Process()
             memory_info = process.memory_info()
-            memory_mb = memory_info.rss / 1024 / 1024
-            
+            memorymb = memory_info.rss / 1024 / 1024
+
             if memory_mb >= self.critical_threshold_mb:
                 status = HealthStatus.UNHEALTHY
                 message = f"Memory usage critical: {memory_mb:.1f}MB"
@@ -239,7 +238,7 @@ class MemoryHealthChecker(HealthChecker):
             else:
                 status = HealthStatus.HEALTHY
                 message = f"Memory usage normal: {memory_mb:.1f}MB"
-            
+
             return ComponentHealth(
                 name=self.name,
                 status=status,
@@ -250,7 +249,7 @@ class MemoryHealthChecker(HealthChecker):
                     "critical_threshold_mb": self.critical_threshold_mb
                 }
             )
-            
+
         except ImportError:
             return ComponentHealth(
                 name=self.name,
@@ -267,22 +266,22 @@ class MemoryHealthChecker(HealthChecker):
 
 class DiskSpaceHealthChecker(HealthChecker):
     """Health checker for disk space"""
-    
+
     def __init__(self, name: str = "disk_space", path: str = "/",
                  warning_threshold_percent: float = 80.0,
                  critical_threshold_percent: float = 90.0):
         super().__init__(name)
         self.path = path
-        self.warning_threshold_percent = warning_threshold_percent
-        self.critical_threshold_percent = critical_threshold_percent
-    
+        self.warningthreshold_percent = warning_threshold_percent
+        self.criticalthreshold_percent = critical_threshold_percent
+
     async def check_health(self) -> ComponentHealth:
         """Check disk space"""
         try:
             import shutil
             total, used, free = shutil.disk_usage(self.path)
-            used_percent = (used / total) * 100
-            
+            usedpercent = (used / total) * 100
+
             if used_percent >= self.critical_threshold_percent:
                 status = HealthStatus.UNHEALTHY
                 message = f"Disk usage critical: {used_percent:.1f}%"
@@ -292,7 +291,7 @@ class DiskSpaceHealthChecker(HealthChecker):
             else:
                 status = HealthStatus.HEALTHY
                 message = f"Disk usage normal: {used_percent:.1f}%"
-            
+
             return ComponentHealth(
                 name=self.name,
                 status=status,
@@ -306,7 +305,7 @@ class DiskSpaceHealthChecker(HealthChecker):
                     "critical_threshold_percent": self.critical_threshold_percent
                 }
             )
-            
+
         except Exception as e:
             return ComponentHealth(
                 name=self.name,
@@ -319,76 +318,76 @@ class HealthMonitor:
     """
     Central health monitoring system for services
     """
-    
+
     def __init__(self, service_name: str, service_version: str = "unknown"):
-        self.service_name = service_name
-        self.service_version = service_version
+        self.servicename = service_name
+        self.serviceversion = service_version
         self.checkers: Dict[str, HealthChecker] = {}
         self.last_check_results: Dict[str, ComponentHealth] = {}
-        self.check_interval_seconds = 30.0
-        self._monitoring_task: Optional[asyncio.Task] = None
-        self._running = False
-    
+        self.checkinterval_seconds = 30.0
+        self.monitoring_task: Optional[asyncio.Task] = None
+        self.running = False
+
     def add_checker(self, checker: HealthChecker):
         """Add a health checker"""
         self.checkers[checker.name] = checker
-    
+
     def remove_checker(self, name: str):
         """Remove a health checker"""
         if name in self.checkers:
             del self.checkers[name]
         if name in self.last_check_results:
             del self.last_check_results[name]
-    
+
     async def check_all_health(self) -> ServiceHealth:
         """Check health of all components"""
-        service_health = ServiceHealth(self.service_name, self.service_version)
-        
+        servicehealth = ServiceHealth(self.service_name, self.service_version)
+
         # Run all health checks concurrently
-        check_tasks = []
+        checktasks = []
         for checker in self.checkers.values():
             task = asyncio.create_task(checker.check_health())
             check_tasks.append((checker.name, task))
-        
+
         # Wait for all checks to complete
         for name, task in check_tasks:
             try:
-                component_health = await task
+                componenthealth = await task
                 service_health.add_component(component_health)
                 self.last_check_results[name] = component_health
             except Exception as e:
                 # If a checker fails completely, mark as unhealthy
-                failed_health = ComponentHealth(
+                failedhealth = ComponentHealth(
                     name=name,
                     status=HealthStatus.UNHEALTHY,
                     message=f"Health check failed: {str(e)}"
                 )
                 service_health.add_component(failed_health)
                 self.last_check_results[name] = failed_health
-        
+
         return service_health
-    
+
     async def start_monitoring(self):
         """Start continuous health monitoring"""
-        if self._running:
+        if self.running:
             return
-        
-        self._running = True
-        self._monitoring_task = asyncio.create_task(self._monitoring_loop())
-    
+
+        self.running = True
+        self.monitoring_task = asyncio.create_task(self.monitoring_loop())
+
     async def stop_monitoring(self):
         """Stop continuous health monitoring"""
-        self._running = False
-        if self._monitoring_task:
-            self._monitoring_task.cancel()
+        self.running = False
+        if self.monitoring_task:
+            self.monitoring_task.cancel()
             try:
-                await self._monitoring_task
+                await self.monitoring_task
             except asyncio.CancelledError:
-                pass
-    
-    async def _monitoring_loop(self):
+    pass
+
+    async def monitoring_loop(self):
         """Continuous monitoring loop"""
-        while self._running:
+        while self.running:
             try:
                 await self.check_all_health()
                 await asyncio.sleep(self.check_interval_seconds)
@@ -398,14 +397,14 @@ class HealthMonitor:
                 # Log error but continue monitoring
                 print(f"Health monitoring error: {e}")
                 await asyncio.sleep(self.check_interval_seconds)
-    
+
     def get_current_health(self) -> ServiceHealth:
         """Get current health status from last check"""
-        service_health = ServiceHealth(self.service_name, self.service_version)
-        
+        servicehealth = ServiceHealth(self.service_name, self.service_version)
+
         for component_health in self.last_check_results.values():
             service_health.add_component(component_health)
-        
+
         return service_health
 
 
@@ -414,13 +413,15 @@ class HealthMonitor:
 Example Usage:
 
 # Setup health monitoring
-monitor = HealthMonitor("outlook-relay", "1.0.0")
+monitor = HealthMonitor("outlook - relay", "1.0.0")
 
 # Add standard checks
 monitor.add_checker(MemoryHealthChecker(warning_threshold_mb=200))
 monitor.add_checker(DiskSpaceHealthChecker())
 
 # Add custom database check
+
+
 async def test_db_connection():
     # Your database connection test
     pass
@@ -428,7 +429,7 @@ async def test_db_connection():
 monitor.add_checker(DatabaseHealthChecker("database", test_db_connection))
 
 # Add HTTP service dependency checks
-monitor.add_checker(HTTPServiceHealthChecker("db-service", "http://db-service:8081/health"))
+monitor.add_checker(HTTPServiceHealthChecker("db - service", "http://db - service:8081 / health"))
 
 # Start monitoring
 await monitor.start_monitoring()

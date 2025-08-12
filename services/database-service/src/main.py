@@ -25,57 +25,59 @@ except ImportError:
         async def startup(self): pass
         async def shutdown(self): pass
         async def run(self): pass
-    
+
     def setup_service_logging(name, level=None):
         import logging
         return logging.getLogger(name)
-    
+
     class ServiceMetrics:
         def __init__(self, name): pass
-    
+
     class HealthMonitor:
         def __init__(self, name): pass
+
+
 
 class DatabaseserviceService(BaseService):
     """
     Database-Service Service
     Centralized data storage and retrieval
     """
-    
+
     def __init__(self):
         self.config = load_config()
-        
+
         self.logger = setup_service_logging(
             self.config.service_name,
             self.config.log_level if hasattr(self.config, 'log_level') else 'INFO'
         )
-        
+
         self.metrics = ServiceMetrics(self.config.service_name)
         self.health_monitor = HealthMonitor(self.config.service_name)
-        
+
         super().__init__(self.logger, self.metrics, self.health_monitor)
-    
+
     async def startup(self):
         """Service startup logic"""
         self.logger.info("Starting Database-Service Service", version="1.0.0")
-        
+
         # TODO: Initialize service-specific components
-        
+
         self.logger.info(
             "Database-Service Service started successfully",
             port=self.config.service_port
         )
-    
+
     async def shutdown(self):
         """Service shutdown logic"""
         self.logger.info("Shutting down Database-Service Service")
-        
+
         # TODO: Cleanup service-specific components
 
 async def main():
     """Main entry point"""
     service = DatabaseserviceService()
-    
+
     try:
         await service.startup()
         await service.run()

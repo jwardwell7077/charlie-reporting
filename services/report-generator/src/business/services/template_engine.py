@@ -1,17 +1,17 @@
 """
-Template_Engine business service for report-generator
+Template_Engine business service for report - generator
 """
 
-from typing import List, Optional
 import logging
+
 
 class Templateengine:
     """
     Template_Engine business logic
     Pure domain logic with no infrastructure dependencies
     """
-    
+
     def __init__(self, logger: logging.Logger = None):
         self.logger = logger or logging.getLogger(__name__)
-    
+
     # TODO: Implement business methods

@@ -7,7 +7,7 @@ class LoggerFactory:
     """
     LoggerFactory configures and returns loggers with both console and rotating file handlers.
     """
-    LOG_DIR = os.path.join(os.getcwd(), 'logs')
+    LOGDIR = os.path.join(os.getcwd(), 'logs')
 
     @staticmethod
     def get_logger(name: str, log_file: str = 'app.log') -> logging.Logger:
@@ -28,8 +28,8 @@ class LoggerFactory:
         )
 
         # File handler: rotate logs weekly, keep 4 backups
-        file_path = os.path.join(LoggerFactory.LOG_DIR, log_file)
-        file_handler = TimedRotatingFileHandler(
+        filepath = os.path.join(LoggerFactory.LOG_DIR, log_file)
+        filehandler = TimedRotatingFileHandler(
             file_path, when='W0', interval=1, backupCount=4
         )
         file_handler.setLevel(logging.DEBUG)  # Set file handler to DEBUG
@@ -37,7 +37,7 @@ class LoggerFactory:
         logger.addHandler(file_handler)
 
         # Console handler
-        console_handler = logging.StreamHandler()
+        consolehandler = logging.StreamHandler()
         console_handler.setLevel(logging.INFO)  # Keep console at INFO level for readability
         console_handler.setFormatter(formatter)
         logger.addHandler(console_handler)

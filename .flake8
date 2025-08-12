@@ -1,0 +1,48 @@
+[flake8]
+# Charlie Reporting - Flake8 Configuration
+# Project-wide code quality standards
+
+# Line length (Black-compatible)
+max-line-length = 88
+
+# Directories to exclude from linting
+exclude = 
+    .git,
+    __pycache__,
+    .venv,
+    .pytest_cache,
+    build,
+    dist,
+    migrations,
+    archive,
+    legacy_backup,
+    database-service
+
+# Ignore specific error codes
+ignore = 
+    E203,  # Whitespace before ':' (conflicts with Black formatter)
+    W503,  # Line break before binary operator (conflicts with Black)
+    E501   # Line too long (handled by max-line-length setting)
+
+# Per-file ignores
+per-file-ignores =
+    __init__.py:F401,F403
+    setup.py:E402
+    conftest.py:F401
+    **/tests/**:F401
+
+# Complexity settings
+max-complexity = 10
+max-line-complexity = 10
+
+# Enable additional checks
+select = E,W,F,C
+
+# Show source code for errors
+show-source = True
+
+# Count statistics
+statistics = True
+
+# Format settings
+format = %(path)s:%(row)d:%(col)d: %(code)s %(text)s

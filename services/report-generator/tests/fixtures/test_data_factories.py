@@ -10,13 +10,14 @@ from pathlib import Path
 from typing import Dict, List, Any, Optional
 from dataclasses import dataclass
 import tempfile
-import os
 
 from business.models.csv_data import CSVFile, CSVRule
 from business.models.processing_result import ProcessingResult
 
 
 @dataclass
+
+
 class TestDataConfig:
     """Configuration for test data generation"""
     num_records: int = 100
@@ -28,32 +29,32 @@ class TestDataConfig:
 
 class CSVDataFactory:
     """Factory for generating realistic CSV test data"""
-    
+
     # Sample data pools for realistic generation
-    COMPANY_NAMES = [
+    COMPANYNAMES = [
         "Acme Corp", "TechSoft Inc", "DataFlow Systems", "GlobalTech",
         "InnovateCo", "NextGen Solutions", "CloudFirst", "DigitalEdge"
     ]
-    
-    PRODUCT_TYPES = [
+
+    PRODUCTTYPES = [
         "Software License", "Hardware", "Support Contract", "Training",
         "Consulting", "Cloud Service", "Integration", "Maintenance"
     ]
-    
+
     REGIONS = ["North", "South", "East", "West", "Central"]
-    
+
     STATUSES = ["Active", "Pending", "Completed", "Cancelled", "On Hold"]
-    
+
     def __init__(self, config: Optional[TestDataConfig] = None):
         self.config = config or TestDataConfig()
-        
+
     def create_acq_data(self, num_records: Optional[int] = None) -> pd.DataFrame:
         """Generate realistic ACQ (Acquisition) data"""
         records = num_records or self.config.num_records
-        
+
         data = []
-        base_date = datetime.now() - timedelta(days=self.config.date_range_days)
-        
+        basedate = datetime.now() - timedelta(days=self.config.date_range_days)
+
         for i in range(records):
             record = {
                 'deal_id': f"ACQ-{random.randint(10000, 99999)}",
@@ -67,9 +68,9 @@ class CSVDataFactory:
                     hours=random.randint(0, self.config.date_range_days * 24)
                 )).strftime('%Y-%m-%d %H:%M:%S'),
                 'owner': f"rep_{random.randint(1, 20)}",
-                'notes': f"Generated test record {i+1}"
+                'notes': f"Generated test record {i + 1}"
             }
-            
+
             # Add realistic noise if configured
             if self.config.add_noise:
                 # Some records might have missing data
@@ -77,18 +78,18 @@ class CSVDataFactory:
                     record['notes'] = None
                 if random.random() < 0.02:  # 2% chance
                     record['owner'] = None
-                    
+
             data.append(record)
-            
+
         return pd.DataFrame(data)
-    
+
     def create_productivity_data(self, num_records: Optional[int] = None) -> pd.DataFrame:
         """Generate realistic Productivity data"""
         records = num_records or self.config.num_records
-        
+
         data = []
-        base_date = datetime.now() - timedelta(days=self.config.date_range_days)
-        
+        basedate = datetime.now() - timedelta(days=self.config.date_range_days)
+
         for i in range(records):
             record = {
                 'employee_id': f"EMP{random.randint(1000, 9999)}",
@@ -103,19 +104,19 @@ class CSVDataFactory:
                 'efficiency_score': round(random.uniform(0.5, 1.0), 2)
             }
             data.append(record)
-            
+
         return pd.DataFrame(data)
-    
+
     def create_campaign_data(self, num_records: Optional[int] = None) -> pd.DataFrame:
         """Generate realistic Campaign Interactions data"""
         records = num_records or self.config.num_records
-        
-        interaction_types = ["Email Open", "Link Click", "Form Submit", 
+
+        interactiontypes = ["Email Open", "Link Click", "Form Submit",
                            "Download", "Webinar Attend", "Demo Request"]
-        
+
         data = []
-        base_date = datetime.now() - timedelta(days=self.config.date_range_days)
-        
+        basedate = datetime.now() - timedelta(days=self.config.date_range_days)
+
         for i in range(records):
             record = {
                 'campaign_id': f"CAMP-{random.randint(100, 999)}",
@@ -129,16 +130,16 @@ class CSVDataFactory:
                 'converted': random.choice([True, False])
             }
             data.append(record)
-            
+
         return pd.DataFrame(data)
 
 
 class CSVFileFactory:
     """Factory for creating CSVFile domain objects"""
-    
+
     def __init__(self, data_factory: Optional[CSVDataFactory] = None):
-        self.data_factory = data_factory or CSVDataFactory()
-        
+        self.datafactory = data_factory or CSVDataFactory()
+
     def create_csv_file(
         self,
         file_type: str = "ACQ",
@@ -147,13 +148,13 @@ class CSVFileFactory:
         temp_dir: str = None
     ) -> CSVFile:
         """Create a CSVFile object with actual file on disk"""
-        
+
         if date_str is None:
-            date_str = datetime.now().strftime("%Y-%m-%d")
-            
+            datestr = datetime.now().strftime("%Y-%m-%d")
+
         if temp_dir is None:
-            temp_dir = tempfile.gettempdir()
-            
+            tempdir = tempfile.gettempdir()
+
         # Generate appropriate data based on file type
         if file_type == "ACQ":
             df = self.data_factory.create_acq_data()
@@ -168,14 +169,14 @@ class CSVFileFactory:
                 'name': [f"Item {i}" for i in range(1, 101)],
                 'value': [random.randint(1, 1000) for _ in range(100)]
             })
-        
-        # Create filename
-        filename = f"{file_type}__{date_str.replace('-', '-')}__{hour_str}00.csv"
-        file_path = Path(temp_dir) / filename
-        
+
+        # Create file_name
+        file_name = f"{file_type}__{date_str.replace('-', '-')}__{hour_str}00.csv"
+        file_path = Path(temp_dir) / file_name
+
         # Write CSV file
         df.to_csv(file_path, index=False)
-        
+
         # Create CSV rule
         rule = CSVRule(
             pattern=f"{file_type}__*.csv",
@@ -183,16 +184,16 @@ class CSVFileFactory:
             sheet_name=file_type,
             required_columns=list(df.columns)[:3]  # First 3 columns required
         )
-        
+
         return CSVFile(
-            filename=filename,
+            file_name=file_name,
             file_path=str(file_path),
             date_str=date_str,
             hour_str=hour_str,
             timestamp=datetime.now(),
             rule=rule
         )
-    
+
     def create_multiple_csv_files(
         self,
         file_types: List[str] = None,
@@ -201,22 +202,22 @@ class CSVFileFactory:
         temp_dir: str = None
     ) -> List[CSVFile]:
         """Create multiple CSV files for testing"""
-        
+
         if file_types is None:
-            file_types = ["ACQ", "Productivity", "Campaign_Interactions"]
-            
+            filetypes = ["ACQ", "Productivity", "Campaign_Interactions"]
+
         if dates is None:
-            base_date = datetime.now()
+            basedate = datetime.now()
             dates = [
                 (base_date - timedelta(days=i)).strftime("%Y-%m-%d")
                 for i in range(3)
             ]
-            
+
         if hours is None:
             hours = ["09", "12", "15"]
-            
-        csv_files = []
-        
+
+        csvfiles = []
+
         for file_type in file_types:
             for date_str in dates:
                 for hour_str in hours:
@@ -227,18 +228,18 @@ class CSVFileFactory:
                         temp_dir=temp_dir
                     )
                     csv_files.append(csv_file)
-                    
+
         return csv_files
 
 
 class ProcessingResultFactory:
     """Factory for creating ProcessingResult objects"""
-    
+
     @staticmethod
     def create_success_result(
         files_processed: int = 3,
         total_records: int = 300,
-        output_file: str = "/tmp/test_output.xlsx"
+        output_file: str = "/tmp / test_output.xlsx"
     ) -> ProcessingResult:
         """Create a successful processing result"""
         return ProcessingResult(
@@ -251,7 +252,7 @@ class ProcessingResultFactory:
             errors=[],
             warnings=[]
         )
-    
+
     @staticmethod
     def create_failure_result(
         error_message: str = "Processing failed",
@@ -268,7 +269,7 @@ class ProcessingResultFactory:
             errors=[error_message],
             warnings=[]
         )
-    
+
     @staticmethod
     def create_partial_result(
         files_processed: int = 2,
@@ -282,7 +283,7 @@ class ProcessingResultFactory:
             files_processed=files_processed,
             total_records=total_records,
             processing_time_seconds=random.uniform(2.0, 8.0),
-            output_file="/tmp/partial_output.xlsx",
+            output_file="/tmp / partial_output.xlsx",
             errors=[],
             warnings=warnings or ["Some data validation warnings occurred"]
         )
@@ -290,12 +291,12 @@ class ProcessingResultFactory:
 
 class TestEnvironmentFactory:
     """Factory for creating complete test environments"""
-    
+
     def __init__(self):
-        self.csv_factory = CSVFileFactory()
-        self.result_factory = ProcessingResultFactory()
+        self.csvfactory = CSVFileFactory()
+        self.resultfactory = ProcessingResultFactory()
         self.temp_dirs: List[str] = []
-        
+
     def create_test_directory_with_files(
         self,
         file_types: List[str] = None,
@@ -303,31 +304,31 @@ class TestEnvironmentFactory:
         num_hours: int = 2
     ) -> tuple[str, List[CSVFile]]:
         """Create a temporary directory with realistic test files"""
-        
+
         # Create temporary directory
-        temp_dir = tempfile.mkdtemp(prefix="test_csv_")
+        tempdir = tempfile.mkdtemp(prefix="test_csv_")
         self.temp_dirs.append(temp_dir)
-        
+
         # Generate date range
-        base_date = datetime.now()
+        basedate = datetime.now()
         dates = [
             (base_date - timedelta(days=i)).strftime("%Y-%m-%d")
             for i in range(num_dates)
         ]
-        
+
         # Generate hour range
         hours = [f"{9 + i:02d}" for i in range(num_hours)]
-        
+
         # Create CSV files
-        csv_files = self.csv_factory.create_multiple_csv_files(
+        csvfiles = self.csv_factory.create_multiple_csv_files(
             file_types=file_types,
             dates=dates,
             hours=hours,
             temp_dir=temp_dir
         )
-        
+
         return temp_dir, csv_files
-    
+
     def cleanup(self):
         """Clean up temporary directories"""
         import shutil
@@ -337,9 +338,9 @@ class TestEnvironmentFactory:
             except Exception:
                 pass  # Ignore cleanup errors
         self.temp_dirs.clear()
-    
+
     def __enter__(self):
         return self
-    
+
     def __exit__(self, exc_type, exc_val, exc_tb):
         self.cleanup()

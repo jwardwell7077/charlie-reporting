@@ -18,18 +18,22 @@ except ImportError:
         service_name: str = "database-service"
         service_port: int = 8081
 
+
+
 class DatabaseserviceConfig(BaseServiceConfig):
     """Configuration for database-service service"""
-    
+
     service_name: str = "database-service"
     service_port: int = Field(default=8081, description="Service HTTP port")
     service_host: str = Field(default="0.0.0.0", description="Service bind host")
-    
+
     # Add service-specific configuration here
-    
+
     class Config:
         env_file = ".env"
         env_prefix = "DATABASE_SERVICE_"
+
+
 
 def load_config() -> DatabaseserviceConfig:
     """Load configuration"""

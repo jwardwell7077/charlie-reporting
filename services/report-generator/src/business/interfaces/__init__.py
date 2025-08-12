@@ -12,12 +12,12 @@ from ..models.csv_file import CSVFile
 
 class IDirectoryProcessor(ABC):
     """Interface for directory processing operations"""
-    
+
     @abstractmethod
     async def scan_directory(self, directory_path: Path, date_filter: str) -> List[Path]:
         """Scan directory for CSV files matching date filter"""
         pass
-    
+
     @abstractmethod
     async def validate_directory(self, directory_path: Path) -> Dict[str, Any]:
         """Validate directory exists and is accessible"""
@@ -26,12 +26,12 @@ class IDirectoryProcessor(ABC):
 
 class ICSVTransformer(ABC):
     """Interface for CSV transformation operations"""
-    
+
     @abstractmethod
     async def transform_csv(self, csv_file: CSVFile, config: Dict[str, Any]) -> Dict[str, Any]:
         """Transform CSV file according to configuration rules"""
         pass
-    
+
     @abstractmethod
     async def validate_csv_structure(self, csv_file: CSVFile) -> bool:
         """Validate CSV file has required structure"""
@@ -40,12 +40,12 @@ class ICSVTransformer(ABC):
 
 class IExcelGenerator(ABC):
     """Interface for Excel file generation"""
-    
+
     @abstractmethod
     async def create_workbook(self, data: Dict[str, Any]) -> bytes:
         """Create Excel workbook from transformed data"""
         pass
-    
+
     @abstractmethod
     async def apply_formatting(self, workbook: bytes, rules: Dict[str, Any]) -> bytes:
         """Apply formatting rules to Excel workbook"""
@@ -54,17 +54,17 @@ class IExcelGenerator(ABC):
 
 class IFileManager(ABC):
     """Interface for file system operations"""
-    
+
     @abstractmethod
     async def save_file(self, content: bytes, file_path: Path) -> bool:
         """Save file to specified path"""
         pass
-    
+
     @abstractmethod
     async def archive_file(self, source_path: Path, archive_path: Path) -> bool:
         """Archive file by moving to archive directory"""
         pass
-    
+
     @abstractmethod
     async def file_exists(self, file_path: Path) -> bool:
         """Check if file exists"""
@@ -73,12 +73,12 @@ class IFileManager(ABC):
 
 class IConfigManager(ABC):
     """Interface for configuration management"""
-    
+
     @abstractmethod
     def get_attachment_config(self) -> Dict[str, Any]:
         """Get attachment processing configuration"""
         pass
-    
+
     @abstractmethod
     def validate_config(self, config: Dict[str, Any]) -> bool:
         """Validate configuration structure and values"""
@@ -87,17 +87,17 @@ class IConfigManager(ABC):
 
 class ILogger(ABC):
     """Interface for logging operations"""
-    
+
     @abstractmethod
     def info(self, message: str, **kwargs) -> None:
         """Log info message with optional context"""
         pass
-    
+
     @abstractmethod
     def error(self, message: str, **kwargs) -> None:
         """Log error message with optional context"""
         pass
-    
+
     @abstractmethod
     def debug(self, message: str, **kwargs) -> None:
         """Log debug message with optional context"""
@@ -106,17 +106,17 @@ class ILogger(ABC):
 
 class IMetricsCollector(ABC):
     """Interface for metrics collection"""
-    
+
     @abstractmethod
     def increment_counter(self, metric_name: str, value: int = 1, tags: Optional[Dict[str, str]] = None) -> None:
         """Increment counter metric"""
         pass
-    
+
     @abstractmethod
     def record_timing(self, metric_name: str, duration_seconds: float, tags: Optional[Dict[str, str]] = None) -> None:
         """Record timing metric"""
         pass
-    
+
     @abstractmethod
     def set_gauge(self, metric_name: str, value: float, tags: Optional[Dict[str, str]] = None) -> None:
         """Set gauge metric value"""

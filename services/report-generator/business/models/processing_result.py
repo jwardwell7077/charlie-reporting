@@ -18,7 +18,7 @@ class ProcessingResult:
     errors: Optional[List[str]] = None
     warnings: Optional[List[str]] = None
     timestamp: Optional[datetime] = None
-    
+
     def __post_init__(self):
         if self.errors is None:
             self.errors = []
@@ -26,24 +26,24 @@ class ProcessingResult:
             self.warnings = []
         if self.timestamp is None:
             self.timestamp = datetime.now()
-    
+
     @property
     def has_errors(self) -> bool:
         """Check if result has any errors"""
         return len(self.errors or []) > 0
-    
+
     @property
     def has_warnings(self) -> bool:
         """Check if result has any warnings"""
         return len(self.warnings or []) > 0
-    
+
     def add_error(self, error: str):
         """Add an error to the result"""
         if self.errors is None:
             self.errors = []
         self.errors.append(error)
         self.success = False
-    
+
     def add_warning(self, warning: str):
         """Add a warning to the result"""
         if self.warnings is None:
@@ -54,7 +54,7 @@ class ProcessingResult:
 @dataclass
 class FileInfo:
     """Information about a file being processed"""
-    filename: str
+    file_name: str
     file_path: str
     file_type: str
     date_str: str
@@ -62,7 +62,7 @@ class FileInfo:
     rule: str
     record_count: int = 0
     file_size_bytes: int = 0
-    
+
     @property
     def display_name(self) -> str:
         """Human readable display name"""

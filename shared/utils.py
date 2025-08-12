@@ -3,11 +3,10 @@ utils.py
 --------
 Utility functions for the reporting pipeline.
 
-Author: Jonathan Wardwell, Copilot, GPT-4o
+Author: Jonathan Wardwell, Copilot, GPT - 4o
 License: MIT
 """
 
-import os
 import re
 from typing import Optional, Tuple
 from openpyxl.utils import column_index_from_string
@@ -28,11 +27,9 @@ def sanitize_filename(name: str) -> str:
     return cleaned.strip('_')
 
 
-
-
 def extract_date_from_filename(filename: str) -> Optional[str]:
     """
-    Extract a date in YYYY-MM-DD format from a filename that contains '__YYYY-MM-DD'.
+    Extract a date in YYYY - MM - DD format from a filename that contains '__YYYY - MM - DD'.
 
     Returns:
         The date string if found, otherwise None.
