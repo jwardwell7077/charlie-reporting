@@ -10,34 +10,36 @@ from fastapi.responses import JSONResponse
 
 from ....config.settings import DatabaseServiceConfig
 
-from datetime import datetime, timezone
+from datetime import datetime
 router = APIRouter()
 
 
 async def get_service_config() -> DatabaseServiceConfig:
-        """Dependency to get service configuration"""
+    """Dependency to get service configuration"""
     return DatabaseServiceConfig()
 
 
 @router.get("/", status_code=status.HTTP_200_OK)
 
+
 async def health_check() -> Dict[str, Any]:
-        """
+    """
     Basic health check endpoint.
     Returns service status and timestamp.
     """
     return {
         "status": "healthy",
-        "service": "database-service",
-        "timestamp": datetime.utcnow().isoformat(),
-            "version": "1.0.0"
+            "service": "database-service",
+            "timestamp": datetime.utcnow().isoformat(),
+                                     "version": "1.0.0"
     }
 
 
 @router.get("/ready", status_code=status.HTTP_200_OK)
 
+
 async def readiness_check(
-        config: DatabaseServiceConfig = Depends(get_service_config)
+                          config: DatabaseServiceConfig = Depends(get_service_config)
 ) -> Dict[str, Any]:
         """
     Readiness check endpoint.
@@ -47,40 +49,41 @@ async def readiness_check(
         # Basic configuration check
         checks = {
             "database_configured": bool(config.database_url),
-                "environment": getattr(config, 'environment', 'development'),
-                "service_name": config.service_name
+                                    "environment": getattr(config, 'environment', 'development'),
+                               "service_name": config.service_name
         }
 
         all_ready = all(checks.values())
 
-            return {
+        return {
             "status": "ready" if all_ready else "not_ready",
             "service": "database-service",
             "timestamp": datetime.utcnow().isoformat(),
-                "checks": checks
+                                     "checks": checks
         }
 
     except Exception:
         return JSONResponse(
-            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+                            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
             content={
-                "status": "not_ready",
-                "service": "database-service",
-                "timestamp": datetime.utcnow().isoformat(),
-                    "error": str(e)
-                }
+            "status": "not_ready",
+            "service": "database-service",
+            "timestamp": datetime.utcnow().isoformat(),
+                                     "error": str(e)
+        }
         )
 
 
 @router.get("/live", status_code=status.HTTP_200_OK)
 
+
 async def liveness_check() -> Dict[str, Any]:
-        """
+    """
     Liveness check endpoint.
     Indicates the service is running and operational.
     """
     return {
         "status": "alive",
-        "service": "database-service",
-        "timestamp": datetime.utcnow().isoformat()
+            "service": "database-service",
+            "timestamp": datetime.utcnow().isoformat()
     }

@@ -1,21 +1,19 @@
 """
-Email_Record domain model for database-service
+Email Record domain model for database-service
 """
 
 from dataclasses import dataclass
 from typing import Optional
 from datetime import datetime
 
-from typing import Optional
-from datetime import datetime, timezone
+
 @dataclass
-
-
-class Email_Record:
+class EmailRecord:
     """
-    Email_Record domain model
+    EmailRecord domain model
     TODO: Define attributes and methods
     """
+    pass
 
     id: Optional[str] = None
     created_at: Optional[datetime] = None

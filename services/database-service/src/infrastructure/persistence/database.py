@@ -1,142 +1,121 @@
 """
-Database connection infrastructure for database-service
+Database connection infrastructure for database-service.
 """
 
 from contextlib import asynccontextmanager
 from typing import AsyncGenerator, Optional
 
 from sqlalchemy.ext.asyncio import (
-        AsyncEngine,
+    AsyncEngine,
     AsyncSession,
     async_sessionmaker,
-    create_async_engine
+    create_async_engine,
 )
+from sqlalchemy.exc import SQLAlchemyError
+from pydantic import ValidationError
+from sqlalchemy import text
 import structlog
 
 from ...config.settings import DatabaseServiceConfig
 from ...config.database import DatabaseConfig
 
-
 logger = structlog.get_logger(__name__)
 
 
 class DatabaseConnection:
-        """
-    Database connection manager for async SQLAlchemy operations.
-
-    Provides:
-    - Async engine creation and management
-    - Session factory with context manager support
-    - Connection health checking
-    - Proper cleanup and resource management
-    """
+    """Manage async SQLAlchemy engine and sessions."""
 
     def __init__(self, config: DatabaseServiceConfig):
-            self.config = config
-        self.db_config = DatabaseConfig.from_service_config(config)
-            self._engine: Optional[AsyncEngine] = None
-        self._session_factory: Optional[async_sessionmaker] = None
+        self.config = config
+        try:
+            self.db_config = DatabaseConfig.from_service_config(config)
+        except ValidationError as e:
+            # Defer raising until initialize()
+            self._init_error = e
+            self.db_config = None  # type: ignore[assignment]
+        self._engine: Optional[AsyncEngine] = None
+        self._session_factory: Optional[
+            async_sessionmaker[AsyncSession]
+        ] = None
 
     async def create_engine(self) -> AsyncEngine:
-            """Create async SQLAlchemy engine"""
+        """Create and return an async SQLAlchemy engine.
+
+        For SQLite URLs remove pooling parameters.
+        """
         try:
-            connection_params = self.db_config.to_connection_params()
-
-                # SQLite doesn't support pooling parameters
-            if 'sqlite' in connection_params['url']:
-                # Remove pooling parameters for SQLite
-                sqlite_params = {
-                    'url': connection_params['url'],
-                    'echo': connection_params['echo']
-                }
-                engine = create_async_engine(**sqlite_params)
-                else:
-                # Use all parameters for other databases
-                engine = create_async_engine(**connection_params)
-
-                logger.info(
-                "Database engine created",
-                url=self.db_config._mask_password(connection_params['url']),
-                    pool_size=connection_params.get('pool_size', 'N/A (SQLite)')
-                )
-
-                return engine
-
-        except Exception:
-            logger.error("Failed to create database engine", error=str(e))
-                raise SQLAlchemyError(f"Database engine creation failed: {e}")
-
-        async def initialize(self) -> None:
-            """Initialize database connection and session factory"""
-        try:
-            self._engine = await self.create_engine()
-                self._session_factory = async_sessionmaker(
-                bind=self._engine,
-                class_=AsyncSession,
-                expire_on_commit=False
+            connection_params = (
+                self.db_config.to_connection_params()  # type: ignore[union-attr]
             )
+            url = connection_params["url"]
+            if "sqlite" in url:
+                engine = create_async_engine(
+                    url, echo=connection_params.get("echo", False)
+                )
+            else:
+                engine = create_async_engine(
+                    url,
+                    echo=connection_params.get("echo", False),
+                    pool_size=connection_params.get("pool_size"),
+                    max_overflow=connection_params.get("max_overflow"),
+                    pool_timeout=connection_params.get("pool_timeout"),
+                )
+            logger.info(
+                "Database engine created",
+                url=self.db_config._mask_password(  # type: ignore[union-attr]
+                    url
+                ),
+            )
+            return engine
+        except Exception as e:  # noqa: BLE001
+            logger.error("Failed to create database engine", error=str(e))
+            raise SQLAlchemyError(f"Database engine creation failed: {e}")
 
-                logger.info("Database connection initialized successfully")
-
-            except Exception:
-            logger.error("Database initialization failed", error=str(e))
-                raise
+    async def initialize(self) -> None:
+        if getattr(self, "_init_error", None):
+            raise SQLAlchemyError(str(self._init_error))
+        if self._engine is None:
+            self._engine = await self.create_engine()
+            self._session_factory = async_sessionmaker(
+                bind=self._engine, class_=AsyncSession, expire_on_commit=False
+            )
+            logger.info("Database connection initialized successfully")
 
     @asynccontextmanager
-
     async def get_session(self) -> AsyncGenerator[AsyncSession, None]:
-            """
-        Get database session with automatic transaction management.
-
-        Usage:
-            async with db_connection.get_session() as session:
-                    # Use session for database operations
-                result = await session.execute(query)
-                    # Session will auto-commit on successful exit
-                # Session will rollback on exception
-        """
+        """Yield an AsyncSession with automatic commit/rollback."""
         if not self._session_factory:
-            raise RuntimeError("Database not initialized. Call initialize() first.")
-
-            session = self._session_factory()
-            try:
+            raise RuntimeError(
+                "Database not initialized. Call initialize() first."
+            )
+        session: AsyncSession = self._session_factory()
+        try:
             yield session
             await session.commit()
-                logger.debug("Database session committed successfully")
-            except Exception:
+            logger.debug("Database session committed successfully")
+        except Exception as e:  # noqa: BLE001
             await session.rollback()
-                logger.error("Database session rolled back", error=str(e))
-                raise
+            logger.error("Database session rolled back", error=str(e))
+            raise
         finally:
             await session.close()
 
-        async def health_check(self) -> bool:
-            """
-        Check database connection health.
-
-        Returns:
-            True if database is accessible, False otherwise
-        """
+    async def health_check(self) -> bool:
+        """Return True if a simple SELECT 1 succeeds."""
         if not self._engine:
             return False
-
         try:
-            async with self._engine.begin() as conn:
-                    # Simple query to test connection
-                from sqlalchemy import text
-from typing import Optional
-from sqlalchemy.exc import SQLAlchemyError
+            async with self._engine.begin() as conn:  # type: ignore[arg-type]
                 await conn.execute(text("SELECT 1"))
-                return True
-        except Exception:
+            return True
+        except Exception as e:  # noqa: BLE001
             logger.warning("Database health check failed", error=str(e))
-                return False
+            return False
 
     async def close(self) -> None:
-            """Close database connection and cleanup resources"""
+        """Dispose engine and reset session factory."""
         if self._engine:
             await self._engine.dispose()
-                logger.info("Database engine disposed")
-
+            logger.info("Database engine disposed")
         self._engine = None
         self._session_factory = None

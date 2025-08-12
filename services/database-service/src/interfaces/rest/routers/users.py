@@ -18,8 +18,10 @@ router = APIRouter()
 
 
 # Request/Response Models
+
+
 class UserCreateRequest(BaseModel):
-        """Request model for creating a new user"""
+    """Request model for creating a new user"""
     email: str = Field(..., description="User email address")
         username: str = Field(..., description="Username")
         first_name: Optional[str] = Field(None, description="First name")
@@ -28,7 +30,7 @@ class UserCreateRequest(BaseModel):
 
 
 class UserUpdateRequest(BaseModel):
-        """Request model for updating a user"""
+    """Request model for updating a user"""
     first_name: Optional[str] = Field(None, description="First name")
         last_name: Optional[str] = Field(None, description="Last name")
         role: Optional[UserRole] = Field(None, description="User role")
@@ -36,7 +38,7 @@ class UserUpdateRequest(BaseModel):
 
 
 class UserResponse(BaseModel):
-        """Response model for user"""
+    """Response model for user"""
     id: UUID
     email: str
     username: str
@@ -51,9 +53,8 @@ class UserResponse(BaseModel):
     last_login: Optional[str] = None
 
     @classmethod
-
     def from_domain(cls, user: User) -> 'UserResponse':
-            """Convert domain model to response model"""
+        """Convert domain model to response model"""
         return cls(
             id=user.id,
             email=user.email,
@@ -66,14 +67,16 @@ class UserResponse(BaseModel):
             is_admin=user.is_admin,
             is_active=user.is_active,
             created_at=user.created_at.isoformat(),
-                last_login=user.last_login.isoformat() if user.last_login else None
+        last_login=user.last_login.isoformat() if user.last_login else None
             )
 
 
 # Dependency injection
-async def get_user_service(request: Request) -> UserService:
+
+
+    async def get_user_service(request: Request) -> UserService:
         """Dependency to get user service from app state"""
-    return request.app.state.user_service
+        return request.app.state.user_service
 
 
 # Endpoints
@@ -109,9 +112,14 @@ async def create_user(
 
 @router.get("/", response_model=List[UserResponse])
 
+
 async def list_users(
-        status_filter: Optional[UserStatus] = Query(None, description="Filter by status"),
-        role_filter: Optional[UserRole] = Query(None, description="Filter by role"),
+        status_filter: Optional[UserStatus] = (
+            Query(None, description="Filter by status"),
+        )
+        role_filter: Optional[UserRole] = (
+            Query(None, description="Filter by role"),
+        )
         user_service: UserService = Depends(get_user_service)
 ) -> List[UserResponse]:
         """Get list of users with optional filtering"""
@@ -129,6 +137,7 @@ async def list_users(
 
 @router.get("/{user_id}", response_model=UserResponse)
 
+
 async def get_user(
         user_id: UUID,
     user_service: UserService = Depends(get_user_service)
@@ -138,8 +147,8 @@ async def get_user(
         user = await user_service.get_user_by_id(user_id)
             if not user:
             raise HTTPException(
-                status_code=status.HTTP_404_NOT_FOUND,
-                detail="User not found"
+        status_code=status.HTTP_404_NOT_FOUND,
+        detail="User not found"
             )
 
             return UserResponse.from_domain(user)
@@ -155,6 +164,7 @@ async def get_user(
 
 @router.put("/{user_id}", response_model=UserResponse)
 
+
 async def update_user(
         user_id: UUID,
     user_data: UserUpdateRequest,
@@ -167,8 +177,8 @@ async def update_user(
             )
             if not updated_user:
             raise HTTPException(
-                status_code=status.HTTP_404_NOT_FOUND,
-                detail="User not found"
+        status_code=status.HTTP_404_NOT_FOUND,
+        detail="User not found"
             )
 
             return UserResponse.from_domain(updated_user)
@@ -184,6 +194,7 @@ async def update_user(
 
 @router.delete("/{user_id}", status_code=status.HTTP_204_NO_CONTENT)
 
+
 async def delete_user(
         user_id: UUID,
     user_service: UserService = Depends(get_user_service)
@@ -193,8 +204,8 @@ async def delete_user(
         success = await user_service.delete_user(user_id)
             if not success:
             raise HTTPException(
-                status_code=status.HTTP_404_NOT_FOUND,
-                detail="User not found"
+        status_code=status.HTTP_404_NOT_FOUND,
+        detail="User not found"
             )
 
         except HTTPException:

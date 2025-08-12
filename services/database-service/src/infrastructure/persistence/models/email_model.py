@@ -11,6 +11,8 @@ from .base import Base, TimestampMixin, UUIDMixin
 
 from uuid import UUID
 # SQLAlchemy enums for database storage
+
+
 class EmailStatusEnum(enum.Enum):
         RECEIVED = "received"
     PROCESSED = "processed"
@@ -26,15 +28,18 @@ class EmailPriorityEnum(enum.Enum):
 
 
 class EmailRecordModel(Base, UUIDMixin, TimestampMixin):
-        """SQLAlchemy model for email records"""
+    """SQLAlchemy model for email records"""
+    pass
 
     __tablename__ = "email_records"
 
     # Core email fields
     message_id = Column(String(255), unique=True, nullable=False, index=True)
-        subject = Column(String(998), nullable=False)  # RFC 2822 max subject length
+        subject = (
+                   Column(String(998), nullable=False)  # RFC 2822 max subject length
+        )
         sender = (
-        Column(String(320), nullable=False, index=True)  # RFC 5321 max email length
+                  Column(String(320), nullable=False, index=True)  # RFC 5321 max email length
     )
 
         # Recipients stored as JSON array
@@ -48,21 +53,25 @@ class EmailRecordModel(Base, UUIDMixin, TimestampMixin):
 
         # Dates
     sent_date = Column(DateTime(timezone=True), nullable=False, index=True)
-        received_date = Column(DateTime(timezone=True), nullable=False, index=True)
+        received_date = (
+                         Column(DateTime(timezone=True), nullable=False, index=True)
+        )
 
         # Status and priority
     status = Column(
-        SQLEnum(EmailStatusEnum, name="email_status"),
-            nullable=False,
-        default=EmailStatusEnum.RECEIVED,
-        index=True
+                    SQLEnum(EmailStatusEnum, name="email_status"),
+                nullable=False,
+            default=EmailStatusEnum.RECEIVED,
+            index=True
     )
         priority = Column(
-        SQLEnum(EmailPriorityEnum, name="email_priority"),
-            nullable=False,
-        default=EmailPriorityEnum.NORMAL,
-        index=True
+                          SQLEnum(EmailPriorityEnum, name="email_priority"),
+                nullable=False,
+            default=EmailPriorityEnum.NORMAL,
+            index=True
     )
 
-        def __repr__(self):
-            return f"<EmailRecordModel(id={self.id}, message_id='{self.message_id}', subject='{self.subject[:50]}...')>"
+    def __repr__(self):
+        return (
+                f"<EmailRecordModel(id={self.id}, message_id='{self.message_id}', subject='{self.subject[:50]}...')>"
+        )

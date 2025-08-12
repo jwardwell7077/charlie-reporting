@@ -20,30 +20,32 @@ router = APIRouter()
 
 
 # Request/Response Models
+
+
 class EmailCreateRequest(BaseModel):
-        """Request model for creating a new email record"""
+    """Request model for creating a new email record"""
     message_id: str = Field(..., description="Unique message identifier")
-        subject: str = Field(..., description="Email subject")
-        sender: str = Field(..., description="Sender email address")
-        recipients: List[str] = Field(..., description="List of recipient email addresses")
-        sent_date: datetime = Field(..., description="Date when email was sent")
-        body: Optional[str] = Field(None, description="Email body content")
-        priority: EmailPriority = Field(
-        EmailPriority.NORMAL,
-        description="Email priority level"
+    subject: str = Field(..., description="Email subject")
+    sender: str = Field(..., description="Sender email address")
+    recipients: List[str] = Field(..., description="List of recipient email addresses")
+    sent_date: datetime = Field(..., description="Date when email was sent")
+    body: Optional[str] = Field(None, description="Email body content")
+    priority: EmailPriority = Field(
+    EmailPriority.NORMAL,
+    description="Email priority level"
     )
 
 
 class EmailUpdateRequest(BaseModel):
-        """Request model for updating an email record"""
+    """Request model for updating an email record"""
     subject: Optional[str] = Field(None, description="Email subject")
-        status: Optional[EmailStatus] = Field(None, description="Email status")
-        priority: Optional[EmailPriority] = Field(None, description="Email priority")
-        body: Optional[str] = Field(None, description="Email body content")
+    status: Optional[EmailStatus] = Field(None, description="Email status")
+    priority: Optional[EmailPriority] = Field(None, description="Email priority")
+    body: Optional[str] = Field(None, description="Email body content")
 
 
 class EmailResponse(BaseModel):
-        """Response model for email record"""
+    """Response model for email record"""
     id: UUID
     message_id: str
     subject: str
@@ -60,7 +62,7 @@ class EmailResponse(BaseModel):
     @classmethod
 
     def from_domain(cls, email: EmailRecord) -> 'EmailResponse':
-            """Convert domain model to response model"""
+        """Convert domain model to response model"""
         return cls(
             id=email.id,
             message_id=email.message_id,
@@ -78,7 +80,7 @@ class EmailResponse(BaseModel):
 
 
 class EmailListResponse(BaseModel):
-        """Response model for email list operations"""
+    """Response model for email list operations"""
     emails: List[EmailResponse]
     total: int
     page: int
@@ -86,9 +88,11 @@ class EmailListResponse(BaseModel):
 
 
 # Dependency injection
-async def get_email_service(request: Request) -> EmailService:
+
+
+    async def get_email_service(request: Request) -> EmailService:
         """Dependency to get email service from app state"""
-    return request.app.state.email_service
+        return request.app.state.email_service
 
 
 # Endpoints
@@ -100,18 +104,19 @@ async def create_email(
     email_service: EmailService = Depends(get_email_service)
 ) -> EmailResponse:
         """
-    Create a new email record.
-    """
+         Create a new email record.
+        Args:
+        """
     try:
         # Convert request to domain model
         email_record = EmailRecord(
-            message_id=email_data.message_id,
-            subject=email_data.subject,
-            sender=email_data.sender,
-            recipients=email_data.recipients,
-            sent_date=email_data.sent_date,
-            body=email_data.body,
-            priority=email_data.priority
+        message_id=email_data.message_id,
+        subject=email_data.subject,
+        sender=email_data.sender,
+        recipients=email_data.recipients,
+        sent_date=email_data.sent_date,
+        body=email_data.body,
+        priority=email_data.priority
         )
 
             # Create via service

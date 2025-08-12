@@ -6,16 +6,14 @@ from dataclasses import dataclass
 from typing import Optional
 from datetime import datetime
 
-from typing import Optional
-from datetime import datetime, timezone
+
 @dataclass
-
-
 class Report:
     """
     Report domain model
     TODO: Define attributes and methods
     """
+    pass
 
     id: Optional[str] = None
     created_at: Optional[datetime] = None

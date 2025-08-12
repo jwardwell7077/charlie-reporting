@@ -6,59 +6,46 @@ Handles user management workflows and business rules.
 from datetime import datetime
 from typing import Optional, Dict, Any
 import logging
+from uuid import UUID
 
 from ...domain.models.user import User, UserRole, UserStatus
 from ...infrastructure.persistence.database import DatabaseConnection
 
 
-from typing import Optional
-from datetime import datetime, timezone
-
-
 class UserService:
-        """
-    User business service handling user management workflows.
+    """User business service handling user management workflows.
+
     Coordinates user creation, authentication, and authorization.
     """
 
-    def __init__(self,
-                 db_connection: DatabaseConnection,
-                 logger: Optional[logging.Logger] = None):
-            self._db_connection = db_connection
+    def __init__(
+        self,
+        db_connection: DatabaseConnection,
+        logger: Optional[logging.Logger] = None,
+    ):
+        self._db_connection = db_connection
         self._logger = logger or logging.getLogger(__name__)
+        self._users: dict[UUID, User] = {}
 
-        async def create_user(self,
-                         email: str,
-                         username: str,
-                         first_name: str = "",
-                         last_name: str = "",
-                         role: UserRole = UserRole.USER) -> User:
-            """
-        Create a new user with validation and business rules.
+    async def create_user(
+        self,
+        email: str,
+        username: str,
+        first_name: str = "",
+        last_name: str = "",
+        role: UserRole = UserRole.USER,
+    ) -> User:
+        """Create a new user with validation and business rules."""
+        self._logger.info("Creating user: %s (%s)", username, email)
 
-        Args:
-            email: User email address
-            username: Unique username
-            first_name: User first name
-            last_name: User last name
-            role: User role (default: USER)
-
-            Returns:
-            User: The created user
-
-        Raises:
-            ValueError: If user data is invalid or duplicate
-        """
-        self._logger.info(f"Creating user: {username} ({email})")
-
-            # Business rule: Validate email domain for admin users
         if role == UserRole.ADMIN:
-            allowed_admin_domains = ['company.com', 'admin.org']
-            email_domain = email.split('@')[-1] if '@' in email else ''
-                if email_domain not in allowed_admin_domains:
-                raise ValueError("Admin users must use approved email domains")
+            allowed_admin_domains = ["company.com", "admin.org"]
+            email_domain = email.split("@")[-1] if "@" in email else ""
+            if email_domain not in allowed_admin_domains:
+                raise ValueError(
+                    "Admin users must use an approved email domain"
+                )
 
-            # Create user
         user = User(
             email=email,
             username=username,
@@ -67,28 +54,19 @@ class UserService:
             role=role,
             status=UserStatus.ACTIVE,
             last_login=None,
-            created_at=datetime.now()
-            )
-
-            self._logger.info(f"Successfully created user: {user.id}")
-            return user
+            created_at=datetime.now(),
+        )
+        self._logger.info("Successfully created user: %s", user.id)
+        self._users[user.id] = user
+        return user
 
     async def authenticate_user(self, username: str) -> Optional[User]:
-            """
-        Authenticate a user and update last login.
+        """Authenticate a user and update last login.
 
-        Args:
-            username: Username to authenticate
-
-        Returns:
-            User if authentication successful, None otherwise
+        This is a placeholder; real authentication would verify credentials.
         """
-        self._logger.info(f"Authenticating user: {username}")
+        self._logger.info("Authenticating user: %s", username)
 
-            # In a real system, this would verify credentials
-        # For now, we'll simulate successful authentication
-
-        # Create a mock user for demonstration
         user = User(
             email=f"{username}@example.com",
             username=username,
@@ -97,103 +75,99 @@ class UserService:
             role=UserRole.USER,
             status=UserStatus.ACTIVE,
             last_login=None,
-            created_at=datetime.now()
-            )
-
-            # Update last login
+            created_at=datetime.now(),
+        )
         user.update_last_login()
+        self._logger.info("Successfully authenticated user: %s", username)
+        return user
 
-            self._logger.info(f"Successfully authenticated user: {username}")
-            return user
-
-    async def authorize_user(self, user: User, required_role: UserRole) -> bool:
-            """
-        Check if user has required authorization level.
-
-        Args:
-            user: User to check
-            required_role: Minimum required role
-
-        Returns:
-            True if user is authorized, False otherwise
-        """
+    async def authorize_user(
+        self, user: User, required_role: UserRole
+    ) -> bool:
+        """Check if user has required authorization level."""
         if user.status != UserStatus.ACTIVE:
-            self._logger.warning(f"Authorization failed - user not active: {user.username}")
-                return False
+            self._logger.warning(
+                "Authorization failed - user not active: %s", user.username
+            )
+            return False
 
-        # Role hierarchy: ADMIN > USER > GUEST
+        # Role hierarchy: SUPER_ADMIN > ADMIN > USER
         role_hierarchy = {
-            UserRole.GUEST: 1,
-            UserRole.USER: 2,
-            UserRole.ADMIN: 3
+            UserRole.USER: 1,
+            UserRole.ADMIN: 2,
+            UserRole.SUPER_ADMIN: 3,
         }
-
         user_level = role_hierarchy.get(user.role, 0)
-            required_level = role_hierarchy.get(required_role, 0)
-
-            authorized = user_level >= required_level
+        required_level = role_hierarchy.get(required_role, 0)
+        authorized = user_level >= required_level
 
         if authorized:
-            self._logger.debug(f"User {user.username} authorized for {required_role.value}")
-            else:
-            self._logger.warning(f"User {user.username} not authorized for {required_role.value}")
-
-            return authorized
+            self._logger.debug(
+                "User %s authorized for %s",
+                user.username,
+                required_role.value,
+            )
+        else:
+            self._logger.warning(
+                "User %s not authorized for %s",
+                user.username,
+                required_role.value,
+            )
+        return authorized
 
     async def deactivate_user(self, user: User, reason: str = "") -> User:
-            """
-        Deactivate a user account.
-
-        Args:
-            user: User to deactivate
-            reason: Reason for deactivation
-
-        Returns:
-            Updated user
-        """
-        self._logger.info(f"Deactivating user: {user.username}, reason: {reason}")
-
-            user.deactivate()
-
-            self._logger.info(f"Successfully deactivated user: {user.username}")
-            return user
+        """Deactivate a user account."""
+        self._logger.info(
+            "Deactivating user: %s, reason: %s", user.username, reason
+        )
+        user.deactivate()
+        self._logger.info(
+            "Successfully deactivated user: %s", user.username
+        )
+        return user
 
     async def reactivate_user(self, user: User) -> User:
-            """
-        Reactivate a user account.
-
-        Args:
-            user: User to reactivate
-
-        Returns:
-            Updated user
-        """
-        self._logger.info(f"Reactivating user: {user.username}")
-
-            user.activate()
-
-            self._logger.info(f"Successfully reactivated user: {user.username}")
-            return user
+        """Reactivate a user account."""
+        self._logger.info("Reactivating user: %s", user.username)
+        user.activate()
+        self._logger.info(
+            "Successfully reactivated user: %s", user.username
+        )
+        return user
 
     async def get_user_summary(self, user: User) -> Dict[str, Any]:
-            """
-        Get user summary information.
-
-        Args:
-            user: User to summarize
-
-        Returns:
-            Dictionary containing user summary
-        """
+        """Get user summary information."""
         return {
             "id": str(user.id),
-                "username": user.username,
+            "username": user.username,
             "email": user.email,
             "full_name": user.full_name,
             "role": user.role.value,
             "status": user.status.value,
             "is_admin": user.is_admin,
             "is_active": user.is_active,
-            "last_login": user.last_login.isoformat() if user.last_login else None,
-                "created_at": user.created_at.isoformat()
+            "last_login": user.last_login.isoformat()
+            if user.last_login
+            else None,
+            "created_at": user.created_at.isoformat(),
         }
+
+    async def get_user_by_id(self, user_id: UUID) -> Optional[User]:
+        return self._users.get(user_id)
+
+    async def get_all_users(self) -> list[User]:
+        return list(self._users.values())
+
+    async def update_user(
+        self, user_id: UUID, data: Dict[str, Any]
+    ) -> Optional[User]:
+        user = self._users.get(user_id)
+        if not user:
+            return None
+        for field, value in data.items():
+            if hasattr(user, field) and value is not None:
+                setattr(user, field, value)
+        return user
+
+    async def delete_user(self, user_id: UUID) -> bool:
+        return self._users.pop(user_id, None) is not None

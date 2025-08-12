@@ -7,18 +7,15 @@ from enum import Enum
 from typing import List, Optional
 from uuid import UUID, uuid4
 from pydantic import BaseModel, Field, field_validator, ConfigDict
+from datetime import datetime, timezone
 
 from .user import User
 from .email_record import EmailRecord
 
 
-from typing import Optional
-from datetime import datetime, timezone
-from typing import List
-
-
 class ReportType(Enum):
-        """Report type categories"""
+    """Report type categories."""
+
     DAILY = "daily"
     WEEKLY = "weekly"
     MONTHLY = "monthly"
@@ -28,7 +25,8 @@ class ReportType(Enum):
 
 
 class ReportStatus(Enum):
-        """Report processing status"""
+    """Report processing status."""
+
     PENDING = "pending"
     PROCESSING = "processing"
     COMPLETED = "completed"
@@ -36,144 +34,126 @@ class ReportStatus(Enum):
 
 
 class Report(BaseModel):
-        """Domain model for generated reports"""
+    """Domain model for generated reports."""
 
     # Required fields
     title: str
-    created_by: User
+    created_by: Optional[User]  # Allow None for validation path
 
     # Optional fields with defaults
     description: str = ""
     report_type: ReportType = ReportType.CUSTOM
     status: ReportStatus = ReportStatus.PENDING
     email_records: List[EmailRecord] = Field(default_factory=list)
-        file_path: Optional[str] = None
+    file_path: Optional[str] = None
     completed_at: Optional[datetime] = None
     id: UUID = Field(default_factory=uuid4)
-        created_at: datetime = Field(
+    created_at: datetime = Field(
         default_factory=lambda: datetime.now(timezone.utc)
     )
 
-        model_config = ConfigDict(
-        # Allow arbitrary types for UUID
-        arbitrary_types_allowed=True
+    model_config = ConfigDict(
+        arbitrary_types_allowed=True,
     )
 
-        @field_validator('title')
-        @classmethod
-
-
+    @field_validator("title")
+    @classmethod
     def validate_title(cls, v: str) -> str:
-            if not v:
+        if not v:
             raise ValueError("Title cannot be empty")
-            return v
+        return v
 
-    @field_validator('created_by')
-        @classmethod
-
-
-    def validate_created_by(cls, v: User) -> User:
-            if v is None:
+    @field_validator("created_by")
+    @classmethod
+    def validate_created_by(cls, v: Optional[User]) -> User:
+        if v is None:
             raise ValueError("Created by user is required")
-            return v
+        return v
 
     @property
-
     def email_count(self) -> int:
-            """Get number of email records in report"""
         return len(self.email_records)
 
-        @property
-
+    @property
     def is_completed(self) -> bool:
-            """Check if report is completed"""
         return self.status == ReportStatus.COMPLETED
 
     @property
-
     def is_failed(self) -> bool:
-            """Check if report failed"""
         return self.status == ReportStatus.FAILED
 
     def add_email_record(self, email_record: EmailRecord) -> None:
-            """Add an email record to the report"""
         if email_record not in self.email_records:
             self.email_records.append(email_record)
 
-        def remove_email_record(self, email_record: EmailRecord) -> None:
-            """Remove an email record from the report"""
+    def remove_email_record(self, email_record: EmailRecord) -> None:
         if email_record in self.email_records:
             self.email_records.remove(email_record)
 
-        def start_processing(self) -> None:
-            """Mark report as processing"""
+    def start_processing(self) -> None:
         self.status = ReportStatus.PROCESSING
 
     def mark_as_completed(self, file_path: str) -> None:
-            """Mark report as completed with file path"""
         self.status = ReportStatus.COMPLETED
         self.file_path = file_path
         self.completed_at = datetime.now(timezone.utc)
 
-        def mark_as_failed(self) -> None:
-            """Mark report as failed"""
+    def mark_as_failed(self) -> None:
         self.status = ReportStatus.FAILED
         self.completed_at = datetime.now(timezone.utc)
 
-        def to_dict(self) -> dict:
-            """Convert report to dictionary"""
+    def to_dict(self) -> dict:
         return {
-            'id': str(self.id),
-                'title': self.title,
-            'description': self.description,
-            'report_type': self.report_type.value,
-            'status': self.status.value,
-            'created_by_id': str(self.created_by.id),
-                'email_record_ids': [
+            "id": str(self.id),
+            "title": self.title,
+            "description": self.description,
+            "report_type": self.report_type.value,
+            "status": self.status.value,
+            "created_by_id": (
+                str(self.created_by.id) if self.created_by else None
+            ),
+            "email_record_ids": [
                 str(email.id) for email in self.email_records
-                ],
-            'file_path': self.file_path,
-            'completed_at': (
+            ],
+            "file_path": self.file_path,
+            "completed_at": (
                 self.completed_at.isoformat() if self.completed_at else None
-                ),
-                'created_at': self.created_at.isoformat()
-            }
+            ),
+            "created_at": self.created_at.isoformat(),
+        }
 
     @classmethod
-
     def from_dict(
         cls,
         data: dict,
         created_by_user: User,
-        email_records: Optional[List[EmailRecord]] = None
-    ) -> 'Report':
-            """Create report from dictionary"""
+        email_records: Optional[List[EmailRecord]] = None,
+    ) -> "Report":
         report_data = data.copy()
-            report_data['id'] = UUID(report_data['id'])
-            report_data['created_at'] = datetime.fromisoformat(
-            report_data['created_at']
+        report_data["id"] = UUID(report_data["id"])
+        report_data["created_at"] = datetime.fromisoformat(
+            report_data["created_at"]
         )
-            if report_data.get('completed_at'):
-                report_data['completed_at'] = datetime.fromisoformat(
-                report_data['completed_at']
+        if report_data.get("completed_at"):
+            report_data["completed_at"] = datetime.fromisoformat(
+                report_data["completed_at"]
             )
-            report_data['report_type'] = ReportType(report_data['report_type'])
-            report_data['status'] = ReportStatus(report_data['status'])
-            report_data['created_by'] = created_by_user
-        report_data['email_records'] = email_records or []
+        report_data["report_type"] = ReportType(report_data["report_type"])
+        report_data["status"] = ReportStatus(report_data["status"])
+        report_data["created_by"] = created_by_user
+        report_data["email_records"] = email_records or []
 
-        # Remove fields that aren't constructor parameters
-        report_data.pop('created_by_id', None)
-            report_data.pop('email_record_ids', None)
+        # Remove fields not in constructor
+        report_data.pop("created_by_id", None)
+        report_data.pop("email_record_ids", None)
 
-            return cls(**report_data)
+        return cls(**report_data)
 
-        def __eq__(self, other) -> bool:
-            """Check equality based on ID"""
-        if not isinstance(other, Report):
-                return False
-        return self.id == other.id
+    def __eq__(self, other: object) -> bool:  # pragma: no cover
+        return isinstance(other, Report) and self.id == other.id
 
-    def __repr__(self) -> str:
-            return (f"Report(id={self.id}, title='{self.title}', "
-                f"status={self.status})")
+    def __repr__(self) -> str:  # pragma: no cover - simple representation
+        return (
+            "Report(id="
+            f"{self.id}, title='{self.title}', status={self.status})"
+        )
