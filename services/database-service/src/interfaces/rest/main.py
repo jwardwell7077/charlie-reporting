@@ -17,12 +17,8 @@ from ...config.database import DatabaseConfig
 from ...infrastructure.persistence.database import DatabaseConnection
 from ...business.services.email_service import EmailService
 from ...business.services.user_service import UserService
-from ...business.services.report_service import ReportService
-from ...business.services.workflow_service import WorkflowService
-from ...domain.repositories.email_repository import EmailRepository
-from ...infrastructure.persistence.mappers import EmailRecordMapper
+from ...infrastructure.inmemory_repository import InMemoryEmailRepository
 
-from .routers import emails, users, reports, health
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -46,9 +42,11 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
     await state.db.initialize()
     # Placeholder: repository wiring pending
     state.email_service = EmailService(
-        email_repository=None,  # type: ignore[arg-type]
+        email_repository=InMemoryEmailRepository(),  # type: ignore[arg-type]
         db_connection=state.db,  # type: ignore[arg-type]
     )
+    # Expose on app.state for routers
+    app.state.email_service = state.email_service  # type: ignore[attr-defined]
     state.user_service = UserService(
         db_connection=state.db
     )  # type: ignore[arg-type]
@@ -78,7 +76,11 @@ def create_app() -> FastAPI:
 
     # Routers imported lazily to avoid circular issues
     from .routers import health as health_router  # noqa: F401
+    from .routers import emails as emails_router  # noqa: F401
     app.include_router(health_router.router, prefix="/health", tags=["Health"])
+    app.include_router(
+        emails_router.router, prefix="/api/v1/emails", tags=["Emails"]
+    )
 
     @app.exception_handler(ValidationError)
     async def pydantic_validation_handler(
@@ -114,6 +116,13 @@ def create_app() -> FastAPI:
             content={"error": "Internal Server Error"},
         )
 
+    # Pre-initialize minimal in-memory email service for tests that
+    # construct AsyncClient without triggering lifespan.
+    if not hasattr(app.state, "email_service"):
+        app.state.email_service = EmailService(  # type: ignore[attr-defined]
+            email_repository=InMemoryEmailRepository(),
+            db_connection=None,  # type: ignore[arg-type]
+        )
     return app
 
 
