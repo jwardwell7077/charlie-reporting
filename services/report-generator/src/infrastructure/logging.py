@@ -1,13 +1,22 @@
-"""Structured Logging Infrastructure
-JSON - based logging for better observability and log analysis
+"""Structured logging infrastructure.
+
+Provides JSON-based logging utilities for consistent observability.
+
+Notes:
+    The dynamic nature of structured logging context (arbitrary key/value pairs)
+    makes it impractical to precisely type ``**kwargs`` for every logging helper.
+    We intentionally allow dynamic keys; Ruff ANN401 is suppressed at module
+    level for these flexible contexts.
 """
+
+# ruff: noqa: ANN401
 
 import json
 import logging
 import sys
 import traceback
 from dataclasses import asdict, dataclass
-from datetime import datetime
+from datetime import datetime, timezone
 from enum import Enum
 from pathlib import Path
 from typing import Any
@@ -16,7 +25,7 @@ from ..business.interfaces import ILogger
 
 
 class LogLevel(str, Enum):
-    """Log level enumeration"""
+    """Log level enumeration."""
     DEBUG = "DEBUG"
     INFO = "INFO"
     WARNING = "WARNING"
@@ -24,11 +33,9 @@ class LogLevel(str, Enum):
     CRITICAL = "CRITICAL"
 
 
-@dataclass
-
-
+@dataclass(slots=True)
 class LogEntry:
-    """Structured log entry"""
+    """Structured log entry."""
     timestamp: str
     level: str
     message: str
@@ -42,23 +49,26 @@ class LogEntry:
     stack_trace: str | None = None
     metadata: dict[str, Any] | None = None
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
+        """Ensure optional containers are initialized."""
         if self.metadata is None:
             self.metadata = {}
 
 
 class StructuredFormatter(logging.Formatter):
-    """Custom formatter for structured JSON logging"""
+    """Custom formatter for structured JSON logging."""
 
-    def __init__(self, service_name: str = "report - generator"):
+    def __init__(self, service_name: str = "report-generator") -> None:
+        """Create the formatter for a specific service."""
         super().__init__()
-        self.servicename = service_name
+        self.service_name = service_name
 
-    def format(self, record: logging.LogRecord) -> str:
-        """Format log record as structured JSON"""
+    def format(self, record: logging.LogRecord) -> str:  # type: ignore[override]
+        """Format log record as structured JSON."""
         # Base log entry
-        logentry = LogEntry(
-            timestamp=datetime.utcnow().isoformat() + "Z",
+        log_entry = LogEntry(
+            # Using UTC timezone for consistency
+            timestamp=datetime.now(timezone.utc).isoformat(),  # noqa: UP017 (compatibility for older Python)
             level=record.levelname,
             message=record.getMessage(),
             service=self.service_name,
@@ -72,8 +82,8 @@ class StructuredFormatter(logging.Formatter):
 
         # Add stack trace for errors
         if record.exc_info:
-            log_entry.stacktrace = self.formatException(record.exc_info)
-            log_entry.errortype = record.exc_info[0].__name__ if record.exc_info[0] else None
+            log_entry.stack_trace = self.formatException(record.exc_info)
+            log_entry.error_type = record.exc_info[0].__name__ if record.exc_info[0] else None
 
         # Add metadata from extra fields
         metadata = {}
@@ -102,70 +112,89 @@ class StructuredFormatter(logging.Formatter):
 
 
 class StructuredLogger:
-    """Infrastructure service for structured logging
-    Provides consistent logging interface across the application
-    """
+    """Structured logger providing a higher-level logging API."""
 
-    def __init__(self,
-                 service_name: str = "report - generator",
-                 log_level: str = "INFO",
-                 log_file: str | Path | None = None,
-                 enable_console: bool = True):
-
-        self.servicename = service_name
+    def __init__(
+        self,
+        service_name: str = "report-generator",
+        log_level: str = "INFO",
+        log_file: str | Path | None = None,
+        enable_console: bool = True,
+    ) -> None:
+        """Configure handlers and base metadata for the structured logger."""
+        self.service_name = service_name
         self.logger = logging.getLogger(service_name)
-        self.logger.setLevel(getattr(logging, log_level.upper()))
+        self.logger.setLevel(getattr(logging, log_level.upper(), logging.INFO))
+        self.logger.propagate = False
 
-        # Clear existing handlers
+        # Clear existing handlers (avoid duplication on re-init)
         self.logger.handlers.clear()
 
-        # Create formatter
         formatter = StructuredFormatter(service_name)
 
-        # Console handler
         if enable_console:
-            consolehandler = logging.StreamHandler(sys.stdout)
+            console_handler = logging.StreamHandler(sys.stdout)
             console_handler.setFormatter(formatter)
             self.logger.addHandler(console_handler)
 
-        # File handler if specified
         if log_file:
-            logpath = Path(log_file)
+            log_path = Path(log_file)
             log_path.parent.mkdir(parents=True, exist_ok=True)
-
-            filehandler = logging.FileHandler(log_path)
+            file_handler = logging.FileHandler(log_path, encoding="utf-8")
             file_handler.setFormatter(formatter)
             self.logger.addHandler(file_handler)
 
+        # Instance health/status metadata
         self.healthy = True
-        self.start_time = datetime.utcnow()
+        self.start_time = datetime.now(timezone.utc)  # noqa: UP017
 
     def is_healthy(self) -> bool:
-        """Check if logger is healthy"""
-        return self.healthy and len(self.logger.handlers) > 0
+        """Return True if logger has handlers and no internal failure recorded."""
+        return self.healthy and bool(self.logger.handlers)
 
-    def log_debug(self, message: str, **kwargs):
-        """Log debug message with structured data"""
+    def log_debug(self, message: str, **kwargs: Any) -> None:
+        """Log debug message with structured data."""
         self.log(LogLevel.DEBUG, message, **kwargs)
 
-    def log_info(self, message: str, **kwargs):
-        """Log info message with structured data"""
+    def log_info(self, message: str, **kwargs: Any) -> None:
+        """Log info message with structured data."""
         self.log(LogLevel.INFO, message, **kwargs)
 
-    def log_warning(self, message: str, **kwargs):
-        """Log warning message with structured data"""
+    def log_warning(self, message: str, **kwargs: Any) -> None:
+        """Log warning message with structured data."""
         self.log(LogLevel.WARNING, message, **kwargs)
 
-    def log_error(self, message: str, **kwargs):
-        """Log error message with structured data"""
+    def log_error(self, message: str, **kwargs: Any) -> None:
+        """Log error message with structured data."""
         self.log(LogLevel.ERROR, message, **kwargs)
 
-    def log_critical(self, message: str, **kwargs):
-        """Log critical message with structured data"""
+    def log_critical(self, message: str, **kwargs: Any) -> None:
+        """Log critical message with structured data."""
         self.log(LogLevel.CRITICAL, message, **kwargs)
 
-    def log_request_start(self, request_id: str, method: str, path: str, **kwargs):
-        """Log request start"""
+    # Convenience aliases (common logging interface style)
+    def debug(self, message: str, **kwargs: Any) -> None:  # alias
+        """Alias for :meth:`log_debug`."""
+        self.log_debug(message, **kwargs)
+
+    def info(self, message: str, **kwargs: Any) -> None:  # alias
+        """Alias for :meth:`log_info`."""
+        self.log_info(message, **kwargs)
+
+    def warning(self, message: str, **kwargs: Any) -> None:  # alias
+        """Alias for :meth:`log_warning`."""
+        self.log_warning(message, **kwargs)
+
+    def error(self, message: str, **kwargs: Any) -> None:  # alias
+        """Alias for :meth:`log_error`."""
+        self.log_error(message, **kwargs)
+
+    def critical(self, message: str, **kwargs: Any) -> None:  # alias
+        """Alias for :meth:`log_critical`."""
+        self.log_critical(message, **kwargs)
+
+    def log_request_start(self, request_id: str, method: str, path: str, **kwargs: Any) -> None:
+        """Log REST request start."""
         self.log_info(
             f"Request started: {method} {path}",
             request_id=request_id,
@@ -176,8 +205,8 @@ class StructuredLogger:
         )
 
     def log_request_end(self, request_id: str, method: str, path: str,
-                       status_code: int, duration_ms: float, **kwargs):
-        """Log request completion"""
+                        status_code: int, duration_ms: float, **kwargs: Any) -> None:
+        """Log REST request completion."""
         self.log_info(
             f"Request completed: {method} {path} [{status_code}]",
             request_id=request_id,
@@ -189,8 +218,8 @@ class StructuredLogger:
             **kwargs
         )
 
-    def log_processing_start(self, operation: str, request_id: str | None = None, **kwargs):
-        """Log processing operation start"""
+    def log_processing_start(self, operation: str, request_id: str | None = None, **kwargs: Any) -> None:
+        """Log processing operation start."""
         self.log_info(
             f"Processing started: {operation}",
             request_id=request_id,
@@ -199,8 +228,8 @@ class StructuredLogger:
         )
 
     def log_processing_end(self, operation: str, success: bool, duration_ms: float,
-                          request_id: str | None = None, **kwargs):
-        """Log processing operation completion"""
+                           request_id: str | None = None, **kwargs: Any) -> None:
+        """Log processing operation completion."""
         level = LogLevel.INFO if success else LogLevel.ERROR
         message = f"Processing {'completed' if success else 'failed'}: {operation}"
 
@@ -214,8 +243,8 @@ class StructuredLogger:
             **kwargs
         )
 
-    def log_business_event(self, event_type: str, details: dict[str, Any], **kwargs):
-        """Log business - specific events"""
+    def log_business_event(self, event_type: str, details: dict[str, Any], **kwargs: Any) -> None:
+        """Log business-specific events."""
         self.log_info(
             f"Business event: {event_type}",
             operation="business_event",
@@ -224,8 +253,8 @@ class StructuredLogger:
             **kwargs
         )
 
-    def log_security_event(self, event_type: str, severity: str, details: dict[str, Any], **kwargs):
-        """Log security - related events"""
+    def log_security_event(self, event_type: str, severity: str, details: dict[str, Any], **kwargs: Any) -> None:
+        """Log security-related events."""
         level = LogLevel.WARNING if severity.lower() in ['medium', 'high'] else LogLevel.INFO
 
         self.log(
@@ -238,8 +267,8 @@ class StructuredLogger:
             **kwargs
         )
 
-    def log_performance_metric(self, metric_name: str, value: float, unit: str, **kwargs):
-        """Log performance metrics"""
+    def log_performance_metric(self, metric_name: str, value: float, unit: str, **kwargs: Any) -> None:
+        """Log performance metrics."""
         self.log_info(
             f"Performance metric: {metric_name} = {value} {unit}",
             operation="performance_metric",
@@ -249,8 +278,8 @@ class StructuredLogger:
             **kwargs
         )
 
-    def log_exception(self, exception: Exception, operation: str | None = None, **kwargs):
-        """Log exception with full context"""
+    def log_exception(self, exception: Exception, operation: str | None = None, **kwargs: Any) -> None:
+        """Log exception with full context."""
         self.log_error(
             f"Exception in {operation or 'unknown operation'}: {str(exception)}",
             operation=operation,
@@ -261,65 +290,81 @@ class StructuredLogger:
         )
 
     def create_child_logger(self, component: str) -> 'ComponentLogger':
-        """Create a child logger for a specific component"""
+        """Create a child logger for a specific component."""
         return ComponentLogger(self, component)
 
-    def log(self, level: LogLevel, message: str, **kwargs):
-        """Internal logging method"""
+    def log(self, level: LogLevel, message: str, **kwargs: Any) -> None:
+        """Internal logging method."""
         try:
-            # Convert LogLevel enum to logging level
-            loglevel = getattr(logging, level.value)
-
-            # Create log record with extra data
-            self.logger.log(log_level, message, extra=kwargs)
-
-        except Exception as e:
-            # Fallback logging if structured logging fails
-            fallbackmessage = f"[LOGGING_ERROR] {message} | Original error: {str(e)}"
+            log_level_int = getattr(logging, level.value, logging.INFO)
+            self.logger.log(log_level_int, message, extra=kwargs)
+        except Exception as e:  # noqa: BLE001
+            fallback_message = f"[LOGGING_ERROR] {message} | Original error: {e}"
             logging.getLogger().error(fallback_message)
             self.healthy = False
 
     def get_logger_stats(self) -> dict[str, Any]:
-        """Get logger statistics"""
+        """Get logger statistics."""
         return {
             "service_name": self.service_name,
             "healthy": self.healthy,
             "handlers_count": len(self.logger.handlers),
             "log_level": self.logger.level,
-            "uptime_seconds": (datetime.utcnow() - self.start_time).total_seconds()
+            "uptime_seconds": (datetime.now(timezone.utc) - self.start_time).total_seconds(),  # noqa: UP017
         }
 
 
 class ComponentLogger:
-    """Component - specific logger that automatically adds component context
-    """
+    """Component-specific logger that injects component context automatically."""
 
-    def __init__(self, parent_logger: StructuredLogger, component: str):
+    def __init__(self, parent_logger: StructuredLogger, component: str) -> None:
+        """Create a component logger that enriches every entry with the component name."""
         self.parent = parent_logger
         self.component = component
 
-    def log_debug(self, message: str, **kwargs):
-        """Log debug message with component context"""
+    def log_debug(self, message: str, **kwargs: Any) -> None:
+        """Log debug message with component context."""
         self.parent.log_debug(message, component=self.component, **kwargs)
 
-    def log_info(self, message: str, **kwargs):
-        """Log info message with component context"""
+    def log_info(self, message: str, **kwargs: Any) -> None:
+        """Log info message with component context."""
         self.parent.log_info(message, component=self.component, **kwargs)
 
-    def log_warning(self, message: str, **kwargs):
-        """Log warning message with component context"""
+    def log_warning(self, message: str, **kwargs: Any) -> None:
+        """Log warning message with component context."""
         self.parent.log_warning(message, component=self.component, **kwargs)
 
-    def log_error(self, message: str, **kwargs):
-        """Log error message with component context"""
+    def log_error(self, message: str, **kwargs: Any) -> None:
+        """Log error message with component context."""
         self.parent.log_error(message, component=self.component, **kwargs)
 
-    def log_critical(self, message: str, **kwargs):
-        """Log critical message with component context"""
+    def log_critical(self, message: str, **kwargs: Any) -> None:
+        """Log critical message with component context."""
         self.parent.log_critical(message, component=self.component, **kwargs)
 
-    def log_exception(self, exception: Exception, operation: str | None = None, **kwargs):
-        """Log exception with component context"""
+    # Convenience aliases aligning with logging module naming
+    def debug(self, message: str, **kwargs: Any) -> None:  # alias
+        """Alias for :meth:`log_debug` with component context."""
+        self.log_debug(message, **kwargs)
+
+    def info(self, message: str, **kwargs: Any) -> None:  # alias
+        """Alias for :meth:`log_info` with component context."""
+        self.log_info(message, **kwargs)
+
+    def warning(self, message: str, **kwargs: Any) -> None:  # alias
+        """Alias for :meth:`log_warning` with component context."""
+        self.log_warning(message, **kwargs)
+
+    def error(self, message: str, **kwargs: Any) -> None:  # alias
+        """Alias for :meth:`log_error` with component context."""
+        self.log_error(message, **kwargs)
+
+    def critical(self, message: str, **kwargs: Any) -> None:  # alias
+        """Alias for :meth:`log_critical` with component context."""
+        self.log_critical(message, **kwargs)
+
+    def log_exception(self, exception: Exception, operation: str | None = None, **kwargs: Any) -> None:
+        """Log exception with component context."""
         self.parent.log_exception(
             exception,
             operation=operation,
@@ -333,8 +378,8 @@ global_logger: StructuredLogger | None = None
 
 
 def get_logger(component: str | None = None) -> StructuredLogger | ComponentLogger:
-    """Get the global structured logger or a component - specific logger"""
-    global global_logger
+    """Get the global structured logger or a component-specific logger."""
+    global global_logger  # noqa: PLW0603
 
     if global_logger is None:
         global_logger = StructuredLogger()
@@ -345,12 +390,14 @@ def get_logger(component: str | None = None) -> StructuredLogger | ComponentLogg
     return global_logger
 
 
-def initialize_logging(service_name: str = "report - generator",
-                      log_level: str = "INFO",
-                      log_file: str | Path | None = None,
-                      enable_console: bool = True) -> StructuredLogger:
-    """Initialize global structured logging"""
-    global global_logger
+def initialize_logging(
+    service_name: str = "report-generator",
+    log_level: str = "INFO",
+    log_file: str | Path | None = None,
+    enable_console: bool = True,
+) -> StructuredLogger:
+    """Initialize global structured logging."""
+    global global_logger  # noqa: PLW0603
 
     global_logger = StructuredLogger(
         service_name=service_name,
@@ -363,39 +410,50 @@ def initialize_logging(service_name: str = "report - generator",
 
 
 class StructuredLoggerImpl(ILogger):
-    """Implementation of ILogger interface
-    Adapter for the existing StructuredLogger
-    """
+    """Concrete implementation of :class:`ILogger` using :class:`StructuredLogger`."""
 
-    def __init__(self, component: str | None = None):
-        self.logger = get_logger(component)
+    def __init__(self, component: str | None = None) -> None:
+        """Create logger implementation optionally scoped to a component."""
+        logger_obj = get_logger(component)
+        # If component was provided we get a ComponentLogger with log_info etc.
+        self._logger = logger_obj
 
-    async def info(self, message: str, **kwargs) -> None:
-        """Log info message"""
-        self.logger.info(message, **kwargs)
+    # ILogger contract
+    def info(self, message: str, **kwargs: Any) -> None:  # type: ignore[override]
+        """Log an informational message."""
+        if isinstance(self._logger, StructuredLogger):
+            self._logger.log_info(message, **kwargs)
+        else:
+            self._logger.log_info(message, **kwargs)  # ComponentLogger
 
-    async def warning(self, message: str, **kwargs) -> None:
-        """Log warning message"""
-        self.logger.warning(message, **kwargs)
+    def error(self, message: str, **kwargs: Any) -> None:  # type: ignore[override]
+        """Log an error message."""
+        if isinstance(self._logger, StructuredLogger):
+            self._logger.log_error(message, **kwargs)
+        else:
+            self._logger.log_error(message, **kwargs)
 
-    async def error(self, message: str, **kwargs) -> None:
-        """Log error message"""
-        self.logger.error(message, **kwargs)
+    def debug(self, message: str, **kwargs: Any) -> None:  # type: ignore[override]
+        """Log a debug message."""
+        if isinstance(self._logger, StructuredLogger):
+            self._logger.log_debug(message, **kwargs)
+        else:
+            self._logger.log_debug(message, **kwargs)
 
-    async def debug(self, message: str, **kwargs) -> None:
-        """Log debug message"""
-        self.logger.debug(message, **kwargs)
+    # Extra helpers (not in interface but useful)
+    def log_exception(self, exception: Exception, operation: str | None = None, **kwargs: Any) -> None:
+        """Log an exception with optional operation context."""
+        if isinstance(self._logger, StructuredLogger):
+            self._logger.log_exception(exception, operation=operation, **kwargs)
+        else:
+            self._logger.parent.log_exception(exception, operation=operation, **kwargs)  # type: ignore[attr-defined]
 
-    async def log_operation(self, operation: str, result: str, duration_ms: float = None, **kwargs) -> None:
-        """Log operation with result and timing"""
-        metadata = {
-            "operation": operation,
-            "result": result,
-            "duration_ms": duration_ms,
-            **kwargs
-        }
-        self.logger.info(f"Operation {operation}: {result}", **metadata)
-
-    async def log_exception(self, exception: Exception, operation: str = None, **kwargs) -> None:
-        """Log exception with context"""
-        self.logger.log_exception(exception, operation=operation, **kwargs)
+    def log_operation(self, operation: str, result: str, duration_ms: float | None = None, **kwargs: Any) -> None:
+        """Log an operation summary with optional duration."""
+        self.info(
+            f"Operation {operation}: {result}",
+            operation=operation,
+            result=result,
+            duration_ms=duration_ms,
+            **kwargs,
+        )

@@ -36,11 +36,23 @@ dev = [
 [tool.ruff]
 target-version = "py312"
 line-length = 120
-extend-exclude = ["venv", ".venv", "build", "dist", ".mypy_cache", ".ruff_cache"]
+extend-exclude = [
+    "venv",
+    ".venv",
+    "build",
+    "dist",
+    ".mypy_cache",
+    ".ruff_cache",
+    "services/database-service",
+    "tools",
+    "archive",
+    "demo",
+    "docs",
+]
 
 [tool.ruff.lint]
 select = ["E","F","I","UP","B","C4","SIM","PL","PT","D","S","T20","ANN","TID","C90"]
-ignore = []
+ignore = ["S101","TID252"] # Allow use of 'assert'; temporarily allow relative imports pending package refactor
 
 [tool.ruff.lint.mccabe]
 max-complexity = 10
@@ -65,5 +77,7 @@ disallow_untyped_defs = true
 disallow_incomplete_defs = true
 show_error_codes = true
 pretty = true
-exclude = '^(venv|.venv|build|dist)/'
+# Exclude problematic or legacy paths (hyphenated service to be renamed; legacy tooling noise)
+exclude = '^(venv|.venv|build|dist|services/database-service|tools|archive|demo|docs)/'
+# Pydantic plugin for v2 supports type checking of Pydantic models
 plugins = ["pydantic.mypy"]

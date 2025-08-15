@@ -1,5 +1,4 @@
-"""Template_Engine business service for report - generator
-"""
+"""Template_Engine business service for report - generator"""
 
 import logging
 

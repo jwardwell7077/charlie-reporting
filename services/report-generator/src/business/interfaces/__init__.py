@@ -4,7 +4,7 @@ Abstract interfaces for dependency injection and testing
 
 from abc import ABC, abstractmethod
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Optional  # noqa: F401 (legacy exports may rely on these types)
 
 from ..models.csv_file import CSVFile
 
@@ -88,17 +88,17 @@ class ILogger(ABC):
     """Interface for logging operations"""
 
     @abstractmethod
-    def info(self, message: str, **kwargs) -> None:
+    def info(self, message: str, **kwargs: Any) -> None:
         """Log info message with optional context"""
         pass
 
     @abstractmethod
-    def error(self, message: str, **kwargs) -> None:
+    def error(self, message: str, **kwargs: Any) -> None:
         """Log error message with optional context"""
         pass
 
     @abstractmethod
-    def debug(self, message: str, **kwargs) -> None:
+    def debug(self, message: str, **kwargs: Any) -> None:
         """Log debug message with optional context"""
         pass
 

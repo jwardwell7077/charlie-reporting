@@ -26,6 +26,7 @@ try:
 except ImportError:
     # Fallback for when running from different contexts
     from typing import TYPE_CHECKING
+
     if TYPE_CHECKING:
         from interface.schemas import DirectoryProcessRequest, ProcessingResult
     else:
@@ -55,7 +56,7 @@ class ReportProcessingService:
         file_manager: IFileManager,
         config_manager: IConfigManager,
         logger: ILogger,
-        metrics: IMetricsCollector
+        metrics: IMetricsCollector,
     ):
         """Initialize service with all dependencies injected"""
         self.directory_processor = directory_processor
@@ -79,16 +80,13 @@ class ReportProcessingService:
         start_time = time.time()
 
         try:
-            self.logger.info("Starting directory processing",
-                           directory=request.raw_directory,
-                           date_filter=request.date_filter)
+            self.logger.info(
+                "Starting directory processing", directory=request.raw_directory, date_filter=request.date_filter
+            )
 
             # Step 1: Scan directory for CSV files
             raw_dir = Path(request.raw_directory)
-            csv_files = await self.directory_processor.scan_directory(
-                raw_dir,
-                request.date_filter
-            )
+            csv_files = await self.directory_processor.scan_directory(raw_dir, request.date_filter)
 
             discovered_count = len(csv_files)
             self.metrics.increment_counter("files_discovered", discovered_count)
@@ -106,7 +104,7 @@ class ReportProcessingService:
                     report_sheets=0,
                     total_records=0,
                     excel_filename=None,
-                    error_message=None
+                    error_message=None,
                 )
 
             # Step 2: Transform each CSV file
@@ -120,17 +118,15 @@ class ReportProcessingService:
                 try:
                     # Create CSVFile object (simplified for now)
                     import pandas as pd
+
                     csv_file = CSVFile(
                         file_name=csv_path.name,
                         data=pd.DataFrame(),  # Empty DataFrame as placeholder
-                        original_path=str(csv_path)
+                        original_path=str(csv_path),
                     )
 
                     # Transform CSV according to configuration
-                    sheet_data = await self.csv_transformer.transform_csv(
-                        csv_file,
-                        request.attachment_config
-                    )
+                    sheet_data = await self.csv_transformer.transform_csv(csv_file, request.attachment_config)
 
                     transformed_data[csv_file.file_name] = sheet_data
                     transformed_count += 1
@@ -171,7 +167,9 @@ class ReportProcessingService:
             return ProcessingResult(
                 success=success,
                 processing_time_seconds=processing_time,
-                message=f"Processed {transformed_count} files successfully" if success else "Processing completed with errors",
+                message=f"Processed {transformed_count} files successfully"
+                if success
+                else "Processing completed with errors",
                 discovered_files=discovered_count,
                 matched_files=discovered_count,  # For now, assume all discovered files are matched
                 transformed_files=transformed_count,
@@ -181,7 +179,7 @@ class ReportProcessingService:
                 excel_filename=excel_filename,
                 archived_files=archived_files,
                 errors=errors,
-                error_message=error_message
+                error_message=error_message,
             )
 
         except Exception as e:
@@ -201,16 +199,18 @@ class ReportProcessingService:
                 total_records=0,
                 excel_filename=None,
                 error_message=error_msg,
-                errors=[error_msg]
+                errors=[error_msg],
             )
 
-    def process_directory_reports(self,
-                                 raw_dir: Path,
-                                 archive_dir: Path,
-                                 output_dir: Path,
-                                 attachment_config: dict[str, Any],
-                                 date_filter: str,
-                                 hour_filter: str | None = None) -> dict[str, Any]:
+    def process_directory_reports(
+        self,
+        raw_dir: Path,
+        archive_dir: Path,
+        output_dir: Path,
+        attachment_config: dict[str, Any],
+        date_filter: str,
+        hour_filter: str | None = None,
+    ) -> dict[str, Any]:
         """Complete workflow for processing CSV files in a directory
 
         Args:
@@ -257,30 +257,24 @@ class ReportProcessingService:
                 raise BusinessException("No files were successfully transformed")
 
             self.logger.info(f"Creating report from {len(successful_results)} successful transformations")
-            report = self.csv_transformer.create_report_from_results(
-                successful_results, date_filter, hour_filter
-            )
+            report = self.csv_transformer.create_report_from_results(successful_results, date_filter, hour_filter)
 
             # Step 6: Validate report for Excel generation
             self.logger.info("Validating report for Excel generation")
             excel_validation = self.excel_service.validate_report_for_excel(report)
-            if not excel_validation['is_valid']:
-                error_msg = "; ".join(excel_validation['errors'])
+            if not excel_validation["is_valid"]:
+                error_msg = "; ".join(excel_validation["errors"])
                 raise BusinessException(f"Report validation failed: {error_msg}")
 
             # Step 7: Generate Excel file
             self.logger.info("Generating Excel file")
             excel_filename = self.excel_service.generate_filename(
-                report,
-                prefix="charlie_report",
-                suffix=hour_filter if hour_filter else ""
+                report, prefix="charlie_report", suffix=hour_filter if hour_filter else ""
             )
 
             # Step 8: Archive processed files
             self.logger.info("Archiving successfully processed files")
-            archived_files = self.csv_transformer.archive_processed_files(
-                successful_results, archive_dir
-            )
+            archived_files = self.csv_transformer.archive_processed_files(successful_results, archive_dir)
 
             # Calculate processing statistics
             processing_end = datetime.utcnow()
@@ -298,7 +292,7 @@ class ReportProcessingService:
                 "excel_filename": excel_filename,
                 "archived_files": list(archived_files.keys()),
                 "warnings": [],
-                "errors": []
+                "errors": [],
             }
 
             # Collect warnings from transformations and Excel validation
@@ -306,8 +300,8 @@ class ReportProcessingService:
                 if result.warnings:
                     results["warnings"].extend(result.warnings)
 
-            if excel_validation.get('warnings'):
-                results["warnings"].extend(excel_validation['warnings'])
+            if excel_validation.get("warnings"):
+                results["warnings"].extend(excel_validation["warnings"])
 
             # Log failed transformations as errors
             failed_results = [r for r in transformation_results if not r.success]
@@ -316,7 +310,9 @@ class ReportProcessingService:
                 results["errors"].append(error_msg)
 
             self.logger.info(f"Report processing completed successfully in {processing_time:.2f}s")
-            self.logger.info(f"Generated report with {len(report.sheets)} sheets and {report.get_total_records()} total records")
+            self.logger.info(
+                f"Generated report with {len(report.sheets)} sheets and {report.get_total_records()} total records"
+            )
 
             return results
 
@@ -338,13 +334,10 @@ class ReportProcessingService:
                 "excel_filename": None,
                 "archived_files": [],
                 "warnings": [],
-                "errors": [str(e)]
+                "errors": [str(e)],
             }
 
-    def process_single_file(self,
-                           file_path: Path,
-                           rule: CSVRule,
-                           output_dir: Path) -> dict[str, Any]:
+    def process_single_file(self, file_path: Path, rule: CSVRule, output_dir: Path) -> dict[str, Any]:
         """Process a single CSV file with specific rule
 
         Args:
@@ -365,7 +358,7 @@ class ReportProcessingService:
                 date_str=datetime.now().strftime("%Y-%m-%d"),
                 hour_str=None,
                 timestamp=datetime.now(),
-                rule=rule
+                rule=rule,
             )
 
             # Transform the file
@@ -376,22 +369,16 @@ class ReportProcessingService:
                 raise BusinessException(f"Transformation failed: {result.error_message}")
 
             # Create report from single result
-            report = self.csv_transformer.create_report_from_results(
-                [result],
-                csv_file.date_str
-            )
+            report = self.csv_transformer.create_report_from_results([result], csv_file.date_str)
 
             # Validate and prepare for Excel
             excel_validation = self.excel_service.validate_report_for_excel(report)
-            if not excel_validation['is_valid']:
-                error_msg = "; ".join(excel_validation['errors'])
+            if not excel_validation["is_valid"]:
+                error_msg = "; ".join(excel_validation["errors"])
                 raise BusinessException(f"Report validation failed: {error_msg}")
 
             # Generate Excel file_name
-            excel_filename = self.excel_service.generate_filename(
-                report,
-                prefix=file_path.stem
-            )
+            excel_filename = self.excel_service.generate_filename(report, prefix=file_path.stem)
 
             processing_end = datetime.utcnow()
             processing_time = (processing_end - processing_start).total_seconds()
@@ -404,7 +391,7 @@ class ReportProcessingService:
                 "report_sheets": len(report.sheets),
                 "total_records": report.get_total_records(),
                 "warnings": result.warnings or [],
-                "errors": []
+                "errors": [],
             }
 
         except Exception as e:
@@ -421,7 +408,7 @@ class ReportProcessingService:
                 "report_sheets": 0,
                 "total_records": 0,
                 "warnings": [],
-                "errors": [str(e)]
+                "errors": [str(e)],
             }
 
     def validate_input_directory(self, raw_dir: Path) -> dict[str, Any]:
@@ -433,13 +420,7 @@ class ReportProcessingService:
         Returns:
             Validation results
         """
-        validation = {
-            "is_valid": True,
-            "errors": [],
-            "warnings": [],
-            "csv_file_count": 0,
-            "directory_exists": False
-        }
+        validation = {"is_valid": True, "errors": [], "warnings": [], "csv_file_count": 0, "directory_exists": False}
 
         try:
             # Check if directory exists
@@ -491,7 +472,7 @@ class ReportProcessingService:
             "files_per_second": 0.0,
             "records_per_second": 0.0,
             "processing_efficiency": "unknown",
-            "recommendations": []
+            "recommendations": [],
         }
 
         if results.get("processing_time_seconds", 0) > 0:
@@ -545,10 +526,10 @@ class ReportProcessingService:
 📁 Excel file: {results.get('excel_filename', 'unknown')}
 🗃️  Archived {len(results.get('archived_files', []))} files"""
 
-            if results.get('warnings'):
+            if results.get("warnings"):
                 summary += f"\n⚠️  {len(results['warnings'])} warnings generated"
 
-            if results.get('failed_files', 0) > 0:
+            if results.get("failed_files", 0) > 0:
                 summary += f"\n❌ {results['failed_files']} files failed to process"
         else:
             summary = """Report Processing Failed:

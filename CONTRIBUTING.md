@@ -18,6 +18,7 @@ This project enforces a consistent Python code style for clear diffs, fewer bugs
 * Type annotations required for public defs (Ruff ANN + mypy strict)
 * Docstrings required for public APIs (Ruff D, Google style)
 * Cyclomatic complexity: ≤ 10 (Ruff C901)
+* `assert` allowed for: test code, internal invariants that are NOT user/data validation. Never rely on `assert` for external input validation (use exceptions). (Bandit S101 ignored project-wide.)
 
 ## Local setup
 

@@ -16,10 +16,9 @@ from ..business.interfaces import IConfigManager
 
 
 @dataclass
-
-
 class ServiceConfig:
     """Service configuration model"""
+
     # Server configuration
     host: str = "0.0.0.0"
     port: int = 8083
@@ -109,10 +108,10 @@ class ConfigurationManager:
     def load_config_file(self, config_path: Path) -> dict[str, Any]:
         """Load configuration from file (TOML or JSON)"""
         try:
-            with open(config_path, encoding='utf - 8') as f:
-                if config_path.suffix.lower() == '.toml':
+            with open(config_path, encoding="utf - 8") as f:
+                if config_path.suffix.lower() == ".toml":
                     return toml.load(f)
-                elif config_path.suffix.lower() == '.json':
+                elif config_path.suffix.lower() == ".json":
                     return json.load(f)
                 else:
                     # Try TOML first, then JSON
@@ -126,7 +125,7 @@ class ConfigurationManager:
             raise ConfigurationException(
                 f"Failed to load configuration file: {config_path}",
                 config_key="config_file",
-                config_value=str(config_path)
+                config_value=str(config_path),
             ) from e
 
     def load_environment_variables(self) -> dict[str, Any]:
@@ -164,7 +163,7 @@ class ConfigurationManager:
                     raise ConfigurationException(
                         f"Invalid value for environment variable {env_var}: {os.environ[env_var]}",
                         config_key=env_var,
-                        config_value=os.environ[env_var]
+                        config_value=os.environ[env_var],
                     ) from e
 
         return env_config
@@ -173,7 +172,7 @@ class ConfigurationManager:
         """Parse boolean value from string"""
         if isinstance(value, bool):
             return value
-        return value.lower() in ('true', '1', 'yes', 'on', 'enabled')
+        return value.lower() in ("true", "1", "yes", "on", "enabled")
 
     def update_service_config(self, config_data: dict[str, Any]):
         """Update service configuration with loaded data"""
@@ -216,7 +215,7 @@ class ConfigurationManager:
             errors.append(f"csv_quote_char must be a single character, got: '{self.config.csv_quote_char}'")
 
         # Validate directories if specified
-        for dir_attr in ['default_raw_directory', 'default_archive_directory', 'default_output_directory']:
+        for dir_attr in ["default_raw_directory", "default_archive_directory", "default_output_directory"]:
             dir_path = getattr(self.config, dir_attr)
             if dir_path:
                 pathobj = Path(dir_path)
@@ -230,9 +229,7 @@ class ConfigurationManager:
             errors.append(f"worker_pool_size must be positive, got: {self.config.worker_pool_size}")
 
         if errors:
-            raise ConfigurationException(
-                f"Configuration validation failed: {'; '.join(errors)}"
-            )
+            raise ConfigurationException(f"Configuration validation failed: {'; '.join(errors)}")
 
     def get_config(self) -> ServiceConfig:
         """Get the current service configuration"""
@@ -255,7 +252,7 @@ class ConfigurationManager:
             "enable_metrics": self.config.enable_metrics,
             "worker_pool_size": self.config.worker_pool_size,
             "config_loaded_at": self.config_loaded_at.isoformat() if self.config_loaded_at else None,
-            "environment_overrides": self.environment_overrides
+            "environment_overrides": self.environment_overrides,
         }
 
     def update_config(self, updates: dict[str, Any], validate: bool = True) -> dict[str, Any]:
@@ -290,24 +287,14 @@ class ConfigurationManager:
             if validate:
                 self.validate_configuration()
 
-            return {
-                "success": True,
-                "updated_keys": updated_keys,
-                "errors": errors,
-                "rollback_data": original_values
-            }
+            return {"success": True, "updated_keys": updated_keys, "errors": errors, "rollback_data": original_values}
 
         except Exception as e:
             # Rollback changes
             for key, value in original_values.items():
                 setattr(self.config, key, value)
 
-            return {
-                "success": False,
-                "updated_keys": [],
-                "errors": errors + [str(e)],
-                "rollback_data": {}
-            }
+            return {"success": False, "updated_keys": [], "errors": errors + [str(e)], "rollback_data": {}}
 
     def reload_configuration(self):
         """Reload configuration from file and environment"""
@@ -323,7 +310,7 @@ class ConfigurationManager:
             "csv_delimiter": self.config.csv_delimiter,
             "max_file_size_mb": self.config.max_file_size_mb,
             "max_files_per_request": self.config.max_files_per_request,
-            "processing_timeout_seconds": self.config.processing_timeout_seconds
+            "processing_timeout_seconds": self.config.processing_timeout_seconds,
         }
 
     def get_server_config(self) -> dict[str, Any]:
@@ -334,7 +321,7 @@ class ConfigurationManager:
             "debug": self.config.debug,
             "reload": self.config.reload,
             "cors_origins": self.config.cors_origins,
-            "max_request_size_mb": self.config.max_request_size_mb
+            "max_request_size_mb": self.config.max_request_size_mb,
         }
 
     def get_logging_config(self) -> dict[str, Any]:
@@ -343,7 +330,7 @@ class ConfigurationManager:
             "log_level": self.config.log_level,
             "log_file": self.config.log_file,
             "enable_console_logging": self.config.enable_console_logging,
-            "structured_logging": self.config.structured_logging
+            "structured_logging": self.config.structured_logging,
         }
 
     def is_development_mode(self) -> bool:
@@ -357,7 +344,7 @@ class ConfigurationManager:
             "config_loaded_at": self.config_loaded_at.isoformat() if self.config_loaded_at else None,
             "environment_overrides_count": len(self.environment_overrides),
             "is_development_mode": self.is_development_mode(),
-            "config_valid": True  # If we get here, config is valid
+            "config_valid": True,  # If we get here, config is valid
         }
 
 

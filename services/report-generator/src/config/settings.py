@@ -1,5 +1,4 @@
-"""Report - Generator Service Configuration
-"""
+"""Report - Generator Service Configuration"""
 
 import os
 import sys
@@ -7,7 +6,7 @@ import sys
 from pydantic import Field
 
 # Add shared components to path
-sys.path.append(os.path.join(os.path.dir_name(__file__), '..', 'shared'))
+sys.path.append(os.path.join(os.path.dir_name(__file__), "..", "shared"))
 
 try:
     from shared.config import BaseServiceConfig
@@ -37,6 +36,7 @@ def load_config() -> ReportgeneratorConfig:
     """Load configuration"""
     try:
         from shared.config import ConfigLoader
+
         return ConfigLoader.load_config(ReportgeneratorConfig, "report - generator")
     except ImportError:
         return ReportgeneratorConfig()

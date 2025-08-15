@@ -1,13 +1,10 @@
-"""Excel_Format domain model for report - generator
-"""
+"""Excel_Format domain model for report - generator"""
 
 from dataclasses import dataclass
 from datetime import datetime
 
 
 @dataclass
-
-
 class Excel_Format:
     """Excel_Format domain model
     TODO: Define attributes and methods

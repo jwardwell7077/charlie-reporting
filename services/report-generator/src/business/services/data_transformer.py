@@ -1,5 +1,4 @@
-"""Data_Transformer business service for report - generator
-"""
+"""Data_Transformer business service for report - generator"""
 
 import logging
 

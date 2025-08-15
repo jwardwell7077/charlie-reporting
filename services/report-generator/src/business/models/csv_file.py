@@ -10,13 +10,12 @@ import pandas as pd
 
 
 @dataclass
-
-
 class CSVFile:
     """Domain model representing a CSV file with its data and metadata
 
     This is a pure business entity with no infrastructure dependencies
     """
+
     file_name: str
     data: pd.DataFrame
     original_path: str
@@ -59,7 +58,7 @@ class CSVFile:
             return {}
 
         samplesize = min(n, self.row_count)
-        return self.data.head(sample_size).to_dict('records')
+        return self.data.head(sample_size).to_dict("records")
 
     def validate_required_columns(self, required_columns: list[str]) -> list[str]:
         """Validate that required columns exist in the CSV
@@ -112,16 +111,14 @@ class CSVFile:
             "column_types": self.get_column_types(),
             "has_duplicates": self.has_duplicates(),
             "duplicate_count": self.get_duplicate_count(),
-            "null_summary": self.get_null_summary()
+            "null_summary": self.get_null_summary(),
         }
 
 
 @dataclass
-
-
 class CSVValidationResult:
-    """Result of CSV file validation
-    """
+    """Result of CSV file validation"""
+
     is_valid: bool
     errors: list[str]
     warnings: list[str]
@@ -142,5 +139,5 @@ class CSVValidationResult:
             "is_valid": self.is_valid,
             "errors": self.errors,
             "warnings": self.warnings,
-            "file_metadata": self.csv_file.to_dict()
+            "file_metadata": self.csv_file.to_dict(),
         }

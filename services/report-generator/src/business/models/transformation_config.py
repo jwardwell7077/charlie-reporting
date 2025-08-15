@@ -9,6 +9,7 @@ from typing import Any
 
 class DateFormat(Enum):
     """Supported date formats for transformation"""
+
     ISO_8601 = "%Y-%m-%d"
     US_FORMAT = "%m/%d/%Y"
     EU_FORMAT = "%d/%m/%Y"
@@ -17,6 +18,7 @@ class DateFormat(Enum):
 
 class TextCase(Enum):
     """Text case transformation options"""
+
     LOWER = "lower"
     UPPER = "upper"
     TITLE = "title"
@@ -26,6 +28,7 @@ class TextCase(Enum):
 
 class NumericFormat(Enum):
     """Numeric formatting options"""
+
     INTEGER = "integer"
     DECIMAL_2 = "decimal_2"
     DECIMAL_4 = "decimal_4"
@@ -34,11 +37,9 @@ class NumericFormat(Enum):
 
 
 @dataclass
-
-
 class TransformationRule:
-    """Represents a single transformation rule to apply to data
-    """
+    """Represents a single transformation rule to apply to data"""
+
     rule_type: str
     target_columns: list[str]
     parameters: dict[str, Any] = field(default_factory=dict)
@@ -60,16 +61,14 @@ class TransformationRule:
             "target_columns": self.target_columns,
             "parameters": self.parameters,
             "description": self.description,
-            "is_active": self.is_active
+            "is_active": self.is_active,
         }
 
 
 @dataclass
-
-
 class TransformationConfig:
-    """Configuration for CSV data transformations
-    """
+    """Configuration for CSV data transformations"""
+
     # Date transformation settings
     date_format: str = DateFormat.ISO_8601.value
     auto_detect_dates: bool = True
@@ -179,23 +178,23 @@ class TransformationConfig:
             "required_columns": self.required_columns,
             "max_rows": self.max_rows,
             "min_rows": self.min_rows,
-            "custom_rules": [rule.to_dict() for rule in self.custom_rules]
+            "custom_rules": [rule.to_dict() for rule in self.custom_rules],
         }
 
     @classmethod
-    def from_dict(cls, data: dict[str, Any]) -> 'TransformationConfig':
+    def from_dict(cls, data: dict[str, Any]) -> "TransformationConfig":
         """Create configuration from dictionary"""
         # Extract custom rules and convert them back to objects
-        customrules_data = data.pop('custom_rules', [])
+        customrules_data = data.pop("custom_rules", [])
         customrules = []
 
         for rule_data in custom_rules_data:
             rule = TransformationRule(
-                rule_type=rule_data['rule_type'],
-                target_columns=rule_data['target_columns'],
-                parameters=rule_data.get('parameters', {}),
-                description=rule_data.get('description'),
-                is_active=rule_data.get('is_active', True)
+                rule_type=rule_data["rule_type"],
+                target_columns=rule_data["target_columns"],
+                parameters=rule_data.get("parameters", {}),
+                description=rule_data.get("description"),
+                is_active=rule_data.get("is_active", True),
             )
             custom_rules.append(rule)
 
@@ -206,7 +205,7 @@ class TransformationConfig:
         return config
 
     @classmethod
-    def default_config(cls) -> 'TransformationConfig':
+    def default_config(cls) -> "TransformationConfig":
         """Create a default transformation configuration"""
         return cls(
             date_format=DateFormat.ISO_8601.value,
@@ -217,16 +216,14 @@ class TransformationConfig:
             trim_whitespace=True,
             remove_duplicates=False,
             handle_missing_values=True,
-            missing_value_strategy="skip"
+            missing_value_strategy="skip",
         )
 
 
 @dataclass
-
-
 class TransformationResult:
-    """Result of applying transformations to data
-    """
+    """Result of applying transformations to data"""
+
     success: bool
     transformed_data: Any | None = None  # Could be DataFrame or other data structure
     applied_rules: list[str] = field(default_factory=list)
@@ -256,7 +253,7 @@ class TransformationResult:
             "warnings": self.warnings,
             "errors": self.errors,
             "error_message": self.error_message,
-            "processing_time_seconds": self.processing_time_seconds
+            "processing_time_seconds": self.processing_time_seconds,
         }
 
         # Don't include the actual data in the dictionary to avoid serialization issues

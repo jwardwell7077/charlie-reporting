@@ -1,13 +1,10 @@
-"""Report_Template domain model for report - generator
-"""
+"""Report_Template domain model for report - generator"""
 
 from dataclasses import dataclass
 from datetime import datetime
 
 
 @dataclass
-
-
 class Report_Template:
     """Report_Template domain model
     TODO: Define attributes and methods

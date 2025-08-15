@@ -13,13 +13,14 @@ import pandas as pd
 @dataclass(slots=True)
 class CSVRule:
     """Transformation rule for a CSV file pattern."""
+
     file_pattern: str
     columns: list[str]
     sheet_name: str
     required_columns: list[str] | None = None
 
     def matches_filename(self, file_name: str) -> bool:
-        pattern = self.file_pattern.replace('.csv', '').lower()
+        pattern = self.file_pattern.replace(".csv", "").lower()
         return pattern in file_name.lower()
 
     def validate_dataframe(self, df: pd.DataFrame) -> dict[str, Any]:
@@ -46,6 +47,7 @@ class CSVRule:
 @dataclass(slots=True)
 class CSVFile:
     """Represents a CSV file with metadata and rule association."""
+
     file_name: str
     file_path: str
     date_str: str

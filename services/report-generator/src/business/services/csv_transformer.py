@@ -30,9 +30,9 @@ class CSVTransformationService:
         for key, cfg in attachment_config.items():
             rule = CSVRule(
                 file_pattern=key,
-                columns=cfg.get('columns', []),
-                sheet_name=key.replace('.csv', ''),
-                required_columns=cfg.get('required_columns')
+                columns=cfg.get("columns", []),
+                sheet_name=key.replace(".csv", ""),
+                required_columns=cfg.get("required_columns"),
             )
             rules.append(rule)
 
@@ -49,7 +49,7 @@ class CSVTransformationService:
             return csv_files
 
         for file_path in raw_dir.iterdir():
-            if not file_path.suffix.lower() == '.csv':
+            if not file_path.suffix.lower() == ".csv":
                 continue
 
             file_name = file_path.name
@@ -74,7 +74,7 @@ class CSVTransformationService:
                 file_path=str(file_path),
                 date_str=date_filter,
                 hour_str=hour_str,
-                timestamp=datetime.now()
+                timestamp=datetime.now(),
             )
 
             csv_files.append(csv_file)
@@ -91,14 +91,13 @@ class CSVTransformationService:
         matched_files = []
 
         for csv_file in csv_files:
-            matching_rule = None
-
+            matching_rule: CSVRule | None = None
             for rule in rules:
                 if rule.matches_filename(csv_file.file_name):
-                    matchingrule = rule
+                    matching_rule = rule
                     break
 
-            if matching_rule:
+            if matching_rule is not None:
                 csv_file.rule = matching_rule
                 matched_files.append(csv_file)
                 self.logger.debug(f"Matched {csv_file.file_name} to rule {matching_rule.file_pattern}")
@@ -112,10 +111,7 @@ class CSVTransformationService:
         """
         if not csv_file.rule:
             return CSVTransformationResult(
-                file=csv_file,
-                dataframe=None,
-                success=False,
-                error_message="No transformation rule assigned"
+                file=csv_file, dataframe=None, success=False, error_message="No transformation rule assigned"
             )
 
         try:
@@ -125,41 +121,30 @@ class CSVTransformationService:
 
             # Validate against rule
             validation = csv_file.rule.validate_dataframe(df)
-            if not validation['is_valid']:
+            if not validation["is_valid"]:
                 return CSVTransformationResult(
                     file=csv_file,
                     dataframe=None,
                     success=False,
-                    error_message="; ".join(validation['errors']),
-                    warnings=validation['warnings']
+                    error_message="; ".join(validation["errors"]),
+                    warnings=validation["warnings"],
                 )
 
             # Select configured columns
-            dftransformed = df[csv_file.rule.columns].copy()
-
-            # Add metadata columns
-            dftransformed = self.add_metadata_columns(df_transformed, csv_file)
+            df_transformed = df[csv_file.rule.columns].copy()
+            df_transformed = self.add_metadata_columns(df_transformed, csv_file)
 
             return CSVTransformationResult(
-                file=csv_file,
-                dataframe=df_transformed,
-                success=True,
-                warnings=validation['warnings']
+                file=csv_file, dataframe=df_transformed, success=True, warnings=validation["warnings"]
             )
 
         except Exception as e:
             self.logger.error(f"Error transforming {csv_file.file_name}: {e}", exc_info=True)
-            return CSVTransformationResult(
-                file=csv_file,
-                dataframe=None,
-                success=False,
-                error_message=str(e)
-            )
+            return CSVTransformationResult(file=csv_file, dataframe=None, success=False, error_message=str(e))
 
-    def create_report_from_results(self,
-                                  transformation_results: list[CSVTransformationResult],
-                                  date_str: str,
-                                  hour_filter: str | None = None) -> Report:
+    def create_report_from_results(
+        self, transformation_results: list[CSVTransformationResult], date_str: str, hour_filter: str | None = None
+    ) -> Report:
         """Business logic for creating a report from transformation results
         """
         sheets = {}
@@ -169,15 +154,12 @@ class CSVTransformationService:
             if not result.success or result.dataframe is None:
                 continue
 
-            sheetname = result.file.rule.get_safe_sheet_name() if result.file.rule else "Unknown"
+            sheet_name = result.file.rule.get_safe_sheet_name() if result.file.rule else "Unknown"
 
             if sheet_name not in sheets:
                 sheets[sheet_name] = ReportSheet(
-                    name=sheet_name,
-                    data_frames=[],
-                    columns=list(result.dataframe.columns)
+                    name=sheet_name, data_frames=[], columns=list(result.dataframe.columns)
                 )
-
             sheets[sheet_name].data_frames.append(result.dataframe)
 
         # Create report
@@ -186,15 +168,15 @@ class CSVTransformationService:
             report_type="csv_transformation",
             sheets=sheets,
             created_at=datetime.now(),
-            hour_filter=hour_filter
+            hour_filter=hour_filter,
         )
 
         self.logger.info(f"Created report with {len(sheets)} sheets, {report.get_total_records()} total records")
         return report
 
-    def archive_processed_files(self,
-                               successful_results: list[CSVTransformationResult],
-                               archive_dir: Path) -> dict[str, str]:
+    def archive_processed_files(
+        self, successful_results: list[CSVTransformationResult], archive_dir: Path
+    ) -> dict[str, str]:
         """Business logic for archiving successfully processed files
         """
         archived_files = {}
@@ -224,28 +206,23 @@ class CSVTransformationService:
     def add_metadata_columns(self, df: pd.DataFrame, csv_file: CSVFile) -> pd.DataFrame:
         """Add metadata columns to DataFrame"""
         # Insert date column if missing
-        if 'email_received_date' not in df.columns:
-            df.insert(0, 'email_received_date', csv_file.date_str)
+        if "email_received_date" not in df.columns:
+            df.insert(0, "email_received_date", csv_file.date_str)
 
         # Insert timestamp column if missing
-        if 'email_received_timestamp' not in df.columns:
-            timestampstr = csv_file.extract_timestamp_from_filename(csv_file.date_str)
-            df.insert(1, 'email_received_timestamp', timestamp_str)
+        if "email_received_timestamp" not in df.columns:
+            timestamp_str = csv_file.extract_timestamp_from_filename(csv_file.date_str)
+            df.insert(1, "email_received_timestamp", timestamp_str)
 
         return df
 
     def extract_hour_from_filename(self, file_name: str) -> str | None:
-        """Extract hour from file_name pattern"""
+        """Extract hour (HH) from a filename pattern '__YYYY-MM-DD_HHMM'."""
         import re
 
-        # Pattern: __YYYY - MM - DD_HHMM
-        pattern = r'__\d{4}-\d{2}-\d{2}_(\d{2})\d{2}'
+        pattern = r"__\d{4}-\d{2}-\d{2}_(\d{2})\d{2}"  # captures HH
         match = re.search(pattern, file_name)
-
-        if match:
-            return match.group(1)
-
-        return None
+        return match.group(1) if match else None
 
 
 class CSVTransformerService(ICSVTransformer):
@@ -256,15 +233,11 @@ class CSVTransformerService(ICSVTransformer):
     def __init__(self):
         self.service = CSVTransformationService()
 
-    async def transform_csv(
-        self, file_path: str, rules: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def transform_csv(self, file_path: str, rules: dict[str, Any]) -> dict[str, Any]:
         """Transform CSV file according to rules"""
         try:
             # Convert rules dict to CSVRule objects
-            transformationrules = self.service.create_transformation_rules(
-                rules
-            )
+            transformation_rules = self.service.create_transformation_rules(rules)
 
             # Create CSV file object
             csv_file = CSVFile(
@@ -273,7 +246,7 @@ class CSVTransformerService(ICSVTransformer):
                 date_str="",  # Will be extracted by service
                 hour_str="",  # Will be extracted by service
                 timestamp=datetime.utcnow(),
-                rule=transformation_rules[0] if transformation_rules else None
+                rule=transformation_rules[0] if transformation_rules else None,
             )
 
             # Perform transformation
@@ -285,15 +258,11 @@ class CSVTransformerService(ICSVTransformer):
                 "dataframe": result.dataframe,
                 "message": "Transformation completed" if result.success else "Transformation failed",
                 "error": result.error_message,
-                "warnings": result.warnings or []
+                "warnings": result.warnings or [],
             }
 
         except Exception as e:
-            return {
-                "success": False,
-                "error": str(e),
-                "message": "Transformation failed"
-            }
+            return {"success": False, "error": str(e), "message": "Transformation failed"}
 
     async def validate_csv_format(self, file_path: str) -> dict[str, Any]:
         """Validate CSV file format"""
@@ -305,12 +274,8 @@ class CSVTransformerService(ICSVTransformer):
                 "valid": True,
                 "columns": list(df.columns),
                 "column_count": len(df.columns),
-                "message": "CSV format is valid"
+                "message": "CSV format is valid",
             }
 
         except Exception as e:
-            return {
-                "valid": False,
-                "error": str(e),
-                "message": "Invalid CSV format"
-            }
+            return {"valid": False, "error": str(e), "message": "Invalid CSV format"}

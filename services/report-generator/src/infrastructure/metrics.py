@@ -13,10 +13,9 @@ from ..business.interfaces import IMetricsCollector
 
 
 @dataclass
-
-
 class MetricData:
     """Individual metric data point"""
+
     name: str
     value: float
     timestamp: datetime
@@ -24,10 +23,9 @@ class MetricData:
 
 
 @dataclass
-
-
 class ProcessingMetric:
     """Processing - specific metric data"""
+
     operation_type: str
     duration_seconds: float
     success: bool
@@ -112,8 +110,9 @@ class MetricsCollector:
             if self.request_durations:
                 self.gauges["avg_request_duration_seconds"] = sum(self.request_durations) / len(self.request_durations)
 
-    def record_directory_processing(self, files_processed: int, records_processed: int,
-                                  success: bool, duration_seconds: float):
+    def record_directory_processing(
+        self, files_processed: int, records_processed: int, success: bool, duration_seconds: float
+    ):
         """Record directory processing metrics"""
         with self.lock:
             metric = ProcessingMetric(
@@ -121,7 +120,7 @@ class MetricsCollector:
                 duration_seconds=duration_seconds,
                 success=success,
                 files_count=files_processed,
-                records_count=records_processed
+                records_count=records_processed,
             )
             self.processing_metrics.append(metric)
 
@@ -141,8 +140,7 @@ class MetricsCollector:
             self.gauges["files_processed_total"] = self.files_processed_total
             self.gauges["records_processed_total"] = self.records_processed_total
 
-    def record_file_processing(self, file_name: str, records_processed: int,
-                             success: bool, duration_seconds: float):
+    def record_file_processing(self, file_name: str, records_processed: int, success: bool, duration_seconds: float):
         """Record single file processing metrics"""
         with self.lock:
             metric = ProcessingMetric(
@@ -150,7 +148,7 @@ class MetricsCollector:
                 duration_seconds=duration_seconds,
                 success=success,
                 files_count=1,
-                records_count=records_processed
+                records_count=records_processed,
             )
             self.processing_metrics.append(metric)
 
@@ -203,7 +201,6 @@ class MetricsCollector:
                 "successful_requests": self.requests_success,
                 "failed_requests": self.requests_failed,
                 "avg_processing_time": self.gauges.get("avg_request_duration_seconds", 0.0),
-
                 # Processing metrics
                 "total_files_processed": self.files_processed_total,
                 "total_records_processed": self.records_processed_total,
@@ -212,15 +209,13 @@ class MetricsCollector:
                 "success_rate": success_rate,
                 "processing_efficiency": efficiency,
                 "recommendations": recommendations,
-
                 # Detailed metrics
                 "counters": dict(self.counters),
                 "gauges": dict(self.gauges),
                 "recent_errors": list(self.processing_errors),
-
                 # Health
                 "healthy": self.healthy,
-                "last_health_check": self.last_health_check.isoformat()
+                "last_health_check": self.last_health_check.isoformat(),
             }
 
     def get_prometheus_metrics(self) -> str:
@@ -260,10 +255,9 @@ class MetricsCollector:
     def get_health_metrics(self) -> dict[str, Any]:
         """Get health-specific metrics"""
         with self.lock:
-            recent_error_count = len([
-                e for e in self.processing_errors
-                if "error" in e.lower() or "failed" in e.lower()
-            ])
+            recent_error_count = len(
+                [e for e in self.processing_errors if "error" in e.lower() or "failed" in e.lower()]
+            )
 
             return {
                 "healthy": self.healthy,
@@ -297,10 +291,7 @@ class MetricsCollector:
         if not self.processing_metrics:
             return 0.0
 
-        recent_operations = [
-            m for m in self.processing_metrics
-            if m.timestamp > datetime.utcnow() - timedelta(hours=1)
-        ]
+        recent_operations = [m for m in self.processing_metrics if m.timestamp > datetime.utcnow() - timedelta(hours=1)]
 
         if not recent_operations:
             return 0.0
@@ -323,10 +314,7 @@ class MetricsCollector:
         if not self.processing_metrics:
             return 100.0
 
-        recent_operations = [
-            m for m in self.processing_metrics
-            if m.timestamp > datetime.utcnow() - timedelta(hours=1)
-        ]
+        recent_operations = [m for m in self.processing_metrics if m.timestamp > datetime.utcnow() - timedelta(hours=1)]
 
         if not recent_operations:
             return 100.0
@@ -355,7 +343,9 @@ class MetricsCollector:
 
         # Retention / memory usage heuristic
         if len(self.processing_metrics) > 800:
-            recommendations.append("High metrics volume - consider increasing retention window or archiving older entries")
+            recommendations.append(
+                "High metrics volume - consider increasing retention window or archiving older entries"
+            )
 
         return recommendations
 
@@ -382,9 +372,7 @@ class MetricsCollectorImpl(IMetricsCollector):
     def __init__(self):
         self.metrics = get_metrics_collector()
 
-    async def increment_counter(
-        self, name: str, value: float = 1.0, **labels
-    ) -> None:
+    async def increment_counter(self, name: str, value: float = 1.0, **labels) -> None:
         """Increment a counter metric"""
         # Use the existing counters storage directly
         with self.metrics.lock:
@@ -396,20 +384,14 @@ class MetricsCollectorImpl(IMetricsCollector):
         with self.metrics.lock:
             self.metrics.gauges[name] = value
 
-    async def record_histogram(
-        self, name: str, value: float, **labels
-    ) -> None:
+    async def record_histogram(self, name: str, value: float, **labels) -> None:
         """Record a value in histogram metric"""
         # Use the existing histograms storage directly
         with self.metrics.lock:
             self.metrics.histograms[name].append(value)
 
     async def record_processing_time(
-        self,
-        operation: str,
-        duration_seconds: float,
-        success: bool = True,
-        **metadata
+        self, operation: str, duration_seconds: float, success: bool = True, **metadata
     ) -> None:
         """Record processing operation timing"""
         # Map to existing methods based on operation type
@@ -418,14 +400,14 @@ class MetricsCollectorImpl(IMetricsCollector):
                 files_processed=metadata.get("files_count", 0),
                 records_processed=metadata.get("records_count", 0),
                 duration_seconds=duration_seconds,
-                success=success
+                success=success,
             )
         elif operation == "file_processing":
             self.metrics.record_file_processing(
                 file_name=metadata.get("file_name", "unknown"),
                 records_processed=metadata.get("records_count", 0),
                 duration_seconds=duration_seconds,
-                success=success
+                success=success,
             )
         else:
             # Generic processing metric
@@ -434,7 +416,7 @@ class MetricsCollectorImpl(IMetricsCollector):
                 duration_seconds=duration_seconds,
                 success=success,
                 files_count=metadata.get("files_count", 0),
-                records_count=metadata.get("records_count", 0)
+                records_count=metadata.get("records_count", 0),
             )
             self.metrics.processing_metrics.append(metric)
 

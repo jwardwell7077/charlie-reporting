@@ -1,5 +1,4 @@
-"""Report_Builder business service for report - generator
-"""
+"""Report_Builder business service for report - generator"""
 
 import logging
 
