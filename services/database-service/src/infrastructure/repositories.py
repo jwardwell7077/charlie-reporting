@@ -1,12 +1,10 @@
-"""
-SQLAlchemy-based repository implementations.
+"""SQLAlchemy-based repository implementations.
 These repositories handle the conversion between domain and persistence models.
 """
 
 from __future__ import annotations
 
 from datetime import datetime
-from typing import List, Optional
 from uuid import UUID
 
 from sqlalchemy import delete, func, select
@@ -47,7 +45,7 @@ class SQLAlchemyEmailRepository(EmailRepositoryInterface):
     async def create(self, email_record: EmailRecord) -> EmailRecord:
         return await self.save(email_record)
 
-    async def get_by_id(self, email_id: UUID) -> Optional[EmailRecord]:
+    async def get_by_id(self, email_id: UUID) -> EmailRecord | None:
         return await self.find_by_id(email_id)
 
     async def update(self, email_record: EmailRecord) -> EmailRecord:
@@ -59,7 +57,7 @@ class SQLAlchemyEmailRepository(EmailRepositoryInterface):
             result = await session.execute(stmt)
             return result.rowcount > 0
 
-    async def list_all(self) -> List[EmailRecord]:
+    async def list_all(self) -> list[EmailRecord]:
         async with self._db.get_session() as session:
             stmt = select(EmailRecordORM)
             result = await session.execute(stmt)
@@ -71,18 +69,18 @@ class SQLAlchemyEmailRepository(EmailRepositoryInterface):
     # Canonical queries
     async def get_by_message_id(
         self, message_id: str
-    ) -> Optional[EmailRecord]:
+    ) -> EmailRecord | None:
         return await self.find_by_message_id(message_id)
 
-    async def get_by_sender(self, sender: str) -> List[EmailRecord]:
+    async def get_by_sender(self, sender: str) -> list[EmailRecord]:
         return await self.find_by_sender(sender)
 
     async def get_by_date_range(
         self, start_date: datetime, end_date: datetime
-    ) -> List[EmailRecord]:
+    ) -> list[EmailRecord]:
         return await self.find_by_date_range(start_date, end_date)
 
-    async def get_by_status(self, status: EmailStatus) -> List[EmailRecord]:
+    async def get_by_status(self, status: EmailStatus) -> list[EmailRecord]:
         return await self.find_by_status(status)
 
     async def count_by_status(self, status: EmailStatus) -> int:
@@ -94,14 +92,14 @@ class SQLAlchemyEmailRepository(EmailRepositoryInterface):
             return int(result.scalar() or 0)
 
     # Legacy find_* implementations
-    async def find_by_id(self, email_id: UUID) -> Optional[EmailRecord]:
+    async def find_by_id(self, email_id: UUID) -> EmailRecord | None:
         async with self._db.get_session() as session:
             orm = await session.get(EmailRecordORM, email_id)
             return self._mapper.to_domain(orm) if orm else None
 
     async def find_by_message_id(
         self, message_id: str
-    ) -> Optional[EmailRecord]:
+    ) -> EmailRecord | None:
         async with self._db.get_session() as session:
             stmt = select(EmailRecordORM).where(
                 EmailRecordORM.message_id == message_id
@@ -111,8 +109,8 @@ class SQLAlchemyEmailRepository(EmailRepositoryInterface):
             return self._mapper.to_domain(orm) if orm else None
 
     async def find_all(
-        self, limit: Optional[int] = None, offset: int = 0
-    ) -> List[EmailRecord]:
+        self, limit: int | None = None, offset: int = 0
+    ) -> list[EmailRecord]:
         async with self._db.get_session() as session:
             stmt = select(EmailRecordORM).offset(offset)
             if limit:
@@ -120,7 +118,7 @@ class SQLAlchemyEmailRepository(EmailRepositoryInterface):
             result = await session.execute(stmt)
             return [self._mapper.to_domain(o) for o in result.scalars().all()]
 
-    async def find_by_sender(self, sender: str) -> List[EmailRecord]:
+    async def find_by_sender(self, sender: str) -> list[EmailRecord]:
         async with self._db.get_session() as session:
             stmt = select(EmailRecordORM).where(
                 EmailRecordORM.sender == sender
@@ -130,7 +128,7 @@ class SQLAlchemyEmailRepository(EmailRepositoryInterface):
 
     async def find_by_date_range(
         self, start_date: datetime, end_date: datetime
-    ) -> List[EmailRecord]:
+    ) -> list[EmailRecord]:
         async with self._db.get_session() as session:
             stmt = select(EmailRecordORM).where(
                 EmailRecordORM.received_date >= start_date,
@@ -139,7 +137,7 @@ class SQLAlchemyEmailRepository(EmailRepositoryInterface):
             result = await session.execute(stmt)
             return [self._mapper.to_domain(o) for o in result.scalars().all()]
 
-    async def find_by_status(self, status: EmailStatus) -> List[EmailRecord]:
+    async def find_by_status(self, status: EmailStatus) -> list[EmailRecord]:
         async with self._db.get_session() as session:
             stmt = select(EmailRecordORM).where(
                 EmailRecordORM.status == status.value

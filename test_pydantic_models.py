@@ -1,11 +1,10 @@
 #!/usr/bin/env python3
-"""
-Test script to validate Pydantic domain models work correctly.
+"""Test script to validate Pydantic domain models work correctly.
 This script helps verify our domain models are properly configured.
 """
 
-import sys
 import os
+import sys
 from datetime import datetime
 from uuid import uuid4
 
@@ -15,10 +14,10 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'services', 'database
 def test_pydantic_models():
     """Test all Pydantic domain models"""
     try:
-        from domain.models.email_record import EmailRecord, EmailStatus, EmailPriority
         from domain.models.attachment import Attachment
+        from domain.models.email_record import EmailPriority, EmailRecord, EmailStatus
+        from domain.models.report import Report, ReportStatus, ReportType
         from domain.models.user import User, UserRole, UserStatus
-        from domain.models.report import Report, ReportType, ReportStatus
         
         print("Successfully imported all Pydantic domain models")
         

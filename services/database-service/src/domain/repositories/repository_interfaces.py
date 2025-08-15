@@ -1,14 +1,12 @@
-"""
-Abstract repository interfaces for domain models.
+"""Abstract repository interfaces for domain models.
 """
 
 from abc import ABC, abstractmethod
-from typing import List, Optional
 from uuid import UUID
 
 from ..models.attachment import Attachment
-from ..models.user import User
 from ..models.report import Report
+from ..models.user import User
 
 
 class AttachmentRepository(ABC):
@@ -20,12 +18,12 @@ class AttachmentRepository(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    async def find_by_id(self, attachment_id: UUID) -> Optional[Attachment]:
+    async def find_by_id(self, attachment_id: UUID) -> Attachment | None:
         """Find attachment by ID"""
         raise NotImplementedError
 
     @abstractmethod
-    async def find_by_email_id(self, email_id: UUID) -> List[Attachment]:
+    async def find_by_email_id(self, email_id: UUID) -> list[Attachment]:
         """Find attachments by email ID"""
         raise NotImplementedError
 
@@ -44,24 +42,24 @@ class UserRepository(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    async def find_by_id(self, user_id: UUID) -> Optional[User]:
+    async def find_by_id(self, user_id: UUID) -> User | None:
         """Find user by ID"""
         raise NotImplementedError
 
     @abstractmethod
-    async def find_by_email(self, email: str) -> Optional[User]:
+    async def find_by_email(self, email: str) -> User | None:
         """Find user by email"""
         raise NotImplementedError
 
     @abstractmethod
-    async def find_by_username(self, username: str) -> Optional[User]:
+    async def find_by_username(self, username: str) -> User | None:
         """Find user by username"""
         raise NotImplementedError
 
     @abstractmethod
     async def find_all(
-        self, limit: Optional[int] = None, offset: int = 0
-    ) -> List[User]:
+        self, limit: int | None = None, offset: int = 0
+    ) -> list[User]:
         """Find all users with optional pagination"""
         raise NotImplementedError
 
@@ -80,19 +78,19 @@ class ReportRepository(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    async def find_by_id(self, report_id: UUID) -> Optional[Report]:
+    async def find_by_id(self, report_id: UUID) -> Report | None:
         """Find report by ID"""
         raise NotImplementedError
 
     @abstractmethod
-    async def find_by_user_id(self, user_id: UUID) -> List[Report]:
+    async def find_by_user_id(self, user_id: UUID) -> list[Report]:
         """Find reports by user ID"""
         raise NotImplementedError
 
     @abstractmethod
     async def find_all(
-        self, limit: Optional[int] = None, offset: int = 0
-    ) -> List[Report]:
+        self, limit: int | None = None, offset: int = 0
+    ) -> list[Report]:
         """Find all reports with optional pagination"""
         raise NotImplementedError
 

@@ -7,15 +7,15 @@ preserving placeholders for future expansion.
 
 from __future__ import annotations
 
-from datetime import datetime, timedelta
-from typing import List, Optional, Dict, Any
 import logging
+from datetime import datetime, timedelta
+from typing import Any
 from uuid import UUID
 
 from ...domain.models.email_record import (
+    EmailPriority,
     EmailRecord,
     EmailStatus,
-    EmailPriority,
 )
 from ...domain.repositories.email_repository_interface import (
     EmailRepositoryInterface,
@@ -30,7 +30,7 @@ class EmailService:
         self,
         email_repository: EmailRepositoryInterface,
         db_connection: DatabaseConnection | None,
-        logger: Optional[logging.Logger] = None,
+        logger: logging.Logger | None = None,
     ) -> None:
         self._email_repository = email_repository
         self._db_connection = db_connection
@@ -39,7 +39,7 @@ class EmailService:
     # ------------------------------------------------------------------
     # Import / create
     # ------------------------------------------------------------------
-    async def import_email(self, email_data: Dict[str, Any]) -> EmailRecord:
+    async def import_email(self, email_data: dict[str, Any]) -> EmailRecord:
         """Import a new email (idempotent on message_id).
 
         Raises ValueError if message_id already exists.
@@ -74,10 +74,10 @@ class EmailService:
     # ------------------------------------------------------------------
     # Simple retrieval helpers
     # ------------------------------------------------------------------
-    async def get_email_by_id(self, email_id: UUID) -> Optional[EmailRecord]:
+    async def get_email_by_id(self, email_id: UUID) -> EmailRecord | None:
         return await self._email_repository.find_by_id(email_id)
 
-    async def list_emails(self) -> List[EmailRecord]:
+    async def list_emails(self) -> list[EmailRecord]:
         return await self._email_repository.list_all()
 
     # ------------------------------------------------------------------
@@ -108,11 +108,28 @@ class EmailService:
                 archived += 1
         return archived
 
-    async def get_email_statistics(self) -> Dict[str, Any]:
-        stats: Dict[str, Any] = {}
+    async def get_email_statistics(self) -> dict[str, Any]:
+        stats: dict[str, Any] = {}
         for status in EmailStatus:
-            stats[f"count_{status.value}"] = await self._email_repository.\
-                count_by_status(status)
+            stats[f"count_{status.value}"] = await self._email_repository.count_by_status(status)
+        # Add windowed recent count (last 24 hours) for monitoring dashboards
+        now = datetime.now()
+        recent_window_start = now - timedelta(hours=24)
+        recent_emails = await self._email_repository.find_by_date_range(recent_window_start, now)
+        stats["recent_count"] = len(recent_emails)
+        # High priority emails (business visibility metric)
+        if hasattr(self._email_repository, "count_by_priority"):
+            try:
+                value = self._email_repository.count_by_priority(EmailPriority.HIGH)  # type: ignore[attr-defined]
+                if hasattr(value, "__await__"):
+                    value = await value  # unwrap coroutine (AsyncMock or real async function)
+                stats["high_priority_count"] = int(value)
+            except Exception:  # pragma: no cover - defensive
+                stats["high_priority_count"] = 0
+        else:
+            # Fallback: derive from listing (less efficient, test-safe)
+            all_recent = await self._email_repository.list_all()
+            stats["high_priority_count"] = sum(1 for e in all_recent if getattr(e, "priority", None) == EmailPriority.HIGH)
         return stats
 
     # ------------------------------------------------------------------

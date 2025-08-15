@@ -1,13 +1,12 @@
-"""
-EmailRecord domain model.
+"""EmailRecord domain model.
 Core domain entity representing an email message (legacy Pydantic style).
 """
 
+from datetime import UTC, datetime
 from enum import Enum
-from typing import List
 from uuid import UUID, uuid4
-from pydantic import BaseModel, Field, field_validator, ConfigDict
-from datetime import datetime, timezone
+
+from pydantic import BaseModel, ConfigDict, Field, field_validator
 
 from .attachment import Attachment
 
@@ -36,18 +35,18 @@ class EmailRecord(BaseModel):
     message_id: str
     subject: str
     sender: str
-    recipients: List[str]
+    recipients: list[str]
     sent_date: datetime
 
-    cc_recipients: List[str] = Field(default_factory=list)
-    bcc_recipients: List[str] = Field(default_factory=list)
+    cc_recipients: list[str] = Field(default_factory=list)
+    bcc_recipients: list[str] = Field(default_factory=list)
     body_text: str = ""
     body_html: str = ""
     priority: EmailPriority = EmailPriority.NORMAL
     status: EmailStatus = EmailStatus.RECEIVED
-    attachments: List[Attachment] = Field(default_factory=list)
+    attachments: list[Attachment] = Field(default_factory=list)
     received_date: datetime = Field(
-        default_factory=lambda: datetime.now(timezone.utc)
+        default_factory=lambda: datetime.now(UTC)
     )
     id: UUID = Field(default_factory=uuid4)
 
@@ -79,7 +78,7 @@ class EmailRecord(BaseModel):
 
     @field_validator("recipients")
     @classmethod
-    def validate_recipients(cls, v: List[str]) -> List[str]:
+    def validate_recipients(cls, v: list[str]) -> list[str]:
         if not v:
             raise ValueError("At least one recipient is required")
         return v

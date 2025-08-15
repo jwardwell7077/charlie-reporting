@@ -1,5 +1,4 @@
-"""
-Database migration system for database-service.
+"""Database migration system for database-service.
 """
 
 from __future__ import annotations
@@ -9,13 +8,12 @@ import re
 from dataclasses import dataclass
 from datetime import datetime
 from pathlib import Path
-from typing import List, Optional
 
 import structlog
 from sqlalchemy import text
 
-from .database import DatabaseConnection
 from ...config.settings import DatabaseServiceConfig
+from .database import DatabaseConnection
 
 logger = structlog.get_logger(__name__)
 
@@ -29,7 +27,7 @@ class Migration:
     up_sql: str
     down_sql: str
     description: str = ""
-    applied_at: Optional[datetime] = None
+    applied_at: datetime | None = None
 
     def __repr__(self) -> str:  # pragma: no cover - trivial
         return f"Migration(version='{self.version}', name='{self.name}')"
@@ -58,8 +56,8 @@ class MigrationResult:
 
     migration: Migration
     success: bool
-    error: Optional[Exception] = None
-    execution_time: Optional[float] = None
+    error: Exception | None = None
+    execution_time: float | None = None
 
 
 class MigrationError(Exception):
@@ -68,8 +66,8 @@ class MigrationError(Exception):
     def __init__(
         self,
         message: str,
-        migration: Optional[Migration],
-        original_error: Optional[Exception] = None,
+        migration: Migration | None,
+        original_error: Exception | None = None,
     ) -> None:
         super().__init__(message)
         self.migration = migration
@@ -107,11 +105,11 @@ class MigrationManager:
 
     async def load_migrations_from_directory(
         self, migrations_dir: str
-    ) -> List[Migration]:
+    ) -> list[Migration]:
         """Load migrations from directory."""
         migrations_path = Path(migrations_dir)
         migration_files = list(migrations_path.glob("*.sql"))
-        migrations: List[Migration] = []
+        migrations: list[Migration] = []
         for file_path in sorted(migration_files):
             try:
                 content = file_path.read_text(encoding="utf-8")
@@ -167,7 +165,7 @@ class MigrationManager:
             down_sql=down_sql,
         )
 
-    async def get_applied_migrations(self) -> List[MigrationState]:
+    async def get_applied_migrations(self) -> list[MigrationState]:
         """Return applied migrations from history table."""
         query = f"""
         SELECT version, name, applied_at, checksum
@@ -188,8 +186,8 @@ class MigrationManager:
         ]
 
     async def get_pending_migrations(
-        self, available_migrations: List[Migration]
-    ) -> List[Migration]:
+        self, available_migrations: list[Migration]
+    ) -> list[Migration]:
         applied_versions = {
             state.version for state in await self.get_applied_migrations()
         }
@@ -287,12 +285,12 @@ class MigrationManager:
             )
 
     async def migrate_up(
-        self, migrations: List[Migration], target_version: Optional[str] = None
-    ) -> List[MigrationResult]:
+        self, migrations: list[Migration], target_version: str | None = None
+    ) -> list[MigrationResult]:
         pending = await self.get_pending_migrations(migrations)
         if target_version:
             pending = [m for m in pending if m.version <= target_version]
-        results: List[MigrationResult] = []
+        results: list[MigrationResult] = []
         for migration in pending:
             result = await self.apply_migration(migration)
             results.append(result)
@@ -306,10 +304,10 @@ class MigrationManager:
         return results
 
     async def migrate_down(
-        self, migrations: List[Migration], target_version: str
-    ) -> List[MigrationResult]:
+        self, migrations: list[Migration], target_version: str
+    ) -> list[MigrationResult]:
         applied = await self.get_applied_migrations()
-        to_rollback: List[Migration] = []
+        to_rollback: list[Migration] = []
         for state in reversed(applied):
             if state.version > target_version:
                 migration = next(
@@ -318,7 +316,7 @@ class MigrationManager:
                 )
                 if migration:
                     to_rollback.append(migration)
-        results: List[MigrationResult] = []
+        results: list[MigrationResult] = []
         for migration in to_rollback:
             result = await self.rollback_migration(migration)
             results.append(result)

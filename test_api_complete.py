@@ -1,5 +1,4 @@
-"""
-Test script for database service API endpoints.
+"""Test script for database service API endpoints.
 """
 
 import os

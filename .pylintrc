@@ -1,0 +1,16 @@
+[MASTER]
+ignore=.venv,build,dist
+jobs=0
+
+[MESSAGES CONTROL]
+# Keep in sync with pyproject table
+disable=C0114,C0115,C0116,R0903,R0801
+
+[FORMAT]
+max-line-length=100
+
+[REPORTS]
+score=yes
+
+[BASIC]
+good-names=i,j,k,ex,Run,_,df

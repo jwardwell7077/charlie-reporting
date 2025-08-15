@@ -1,16 +1,16 @@
-"""
-Unit tests for Report domain model.
+"""Unit tests for Report domain model.
 Following TDD - these tests are written BEFORE implementation.
 """
 
-import pytest
-from datetime import datetime, timezone
-from uuid import UUID
+from datetime import datetime
 from unittest.mock import MagicMock
+from uuid import UUID
 
+import pytest
+
+from src.domain.models.email_record import EmailRecord
 from src.domain.models.report import Report, ReportStatus, ReportType
 from src.domain.models.user import User
-from src.domain.models.email_record import EmailRecord
 
 
 class TestReport:

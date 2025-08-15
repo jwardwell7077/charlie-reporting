@@ -7,7 +7,6 @@ tests (create/save, find_by_id, find_by_message_id) are implemented.
 """
 from __future__ import annotations
 
-from typing import Dict, List
 from uuid import UUID
 
 from ..domain.models.email_record import EmailRecord
@@ -19,8 +18,8 @@ from ..domain.repositories.email_repository_interface import (
 class InMemoryEmailRepository(EmailRepositoryInterface):
     """Simple in-memory email repository (test/demo only)."""
     def __init__(self) -> None:
-        self._items: Dict[UUID, EmailRecord] = {}
-        self._by_message_id: Dict[str, UUID] = {}
+        self._items: dict[UUID, EmailRecord] = {}
+        self._by_message_id: dict[str, UUID] = {}
 
     async def save(
         self, email_record: EmailRecord
@@ -61,7 +60,7 @@ class InMemoryEmailRepository(EmailRepositoryInterface):
             self._by_message_id.pop(record.message_id, None)
         return existed
 
-    async def list_all(self) -> List[EmailRecord]:  # type: ignore[override]
+    async def list_all(self) -> list[EmailRecord]:  # type: ignore[override]
         return list(self._items.values())
 
     # Remaining interface methods not needed for tests are omitted.

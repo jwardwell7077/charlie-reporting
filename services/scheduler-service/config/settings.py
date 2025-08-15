@@ -1,11 +1,10 @@
-"""
-Scheduler-Service Service Configuration
+"""Scheduler - Service Service Configuration
 """
 
-from typing import Optional
-from pydantic import Field
-import sys
 import os
+import sys
+
+from pydantic import Field
 
 # Add shared components to path
 sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'shared'))
@@ -14,27 +13,30 @@ try:
     from shared.config import BaseServiceConfig
 except ImportError:
     from pydantic_settings import BaseSettings
+
     class BaseServiceConfig(BaseSettings):
-        service_name: str = "scheduler-service"
+        service_name: str = "scheduler - service"
         service_port: int = 8082
 
+
 class SchedulerserviceConfig(BaseServiceConfig):
-    """Configuration for scheduler-service service"""
-    
-    service_name: str = "scheduler-service"
+    """Configuration for scheduler - service service"""
+
+    service_name: str = "scheduler - service"
     service_port: int = Field(default=8082, description="Service HTTP port")
     service_host: str = Field(default="0.0.0.0", description="Service bind host")
-    
-    # Add service-specific configuration here
-    
+
+    # Add service - specific configuration here
+
     class Config:
         env_file = ".env"
         env_prefix = "SCHEDULER_SERVICE_"
+
 
 def load_config() -> SchedulerserviceConfig:
     """Load configuration"""
     try:
         from shared.config import ConfigLoader
-        return ConfigLoader.load_config(SchedulerserviceConfig, "scheduler-service")
+        return ConfigLoader.load_config(SchedulerserviceConfig, "scheduler - service")
     except ImportError:
         return SchedulerserviceConfig()

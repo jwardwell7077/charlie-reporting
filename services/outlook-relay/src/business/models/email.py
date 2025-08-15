@@ -1,42 +1,42 @@
-"""
-Email domain model for outlook-relay
+"""Email domain model for outlook - relay
 """
 
 from dataclasses import dataclass
-from typing import Optional, List
 from datetime import datetime
 
+
 @dataclass
+
+
 class Email:
+    """Email domain model representing a fetched email
     """
-    Email domain model representing a fetched email
-    """
-    
+
     subject: str
     sender: str
     received_time: datetime
     body: str
-    attachments: List[str]
-    id: Optional[str] = None
-    folder: Optional[str] = None
+    attachments: list[str]
+    id: str | None = None
+    folder: str | None = None
     has_csv_attachments: bool = False
-    email_type: Optional[str] = None  # ACQ, QCBS, etc.
-    
+    email_type: str | None = None  # ACQ, QCBS, etc.
+
     def __post_init__(self):
-        """Post-initialization processing"""
+        """Post - initialization processing"""
         if self.attachments:
-            self.has_csv_attachments = any(
+            self.hascsv_attachments = any(
                 str(att).lower().endswith('.csv') for att in self.attachments
             )
-            
-    def get_csv_attachments(self) -> List[str]:
+
+    def get_csv_attachments(self) -> list[str]:
         """Get only CSV attachments"""
         return [att for att in self.attachments if str(att).lower().endswith('.csv')]
-    
-    def extract_email_type(self) -> Optional[str]:
+
+    def extractemail_type(self) -> str | None:
         """Extract email type from subject or filename patterns"""
-        subject_upper = self.subject.upper()
-        
+        subjectupper = self.subject.upper()
+
         # Common patterns in email subjects
         if 'ACQ' in subject_upper:
             return 'ACQ'
@@ -52,14 +52,14 @@ class Email:
             return 'RESC'
         elif 'CAMPAIGN' in subject_upper:
             return 'CAMPAIGN_INTERACTIONS'
-        
+
         # Try to extract from attachment names
         for attachment in self.attachments:
-            att_upper = str(attachment).upper()
+            attupper = str(attachment).upper()
             if 'ACQ' in att_upper:
                 return 'ACQ'
             elif 'QCBS' in att_upper:
                 return 'QCBS'
             # Add more patterns as needed
-                
+
         return None

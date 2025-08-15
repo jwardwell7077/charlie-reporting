@@ -1,16 +1,12 @@
-"""
-Unit tests for abstract base repository.
+"""Unit tests for abstract base repository.
 Following TDD - these tests are written BEFORE implementation.
 """
 
-import pytest
-from abc import ABC
 from uuid import UUID, uuid4
-from unittest.mock import AsyncMock, MagicMock
-from typing import List, Optional, Type
+
+import pytest
 
 from src.domain.repositories.base_repository import BaseRepository
-from src.domain.models.email_record import EmailRecord
 
 
 class MockEntity:
@@ -45,7 +41,6 @@ class TestBaseRepository:
     
     def test_concrete_repository_must_implement_all_methods(self):
         """Test that concrete repositories must implement all abstract methods"""
-        
         # This should fail because we don't implement all methods
         with pytest.raises(TypeError):
             class IncompleteRepository(BaseRepository):

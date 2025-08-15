@@ -1,16 +1,15 @@
-"""
-Unit tests for EmailRecord repository.
+"""Unit tests for EmailRecord repository.
 Following TDD - these tests are written BEFORE implementation.
 """
 
-import pytest
-from datetime import datetime, timezone
-from uuid import UUID, uuid4
-from unittest.mock import AsyncMock, MagicMock, Mock, patch
-from typing import List
+from datetime import UTC, datetime
+from unittest.mock import AsyncMock, MagicMock, Mock
+from uuid import uuid4
 
+import pytest
+
+from src.domain.models.email_record import EmailRecord, EmailStatus
 from src.domain.repositories.email_repository import EmailRepository
-from src.domain.models.email_record import EmailRecord, EmailStatus, EmailPriority
 from src.infrastructure.persistence.database import DatabaseConnection
 from src.infrastructure.persistence.models.email_models import EmailRecordORM
 
@@ -36,7 +35,7 @@ class TestEmailRepository:
             subject="Test Email Subject",
             sender="sender@example.com",
             recipients=["recipient@example.com"],
-            sent_date=datetime(2025, 7, 29, 10, 0, 0, tzinfo=timezone.utc)
+            sent_date=datetime(2025, 7, 29, 10, 0, 0, tzinfo=UTC)
         )
 
     def setup_mock_session_with_result(self, email_repository, mock_result):
@@ -294,8 +293,8 @@ class TestEmailRepository:
     ):
         """Test getting emails by date range"""
         email_list = [sample_email_record]
-        start_date = datetime(2025, 7, 28, tzinfo=timezone.utc)
-        end_date = datetime(2025, 7, 30, tzinfo=timezone.utc)
+        start_date = datetime(2025, 7, 28, tzinfo=UTC)
+        end_date = datetime(2025, 7, 30, tzinfo=UTC)
         
         # Create a mock result that properly handles scalars().all()
         mock_scalars_result = Mock()

@@ -1,10 +1,9 @@
 #!/usr/bin/env python3
-"""
-Test script to understand SQLAlchemy ORM attribute access.
+"""Test script to understand SQLAlchemy ORM attribute access.
 """
 
-import sys
 import os
+import sys
 from datetime import datetime
 from uuid import uuid4
 

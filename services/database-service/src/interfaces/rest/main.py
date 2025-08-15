@@ -1,24 +1,22 @@
-"""
-FastAPI application for database-service.
+"""FastAPI application for database-service.
 """
 
-from typing import AsyncGenerator
 import logging
+from collections.abc import AsyncGenerator
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI, Request, status
+from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
-from fastapi.exceptions import RequestValidationError
 from pydantic import ValidationError
 
-from ...config.settings import DatabaseServiceConfig
-from ...config.database import DatabaseConfig
-from ...infrastructure.persistence.database import DatabaseConnection
 from ...business.services.email_service import EmailService
 from ...business.services.user_service import UserService
+from ...config.database import DatabaseConfig
+from ...config.settings import DatabaseServiceConfig
 from ...infrastructure.inmemory_repository import InMemoryEmailRepository
-
+from ...infrastructure.persistence.database import DatabaseConnection
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -75,12 +73,28 @@ def create_app() -> FastAPI:
     )
 
     # Routers imported lazily to avoid circular issues
-    from .routers import health as health_router  # noqa: F401
     from .routers import emails as emails_router  # noqa: F401
+    from .routers import health as health_router  # noqa: F401
     app.include_router(health_router.router, prefix="/health", tags=["Health"])
     app.include_router(
         emails_router.router, prefix="/api/v1/emails", tags=["Emails"]
     )
+    # Optional placeholder routers (syntactic stubs). Import guarded so
+    # early development can proceed even if modules temporarily absent.
+    try:  # pragma: no cover - defensive
+        from .routers import reports as reports_router  # type: ignore
+        app.include_router(
+            reports_router.router, prefix="/api/v1/reports", tags=["Reports"]
+        )
+    except Exception:  # pragma: no cover
+        logger.debug("Reports router not available yet")
+    try:  # pragma: no cover - defensive
+        from .routers import users as users_router  # type: ignore
+        app.include_router(
+            users_router.router, prefix="/api/v1/users", tags=["Users"]
+        )
+    except Exception:  # pragma: no cover
+        logger.debug("Users router not available yet")
 
     @app.exception_handler(ValidationError)
     async def pydantic_validation_handler(

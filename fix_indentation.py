@@ -1,15 +1,14 @@
 #!/usr/bin/env python3
-"""
-Fix indentation issues in Python files
+"""Fix indentation issues in Python files
 """
 import os
-import re
+
 
 def fix_indentation(file_path):
     """Fix common indentation issues in a Python file"""
     print(f"Fixing {file_path}")
     
-    with open(file_path, 'r') as f:
+    with open(file_path) as f:
         lines = f.readlines()
     
     fixed_lines = []

@@ -1,22 +1,13 @@
+"""Backward compatibility shim for legacy import path.
+
+The domain models were migrated to ``src/domain/models``. Older code (or
+in‑flight branches) may still import from
+``business.models.attachment``. This module re-exports the new
+Pydantic model so those imports continue to function while the codebase
+is refactored.
 """
-Attachment domain model for database-service
-"""
+from __future__ import annotations
 
-from dataclasses import dataclass
-from typing import Optional
-from datetime import datetime
+from ...domain.models.attachment import Attachment  # noqa: F401
 
-
-@dataclass
-class Attachment:
-    """
-    Attachment domain model
-    TODO: Define attributes and methods
-    """
-    pass
-
-    id: Optional[str] = None
-    created_at: Optional[datetime] = None
-    updated_at: Optional[datetime] = None
-
-    # TODO: Add domain-specific attributes
+__all__ = ["Attachment"]

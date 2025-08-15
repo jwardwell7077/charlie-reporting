@@ -1,16 +1,15 @@
-"""
-Report domain model.
+"""Report domain model.
 Represents generated reports containing email data.
 """
 
+from datetime import UTC, datetime
 from enum import Enum
-from typing import List, Optional
 from uuid import UUID, uuid4
-from pydantic import BaseModel, Field, field_validator, ConfigDict
-from datetime import datetime, timezone
 
-from .user import User
+from pydantic import BaseModel, ConfigDict, Field, field_validator
+
 from .email_record import EmailRecord
+from .user import User
 
 
 class ReportType(Enum):
@@ -38,18 +37,18 @@ class Report(BaseModel):
 
     # Required fields
     title: str
-    created_by: Optional[User]  # Allow None for validation path
+    created_by: User | None  # Allow None for validation path
 
     # Optional fields with defaults
     description: str = ""
     report_type: ReportType = ReportType.CUSTOM
     status: ReportStatus = ReportStatus.PENDING
-    email_records: List[EmailRecord] = Field(default_factory=list)
-    file_path: Optional[str] = None
-    completed_at: Optional[datetime] = None
+    email_records: list[EmailRecord] = Field(default_factory=list)
+    file_path: str | None = None
+    completed_at: datetime | None = None
     id: UUID = Field(default_factory=uuid4)
     created_at: datetime = Field(
-        default_factory=lambda: datetime.now(timezone.utc)
+        default_factory=lambda: datetime.now(UTC)
     )
 
     model_config = ConfigDict(
@@ -65,7 +64,7 @@ class Report(BaseModel):
 
     @field_validator("created_by")
     @classmethod
-    def validate_created_by(cls, v: Optional[User]) -> User:
+    def validate_created_by(cls, v: User | None) -> User:
         if v is None:
             raise ValueError("Created by user is required")
         return v
@@ -96,11 +95,11 @@ class Report(BaseModel):
     def mark_as_completed(self, file_path: str) -> None:
         self.status = ReportStatus.COMPLETED
         self.file_path = file_path
-        self.completed_at = datetime.now(timezone.utc)
+        self.completed_at = datetime.now(UTC)
 
     def mark_as_failed(self) -> None:
         self.status = ReportStatus.FAILED
-        self.completed_at = datetime.now(timezone.utc)
+        self.completed_at = datetime.now(UTC)
 
     def to_dict(self) -> dict:
         return {
@@ -127,7 +126,7 @@ class Report(BaseModel):
         cls,
         data: dict,
         created_by_user: User,
-        email_records: Optional[List[EmailRecord]] = None,
+        email_records: list[EmailRecord] | None = None,
     ) -> "Report":
         report_data = data.copy()
         report_data["id"] = UUID(report_data["id"])

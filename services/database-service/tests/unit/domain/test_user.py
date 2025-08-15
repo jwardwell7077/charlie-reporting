@@ -1,11 +1,11 @@
-"""
-Unit tests for User domain model.
+"""Unit tests for User domain model.
 Following TDD - these tests are written BEFORE implementation.
 """
 
-import pytest
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from uuid import UUID
+
+import pytest
 
 from src.domain.models.user import User, UserRole, UserStatus
 
@@ -129,7 +129,7 @@ class TestUser:
         user = User(**sample_user_data)
         assert user.last_login is None
         
-        login_time = datetime.now(timezone.utc)
+        login_time = datetime.now(UTC)
         user.update_last_login(login_time)
         
         assert user.last_login == login_time
@@ -137,11 +137,11 @@ class TestUser:
     def test_user_update_last_login_defaults_to_now(self, sample_user_data):
         """Test updating last login defaults to current time"""
         user = User(**sample_user_data)
-        before_update = datetime.now(timezone.utc)
+        before_update = datetime.now(UTC)
         
         user.update_last_login()
         
-        after_update = datetime.now(timezone.utc)
+        after_update = datetime.now(UTC)
         assert before_update <= user.last_login <= after_update
     
     def test_user_activate(self, sample_user_data):

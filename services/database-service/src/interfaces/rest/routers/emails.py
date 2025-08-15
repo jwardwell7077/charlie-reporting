@@ -11,8 +11,8 @@ from uuid import UUID
 from fastapi import APIRouter, Depends, HTTPException, Request
 from pydantic import BaseModel
 
-from ....domain.models.email_record import EmailRecord, EmailStatus
 from ....business.services.email_service import EmailService
+from ....domain.models.email_record import EmailRecord, EmailStatus
 
 router = APIRouter()
 
@@ -36,7 +36,7 @@ class EmailResponse(BaseModel):
     status: EmailStatus
 
     @classmethod
-    def from_domain(cls, rec: EmailRecord) -> "EmailResponse":
+    def from_domain(cls, rec: EmailRecord) -> EmailResponse:
         return cls(
             id=rec.id,
             message_id=rec.message_id,

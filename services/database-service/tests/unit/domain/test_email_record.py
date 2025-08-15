@@ -1,15 +1,15 @@
-"""
-Unit tests for EmailRecord domain model.
+"""Unit tests for EmailRecord domain model.
 Following TDD - these tests are written BEFORE implementation.
 """
 
-import pytest
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from unittest.mock import MagicMock
 from uuid import UUID
 
-from src.domain.models.email_record import EmailRecord, EmailStatus, EmailPriority
+import pytest
+
 from src.domain.models.attachment import Attachment
+from src.domain.models.email_record import EmailPriority, EmailRecord, EmailStatus
 
 
 class TestEmailRecord:
@@ -27,8 +27,8 @@ class TestEmailRecord:
             "bcc_recipients": ["bcc@example.com"],
             "body_text": "This is the email body content.",
             "body_html": "<p>This is the email body content.</p>",
-            "sent_date": datetime(2025, 7, 29, 10, 0, 0, tzinfo=timezone.utc),
-            "received_date": datetime(2025, 7, 29, 10, 1, 0, tzinfo=timezone.utc),
+            "sent_date": datetime(2025, 7, 29, 10, 0, 0, tzinfo=UTC),
+            "received_date": datetime(2025, 7, 29, 10, 1, 0, tzinfo=UTC),
             "priority": EmailPriority.NORMAL,
             "status": EmailStatus.RECEIVED
         }

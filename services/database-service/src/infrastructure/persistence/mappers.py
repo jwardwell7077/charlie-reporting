@@ -1,23 +1,21 @@
-"""
-Domain-to-ORM Mappers.
+"""Domain-to-ORM Mappers.
 Convert between Pydantic domain models and SQLAlchemy ORM models.
 """
 
-from typing import List, Optional
 
+from ...domain.models.attachment import Attachment
 from ...domain.models.email_record import (
+    EmailPriority,
     EmailRecord,
     EmailStatus,
-    EmailPriority,
 )
-from ...domain.models.attachment import Attachment
+from ...domain.models.report import Report, ReportStatus, ReportType
 from ...domain.models.user import User, UserRole, UserStatus
-from ...domain.models.report import Report, ReportType, ReportStatus
 from .models.email_models import (
-    EmailRecordORM,
     AttachmentORM,
-    UserORM,
+    EmailRecordORM,
     ReportORM,
+    UserORM,
 )
 
 
@@ -149,7 +147,7 @@ class ReportMapper:
     def to_domain(
         orm_model: ReportORM,
         created_by_user: User,
-        email_records: Optional[List[EmailRecord]] = None,
+        email_records: list[EmailRecord] | None = None,
     ) -> Report:
         return Report(
             id=orm_model.id,

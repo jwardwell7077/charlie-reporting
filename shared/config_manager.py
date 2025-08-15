@@ -1,60 +1,61 @@
 
-"""
-config_loader.py
+"""config_loader.py
 ----------------
-Loads and provides access to TOML-based configuration for the reporting pipeline.
+Loads and provides access to TOML - based configuration for the reporting pipeline.
 
-Author: Jonathan Wardwell, Copilot, GPT-4o
+Author: Jonathan Wardwell, Copilot, GPT - 4o
 License: MIT
 """
 
-import tomllib
 import os
-from .logging_utils import LoggerFactory
+import tomllib
+
+from shared.service_logging import configure_logging, get_logger
+
 
 class ConfigLoader:
-    """
-    Loads and provides access to TOML configuration for the reporting pipeline.
+    """Loads and provides access to TOML configuration for the reporting pipeline.
     Exposes sections as properties and provides compatibility with legacy config access patterns.
     """
-    def __init__(self, config_path=None):
-        self.logger = LoggerFactory.get_logger('config_loader', 'main.log')
+    def __init__(self, config_path: str | None = None):
+        configure_logging()
+        self.logger = get_logger('config_loader')
         self.logger.debug("ConfigLoader.__init__: Starting initialization")
-        
+
         if config_path is None:
             config_path = os.path.join(os.getcwd(), 'config', 'config.toml')
         self.config_path = config_path
-        self.logger.debug(f"ConfigLoader.__init__: config_path={config_path}")
-        
+        self.logger.debug(f"ConfigLoader.__init__: config_path={self.config_path}")
+
         with open(self.config_path, 'rb') as f:
-            self._config = tomllib.load(f)
+            self.config = tomllib.load(f)
         self.logger.debug("ConfigLoader.__init__: Configuration loaded successfully")
         self.logger.debug("ConfigLoader.__init__: Initialization complete")
 
     @property
     def general(self):
         """General settings from the config (dict)."""
-        return self._config.get('general', {})
+        return self.config.get('general', {})
 
     @property
     def email(self):
-        """Email-related settings from the config (dict)."""
-        return self._config.get('email', {})
+        """Email - related settings from the config (dict)."""
+        return self.config.get('email', {})
 
     @property
     def output(self):
-        """Output-related settings from the config (dict)."""
-        return self._config.get('output', {})
+        """Output - related settings from the config (dict)."""
+        return self.config.get('output', {})
 
     @property
     def attachments(self):
         """Attachment rules from the config (dict)."""
-        return self._config.get('attachments', {})
+        return self.config.get('attachments', {})
 
     @property
     def directory_scan(self):
         """Directory scanning settings from the config (dict)."""
-        return self._config.get('directory_scan', {})
+        return self.config.get('directory_scan', {})
 
     @property
     def global_filter(self):

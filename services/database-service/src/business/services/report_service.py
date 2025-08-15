@@ -1,15 +1,14 @@
-"""
-Report Business Service.
+"""Report Business Service.
 Handles report generation workflows and business rules.
 """
 
-from datetime import datetime
-from typing import List, Optional, Dict, Any
 import logging
+from datetime import datetime
+from typing import Any
 
 from ...domain.models.email_record import EmailRecord, EmailStatus
+from ...domain.models.report import Report, ReportStatus, ReportType
 from ...domain.models.user import User
-from ...domain.models.report import Report, ReportType, ReportStatus
 from ...domain.repositories.email_repository_interface import (
     EmailRepositoryInterface,
 )
@@ -26,7 +25,7 @@ class ReportService:
         self,
         email_repository: EmailRepositoryInterface,
         db_connection: DatabaseConnection,
-        logger: Optional[logging.Logger] = None,
+        logger: logging.Logger | None = None,
     ):
         self._email_repository = email_repository
         self._db_connection = db_connection
@@ -37,7 +36,7 @@ class ReportService:
         created_by: User,
         title: str,
         description: str = "",
-        email_criteria: Optional[Dict[str, Any]] = None,
+        email_criteria: dict[str, Any] | None = None,
         report_type: ReportType = ReportType.DAILY,
     ) -> Report:
         """Create a new email summary report."""
@@ -104,9 +103,9 @@ class ReportService:
 
         return report
 
-    async def get_report_statistics(self, report: Report) -> Dict[str, Any]:
+    async def get_report_statistics(self, report: Report) -> dict[str, Any]:
         """Generate statistics for a report."""
-        stats: Dict[str, Any] = {
+        stats: dict[str, Any] = {
             "total_emails": len(report.email_records),
             "by_status": {},
             "by_priority": {},
@@ -127,7 +126,7 @@ class ReportService:
                 stats["by_priority"].get(priority, 0) + 1
             )
 
-        sender_counts: Dict[str, int] = {}
+        sender_counts: dict[str, int] = {}
         for email in report.email_records:
             sender = email.sender
             sender_counts[sender] = sender_counts.get(sender, 0) + 1
@@ -142,15 +141,15 @@ class ReportService:
         return stats
 
     async def _get_emails_by_criteria(
-        self, criteria: Dict[str, Any]
-    ) -> List[EmailRecord]:
+        self, criteria: dict[str, Any]
+    ) -> list[EmailRecord]:
         """Get emails based on filtering criteria."""
         self._logger.debug("Filtering emails with criteria: %s", criteria)
 
         if not criteria:
             return await self._email_repository.list_all()
 
-        emails: List[EmailRecord] = []
+        emails: list[EmailRecord] = []
 
         if "sender" in criteria:
             emails.extend(
@@ -186,20 +185,20 @@ class ReportService:
             emails = await self._email_repository.list_all()
         return emails
 
-    async def _generate_daily_summary(self, emails: List[EmailRecord]) -> str:
+    async def _generate_daily_summary(self, emails: list[EmailRecord]) -> str:
         self._logger.debug("Generating daily summary")
         return f"Daily Summary: {len(emails)} emails processed"
 
-    async def _generate_weekly_summary(self, emails: List[EmailRecord]) -> str:
+    async def _generate_weekly_summary(self, emails: list[EmailRecord]) -> str:
         self._logger.debug("Generating weekly summary")
         return f"Weekly Summary: {len(emails)} emails processed"
 
     async def _generate_monthly_summary(
-        self, emails: List[EmailRecord]
+        self, emails: list[EmailRecord]
     ) -> str:
         self._logger.debug("Generating monthly summary")
         return f"Monthly Summary: {len(emails)} emails processed"
 
-    async def _generate_custom_summary(self, emails: List[EmailRecord]) -> str:
+    async def _generate_custom_summary(self, emails: list[EmailRecord]) -> str:
         self._logger.debug("Generating custom summary")
         return f"Custom Summary: {len(emails)} emails processed"

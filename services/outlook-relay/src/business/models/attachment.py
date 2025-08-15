@@ -1,20 +1,20 @@
-"""
-Attachment domain model for outlook-relay
+"""Attachment domain model for outlook - relay
 """
 
 from dataclasses import dataclass
-from typing import Optional, List
 from datetime import datetime
 
+
 @dataclass
+
+
 class Attachment:
-    """
-    Attachment domain model
+    """Attachment domain model
     TODO: Define attributes and methods
     """
-    
-    id: Optional[str] = None
-    created_at: Optional[datetime] = None
-    updated_at: Optional[datetime] = None
-    
-    # TODO: Add domain-specific attributes
+
+    id: str | None = None
+    created_at: datetime | None = None
+    updated_at: datetime | None = None
+
+    # TODO: Add domain - specific attributes

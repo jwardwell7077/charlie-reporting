@@ -1,15 +1,14 @@
+"""Tests for Email Business Service.
 """
-Tests for Email Business Service.
-"""
+
+from datetime import datetime
+from unittest.mock import AsyncMock
+from uuid import uuid4
 
 import pytest
-from datetime import datetime
-from uuid import uuid4
-from unittest.mock import AsyncMock, MagicMock
 
-from src.domain.models.email_record import EmailRecord, EmailStatus, EmailPriority
-from src.domain.models.user import User, UserRole, UserStatus
 from src.business.services.email_service import EmailService
+from src.domain.models.email_record import EmailPriority, EmailRecord, EmailStatus
 
 
 class TestEmailService:

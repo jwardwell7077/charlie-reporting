@@ -1,14 +1,13 @@
-"""
-User domain model.
+"""User domain model.
 Represents system users with roles and authentication.
 """
 
 import re
+from datetime import UTC, datetime
 from enum import Enum
 from uuid import UUID, uuid4
-from pydantic import BaseModel, Field, field_validator, ConfigDict
-from typing import Optional
-from datetime import datetime, timezone
+
+from pydantic import BaseModel, ConfigDict, Field, field_validator
 
 
 class UserRole(Enum):
@@ -37,10 +36,10 @@ class User(BaseModel):
     last_name: str = ""
     role: UserRole = UserRole.USER
     status: UserStatus = UserStatus.ACTIVE
-    last_login: Optional[datetime] = None
+    last_login: datetime | None = None
     id: UUID = Field(default_factory=uuid4)
     created_at: datetime = Field(
-        default_factory=lambda: datetime.now(timezone.utc)
+        default_factory=lambda: datetime.now(UTC)
     )
 
     model_config = ConfigDict(
@@ -90,9 +89,9 @@ class User(BaseModel):
     def is_active(self) -> bool:
         return self.status == UserStatus.ACTIVE
 
-    def update_last_login(self, login_time: Optional[datetime] = None) -> None:
+    def update_last_login(self, login_time: datetime | None = None) -> None:
         if login_time is None:
-            login_time = datetime.now(timezone.utc)
+            login_time = datetime.now(UTC)
         self.last_login = login_time
 
     def activate(self) -> None:

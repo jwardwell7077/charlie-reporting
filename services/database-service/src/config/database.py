@@ -1,11 +1,11 @@
-"""
-Database configuration module for database-service
+"""Database configuration module for database-service
 """
 
-from pydantic import BaseModel, Field, field_validator, model_validator
-from typing import Dict, Any
-from urllib.parse import urlparse
 import os
+from typing import Any
+from urllib.parse import urlparse
+
+from pydantic import BaseModel, Field, field_validator, model_validator
 
 
 class DatabaseConfig(BaseModel):
@@ -152,7 +152,7 @@ class DatabaseConfig(BaseModel):
             kwargs.setdefault("database_echo", True)
         super().__init__(**kwargs)
 
-    def to_connection_params(self) -> Dict[str, Any]:
+    def to_connection_params(self) -> dict[str, Any]:
         return {
             "url": self.database_url,
             "pool_size": self.database_pool_size,
@@ -174,7 +174,7 @@ class DatabaseConfig(BaseModel):
         if pool_size > 1 and max_overflow < pool_size:
             max_overflow = pool_size
         return cls(
-            database_url=getattr(service_config, "database_url"),
+            database_url=service_config.database_url,
             database_pool_size=pool_size,
             database_max_overflow=max_overflow,
             database_pool_timeout=getattr(
@@ -198,7 +198,7 @@ class DatabaseConfig(BaseModel):
 
     def model_dump(
         self, **kwargs: Any
-    ) -> Dict[str, Any]:  # type: ignore[override]
+    ) -> dict[str, Any]:  # type: ignore[override]
         data = super().model_dump(**kwargs)
         data["database_url"] = self._mask_password(data["database_url"])
         return data

@@ -1,11 +1,10 @@
-"""
-Attachment domain model.
+"""Attachment domain model.
 Represents email attachments with file metadata.
 """
+from datetime import UTC, datetime
 from uuid import UUID, uuid4
+
 from pydantic import BaseModel, Field, validator
-from typing import Optional
-from datetime import datetime, timezone
 
 
 class Attachment(BaseModel):
@@ -14,12 +13,12 @@ class Attachment(BaseModel):
     filename: str
     content_type: str
     size_bytes: int
-    file_path: Optional[str] = None
-    content_id: Optional[str] = None  # For inline attachments
+    file_path: str | None = None
+    content_id: str | None = None  # For inline attachments
     is_inline: bool = False
     id: UUID = Field(default_factory=uuid4)
     created_at: datetime = Field(
-        default_factory=lambda: datetime.now(timezone.utc)
+        default_factory=lambda: datetime.now(UTC)
     )
 
     class Config:  # type: ignore

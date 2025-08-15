@@ -1,21 +1,14 @@
-"""
-Unit tests for database migration system.
+"""Unit tests for database migration system.
 Following TDD - these tests are written BEFORE implementation.
 """
 
-import pytest
-import asyncio
-from unittest.mock import AsyncMock, MagicMock, patch, mock_open
 from pathlib import Path
-from typing import List, Dict, Any
+from unittest.mock import AsyncMock, MagicMock, patch
 
-from src.infrastructure.persistence.migrations import (
-    MigrationManager,
-    Migration,
-    MigrationState,
-    MigrationError
-)
+import pytest
+
 from src.config.settings import DatabaseServiceConfig
+from src.infrastructure.persistence.migrations import Migration, MigrationError, MigrationManager, MigrationState
 
 
 class TestMigration:
@@ -183,7 +176,7 @@ DROP TABLE emails;
             # Mock file discovery
             mock_files = [
                 Path(f"migrations/{name}") 
-                for name in mock_migration_files.keys()
+                for name in mock_migration_files
             ]
             mock_glob.return_value = mock_files
             

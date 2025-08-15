@@ -1,20 +1,20 @@
-"""
-Execution domain model for scheduler-service
+"""Execution domain model for scheduler - service
 """
 
 from dataclasses import dataclass
-from typing import Optional, List
 from datetime import datetime
 
+
 @dataclass
+
+
 class Execution:
-    """
-    Execution domain model
+    """Execution domain model
     TODO: Define attributes and methods
     """
-    
-    id: Optional[str] = None
-    created_at: Optional[datetime] = None
-    updated_at: Optional[datetime] = None
-    
-    # TODO: Add domain-specific attributes
+
+    id: str | None = None
+    created_at: datetime | None = None
+    updated_at: datetime | None = None
+
+    # TODO: Add domain - specific attributes

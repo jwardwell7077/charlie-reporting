@@ -31,6 +31,28 @@ This project follows two core engineering principles:
 - ✅ Pytest framework with comprehensive fixtures and mocks
 - ❌ Manual terminal testing for validation (automated only)
 
+### **3. Code Quality & Standards**
+
+- **🐍 PEP 8 Compliance**: All code follows Python style guidelines
+- **🔍 Flake8 Linting**: Zero tolerance policy for linting errors
+- **📏 Line Length**: Maximum 88 characters (Black-compatible)
+- **🏷️ Type Hints**: Required for all public methods and functions
+- **📝 Docstrings**: Comprehensive documentation for public APIs
+- **🔄 Pre-commit Hooks**: Automated code quality checks before commits
+
+**Code Quality Tools**:
+
+```bash
+# Run Flake8 linting on entire project
+flake8 .
+
+# Run on specific service
+flake8 services/report-generator/
+
+# Check specific file
+flake8 services/email-service/email_processor.py
+```
+
 ## 📖 **Project Documentation**
 
 - **[Development Diary](docs/development-diary.md)**: Complete journey from desktop app to microservices architecture
@@ -41,20 +63,39 @@ This project follows two core engineering principles:
 ## 🚀 Quick Start
 
 ```bash
-# Run the main application
-python3 run.py
+# Create / update local venv (first time)
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
 
-# Run tests across all services
-python3 scripts/test_runner.py
+# Enforced: will abort if not using ./.venv (sitecustomize)
+python run.py
 
-# Start development services
-python3 scripts/start_dev_services.py
+# Run tests (always via project python)
+./.venv/bin/python -m pytest
 ```
+
+### 🔒 Interpreter Enforcement
+
+The project guarantees the correct Python interpreter (.venv) is used:
+
+- `sitecustomize.py` aborts any Python process using a non-project interpreter.
+- `scripts/ensure_project_venv.py` is a reusable assertion (import or run standalone).
+- Optional `direnv` support via `.envrc` to auto-activate the venv on entering the directory.
+- `pre-commit-venv-check.sh` (symlink into `.git/hooks/pre-commit`) blocks commits from the wrong env.
+
+To enable pre-commit enforcement:
+
+```bash
+ln -s ../../pre-commit-venv-check.sh .git/hooks/pre-commit
+```
+
+If you accidentally run `pytest` from a global env, it will terminate immediately with a clear message.
 
 ## 📁 Project Structure
 
 ├── services/              # Microservices
-│   ├── report_generator/   # CSV processing & Excel generation
+│   ├── report-generator/   # CSV processing & Excel generation (TDD-refactored)
 │   ├── email-service/      # Email processing
 │   ├── outlook-relay/      # Outlook integration
 │   ├── database-service/   # Data persistence
@@ -105,7 +146,7 @@ This system follows a modern microservices architecture:
 python3 scripts/test_runner.py
 
 # Run tests for specific service
-python3 scripts/test_runner.py --service report_generator
+python3 scripts/test_runner.py --service report-generator
 
 # Run specific test types
 python3 scripts/test_runner.py --type unit

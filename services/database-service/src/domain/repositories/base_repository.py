@@ -1,11 +1,9 @@
-"""
-Abstract base repository defining the repository interface.
+"""Abstract base repository defining the repository interface.
 All concrete repositories must implement these methods.
 """
 
 from abc import ABC, abstractmethod
 from uuid import UUID
-from typing import List, Optional
 
 
 class BaseRepository(ABC):
@@ -18,12 +16,12 @@ class BaseRepository(ABC):
         pass
 
     @abstractmethod
-    async def get_by_id(self, entity_id: UUID) -> Optional[object]:
+    async def get_by_id(self, entity_id: UUID) -> object | None:
         """Get an entity by its ID"""
         pass
 
     @abstractmethod
-    async def update(self, entity) -> Optional[object]:
+    async def update(self, entity) -> object | None:
         """Update an existing entity"""
         pass
 
@@ -33,7 +31,7 @@ class BaseRepository(ABC):
         pass
 
     @abstractmethod
-    async def list_all(self) -> List[object]:
+    async def list_all(self) -> list[object]:
         """List all entities in the repository"""
         pass
 

@@ -1,16 +1,16 @@
-"""
-Unit tests for database connection infrastructure.
+"""Unit tests for database connection infrastructure.
 Following TDD - these tests are written BEFORE implementation.
 """
 
-import pytest
 import asyncio
-from unittest.mock import AsyncMock, MagicMock, patch
-from sqlalchemy.ext.asyncio import AsyncSession, AsyncEngine
-from sqlalchemy.exc import SQLAlchemyError
+from unittest.mock import AsyncMock, patch
 
-from src.infrastructure.persistence.database import DatabaseConnection
+import pytest
+from sqlalchemy.exc import SQLAlchemyError
+from sqlalchemy.ext.asyncio import AsyncEngine, AsyncSession
+
 from src.config.settings import DatabaseServiceConfig
+from src.infrastructure.persistence.database import DatabaseConnection
 
 
 class TestDatabaseConnection:

@@ -1,7 +1,8 @@
-import pytest
-from httpx import AsyncClient, ASGITransport
-from datetime import datetime, timezone
 import uuid
+from datetime import UTC, datetime
+
+import pytest
+from httpx import ASGITransport, AsyncClient
 
 from src.interfaces.rest.main import app
 
@@ -18,7 +19,7 @@ async def test_create_email_persists_and_returns_payload():
             "subject": "Test Subject",
             "sender": "sender@example.com",
             "recipients": ["a@example.com", "b@example.com"],
-            "sent_date": datetime.now(timezone.utc).isoformat(),
+            "sent_date": datetime.now(UTC).isoformat(),
             "body_text": "Hello",
         }
         resp = await client.post("/api/v1/emails/", json=payload)
@@ -73,7 +74,7 @@ async def test_list_emails_returns_created_items():
                 "subject": f"Sub {i}",
                 "sender": "list@example.com",
                 "recipients": ["x@example.com"],
-                "sent_date": datetime.now(timezone.utc).isoformat(),
+                "sent_date": datetime.now(UTC).isoformat(),
                 "body_text": "Body",
             }
             resp = await client.post("/api/v1/emails/", json=payload)
@@ -100,7 +101,7 @@ async def test_create_duplicate_message_id_returns_409():
             "subject": "First",
             "sender": "dup@example.com",
             "recipients": ["r@example.com"],
-            "sent_date": datetime.now(timezone.utc).isoformat(),
+            "sent_date": datetime.now(UTC).isoformat(),
             "body_text": "One",
         }
         r1 = await client.post("/api/v1/emails/", json=payload)

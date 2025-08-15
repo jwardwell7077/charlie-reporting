@@ -1,0 +1,496 @@
+Date : 2025-07-29 18:39:18
+Directory : /home/jon/repos/charlie-reporting
+Total : 335 files,  10983 codes, 1712 comments, 3557 blanks, all 16252 lines
+
+Languages
++------------------+------------+------------+------------+------------+------------+
+| language         | files      | code       | comment    | blank      | total      |
++------------------+------------+------------+------------+------------+------------+
+| Python           |        254 |      6,867 |      1,739 |      1,762 |     10,368 |
+| Markdown         |         54 |      4,282 |          0 |      1,851 |      6,133 |
+| JSON             |          1 |         52 |          0 |          0 |         52 |
+| Ini              |          2 |         41 |          0 |          6 |         47 |
+| pip requirements |          1 |         13 |          5 |          5 |         23 |
+| PowerShell       |          2 |          0 |          0 |          0 |          0 |
+| Batch            |          6 |          0 |          0 |          0 |          0 |
+| Shell Script     |          4 |          0 |          0 |          0 |          0 |
+| TOML             |         11 |       -272 |        -32 |        -67 |       -371 |
++------------------+------------+------------+------------+------------+------------+
+
+Directories
++---------------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                                                                      | files      | code       | comment    | blank      | total      |
++---------------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                                                         |        335 |     10,983 |      1,712 |      3,557 |     16,252 |
+| . (Files)                                                                                                                 |         32 |     -3,888 |       -317 |       -631 |     -4,836 |
+| archive                                                                                                                   |         60 |      6,524 |      1,040 |      1,265 |      8,829 |
+| archive/debug                                                                                                             |          5 |        126 |         28 |         44 |        198 |
+| archive/demos                                                                                                             |          2 |        104 |         22 |         33 |        159 |
+| archive/deprecated                                                                                                        |         50 |      6,125 |        979 |      1,142 |      8,246 |
+| archive/deprecated (Files)                                                                                                |          2 |        531 |        108 |        137 |        776 |
+| archive/deprecated/phase1-demos                                                                                           |         48 |      5,594 |        871 |      1,005 |      7,470 |
+| archive/deprecated/phase1-demos (Files)                                                                                   |          1 |        166 |          0 |         40 |        206 |
+| archive/deprecated/phase1-demos/demos                                                                                     |          6 |      1,382 |        183 |        294 |      1,859 |
+| archive/deprecated/phase1-demos/run_scripts                                                                               |         41 |      4,046 |        688 |        671 |      5,405 |
+| archive/deprecated/phase1-demos/run_scripts (Files)                                                                       |         21 |      1,021 |        206 |        209 |      1,436 |
+| archive/deprecated/phase1-demos/run_scripts/data_generation                                                               |          1 |        295 |         53 |         81 |        429 |
+| archive/deprecated/phase1-demos/run_scripts/debugging                                                                     |          1 |         72 |         18 |         19 |        109 |
+| archive/deprecated/phase1-demos/run_scripts/email_senders                                                                 |         14 |      2,437 |        315 |        303 |      3,055 |
+| archive/deprecated/phase1-demos/run_scripts/email_senders (Files)                                                         |          4 |        295 |         51 |         51 |        397 |
+| archive/deprecated/phase1-demos/run_scripts/email_senders/archive                                                         |         10 |      2,142 |        264 |        252 |      2,658 |
+| archive/deprecated/phase1-demos/run_scripts/testing                                                                       |          4 |        221 |         96 |         59 |        376 |
+| archive/migration                                                                                                         |          3 |        169 |         11 |         46 |        226 |
+| config                                                                                                                    |          2 |        -28 |         -4 |         -9 |        -41 |
+| demo                                                                                                                      |         43 |     -4,254 |       -690 |       -720 |     -5,664 |
+| demo (Files)                                                                                                              |          2 |       -208 |         -2 |        -49 |       -259 |
+| demo/run_scripts                                                                                                          |         41 |     -4,046 |       -688 |       -671 |     -5,405 |
+| demo/run_scripts (Files)                                                                                                  |         21 |     -1,021 |       -206 |       -209 |     -1,436 |
+| demo/run_scripts/data_generation                                                                                          |          1 |       -295 |        -53 |        -81 |       -429 |
+| demo/run_scripts/debugging                                                                                                |          1 |        -72 |        -18 |        -19 |       -109 |
+| demo/run_scripts/email_senders                                                                                            |         14 |     -2,437 |       -315 |       -303 |     -3,055 |
+| demo/run_scripts/email_senders (Files)                                                                                    |          4 |       -295 |        -51 |        -51 |       -397 |
+| demo/run_scripts/email_senders/archive                                                                                    |         10 |     -2,142 |       -264 |       -252 |     -2,658 |
+| demo/run_scripts/testing                                                                                                  |          4 |       -221 |        -96 |        -59 |       -376 |
+| demos                                                                                                                     |          6 |     -1,382 |       -183 |       -294 |     -1,859 |
+| docs                                                                                                                      |         33 |      6,085 |          0 |      1,992 |      8,077 |
+| docs (Files)                                                                                                              |          7 |      1,138 |          0 |        434 |      1,572 |
+| docs/architecture                                                                                                         |          9 |      2,677 |          0 |        521 |      3,198 |
+| docs/deliverables                                                                                                         |          6 |        874 |          0 |        431 |      1,305 |
+| docs/phase-plans                                                                                                          |          4 |        866 |          0 |        298 |      1,164 |
+| docs/project-wiki                                                                                                         |          2 |          0 |          0 |         47 |         47 |
+| docs/sprint-reviews                                                                                                       |          5 |        530 |          0 |        261 |        791 |
+| legacy_backup                                                                                                             |          9 |      1,129 |        496 |        364 |      1,989 |
+| legacy_backup/20250728_235459                                                                                             |          9 |      1,129 |        496 |        364 |      1,989 |
+| legacy_backup/20250728_235459/src                                                                                         |          9 |      1,129 |        496 |        364 |      1,989 |
+| logs                                                                                                                      |          1 |         52 |          0 |          0 |         52 |
+| scripts                                                                                                                   |         13 |      2,079 |        383 |        483 |      2,945 |
+| services                                                                                                                  |         78 |      6,230 |      1,719 |      1,895 |      9,844 |
+| services (Files)                                                                                                          |          1 |         32 |          0 |         17 |         49 |
+| services/database-service                                                                                                 |          7 |         -9 |          7 |          0 |         -2 |
+| services/database-service/config                                                                                          |          3 |        -40 |         -8 |        -14 |        -62 |
+| services/database-service/src                                                                                             |          2 |         25 |          8 |         10 |         43 |
+| services/database-service/src/config                                                                                      |          2 |         25 |          8 |         10 |         43 |
+| services/database-service/tests                                                                                           |          2 |          6 |          7 |          4 |         17 |
+| services/database-service/tests (Files)                                                                                   |          1 |          6 |          6 |          4 |         16 |
+| services/database-service/tests/api                                                                                       |          1 |          0 |          1 |          0 |          1 |
+| services/email-service                                                                                                    |         15 |        489 |         92 |        156 |        737 |
+| services/email-service (Files)                                                                                            |          1 |        268 |         36 |         59 |        363 |
+| services/email-service/config                                                                                             |          3 |        -40 |         -8 |        -14 |        -62 |
+| services/email-service/src                                                                                                |          8 |        261 |         67 |        114 |        442 |
+| services/email-service/src/config                                                                                         |          2 |         25 |          8 |         10 |         43 |
+| services/email-service/src/tests                                                                                          |          6 |        236 |         59 |        104 |        399 |
+| services/email-service/src/tests (Files)                                                                                  |          3 |        236 |         56 |        102 |        394 |
+| services/email-service/src/tests/api                                                                                      |          1 |          0 |          1 |          0 |          1 |
+| services/email-service/src/tests/integration                                                                              |          1 |          0 |          1 |          1 |          2 |
+| services/email-service/src/tests/unit                                                                                     |          1 |          0 |          1 |          1 |          2 |
+| services/email-service/tests                                                                                              |          3 |          0 |         -3 |         -3 |         -6 |
+| services/email-service/tests (Files)                                                                                      |          1 |          0 |         -1 |         -1 |         -2 |
+| services/email-service/tests/integration                                                                                  |          1 |          0 |         -1 |         -1 |         -2 |
+| services/email-service/tests/unit                                                                                         |          1 |          0 |         -1 |         -1 |         -2 |
+| services/outlook-relay                                                                                                    |          4 |        252 |         73 |        112 |        437 |
+| services/outlook-relay (Files)                                                                                            |          1 |          0 |          0 |          9 |          9 |
+| services/outlook-relay/config                                                                                             |          1 |        -15 |          0 |         -4 |        -19 |
+| services/outlook-relay/tests                                                                                              |          2 |        267 |         73 |        107 |        447 |
+| services/outlook-relay/tests (Files)                                                                                      |          1 |        267 |         74 |        108 |        449 |
+| services/outlook-relay/tests/unit                                                                                         |          1 |          0 |         -1 |         -1 |         -2 |
+| services/report-generator                                                                                                 |         43 |      3,934 |      1,172 |      1,177 |      6,283 |
+| services/report-generator (Files)                                                                                         |          3 |        186 |         32 |         55 |        273 |
+| services/report-generator/config                                                                                          |          3 |        -40 |         -8 |        -14 |        -62 |
+| services/report-generator/infrastructure                                                                                  |          7 |        489 |        330 |        168 |        987 |
+| services/report-generator/infrastructure (Files)                                                                          |          1 |          0 |          1 |          1 |          2 |
+| services/report-generator/infrastructure/config                                                                           |          1 |         73 |         63 |         25 |        161 |
+| services/report-generator/infrastructure/excel                                                                            |          1 |        107 |         56 |         33 |        196 |
+| services/report-generator/infrastructure/filesystem                                                                       |          2 |        106 |        111 |         45 |        262 |
+| services/report-generator/infrastructure/logging                                                                          |          2 |        203 |         99 |         64 |        366 |
+| services/report-generator/src                                                                                             |         22 |      2,182 |        546 |        594 |      3,322 |
+| services/report-generator/src (Files)                                                                                     |          3 |       -166 |        -35 |        -53 |       -254 |
+| services/report-generator/src/api                                                                                         |          1 |          0 |          0 |          1 |          1 |
+| services/report-generator/src/api/routes                                                                                  |          1 |          0 |          0 |          1 |          1 |
+| services/report-generator/src/business                                                                                    |          5 |        749 |        233 |        203 |      1,185 |
+| services/report-generator/src/business (Files)                                                                            |          1 |         35 |         23 |         20 |         78 |
+| services/report-generator/src/business/interfaces                                                                         |          1 |         62 |         28 |         34 |        124 |
+| services/report-generator/src/business/models                                                                             |          2 |        270 |         75 |         70 |        415 |
+| services/report-generator/src/business/services                                                                           |          1 |        382 |        107 |         79 |        568 |
+| services/report-generator/src/config                                                                                      |          2 |         25 |          8 |         10 |         43 |
+| services/report-generator/src/infrastructure                                                                              |          3 |        721 |        171 |        202 |      1,094 |
+| services/report-generator/src/interface                                                                                   |          5 |        853 |        172 |        234 |      1,259 |
+| services/report-generator/src/interface (Files)                                                                           |          4 |        538 |        123 |        164 |        825 |
+| services/report-generator/src/interface/rest                                                                              |          1 |        315 |         49 |         70 |        434 |
+| services/report-generator/src/interfaces                                                                                  |          3 |          0 |         -3 |         -3 |         -6 |
+| services/report-generator/src/interfaces (Files)                                                                          |          1 |          0 |         -1 |         -1 |         -2 |
+| services/report-generator/src/interfaces/cli                                                                              |          1 |          0 |         -1 |         -1 |         -2 |
+| services/report-generator/src/interfaces/rest                                                                             |          1 |          0 |         -1 |         -1 |         -2 |
+| services/report-generator/tests                                                                                           |          8 |      1,117 |        272 |        374 |      1,763 |
+| services/report-generator/tests (Files)                                                                                   |          6 |        907 |        224 |        301 |      1,432 |
+| services/report-generator/tests/fixtures                                                                                  |          1 |         98 |         11 |         41 |        150 |
+| services/report-generator/tests/unit                                                                                      |          1 |        112 |         37 |         32 |        181 |
+| services/report_generator                                                                                                 |          6 |      1,547 |        374 |        437 |      2,358 |
+| services/report_generator (Files)                                                                                         |          3 |        762 |        191 |        208 |      1,161 |
+| services/report_generator/tests                                                                                           |          3 |        785 |        183 |        229 |      1,197 |
+| services/report_generator/tests (Files)                                                                                   |          1 |        203 |         46 |         64 |        313 |
+| services/report_generator/tests/unit                                                                                      |          2 |        582 |        137 |        165 |        884 |
+| services/scheduler-service                                                                                                |          2 |        -15 |          1 |         -4 |        -18 |
+| services/scheduler-service/config                                                                                         |          1 |        -15 |          0 |         -4 |        -19 |
+| services/scheduler-service/tests                                                                                          |          1 |          0 |          1 |          0 |          1 |
+| services/scheduler-service/tests/api                                                                                      |          1 |          0 |          1 |          0 |          1 |
+| shared                                                                                                                    |         18 |      1,719 |        635 |        511 |      2,865 |
+| shared (Files)                                                                                                            |          8 |         66 |         92 |         31 |        189 |
+| shared/tests                                                                                                              |         10 |      1,653 |        543 |        480 |      2,676 |
+| shared/tests (Files)                                                                                                      |          2 |        719 |         65 |        218 |      1,002 |
+| shared/tests/legacy                                                                                                       |          1 |        154 |         86 |         47 |        287 |
+| shared/tests/utils                                                                                                        |          7 |        780 |        392 |        215 |      1,387 |
+| src                                                                                                                       |          9 |     -1,129 |       -496 |       -360 |     -1,985 |
+| tests                                                                                                                     |         23 |     -3,207 |     -1,014 |     -1,105 |     -5,326 |
+| tests (Files)                                                                                                             |         11 |     -2,369 |       -613 |       -881 |     -3,863 |
+| tests/api                                                                                                                 |          1 |          0 |          0 |          1 |          1 |
+| tests/config                                                                                                              |          1 |        -58 |         -9 |        -13 |        -80 |
+| tests/integration                                                                                                         |          1 |          0 |          0 |          1 |          1 |
+| tests/services                                                                                                            |          2 |          0 |          0 |          2 |          2 |
+| tests/services/report-generator                                                                                           |          2 |          0 |          0 |          2 |          2 |
+| tests/utils                                                                                                               |          7 |       -780 |       -392 |       -215 |     -1,387 |
+| tools                                                                                                                     |          8 |      1,053 |        143 |        166 |      1,362 |
+| tools/development                                                                                                         |          1 |          9 |          8 |          4 |         21 |
+| tools/setup                                                                                                               |          7 |      1,044 |        135 |        162 |      1,341 |
++---------------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++---------------------------------------------------------------------------------------------------------------------------+------------------+------------+------------+------------+------------+
+| filename                                                                                                                  | language         | code       | comment    | blank      | total      |
++---------------------------------------------------------------------------------------------------------------------------+------------------+------------+------------+------------+------------+
+| /home/jon/repos/charlie-reporting/.copilot-context.md                                                                     | Markdown         |        204 |          0 |         96 |        300 |
+| /home/jon/repos/charlie-reporting/MULTI_REPO_STRUCTURE.md                                                                 | Markdown         |       -234 |          0 |        -39 |       -273 |
+| /home/jon/repos/charlie-reporting/PATHLIB_MIGRATION.md                                                                    | Markdown         |        -71 |          0 |        -24 |        -95 |
+| /home/jon/repos/charlie-reporting/PHASE-2-6-README.md                                                                     | Markdown         |        122 |          0 |         64 |        186 |
+| /home/jon/repos/charlie-reporting/README.md                                                                               | Markdown         |        -64 |          0 |          1 |        -63 |
+| /home/jon/repos/charlie-reporting/activate_env.bat                                                                        | Batch            |        -28 |         -6 |         -6 |        -40 |
+| /home/jon/repos/charlie-reporting/activate_env.ps1                                                                        | PowerShell       |        -53 |         -8 |         -9 |        -70 |
+| /home/jon/repos/charlie-reporting/activate_wsl2.sh                                                                        | Shell Script     |        -16 |         -5 |         -5 |        -26 |
+| /home/jon/repos/charlie-reporting/archive/debug/debug_email_time.py                                                       | Python           |          0 |          0 |          1 |          1 |
+| /home/jon/repos/charlie-reporting/archive/debug/debug_fetch_recent.py                                                     | Python           |         61 |         12 |         19 |         92 |
+| /home/jon/repos/charlie-reporting/archive/debug/debug_mock.py                                                             | Python           |         26 |          3 |          8 |         37 |
+| /home/jon/repos/charlie-reporting/archive/debug/debug_transformer.py                                                      | Python           |          0 |          0 |          1 |          1 |
+| /home/jon/repos/charlie-reporting/archive/debug/test_pathlib_changes.py                                                   | Python           |         39 |         13 |         15 |         67 |
+| /home/jon/repos/charlie-reporting/archive/demos/demo_new_features.py                                                      | Python           |         63 |         21 |         20 |        104 |
+| /home/jon/repos/charlie-reporting/archive/demos/fetch_csv_emails.py                                                       | Python           |         41 |          1 |         13 |         55 |
+| /home/jon/repos/charlie-reporting/archive/deprecated/phase1-demos/README.md                                               | Markdown         |        166 |          0 |         40 |        206 |
+| /home/jon/repos/charlie-reporting/archive/deprecated/phase1-demos/demos/demo_complete_integration.py                      | Python           |        415 |         32 |         13 |        460 |
+| /home/jon/repos/charlie-reporting/archive/deprecated/phase1-demos/demos/demo_configuration_management.py                  | Python           |        286 |         31 |         76 |        393 |
+| /home/jon/repos/charlie-reporting/archive/deprecated/phase1-demos/demos/demo_directory_scanning_feature.py                | Python           |        160 |         28 |         51 |        239 |
+| /home/jon/repos/charlie-reporting/archive/deprecated/phase1-demos/demos/demo_enhanced_excel_operations.py                 | Python           |        257 |         34 |         57 |        348 |
+| /home/jon/repos/charlie-reporting/archive/deprecated/phase1-demos/demos/demo_multiple_outlook_accounts.py                 | Python           |        199 |         40 |         74 |        313 |
+| /home/jon/repos/charlie-reporting/archive/deprecated/phase1-demos/demos/demo_real_time_hourly_processing.py               | Python           |         65 |         18 |         23 |        106 |
+| /home/jon/repos/charlie-reporting/archive/deprecated/phase1-demos/run_scripts/csv_email_sender.py                         | Python           |          0 |          0 |          1 |          1 |
+| /home/jon/repos/charlie-reporting/archive/deprecated/phase1-demos/run_scripts/data_generation/data_generator.py           | Python           |        295 |         53 |         81 |        429 |
+| /home/jon/repos/charlie-reporting/archive/deprecated/phase1-demos/run_scripts/data_generator.py                           | Python           |          0 |          0 |          1 |          1 |
+| /home/jon/repos/charlie-reporting/archive/deprecated/phase1-demos/run_scripts/debugging/simple_password_test.py           | Python           |         72 |         18 |         19 |        109 |
+| /home/jon/repos/charlie-reporting/archive/deprecated/phase1-demos/run_scripts/email_debug.py                              | Python           |          0 |          0 |          1 |          1 |
+| /home/jon/repos/charlie-reporting/archive/deprecated/phase1-demos/run_scripts/email_sender.py                             | Python           |          0 |          0 |          1 |          1 |
+| /home/jon/repos/charlie-reporting/archive/deprecated/phase1-demos/run_scripts/email_sender_auto.py                        | Python           |        441 |         34 |         28 |        503 |
+| /home/jon/repos/charlie-reporting/archive/deprecated/phase1-demos/run_scripts/email_sender_env.py                         | Python           |          0 |          0 |          1 |          1 |
+| /home/jon/repos/charlie-reporting/archive/deprecated/phase1-demos/run_scripts/email_sender_oauth.py                       | Python           |          0 |          0 |          1 |          1 |
+| /home/jon/repos/charlie-reporting/archive/deprecated/phase1-demos/run_scripts/email_sender_smtp.py                        | Python           |          0 |          0 |          1 |          1 |
+| /home/jon/repos/charlie-reporting/archive/deprecated/phase1-demos/run_scripts/email_senders/archive/csv_email_sender.py   | Python           |        122 |         12 |         12 |        146 |
+| /home/jon/repos/charlie-reporting/archive/deprecated/phase1-demos/run_scripts/email_senders/archive/email_debug.py        | Python           |         88 |         29 |         15 |        132 |
+| /home/jon/repos/charlie-reporting/archive/deprecated/phase1-demos/run_scripts/email_senders/archive/email_sender.py       | Python           |        204 |         43 |         25 |        272 |
+| /home/jon/repos/charlie-reporting/archive/deprecated/phase1-demos/run_scripts/email_senders/archive/email_sender_auto.py  | Python           |        441 |         34 |         28 |        503 |
+| /home/jon/repos/charlie-reporting/archive/deprecated/phase1-demos/run_scripts/email_senders/archive/email_sender_env.py   | Python           |        236 |         25 |         25 |        286 |
+| /home/jon/repos/charlie-reporting/archive/deprecated/phase1-demos/run_scripts/email_senders/archive/email_sender_fixed.py | Python           |        204 |         43 |         25 |        272 |
+| /home/jon/repos/charlie-reporting/archive/deprecated/phase1-demos/run_scripts/email_senders/archive/email_sender_oauth.py | Python           |        362 |         37 |         51 |        450 |
+| /home/jon/repos/charlie-reporting/archive/deprecated/phase1-demos/run_scripts/email_senders/archive/email_sender_smtp.py  | Python           |        367 |         23 |         44 |        434 |
+| /home/jon/repos/charlie-reporting/archive/deprecated/phase1-demos/run_scripts/email_senders/archive/quick_email_test.py   | Python           |         65 |         11 |         13 |         89 |
+| /home/jon/repos/charlie-reporting/archive/deprecated/phase1-demos/run_scripts/email_senders/archive/simple_email_debug.py | Python           |         53 |          7 |         14 |         74 |
+| /home/jon/repos/charlie-reporting/archive/deprecated/phase1-demos/run_scripts/email_senders/cleanup_email_senders.py      | Python           |         51 |         17 |         10 |         78 |
+| /home/jon/repos/charlie-reporting/archive/deprecated/phase1-demos/run_scripts/email_senders/focused_email_sender.py       | Python           |        120 |         13 |         11 |        144 |
+| /home/jon/repos/charlie-reporting/archive/deprecated/phase1-demos/run_scripts/email_senders/setup_secure_email.py         | Python           |         79 |         11 |         15 |        105 |
+| /home/jon/repos/charlie-reporting/archive/deprecated/phase1-demos/run_scripts/email_senders/simple_email_test.py          | Python           |         45 |         10 |         15 |         70 |
+| /home/jon/repos/charlie-reporting/archive/deprecated/phase1-demos/run_scripts/focused_email_sender.py                     | Python           |          0 |          0 |          1 |          1 |
+| /home/jon/repos/charlie-reporting/archive/deprecated/phase1-demos/run_scripts/manual_test.py                              | Python           |          0 |          0 |          1 |          1 |
+| /home/jon/repos/charlie-reporting/archive/deprecated/phase1-demos/run_scripts/master_demo.py                              | Python           |        229 |         36 |         51 |        316 |
+| /home/jon/repos/charlie-reporting/archive/deprecated/phase1-demos/run_scripts/master_end_to_end_demo.py                   | Python           |        266 |         57 |         87 |        410 |
+| /home/jon/repos/charlie-reporting/archive/deprecated/phase1-demos/run_scripts/quick_auth_test.py                          | Python           |          0 |          0 |          1 |          1 |
+| /home/jon/repos/charlie-reporting/archive/deprecated/phase1-demos/run_scripts/quick_email_test.py                         | Python           |          0 |          0 |          1 |          1 |
+| /home/jon/repos/charlie-reporting/archive/deprecated/phase1-demos/run_scripts/setup_secure_email.py                       | Python           |          0 |          0 |          1 |          1 |
+| /home/jon/repos/charlie-reporting/archive/deprecated/phase1-demos/run_scripts/shared_utils.py                             | Python           |         85 |         79 |         26 |        190 |
+| /home/jon/repos/charlie-reporting/archive/deprecated/phase1-demos/run_scripts/simple_email_debug.py                       | Python           |          0 |          0 |          1 |          1 |
+| /home/jon/repos/charlie-reporting/archive/deprecated/phase1-demos/run_scripts/simple_email_test.py                        | Python           |          0 |          0 |          1 |          1 |
+| /home/jon/repos/charlie-reporting/archive/deprecated/phase1-demos/run_scripts/simple_password_test.py                     | Python           |          0 |          0 |          1 |          1 |
+| /home/jon/repos/charlie-reporting/archive/deprecated/phase1-demos/run_scripts/test_email.bat                              | Batch            |          0 |          0 |          1 |          1 |
+| /home/jon/repos/charlie-reporting/archive/deprecated/phase1-demos/run_scripts/test_single_csv.py                          | Python           |          0 |          0 |          1 |          1 |
+| /home/jon/repos/charlie-reporting/archive/deprecated/phase1-demos/run_scripts/testing/manual_test.py                      | Python           |        102 |          8 |         18 |        128 |
+| /home/jon/repos/charlie-reporting/archive/deprecated/phase1-demos/run_scripts/testing/quick_auth_test.py                  | Python           |         31 |          9 |         11 |         51 |
+| /home/jon/repos/charlie-reporting/archive/deprecated/phase1-demos/run_scripts/testing/test_email.bat                      | Batch            |         17 |          0 |          6 |         23 |
+| /home/jon/repos/charlie-reporting/archive/deprecated/phase1-demos/run_scripts/testing/test_single_csv.py                  | Python           |         71 |         79 |         24 |        174 |
+| /home/jon/repos/charlie-reporting/archive/deprecated/rest_email_fetcher.py                                                | Python           |        264 |         66 |         72 |        402 |
+| /home/jon/repos/charlie-reporting/archive/deprecated/windows_email_service.py                                             | Python           |        267 |         42 |         65 |        374 |
+| /home/jon/repos/charlie-reporting/archive/migration/README_old.md                                                         | Markdown         |         77 |          0 |         21 |         98 |
+| /home/jon/repos/charlie-reporting/archive/migration/legacy_bridge.py                                                      | Python           |         32 |         11 |         12 |         55 |
+| /home/jon/repos/charlie-reporting/archive/migration/migration_report.md                                                   | Markdown         |         60 |          0 |         13 |         73 |
+| /home/jon/repos/charlie-reporting/common_service_architecture.md                                                          | Markdown         |       -471 |          0 |        -83 |       -554 |
+| /home/jon/repos/charlie-reporting/config/config.toml                                                                      | TOML             |        -28 |         -4 |         -8 |        -40 |
+| /home/jon/repos/charlie-reporting/config/settings.toml                                                                    | TOML             |          0 |          0 |         -1 |         -1 |
+| /home/jon/repos/charlie-reporting/config_example_rest_architecture.toml                                                   | TOML             |        -40 |        -17 |        -12 |        -69 |
+| /home/jon/repos/charlie-reporting/convert_wsl2_to_windows.py                                                              | Python           |       -407 |        -35 |        -46 |       -488 |
+| /home/jon/repos/charlie-reporting/debug_email_time.py                                                                     | Python           |          0 |          0 |         -1 |         -1 |
+| /home/jon/repos/charlie-reporting/debug_fetch_recent.py                                                                   | Python           |        -61 |        -12 |        -19 |        -92 |
+| /home/jon/repos/charlie-reporting/debug_mock.py                                                                           | Python           |        -26 |         -3 |         -8 |        -37 |
+| /home/jon/repos/charlie-reporting/debug_transformer.py                                                                    | Python           |          0 |          0 |         -1 |         -1 |
+| /home/jon/repos/charlie-reporting/demo/README.md                                                                          | Markdown         |       -166 |          0 |        -40 |       -206 |
+| /home/jon/repos/charlie-reporting/demo/config.toml                                                                        | TOML             |        -42 |         -2 |         -9 |        -53 |
+| /home/jon/repos/charlie-reporting/demo/run_scripts/csv_email_sender.py                                                    | Python           |          0 |          0 |         -1 |         -1 |
+| /home/jon/repos/charlie-reporting/demo/run_scripts/data_generation/data_generator.py                                      | Python           |       -295 |        -53 |        -81 |       -429 |
+| /home/jon/repos/charlie-reporting/demo/run_scripts/data_generator.py                                                      | Python           |          0 |          0 |         -1 |         -1 |
+| /home/jon/repos/charlie-reporting/demo/run_scripts/debugging/simple_password_test.py                                      | Python           |        -72 |        -18 |        -19 |       -109 |
+| /home/jon/repos/charlie-reporting/demo/run_scripts/email_debug.py                                                         | Python           |          0 |          0 |         -1 |         -1 |
+| /home/jon/repos/charlie-reporting/demo/run_scripts/email_sender.py                                                        | Python           |          0 |          0 |         -1 |         -1 |
+| /home/jon/repos/charlie-reporting/demo/run_scripts/email_sender_auto.py                                                   | Python           |       -441 |        -34 |        -28 |       -503 |
+| /home/jon/repos/charlie-reporting/demo/run_scripts/email_sender_env.py                                                    | Python           |          0 |          0 |         -1 |         -1 |
+| /home/jon/repos/charlie-reporting/demo/run_scripts/email_sender_oauth.py                                                  | Python           |          0 |          0 |         -1 |         -1 |
+| /home/jon/repos/charlie-reporting/demo/run_scripts/email_sender_smtp.py                                                   | Python           |          0 |          0 |         -1 |         -1 |
+| /home/jon/repos/charlie-reporting/demo/run_scripts/email_senders/archive/csv_email_sender.py                              | Python           |       -122 |        -12 |        -12 |       -146 |
+| /home/jon/repos/charlie-reporting/demo/run_scripts/email_senders/archive/email_debug.py                                   | Python           |        -88 |        -29 |        -15 |       -132 |
+| /home/jon/repos/charlie-reporting/demo/run_scripts/email_senders/archive/email_sender.py                                  | Python           |       -204 |        -43 |        -25 |       -272 |
+| /home/jon/repos/charlie-reporting/demo/run_scripts/email_senders/archive/email_sender_auto.py                             | Python           |       -441 |        -34 |        -28 |       -503 |
+| /home/jon/repos/charlie-reporting/demo/run_scripts/email_senders/archive/email_sender_env.py                              | Python           |       -236 |        -25 |        -25 |       -286 |
+| /home/jon/repos/charlie-reporting/demo/run_scripts/email_senders/archive/email_sender_fixed.py                            | Python           |       -204 |        -43 |        -25 |       -272 |
+| /home/jon/repos/charlie-reporting/demo/run_scripts/email_senders/archive/email_sender_oauth.py                            | Python           |       -362 |        -37 |        -51 |       -450 |
+| /home/jon/repos/charlie-reporting/demo/run_scripts/email_senders/archive/email_sender_smtp.py                             | Python           |       -367 |        -23 |        -44 |       -434 |
+| /home/jon/repos/charlie-reporting/demo/run_scripts/email_senders/archive/quick_email_test.py                              | Python           |        -65 |        -11 |        -13 |        -89 |
+| /home/jon/repos/charlie-reporting/demo/run_scripts/email_senders/archive/simple_email_debug.py                            | Python           |        -53 |         -7 |        -14 |        -74 |
+| /home/jon/repos/charlie-reporting/demo/run_scripts/email_senders/cleanup_email_senders.py                                 | Python           |        -51 |        -17 |        -10 |        -78 |
+| /home/jon/repos/charlie-reporting/demo/run_scripts/email_senders/focused_email_sender.py                                  | Python           |       -120 |        -13 |        -11 |       -144 |
+| /home/jon/repos/charlie-reporting/demo/run_scripts/email_senders/setup_secure_email.py                                    | Python           |        -79 |        -11 |        -15 |       -105 |
+| /home/jon/repos/charlie-reporting/demo/run_scripts/email_senders/simple_email_test.py                                     | Python           |        -45 |        -10 |        -15 |        -70 |
+| /home/jon/repos/charlie-reporting/demo/run_scripts/focused_email_sender.py                                                | Python           |          0 |          0 |         -1 |         -1 |
+| /home/jon/repos/charlie-reporting/demo/run_scripts/manual_test.py                                                         | Python           |          0 |          0 |         -1 |         -1 |
+| /home/jon/repos/charlie-reporting/demo/run_scripts/master_demo.py                                                         | Python           |       -229 |        -36 |        -51 |       -316 |
+| /home/jon/repos/charlie-reporting/demo/run_scripts/master_end_to_end_demo.py                                              | Python           |       -266 |        -57 |        -87 |       -410 |
+| /home/jon/repos/charlie-reporting/demo/run_scripts/quick_auth_test.py                                                     | Python           |          0 |          0 |         -1 |         -1 |
+| /home/jon/repos/charlie-reporting/demo/run_scripts/quick_email_test.py                                                    | Python           |          0 |          0 |         -1 |         -1 |
+| /home/jon/repos/charlie-reporting/demo/run_scripts/setup_secure_email.py                                                  | Python           |          0 |          0 |         -1 |         -1 |
+| /home/jon/repos/charlie-reporting/demo/run_scripts/shared_utils.py                                                        | Python           |        -85 |        -79 |        -26 |       -190 |
+| /home/jon/repos/charlie-reporting/demo/run_scripts/simple_email_debug.py                                                  | Python           |          0 |          0 |         -1 |         -1 |
+| /home/jon/repos/charlie-reporting/demo/run_scripts/simple_email_test.py                                                   | Python           |          0 |          0 |         -1 |         -1 |
+| /home/jon/repos/charlie-reporting/demo/run_scripts/simple_password_test.py                                                | Python           |          0 |          0 |         -1 |         -1 |
+| /home/jon/repos/charlie-reporting/demo/run_scripts/test_email.bat                                                         | Batch            |          0 |          0 |         -1 |         -1 |
+| /home/jon/repos/charlie-reporting/demo/run_scripts/test_single_csv.py                                                     | Python           |          0 |          0 |         -1 |         -1 |
+| /home/jon/repos/charlie-reporting/demo/run_scripts/testing/manual_test.py                                                 | Python           |       -102 |         -8 |        -18 |       -128 |
+| /home/jon/repos/charlie-reporting/demo/run_scripts/testing/quick_auth_test.py                                             | Python           |        -31 |         -9 |        -11 |        -51 |
+| /home/jon/repos/charlie-reporting/demo/run_scripts/testing/test_email.bat                                                 | Batch            |        -17 |          0 |         -6 |        -23 |
+| /home/jon/repos/charlie-reporting/demo/run_scripts/testing/test_single_csv.py                                             | Python           |        -71 |        -79 |        -24 |       -174 |
+| /home/jon/repos/charlie-reporting/demo_new_features.py                                                                    | Python           |        -63 |        -21 |        -20 |       -104 |
+| /home/jon/repos/charlie-reporting/demos/demo_complete_integration.py                                                      | Python           |       -415 |        -32 |        -13 |       -460 |
+| /home/jon/repos/charlie-reporting/demos/demo_configuration_management.py                                                  | Python           |       -286 |        -31 |        -76 |       -393 |
+| /home/jon/repos/charlie-reporting/demos/demo_directory_scanning_feature.py                                                | Python           |       -160 |        -28 |        -51 |       -239 |
+| /home/jon/repos/charlie-reporting/demos/demo_enhanced_excel_operations.py                                                 | Python           |       -257 |        -34 |        -57 |       -348 |
+| /home/jon/repos/charlie-reporting/demos/demo_multiple_outlook_accounts.py                                                 | Python           |       -199 |        -40 |        -74 |       -313 |
+| /home/jon/repos/charlie-reporting/demos/demo_real_time_hourly_processing.py                                               | Python           |        -65 |        -18 |        -23 |       -106 |
+| /home/jon/repos/charlie-reporting/docs/README.md                                                                          | Markdown         |          0 |          0 |         12 |         12 |
+| /home/jon/repos/charlie-reporting/docs/api_framework.md                                                                   | Markdown         |        261 |          0 |         67 |        328 |
+| /home/jon/repos/charlie-reporting/docs/architecture/MULTI_REPO_STRUCTURE.md                                               | Markdown         |        234 |          0 |         39 |        273 |
+| /home/jon/repos/charlie-reporting/docs/architecture/PATHLIB_MIGRATION.md                                                  | Markdown         |         71 |          0 |         24 |         95 |
+| /home/jon/repos/charlie-reporting/docs/architecture/common_service_architecture.md                                        | Markdown         |        515 |          0 |         95 |        610 |
+| /home/jon/repos/charlie-reporting/docs/architecture/email_service_design.md                                               | Markdown         |        165 |          0 |         38 |        203 |
+| /home/jon/repos/charlie-reporting/docs/architecture/enterprise_architecture.md                                            | Markdown         |        447 |          0 |         82 |        529 |
+| /home/jon/repos/charlie-reporting/docs/architecture/implementation_roadmap.md                                             | Markdown         |        254 |          0 |         58 |        312 |
+| /home/jon/repos/charlie-reporting/docs/architecture/microservices_architecture.md                                         | Markdown         |        286 |          0 |         57 |        343 |
+| /home/jon/repos/charlie-reporting/docs/architecture/project_structure.md                                                  | Markdown         |        354 |          0 |         25 |        379 |
+| /home/jon/repos/charlie-reporting/docs/architecture/tdd-optimized-architecture.md                                         | Markdown         |        351 |          0 |        103 |        454 |
+| /home/jon/repos/charlie-reporting/docs/cleanup-status-report.md                                                           | Markdown         |         98 |          0 |         26 |        124 |
+| /home/jon/repos/charlie-reporting/docs/deliverables/final-delivery-checklist.md                                           | Markdown         |         68 |          0 |         40 |        108 |
+| /home/jon/repos/charlie-reporting/docs/deliverables/final-phase2-assessment.md                                            | Markdown         |        165 |          0 |         81 |        246 |
+| /home/jon/repos/charlie-reporting/docs/deliverables/phase-2-5-final-deliverable.md                                        | Markdown         |        141 |          0 |         72 |        213 |
+| /home/jon/repos/charlie-reporting/docs/deliverables/phase-2-6-sprint-plan.md                                              | Markdown         |        189 |          0 |         71 |        260 |
+| /home/jon/repos/charlie-reporting/docs/deliverables/phase-2-final-deliverable.md                                          | Markdown         |        191 |          0 |        105 |        296 |
+| /home/jon/repos/charlie-reporting/docs/deliverables/phase2-final-summary.md                                               | Markdown         |        120 |          0 |         62 |        182 |
+| /home/jon/repos/charlie-reporting/docs/development-diary.md                                                               | Markdown         |        373 |          0 |        188 |        561 |
+| /home/jon/repos/charlie-reporting/docs/migration-plan.md                                                                  | Markdown         |        146 |          0 |         57 |        203 |
+| /home/jon/repos/charlie-reporting/docs/phase-plans/day-1-kickstart-guide.md                                               | Markdown         |        156 |          0 |         47 |        203 |
+| /home/jon/repos/charlie-reporting/docs/phase-plans/phase-2.5-completion-plan.md                                           | Markdown         |        246 |          0 |         99 |        345 |
+| /home/jon/repos/charlie-reporting/docs/phase-plans/phase-2.5-tactical-execution.md                                        | Markdown         |        252 |          0 |         80 |        332 |
+| /home/jon/repos/charlie-reporting/docs/phase-plans/phase-2.5-tactical-order.md                                            | Markdown         |        212 |          0 |         72 |        284 |
+| /home/jon/repos/charlie-reporting/docs/phase2-integration-complete.md                                                     | Markdown         |        133 |          0 |         51 |        184 |
+| /home/jon/repos/charlie-reporting/docs/project-wiki/README.md                                                             | Markdown         |          0 |          0 |         21 |         21 |
+| /home/jon/repos/charlie-reporting/docs/project-wiki/milestones.md                                                         | Markdown         |          0 |          0 |         26 |         26 |
+| /home/jon/repos/charlie-reporting/docs/sprint-reviews/2025-07-28-phase1-review.md                                         | Markdown         |          0 |          0 |         22 |         22 |
+| /home/jon/repos/charlie-reporting/docs/sprint-reviews/2025-07-28-phase2-detailed-plan.md                                  | Markdown         |        315 |          0 |         95 |        410 |
+| /home/jon/repos/charlie-reporting/docs/sprint-reviews/2025-07-29-phase2-completion-audit.md                               | Markdown         |        215 |          0 |         95 |        310 |
+| /home/jon/repos/charlie-reporting/docs/sprint-reviews/README.md                                                           | Markdown         |          0 |          0 |         10 |         10 |
+| /home/jon/repos/charlie-reporting/docs/sprint-reviews/phase2-detailed-plan.md                                             | Markdown         |          0 |          0 |         39 |         39 |
+| /home/jon/repos/charlie-reporting/docs/test-migration-complete.md                                                         | Markdown         |        127 |          0 |         33 |        160 |
+| /home/jon/repos/charlie-reporting/email_service_design.md                                                                 | Markdown         |       -165 |          0 |        -38 |       -203 |
+| /home/jon/repos/charlie-reporting/enterprise_architecture.md                                                              | Markdown         |       -447 |          0 |        -82 |       -529 |
+| /home/jon/repos/charlie-reporting/fetch_csv_emails.py                                                                     | Python           |        -41 |         -1 |        -13 |        -55 |
+| /home/jon/repos/charlie-reporting/implementation_roadmap.md                                                               | Markdown         |       -254 |          0 |        -58 |       -312 |
+| /home/jon/repos/charlie-reporting/legacy_backup/20250728_235459/src/__init__.py                                           | Python           |          0 |          9 |          2 |         11 |
+| /home/jon/repos/charlie-reporting/legacy_backup/20250728_235459/src/archiver.py                                           | Python           |         21 |         17 |          7 |         45 |
+| /home/jon/repos/charlie-reporting/legacy_backup/20250728_235459/src/config_loader.py                                      | Python           |         39 |         19 |         13 |         71 |
+| /home/jon/repos/charlie-reporting/legacy_backup/20250728_235459/src/email_fetcher.py                                      | Python           |        465 |        163 |        159 |        787 |
+| /home/jon/repos/charlie-reporting/legacy_backup/20250728_235459/src/excel_writer.py                                       | Python           |        164 |         85 |         54 |        303 |
+| /home/jon/repos/charlie-reporting/legacy_backup/20250728_235459/src/logger.py                                             | Python           |         27 |          9 |         10 |         46 |
+| /home/jon/repos/charlie-reporting/legacy_backup/20250728_235459/src/main.py                                               | Python           |        235 |         82 |         62 |        379 |
+| /home/jon/repos/charlie-reporting/legacy_backup/20250728_235459/src/transformer.py                                        | Python           |        165 |         89 |         49 |        303 |
+| /home/jon/repos/charlie-reporting/legacy_backup/20250728_235459/src/utils.py                                              | Python           |         13 |         23 |          8 |         44 |
+| /home/jon/repos/charlie-reporting/logs/phase2_validation.json                                                             | JSON             |         52 |          0 |          0 |         52 |
+| /home/jon/repos/charlie-reporting/microservices_architecture.md                                                           | Markdown         |       -286 |          0 |        -56 |       -342 |
+| /home/jon/repos/charlie-reporting/project_structure.md                                                                    | Markdown         |       -354 |          0 |        -25 |       -379 |
+| /home/jon/repos/charlie-reporting/pyproject.toml                                                                          | TOML             |        -29 |          0 |         -4 |        -33 |
+| /home/jon/repos/charlie-reporting/pytest.ini                                                                              | Ini              |         -6 |          0 |          0 |         -6 |
+| /home/jon/repos/charlie-reporting/rest_email_fetcher.py                                                                   | Python           |       -264 |        -66 |        -71 |       -401 |
+| /home/jon/repos/charlie-reporting/run.py                                                                                  | Python           |         21 |          1 |          6 |         28 |
+| /home/jon/repos/charlie-reporting/scripts/README.md                                                                       | Markdown         |         48 |          0 |         20 |         68 |
+| /home/jon/repos/charlie-reporting/scripts/analyze_src_deletion.py                                                         | Python           |        155 |         12 |         30 |        197 |
+| /home/jon/repos/charlie-reporting/scripts/check_integration_dependencies.py                                               | Python           |        210 |         85 |         54 |        349 |
+| /home/jon/repos/charlie-reporting/scripts/cleanup_root_directory.py                                                       | Python           |        243 |         53 |         71 |        367 |
+| /home/jon/repos/charlie-reporting/scripts/complete_final_migration.py                                                     | Python           |         52 |         16 |         19 |         87 |
+| /home/jon/repos/charlie-reporting/scripts/final_deletion_check.py                                                         | Python           |         84 |          9 |         13 |        106 |
+| /home/jon/repos/charlie-reporting/scripts/final_deliverable_validation.py                                                 | Python           |        145 |         17 |         36 |        198 |
+| /home/jon/repos/charlie-reporting/scripts/fix_markdown_lint.py                                                            | Python           |         36 |         11 |         15 |         62 |
+| /home/jon/repos/charlie-reporting/scripts/migrate_legacy_code.py                                                          | Python           |        335 |         35 |         29 |        399 |
+| /home/jon/repos/charlie-reporting/scripts/migrate_tests_to_services.py                                                    | Python           |        185 |         45 |         48 |        278 |
+| /home/jon/repos/charlie-reporting/scripts/phase2_validation.py                                                            | Python           |        302 |         46 |         65 |        413 |
+| /home/jon/repos/charlie-reporting/scripts/run_integration_tests.py                                                        | Python           |        150 |         39 |         45 |        234 |
+| /home/jon/repos/charlie-reporting/scripts/test_runner.py                                                                  | Python           |        134 |         15 |         38 |        187 |
+| /home/jon/repos/charlie-reporting/services/README-template.md                                                             | Markdown         |         32 |          0 |         17 |         49 |
+| /home/jon/repos/charlie-reporting/services/database-service/config/__init__.py                                            | Python           |          0 |         -1 |         -1 |         -2 |
+| /home/jon/repos/charlie-reporting/services/database-service/config/local.toml                                             | TOML             |        -15 |          0 |         -4 |        -19 |
+| /home/jon/repos/charlie-reporting/services/database-service/config/settings.py                                            | Python           |        -25 |         -7 |         -9 |        -41 |
+| /home/jon/repos/charlie-reporting/services/database-service/src/config/__init__.py                                        | Python           |          0 |          1 |          1 |          2 |
+| /home/jon/repos/charlie-reporting/services/database-service/src/config/settings.py                                        | Python           |         25 |          7 |          9 |         41 |
+| /home/jon/repos/charlie-reporting/services/database-service/tests/api/__init__.py                                         | Python           |          0 |          1 |          0 |          1 |
+| /home/jon/repos/charlie-reporting/services/database-service/tests/test_database.py                                        | Python           |          6 |          6 |          4 |         16 |
+| /home/jon/repos/charlie-reporting/services/email-service/config/__init__.py                                               | Python           |          0 |         -1 |         -1 |         -2 |
+| /home/jon/repos/charlie-reporting/services/email-service/config/local.toml                                                | TOML             |        -15 |          0 |         -4 |        -19 |
+| /home/jon/repos/charlie-reporting/services/email-service/config/settings.py                                               | Python           |        -25 |         -7 |         -9 |        -41 |
+| /home/jon/repos/charlie-reporting/services/email-service/email_processor.py                                               | Python           |        268 |         36 |         59 |        363 |
+| /home/jon/repos/charlie-reporting/services/email-service/src/config/__init__.py                                           | Python           |          0 |          1 |          1 |          2 |
+| /home/jon/repos/charlie-reporting/services/email-service/src/config/settings.py                                           | Python           |         25 |          7 |          9 |         41 |
+| /home/jon/repos/charlie-reporting/services/email-service/src/tests/__init__.py                                            | Python           |          0 |          1 |          1 |          2 |
+| /home/jon/repos/charlie-reporting/services/email-service/src/tests/api/__init__.py                                        | Python           |          0 |          1 |          0 |          1 |
+| /home/jon/repos/charlie-reporting/services/email-service/src/tests/integration/__init__.py                                | Python           |          0 |          1 |          1 |          2 |
+| /home/jon/repos/charlie-reporting/services/email-service/src/tests/test_email_processor.py                                | Python           |         18 |          9 |          7 |         34 |
+| /home/jon/repos/charlie-reporting/services/email-service/src/tests/test_legacy_email_fetcher.py                           | Python           |        218 |         46 |         94 |        358 |
+| /home/jon/repos/charlie-reporting/services/email-service/src/tests/unit/__init__.py                                       | Python           |          0 |          1 |          1 |          2 |
+| /home/jon/repos/charlie-reporting/services/email-service/tests/__init__.py                                                | Python           |          0 |         -1 |         -1 |         -2 |
+| /home/jon/repos/charlie-reporting/services/email-service/tests/integration/__init__.py                                    | Python           |          0 |         -1 |         -1 |         -2 |
+| /home/jon/repos/charlie-reporting/services/email-service/tests/unit/__init__.py                                           | Python           |          0 |         -1 |         -1 |         -2 |
+| /home/jon/repos/charlie-reporting/services/outlook-relay/README.md                                                        | Markdown         |          0 |          0 |          9 |          9 |
+| /home/jon/repos/charlie-reporting/services/outlook-relay/config/local.toml                                                | TOML             |        -15 |          0 |         -4 |        -19 |
+| /home/jon/repos/charlie-reporting/services/outlook-relay/tests/test_legacy_email_accounts.py                              | Python           |        267 |         74 |        108 |        449 |
+| /home/jon/repos/charlie-reporting/services/outlook-relay/tests/unit/__init__.py                                           | Python           |          0 |         -1 |         -1 |         -2 |
+| /home/jon/repos/charlie-reporting/services/report-generator/config/__init__.py                                            | Python           |          0 |         -1 |         -1 |         -2 |
+| /home/jon/repos/charlie-reporting/services/report-generator/config/local.toml                                             | TOML             |        -15 |          0 |         -4 |        -19 |
+| /home/jon/repos/charlie-reporting/services/report-generator/config/settings.py                                            | Python           |        -25 |         -7 |         -9 |        -41 |
+| /home/jon/repos/charlie-reporting/services/report-generator/infrastructure/__init__.py                                    | Python           |          0 |          1 |          1 |          2 |
+| /home/jon/repos/charlie-reporting/services/report-generator/infrastructure/config/config_manager.py                       | Python           |         73 |         63 |         25 |        161 |
+| /home/jon/repos/charlie-reporting/services/report-generator/infrastructure/excel/excel_generator.py                       | Python           |        107 |         56 |         33 |        196 |
+| /home/jon/repos/charlie-reporting/services/report-generator/infrastructure/filesystem/directory_processor.py              | Python           |         50 |         43 |         23 |        116 |
+| /home/jon/repos/charlie-reporting/services/report-generator/infrastructure/filesystem/file_manager.py                     | Python           |         56 |         68 |         22 |        146 |
+| /home/jon/repos/charlie-reporting/services/report-generator/infrastructure/logging/metrics_collector.py                   | Python           |        124 |         64 |         32 |        220 |
+| /home/jon/repos/charlie-reporting/services/report-generator/infrastructure/logging/structured_logger.py                   | Python           |         79 |         35 |         32 |        146 |
+| /home/jon/repos/charlie-reporting/services/report-generator/pytest.ini                                                    | Ini              |         47 |          0 |          6 |         53 |
+| /home/jon/repos/charlie-reporting/services/report-generator/requirements.txt                                              | pip requirements |         13 |          5 |          5 |         23 |
+| /home/jon/repos/charlie-reporting/services/report-generator/src/api/routes/reports.py                                     | Python           |          0 |          0 |          1 |          1 |
+| /home/jon/repos/charlie-reporting/services/report-generator/src/business/exceptions.py                                    | Python           |         35 |         23 |         20 |         78 |
+| /home/jon/repos/charlie-reporting/services/report-generator/src/business/interfaces/__init__.py                           | Python           |         62 |         28 |         34 |        124 |
+| /home/jon/repos/charlie-reporting/services/report-generator/src/business/models/csv_file.py                               | Python           |         93 |         29 |         25 |        147 |
+| /home/jon/repos/charlie-reporting/services/report-generator/src/business/models/transformation_config.py                  | Python           |        177 |         46 |         45 |        268 |
+| /home/jon/repos/charlie-reporting/services/report-generator/src/business/services/report_processor.py                     | Python           |        382 |        107 |         79 |        568 |
+| /home/jon/repos/charlie-reporting/services/report-generator/src/config/__init__.py                                        | Python           |          0 |          1 |          1 |          2 |
+| /home/jon/repos/charlie-reporting/services/report-generator/src/config/settings.py                                        | Python           |         25 |          7 |          9 |         41 |
+| /home/jon/repos/charlie-reporting/services/report-generator/src/infrastructure/config.py                                  | Python           |        250 |         64 |         66 |        380 |
+| /home/jon/repos/charlie-reporting/services/report-generator/src/infrastructure/logging.py                                 | Python           |        240 |         55 |         68 |        363 |
+| /home/jon/repos/charlie-reporting/services/report-generator/src/infrastructure/metrics.py                                 | Python           |        231 |         52 |         68 |        351 |
+| /home/jon/repos/charlie-reporting/services/report-generator/src/interface/__init__.py                                     | Python           |          0 |          1 |          1 |          2 |
+| /home/jon/repos/charlie-reporting/services/report-generator/src/interface/app.py                                          | Python           |        338 |         76 |         92 |        506 |
+| /home/jon/repos/charlie-reporting/services/report-generator/src/interface/dependencies.py                                 | Python           |         67 |         20 |         28 |        115 |
+| /home/jon/repos/charlie-reporting/services/report-generator/src/interface/rest/reports.py                                 | Python           |        315 |         49 |         70 |        434 |
+| /home/jon/repos/charlie-reporting/services/report-generator/src/interface/schemas.py                                      | Python           |        133 |         26 |         43 |        202 |
+| /home/jon/repos/charlie-reporting/services/report-generator/src/interfaces/__init__.py                                    | Python           |          0 |         -1 |         -1 |         -2 |
+| /home/jon/repos/charlie-reporting/services/report-generator/src/interfaces/cli/__init__.py                                | Python           |          0 |         -1 |         -1 |         -2 |
+| /home/jon/repos/charlie-reporting/services/report-generator/src/interfaces/rest/__init__.py                               | Python           |          0 |         -1 |         -1 |         -2 |
+| /home/jon/repos/charlie-reporting/services/report-generator/src/main.py                                                   | Python           |         -5 |          2 |         -5 |         -8 |
+| /home/jon/repos/charlie-reporting/services/report-generator/src/main_corrupted.py                                         | Python           |       -161 |        -37 |        -49 |       -247 |
+| /home/jon/repos/charlie-reporting/services/report-generator/src/main_new.py                                               | Python           |          0 |          0 |          1 |          1 |
+| /home/jon/repos/charlie-reporting/services/report-generator/test_service.py                                               | Python           |        126 |         27 |         44 |        197 |
+| /home/jon/repos/charlie-reporting/services/report-generator/tests/conftest.py                                             | Python           |         36 |          9 |          9 |         54 |
+| /home/jon/repos/charlie-reporting/services/report-generator/tests/fixtures/mock_services.py                               | Python           |         98 |         11 |         41 |        150 |
+| /home/jon/repos/charlie-reporting/services/report-generator/tests/test_api_routes.py                                      | Python           |        236 |         48 |         73 |        357 |
+| /home/jon/repos/charlie-reporting/services/report-generator/tests/test_business_layer.py                                  | Python           |          0 |          0 |          1 |          1 |
+| /home/jon/repos/charlie-reporting/services/report-generator/tests/test_csv_transformer.py                                 | Python           |        252 |         56 |         76 |        384 |
+| /home/jon/repos/charlie-reporting/services/report-generator/tests/test_excel_service.py                                   | Python           |        243 |         73 |         84 |        400 |
+| /home/jon/repos/charlie-reporting/services/report-generator/tests/test_service_basics.py                                  | Python           |        140 |         38 |         58 |        236 |
+| /home/jon/repos/charlie-reporting/services/report-generator/tests/unit/test_report_processor_tdd.py                       | Python           |        112 |         37 |         32 |        181 |
+| /home/jon/repos/charlie-reporting/services/report_generator/csv_processor.py                                              | Python           |        192 |         58 |         62 |        312 |
+| /home/jon/repos/charlie-reporting/services/report_generator/excel_generator.py                                            | Python           |        218 |         78 |         62 |        358 |
+| /home/jon/repos/charlie-reporting/services/report_generator/main.py                                                       | Python           |        352 |         55 |         84 |        491 |
+| /home/jon/repos/charlie-reporting/services/report_generator/tests/test_api_endpoints.py                                   | Python           |        203 |         46 |         64 |        313 |
+| /home/jon/repos/charlie-reporting/services/report_generator/tests/unit/test_csv_processor.py                              | Python           |        260 |         68 |         77 |        405 |
+| /home/jon/repos/charlie-reporting/services/report_generator/tests/unit/test_excel_generator.py                            | Python           |        322 |         69 |         88 |        479 |
+| /home/jon/repos/charlie-reporting/services/scheduler-service/config/local.toml                                            | TOML             |        -15 |          0 |         -4 |        -19 |
+| /home/jon/repos/charlie-reporting/services/scheduler-service/tests/api/__init__.py                                        | Python           |          0 |          1 |          0 |          1 |
+| /home/jon/repos/charlie-reporting/setup_complete_wsl2_workflow.py                                                         | Python           |       -261 |        -33 |        -39 |       -333 |
+| /home/jon/repos/charlie-reporting/setup_dev.py                                                                            | Python           |         -9 |         -8 |         -4 |        -21 |
+| /home/jon/repos/charlie-reporting/setup_project_environment.py                                                            | Python           |       -116 |        -17 |        -21 |       -154 |
+| /home/jon/repos/charlie-reporting/setup_wsl2_dev.sh                                                                       | Shell Script     |       -163 |        -31 |        -36 |       -230 |
+| /home/jon/repos/charlie-reporting/shared/README.md                                                                        | Markdown         |          0 |          0 |         23 |         23 |
+| /home/jon/repos/charlie-reporting/shared/config_manager.py                                                                | Python           |         39 |         19 |         13 |         71 |
+| /home/jon/repos/charlie-reporting/shared/file_archiver.py                                                                 | Python           |         68 |         23 |         18 |        109 |
+| /home/jon/repos/charlie-reporting/shared/logging.py                                                                       | Python           |       -194 |        -94 |        -59 |       -347 |
+| /home/jon/repos/charlie-reporting/shared/logging_utils.py                                                                 | Python           |         27 |          9 |         10 |         46 |
+| /home/jon/repos/charlie-reporting/shared/service_logging.py                                                               | Python           |        194 |         94 |         59 |        347 |
+| /home/jon/repos/charlie-reporting/shared/shared_logging.py                                                                | Python           |        194 |         94 |         59 |        347 |
+| /home/jon/repos/charlie-reporting/shared/tests/README.md                                                                  | Markdown         |        410 |          0 |        145 |        555 |
+| /home/jon/repos/charlie-reporting/shared/tests/conftest.py                                                                | Python           |        309 |         65 |         73 |        447 |
+| /home/jon/repos/charlie-reporting/shared/tests/legacy/config_loader_enhanced.py                                           | Python           |        154 |         86 |         47 |        287 |
+| /home/jon/repos/charlie-reporting/shared/tests/utils/__init__.py                                                          | Python           |          0 |          1 |          1 |          2 |
+| /home/jon/repos/charlie-reporting/shared/tests/utils/cross_platform_email_checker.py                                      | Python           |        243 |         52 |         70 |        365 |
+| /home/jon/repos/charlie-reporting/shared/tests/utils/data_generator.py                                                    | Python           |         97 |         57 |         24 |        178 |
+| /home/jon/repos/charlie-reporting/shared/tests/utils/email_manager.py                                                     | Python           |         63 |         76 |         15 |        154 |
+| /home/jon/repos/charlie-reporting/shared/tests/utils/integration_base.py                                                  | Python           |        147 |         75 |         43 |        265 |
+| /home/jon/repos/charlie-reporting/shared/tests/utils/outlook_checker.py                                                   | Python           |        118 |         64 |         33 |        215 |
+| /home/jon/repos/charlie-reporting/shared/tests/utils/temp_manager.py                                                      | Python           |        112 |         67 |         29 |        208 |
+| /home/jon/repos/charlie-reporting/shared/utils.py                                                                         | Python           |       -262 |        -53 |        -92 |       -407 |
+| /home/jon/repos/charlie-reporting/src/__init__.py                                                                         | Python           |          0 |         -9 |         -2 |        -11 |
+| /home/jon/repos/charlie-reporting/src/archiver.py                                                                         | Python           |        -21 |        -17 |         -6 |        -44 |
+| /home/jon/repos/charlie-reporting/src/config_loader.py                                                                    | Python           |        -39 |        -19 |        -13 |        -71 |
+| /home/jon/repos/charlie-reporting/src/email_fetcher.py                                                                    | Python           |       -465 |       -163 |       -158 |       -786 |
+| /home/jon/repos/charlie-reporting/src/excel_writer.py                                                                     | Python           |       -164 |        -85 |        -53 |       -302 |
+| /home/jon/repos/charlie-reporting/src/logger.py                                                                           | Python           |        -27 |         -9 |        -10 |        -46 |
+| /home/jon/repos/charlie-reporting/src/main.py                                                                             | Python           |       -235 |        -82 |        -61 |       -378 |
+| /home/jon/repos/charlie-reporting/src/transformer.py                                                                      | Python           |       -165 |        -89 |        -49 |       -303 |
+| /home/jon/repos/charlie-reporting/src/utils.py                                                                            | Python           |        -13 |        -23 |         -8 |        -44 |
+| /home/jon/repos/charlie-reporting/test_pathlib_changes.py                                                                 | Python           |        -39 |        -13 |        -14 |        -66 |
+| /home/jon/repos/charlie-reporting/tests/README.md                                                                         | Markdown         |       -410 |          0 |       -145 |       -555 |
+| /home/jon/repos/charlie-reporting/tests/api/test_report_generator.py                                                      | Python           |          0 |          0 |          1 |          1 |
+| /home/jon/repos/charlie-reporting/tests/check_integration_dependencies.py                                                 | Python           |       -210 |        -85 |        -54 |       -349 |
+| /home/jon/repos/charlie-reporting/tests/config/integration-config.toml                                                    | TOML             |        -58 |         -9 |        -13 |        -80 |
+| /home/jon/repos/charlie-reporting/tests/config_loader_enhanced.py                                                         | Python           |       -154 |        -86 |        -47 |       -287 |
+| /home/jon/repos/charlie-reporting/tests/conftest.py                                                                       | Python           |       -110 |        -34 |        -32 |       -176 |
+| /home/jon/repos/charlie-reporting/tests/integration/test_phase1_workflow.py                                               | Python           |          0 |          0 |          1 |          1 |
+| /home/jon/repos/charlie-reporting/tests/run_integration_tests.py                                                          | Python           |       -150 |        -39 |        -45 |       -234 |
+| /home/jon/repos/charlie-reporting/tests/services/report-generator/test_csv_transformer.py                                 | Python           |          0 |          0 |          1 |          1 |
+| /home/jon/repos/charlie-reporting/tests/services/report-generator/test_excel_service.py                                   | Python           |          0 |          0 |          1 |          1 |
+| /home/jon/repos/charlie-reporting/tests/test_email_fetcher_directory_and_accounts.py                                      | Python           |       -267 |        -74 |       -107 |       -448 |
+| /home/jon/repos/charlie-reporting/tests/test_email_fetcher_enhanced.py                                                    | Python           |       -218 |        -46 |        -94 |       -358 |
+| /home/jon/repos/charlie-reporting/tests/test_excel_writer_enhanced.py                                                     | Python           |       -197 |        -61 |        -90 |       -348 |
+| /home/jon/repos/charlie-reporting/tests/test_integration_complete.py                                                      | Python           |       -230 |        -63 |        -89 |       -382 |
+| /home/jon/repos/charlie-reporting/tests/test_main_processor.py                                                            | Python           |       -220 |        -58 |        -98 |       -376 |
+| /home/jon/repos/charlie-reporting/tests/test_transformer.py                                                               | Python           |       -203 |        -67 |        -80 |       -350 |
+| /home/jon/repos/charlie-reporting/tests/utils/__init__.py                                                                 | Python           |          0 |         -1 |         -1 |         -2 |
+| /home/jon/repos/charlie-reporting/tests/utils/cross_platform_email_checker.py                                             | Python           |       -243 |        -52 |        -70 |       -365 |
+| /home/jon/repos/charlie-reporting/tests/utils/data_generator.py                                                           | Python           |        -97 |        -57 |        -24 |       -178 |
+| /home/jon/repos/charlie-reporting/tests/utils/email_manager.py                                                            | Python           |        -63 |        -76 |        -15 |       -154 |
+| /home/jon/repos/charlie-reporting/tests/utils/integration_base.py                                                         | Python           |       -147 |        -75 |        -43 |       -265 |
+| /home/jon/repos/charlie-reporting/tests/utils/outlook_checker.py                                                          | Python           |       -118 |        -64 |        -33 |       -215 |
+| /home/jon/repos/charlie-reporting/tests/utils/temp_manager.py                                                             | Python           |       -112 |        -67 |        -29 |       -208 |
+| /home/jon/repos/charlie-reporting/tools/development/setup_dev.py                                                          | Python           |          9 |          8 |          4 |         21 |
+| /home/jon/repos/charlie-reporting/tools/setup/activate_env.bat                                                            | Batch            |         28 |          6 |          6 |         40 |
+| /home/jon/repos/charlie-reporting/tools/setup/activate_env.ps1                                                            | PowerShell       |         53 |          8 |          9 |         70 |
+| /home/jon/repos/charlie-reporting/tools/setup/activate_wsl2.sh                                                            | Shell Script     |         16 |          5 |          5 |         26 |
+| /home/jon/repos/charlie-reporting/tools/setup/convert_wsl2_to_windows.py                                                  | Python           |        407 |         35 |         46 |        488 |
+| /home/jon/repos/charlie-reporting/tools/setup/setup_complete_wsl2_workflow.py                                             | Python           |        261 |         33 |         39 |        333 |
+| /home/jon/repos/charlie-reporting/tools/setup/setup_project_environment.py                                                | Python           |        116 |         17 |         21 |        154 |
+| /home/jon/repos/charlie-reporting/tools/setup/setup_wsl2_dev.sh                                                           | Shell Script     |        163 |         31 |         36 |        230 |
+| /home/jon/repos/charlie-reporting/windows_email_service.py                                                                | Python           |       -267 |        -42 |        -64 |       -373 |
+| Total                                                                                                                     |                  |     10,983 |      1,712 |      3,557 |     16,252 |
++---------------------------------------------------------------------------------------------------------------------------+------------------+------------+------------+------------+------------+

@@ -1,47 +1,41 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
+"""Monolithic convenience entrypoint.
+
+This script now ONLY ensures the correct interpreter is used and prints
+guidance; actual service execution has moved to per-service packages.
 """
-Application Entry Point
-Migrated to use new microservices architecture
-"""
-import asyncio
+from __future__ import annotations
+
+import pathlib
 import sys
-from pathlib import Path
+import textwrap
 
-# Add service paths
-services_path = Path(__file__).parent / 'services'
-sys.path.append(str(services_path / 'report-generator'))
-sys.path.append(str(services_path / 'email-service'))
-sys.path.append(str(Path(__file__).parent / 'shared'))
+ROOT = pathlib.Path(__file__).resolve().parent
+EXPECTED_VENV = ROOT / '.venv'
 
-from csv_processor import CSVProcessor
-from excel_generator import ExcelGenerator
-from email_processor import EmailProcessor
-import logging
+def ensure_project_venv() -> None:
+    exe = pathlib.Path(sys.executable).resolve()
+    if EXPECTED_VENV.exists() and EXPECTED_VENV not in exe.parents:
+        raise SystemExit(
+            f"Wrong interpreter: {exe}\nActivate with: source .venv/bin/activate\n"
+            f"Expected inside: {EXPECTED_VENV}\n"
+        )
 
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
+def main() -> int:
+    ensure_project_venv()
+    msg = textwrap.dedent(
+        """
+        Charlie Reporting – Unified Launcher
 
-async def main():
-    """Main application entry point using new services."""
-    try:
-        logger.info("Starting application with new microservices architecture")
-        
-        # Initialize services
-        csv_processor = CSVProcessor()
-        excel_generator = ExcelGenerator()
-        email_processor = EmailProcessor()
-        
-        # Example workflow
-        logger.info("Services initialized successfully")
-        logger.info("Use FastAPI service at: uvicorn services.report-generator.main:app --reload")
-        logger.info("Or import and use services directly")
-        
-    except Exception as e:
-        logger.error(f"Application error: {e}")
-        return 1
-    
+        Services are now invoked via their packages or scripts, e.g.:
+          - Outlook Relay: python -m outlook_relay.main
+          - Tests:        .venv/bin/python -m pytest
+
+        This launcher only verifies environment correctness.
+        """
+    ).strip()
+    print(msg)
     return 0
 
-if __name__ == "__main__":
-    exit_code = asyncio.run(main())
-    sys.exit(exit_code)
+if __name__ == "__main__":  # pragma: no cover
+    raise SystemExit(main())

@@ -1,90 +1,106 @@
+"""Scheduler Service entrypoint.
+
+This file formerly contained ad-hoc fallback logging and partially generated
+code that became corrupted. It is rewritten to use the unified structured
+logging utility in ``shared.logging`` while keeping the service extremely
+simple until full scheduler implementation is provided.
 """
-Scheduler-Service Service - Main Entry Point
-Automated task scheduling and orchestration
-"""
+
+from __future__ import annotations
 
 import asyncio
-import sys
-import os
-from pathlib import Path
+import contextlib
+from dataclasses import dataclass
 
-# Add shared components to path
-sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'shared'))
-
-from config.settings import load_config
-
-try:
-    from shared.base_service import BaseService
-    from shared.logging import setup_service_logging
-    from shared.metrics import ServiceMetrics
-    from shared.health import HealthMonitor
-except ImportError:
-    # Fallback implementations
-    class BaseService:
-        def __init__(self, *args, **kwargs): pass
-        async def startup(self): pass
-        async def shutdown(self): pass
-        async def run(self): pass
-    
-    def setup_service_logging(name, level=None):
+try:  # Prefer the shared base & logging; fall back gracefully for isolation.
+    from shared.base_service import BaseService  # type: ignore
+    from shared.service_logging import setup_service_logging  # type: ignore
+except Exception:  # noqa: BLE001
+    class BaseService:  # minimal fallback
+        def __init__(self, name: str, config):
+            self.name = name
+            self.config = config
+        async def start(self):  # pragma: no cover - simple fallback
+            pass
+        async def stop(self):  # pragma: no cover
+            pass
+    def setup_service_logging(service_name: str, level=None, **initial):  # pragma: no cover
         import logging
-        return logging.getLogger(name)
-    
-    class ServiceMetrics:
-        def __init__(self, name): pass
-    
-    class HealthMonitor:
-        def __init__(self, name): pass
+        logging.basicConfig(level=level or "INFO")
+        return logging.getLogger(service_name)
 
-class SchedulerserviceService(BaseService):
+
+@dataclass(slots=True)
+class SchedulerConfig:
+    service_name: str = "scheduler-service"
+    service_version: str = "0.1.0"
+    log_level: str = "INFO"
+    service_port: int = 0
+
+
+class SchedulerService(BaseService):
+    """Minimal Scheduler service implementation.
+
+    Implements only the BaseService constructor usage; the rich lifecycle
+    hooks in ``BaseService`` will be integrated when real scheduling logic
+    (jobs, orchestrator, REST, metrics) is added. For now we expose a simple
+    run loop that can be stopped with Ctrl+C.
     """
-    Scheduler-Service Service
-    Automated task scheduling and orchestration
-    """
-    
+
     def __init__(self):
-        self.config = load_config()
-        
+        self.config = SchedulerConfig()
+        super().__init__(self.config.service_name, self.config)
+        # Replace BaseService's logger with unified configured logger so that
+        # processors (timestamp, level, JSON/console) are active immediately.
         self.logger = setup_service_logging(
             self.config.service_name,
-            self.config.log_level if hasattr(self.config, 'log_level') else 'INFO'
+            self.config.log_level,
+            version=self.config.service_version,
         )
-        
-        self.metrics = ServiceMetrics(self.config.service_name)
-        self.health_monitor = HealthMonitor(self.config.service_name)
-        
-        super().__init__(self.logger, self.metrics, self.health_monitor)
-    
-    async def startup(self):
-        """Service startup logic"""
-        self.logger.info("Starting Scheduler-Service Service", version="1.0.0")
-        
-        # TODO: Initialize service-specific components
-        
+        self._running = False
+
+    async def run_forever(self):
+        self.logger.info("scheduler loop starting")
+        self._running = True
+        try:
+            while self._running:
+                await asyncio.sleep(1)
+        except asyncio.CancelledError:  # pragma: no cover
+            self.logger.info("scheduler loop cancelled")
+        finally:
+            self.logger.info("scheduler loop stopped")
+
+    async def start(self):  # type: ignore[override]
         self.logger.info(
-            "Scheduler-Service Service started successfully",
-            port=self.config.service_port
+            f"starting service v{self.config.service_version}"
         )
-    
-    async def shutdown(self):
-        """Service shutdown logic"""
-        self.logger.info("Shutting down Scheduler-Service Service")
-        
-        # TODO: Cleanup service-specific components
+        # Launch background loop
+        self._task = asyncio.create_task(self.run_forever())
+        self.logger.info("service started")
+
+    async def stop(self):  # type: ignore[override]
+        if not getattr(self, "_running", False):
+            return
+        self.logger.info("stopping service")
+        self._running = False
+        self._task.cancel()
+        with contextlib.suppress(Exception):  # pragma: no cover - best effort
+            await self._task
+        self.logger.info("service stopped")
+
 
 async def main():
-    """Main entry point"""
-    service = SchedulerserviceService()
-    
+    service = SchedulerService()
+    await service.start()
     try:
-        await service.startup()
-        await service.run()
-    except KeyboardInterrupt:
-        print("\nReceived interrupt signal")
-    except Exception as e:
-        print(f"Service error: {e}")
+        # Wait until cancelled (Ctrl+C)
+        while True:
+            await asyncio.sleep(3600)
+    except KeyboardInterrupt:  # pragma: no cover - manual interrupt
+        pass
     finally:
-        await service.shutdown()
+        await service.stop()
 
-if __name__ == "__main__":
+
+if __name__ == "__main__":  # pragma: no cover
     asyncio.run(main())

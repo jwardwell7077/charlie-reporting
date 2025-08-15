@@ -1,11 +1,11 @@
-"""
-Unit tests for database service configuration.
+"""Unit tests for database service configuration.
 Following TDD - these tests are written BEFORE implementation.
 """
 
-import pytest
 import os
-from unittest.mock import patch, mock_open
+from unittest.mock import patch
+
+import pytest
 from pydantic import ValidationError
 
 from src.config.database import DatabaseConfig

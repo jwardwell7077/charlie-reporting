@@ -1,9 +1,8 @@
 #!/usr/bin/env python3
-"""
-Fix common flake8 violations in Python files
+"""Fix common flake8 violations in Python files
 """
 import os
-import re
+
 
 def clean_imports(lines):
     """Remove duplicate and unused imports"""
@@ -72,7 +71,7 @@ def fix_file(file_path):
     print(f"Fixing {file_path}")
     
     try:
-        with open(file_path, 'r') as f:
+        with open(file_path) as f:
             lines = f.readlines()
         
         # Fix imports

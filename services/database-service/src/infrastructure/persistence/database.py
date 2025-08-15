@@ -1,23 +1,22 @@
-"""
-Database connection infrastructure for database-service.
+"""Database connection infrastructure for database-service.
 """
 
+from collections.abc import AsyncGenerator
 from contextlib import asynccontextmanager
-from typing import AsyncGenerator, Optional
 
+import structlog
+from pydantic import ValidationError
+from sqlalchemy import text
+from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.ext.asyncio import (
     AsyncEngine,
     AsyncSession,
     async_sessionmaker,
     create_async_engine,
 )
-from sqlalchemy.exc import SQLAlchemyError
-from pydantic import ValidationError
-from sqlalchemy import text
-import structlog
 
-from ...config.settings import DatabaseServiceConfig
 from ...config.database import DatabaseConfig
+from ...config.settings import DatabaseServiceConfig
 
 logger = structlog.get_logger(__name__)
 
@@ -33,10 +32,8 @@ class DatabaseConnection:
             # Defer raising until initialize()
             self._init_error = e
             self.db_config = None  # type: ignore[assignment]
-        self._engine: Optional[AsyncEngine] = None
-        self._session_factory: Optional[
-            async_sessionmaker[AsyncSession]
-        ] = None
+        self._engine: AsyncEngine | None = None
+        self._session_factory: async_sessionmaker[AsyncSession] | None = None
 
     async def create_engine(self) -> AsyncEngine:
         """Create and return an async SQLAlchemy engine.

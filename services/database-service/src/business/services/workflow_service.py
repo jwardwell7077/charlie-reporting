@@ -1,14 +1,13 @@
-"""
-Workflow Business Service.
+"""Workflow Business Service.
 Orchestrates complex business workflows across multiple services.
 """
 
-from datetime import datetime
-from typing import List, Optional, Dict, Any
 import logging
+from datetime import datetime
+from typing import Any
 
-from ...domain.models.user import User, UserRole
 from ...domain.models.report import ReportType
+from ...domain.models.user import User, UserRole
 from .email_service import EmailService
 from .report_service import ReportService
 from .user_service import UserService
@@ -22,14 +21,14 @@ class WorkflowService:
         email_service: EmailService,
         report_service: ReportService,
         user_service: UserService,
-        logger: Optional[logging.Logger] = None,
+        logger: logging.Logger | None = None,
     ):
         self._email_service = email_service
         self._report_service = report_service
         self._user_service = user_service
         self._logger = logger or logging.getLogger(__name__)
 
-    async def process_daily_email_workflow(self, user: User) -> Dict[str, Any]:
+    async def process_daily_email_workflow(self, user: User) -> dict[str, Any]:
         """Execute the daily email processing workflow."""
         self._logger.info(
             "Starting daily email workflow for user: %s", user.username
@@ -38,7 +37,7 @@ class WorkflowService:
         if not await self._user_service.authorize_user(user, UserRole.USER):
             raise ValueError("User not authorized for email processing")
 
-        workflow_results: Dict[str, Any] = {
+        workflow_results: dict[str, Any] = {
             "started_at": datetime.now(),
             "user": user.username,
             "emails_processed": 0,
@@ -94,8 +93,8 @@ class WorkflowService:
         return workflow_results
 
     async def process_bulk_import_workflow(
-        self, user: User, email_data_list: List[Dict[str, Any]]
-    ) -> Dict[str, Any]:
+        self, user: User, email_data_list: list[dict[str, Any]]
+    ) -> dict[str, Any]:
         """Execute bulk email import workflow."""
         self._logger.info(
             "Starting bulk import workflow for %d emails", len(email_data_list)
@@ -106,7 +105,7 @@ class WorkflowService:
                 "User not authorized for bulk import operations"
             )
 
-        workflow_results: Dict[str, Any] = {
+        workflow_results: dict[str, Any] = {
             "started_at": datetime.now(),
             "user": user.username,
             "total_emails": len(email_data_list),
@@ -177,14 +176,14 @@ class WorkflowService:
         self,
         user: User,
         report_type: ReportType,
-        criteria: Dict[str, Any],
-    ) -> Dict[str, Any]:
+        criteria: dict[str, Any],
+    ) -> dict[str, Any]:
         """Execute report generation workflow."""
         self._logger.info(
             "Starting report generation workflow: %s", report_type.value
         )
 
-        workflow_results: Dict[str, Any] = {
+        workflow_results: dict[str, Any] = {
             "started_at": datetime.now(),
             "user": user.username,
             "report_type": report_type.value,
@@ -237,7 +236,7 @@ class WorkflowService:
 
     async def process_maintenance_workflow(
         self, user: User
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Execute system maintenance workflow."""
         self._logger.info("Starting maintenance workflow")
 
@@ -246,7 +245,7 @@ class WorkflowService:
                 "User not authorized for maintenance operations"
             )
 
-        workflow_results: Dict[str, Any] = {
+        workflow_results: dict[str, Any] = {
             "started_at": datetime.now(),
             "user": user.username,
             "tasks_completed": [],

@@ -1,0 +1,10 @@
+"filename", "language", "Python", "Markdown", "comment", "blank", "total"
+"/home/jon/repos/charlie-reporting/docs/architecture/tdd-optimized-architecture.md", "Markdown", 0, 0, 0, 1, 1
+"/home/jon/repos/charlie-reporting/docs/development-diary.md", "Markdown", 0, 0, 0, 3, 3
+"/home/jon/repos/charlie-reporting/services/report-generator/src/business/services/csv_transformer.py", "Python", 49, 0, 10, 11, 70
+"/home/jon/repos/charlie-reporting/services/report-generator/src/business/services/excel_service.py", "Python", 28, 0, 18, 10, 56
+"/home/jon/repos/charlie-reporting/services/report-generator/src/infrastructure/config.py", "Python", 27, 0, 8, 7, 42
+"/home/jon/repos/charlie-reporting/services/report-generator/src/infrastructure/file_system.py", "Python", 193, 0, 122, 71, 386
+"/home/jon/repos/charlie-reporting/services/report-generator/src/infrastructure/logging.py", "Python", 22, 0, 10, 10, 42
+"/home/jon/repos/charlie-reporting/services/report-generator/src/infrastructure/metrics.py", "Python", 55, 0, 16, 15, 86
+"Total", "-", 374, 0, 184, 128, 686

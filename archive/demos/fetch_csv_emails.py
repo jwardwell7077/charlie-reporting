@@ -2,15 +2,15 @@ def fetch_csv_emails(date_str):
     from datetime import datetime
 
     try:
-        target_date = datetime.strptime(date_str, "%Y-%m-%d").date()
+        targetdate = datetime.strptime(date_str, "%Y-%m-%d").date()
     except ValueError:
-        logger.error(f"Invalid date format: {date_str}. Expected YYYY-MM-DD.")
+        logger.error(f"Invalid date format: {date_str}. Expected YYYY - MM - DD.")
         return
 
     logger.info(f"Fetching CSV emails for date: {target_date}")
 
     config = load_config()
-    global_filter = config.get("global_email_filter", {})
+    globalfilter = config.get("global_email_filter", {})
     attachment_rules = config.get("attachments", {})
 
     outlook = win32com.client.Dispatch("Outlook.Application").GetNamespace("MAPI")
@@ -20,7 +20,7 @@ def fetch_csv_emails(date_str):
 
     for msg in messages:
         try:
-            received_date = msg.ReceivedTime.date()
+            receiveddate = msg.ReceivedTime.date()
             if received_date != target_date:
                 continue
 
@@ -33,7 +33,7 @@ def fetch_csv_emails(date_str):
                 filename = attachment.FileName
 
                 if not filename.lower().endswith(".csv"):
-                    logger.info(f"Skipping non-CSV attachment: {filename}")
+                    logger.info(f"Skipping non - CSV attachment: {filename}")
                     continue
 
                 rule = get_attachment_rule(filename, attachment_rules)
@@ -43,9 +43,9 @@ def fetch_csv_emails(date_str):
 
                 # Append date to filename
                 base_name, extension = os.path.splitext(filename)
-                new_filename = f"{sanitize_filename(base_name)}__{target_date}{extension}"
+                newfilename = f"{sanitize_filename(base_name)}__{target_date}{extension}"
                 os.makedirs(SAVE_DIR, exist_ok=True)
-                save_path = os.path.join(SAVE_DIR, new_filename)
+                savepath = os.path.join(SAVE_DIR, new_filename)
                 attachment.SaveAsFile(save_path)
 
                 logger.info(f"Saved: {new_filename} | From: {msg.SenderName} | Received: {received_date} | Rule Range: {rule['range']}")

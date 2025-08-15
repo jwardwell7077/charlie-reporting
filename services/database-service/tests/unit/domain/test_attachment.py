@@ -1,11 +1,11 @@
-"""
-Unit tests for Attachment domain model.
+"""Unit tests for Attachment domain model.
 Following TDD - these tests are written BEFORE implementation.
 """
 
-import pytest
-from datetime import datetime, timezone
+from datetime import datetime
 from uuid import UUID
+
+import pytest
 
 from src.domain.models.attachment import Attachment
 

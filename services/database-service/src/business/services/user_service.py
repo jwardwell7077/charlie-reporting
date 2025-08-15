@@ -1,11 +1,10 @@
-"""
-User Business Service.
+"""User Business Service.
 Handles user management workflows and business rules.
 """
 
-from datetime import datetime
-from typing import Optional, Dict, Any
 import logging
+from datetime import datetime
+from typing import Any
 from uuid import UUID
 
 from ...domain.models.user import User, UserRole, UserStatus
@@ -21,7 +20,7 @@ class UserService:
     def __init__(
         self,
         db_connection: DatabaseConnection,
-        logger: Optional[logging.Logger] = None,
+        logger: logging.Logger | None = None,
     ):
         self._db_connection = db_connection
         self._logger = logger or logging.getLogger(__name__)
@@ -60,7 +59,7 @@ class UserService:
         self._users[user.id] = user
         return user
 
-    async def authenticate_user(self, username: str) -> Optional[User]:
+    async def authenticate_user(self, username: str) -> User | None:
         """Authenticate a user and update last login.
 
         This is a placeholder; real authentication would verify credentials.
@@ -135,7 +134,7 @@ class UserService:
         )
         return user
 
-    async def get_user_summary(self, user: User) -> Dict[str, Any]:
+    async def get_user_summary(self, user: User) -> dict[str, Any]:
         """Get user summary information."""
         return {
             "id": str(user.id),
@@ -152,15 +151,15 @@ class UserService:
             "created_at": user.created_at.isoformat(),
         }
 
-    async def get_user_by_id(self, user_id: UUID) -> Optional[User]:
+    async def get_user_by_id(self, user_id: UUID) -> User | None:
         return self._users.get(user_id)
 
     async def get_all_users(self) -> list[User]:
         return list(self._users.values())
 
     async def update_user(
-        self, user_id: UUID, data: Dict[str, Any]
-    ) -> Optional[User]:
+        self, user_id: UUID, data: dict[str, Any]
+    ) -> User | None:
         user = self._users.get(user_id)
         if not user:
             return None

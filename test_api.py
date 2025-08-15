@@ -1,11 +1,9 @@
 #!/usr/bin/env python3
-"""
-Script to test run the database service API.
+"""Script to test run the database service API.
 """
 
-import sys
-import os
 import asyncio
+import sys
 from pathlib import Path
 
 # Add the project root to Python path

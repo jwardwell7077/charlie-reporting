@@ -1,3 +1,2 @@
-"""
-Router initialization module.
+"""Router initialization module.
 """

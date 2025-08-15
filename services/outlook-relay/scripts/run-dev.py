@@ -1,50 +1,34 @@
 #!/usr/bin/env python3
-"""
-Development runner for Outlook-Relay Service
+"""Development runner for Outlook - Relay Service
 """
 
+import asyncio
+import logging
 import sys
-import os
 from pathlib import Path
 
-current_dir = Path(__file__).parent.parent
-sys.path.insert(0, str(current_dir))
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
 
-shared_dir = current_dir / "shared"
-if shared_dir.exists():
-    sys.path.insert(0, str(shared_dir))
+# Expect outlook_relay package to be installed/editable or discoverable via PYTHONPATH
 
-def main():
+
+def main() -> int:
     """Run the service in development mode"""
-    print("🚀 Starting Outlook-Relay Service (Development Mode)")
-    print("=" * 50)
-    
-    if not shared_dir.exists():
-        print("⚠️  Shared components not found. Creating symlink...")
-        try:
-            shared_source = current_dir.parent.parent / "shared"
-            if shared_source.exists():
-                shared_dir.symlink_to(shared_source)
-                print("✅ Created shared components symlink")
-            else:
-                print("❌ Shared components source not found")
-                return 1
-        except Exception as e:
-            print(f"❌ Failed to create symlink: {e}")
-            return 1
-    
+    logging.basicConfig(level=logging.INFO)
+    logger = logging.getLogger("outlook_relay.dev")
+    logger.info("Starting Outlook Relay (dev mode) via package entrypoint")
     try:
-        from legacy_bridge import main as service_main
-        import asyncio
+        from outlook_relay.main import main as service_main  # type: ignore
+    except ImportError:
+        logger.exception("Package outlook_relay not importable. Ensure editable install or PYTHONPATH set.")
+        return 1
+    try:
         asyncio.run(service_main())
-    except ImportError as e:
-        print(f"❌ Import error: {e}")
+        return 0
+    except Exception:
+        logger.exception("Service crashed")
         return 1
-    except Exception as e:
-        print(f"❌ Service error: {e}")
-        return 1
-    
-    return 0
+
 
 if __name__ == "__main__":
     sys.exit(main())

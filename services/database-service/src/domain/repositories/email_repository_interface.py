@@ -1,14 +1,12 @@
-"""
-Abstract EmailRepository interface.
+"""Abstract EmailRepository interface.
 """
 
 from abc import abstractmethod
 from datetime import datetime
-from typing import List, Optional
 from uuid import UUID
 
-from .base_repository import BaseRepository
 from ..models.email_record import EmailRecord, EmailStatus
+from .base_repository import BaseRepository
 
 
 class EmailRepositoryInterface(BaseRepository):
@@ -29,7 +27,7 @@ class EmailRepositoryInterface(BaseRepository):
     @abstractmethod
     async def get_by_id(
         self, email_id: UUID
-    ) -> Optional[EmailRecord]:  # pragma: no cover - interface
+    ) -> EmailRecord | None:  # pragma: no cover - interface
         """Get email record by ID."""
         raise NotImplementedError
 
@@ -50,7 +48,7 @@ class EmailRepositoryInterface(BaseRepository):
     @abstractmethod
     async def list_all(
         self,
-    ) -> List[EmailRecord]:  # pragma: no cover - interface
+    ) -> list[EmailRecord]:  # pragma: no cover - interface
         """List all email records."""
         raise NotImplementedError
 
@@ -65,28 +63,28 @@ class EmailRepositoryInterface(BaseRepository):
     @abstractmethod
     async def get_by_message_id(
         self, message_id: str
-    ) -> Optional[EmailRecord]:  # pragma: no cover - interface
+    ) -> EmailRecord | None:  # pragma: no cover - interface
         """Find email record by message ID."""
         raise NotImplementedError
 
     @abstractmethod
     async def get_by_sender(
         self, sender: str
-    ) -> List[EmailRecord]:  # pragma: no cover - interface
+    ) -> list[EmailRecord]:  # pragma: no cover - interface
         """Find email records by sender."""
         raise NotImplementedError
 
     @abstractmethod
     async def get_by_date_range(
         self, start_date: datetime, end_date: datetime
-    ) -> List[EmailRecord]:  # pragma: no cover - interface
+    ) -> list[EmailRecord]:  # pragma: no cover - interface
         """Find email records within a date range."""
         raise NotImplementedError
 
     @abstractmethod
     async def get_by_status(
         self, status: EmailStatus
-    ) -> List[EmailRecord]:  # pragma: no cover - interface
+    ) -> list[EmailRecord]:  # pragma: no cover - interface
         """Find email records by status."""
         raise NotImplementedError
 
@@ -108,41 +106,41 @@ class EmailRepositoryInterface(BaseRepository):
     @abstractmethod
     async def find_by_id(
         self, email_id: UUID
-    ) -> Optional[EmailRecord]:  # pragma: no cover - interface
+    ) -> EmailRecord | None:  # pragma: no cover - interface
         """Find email record by ID (legacy)."""
         raise NotImplementedError
 
     @abstractmethod
     async def find_by_message_id(
         self, message_id: str
-    ) -> Optional[EmailRecord]:  # pragma: no cover - interface
+    ) -> EmailRecord | None:  # pragma: no cover - interface
         """Find email record by message ID (legacy)."""
         raise NotImplementedError
 
     @abstractmethod
     async def find_all(
-        self, limit: Optional[int] = None, offset: int = 0
-    ) -> List[EmailRecord]:  # pragma: no cover - interface
+        self, limit: int | None = None, offset: int = 0
+    ) -> list[EmailRecord]:  # pragma: no cover - interface
         """Find all email records (legacy)."""
         raise NotImplementedError
 
     @abstractmethod
     async def find_by_sender(
         self, sender: str
-    ) -> List[EmailRecord]:  # pragma: no cover - interface
+    ) -> list[EmailRecord]:  # pragma: no cover - interface
         """Find email records by sender (legacy)."""
         raise NotImplementedError
 
     @abstractmethod
     async def find_by_date_range(
         self, start_date: datetime, end_date: datetime
-    ) -> List[EmailRecord]:  # pragma: no cover - interface
+    ) -> list[EmailRecord]:  # pragma: no cover - interface
         """Find email records within a date range (legacy)."""
         raise NotImplementedError
 
     @abstractmethod
     async def find_by_status(
         self, status: EmailStatus
-    ) -> List[EmailRecord]:  # pragma: no cover - interface
+    ) -> list[EmailRecord]:  # pragma: no cover - interface
         """Find email records by status (legacy)."""
         raise NotImplementedError

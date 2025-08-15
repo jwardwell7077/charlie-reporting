@@ -3,9 +3,10 @@
 Aggregates exit codes; prints summary.
 """
 from __future__ import annotations
+
+import pathlib
 import subprocess
 import sys
-import pathlib
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 SERVICES_DIR = ROOT / "services"
@@ -22,7 +23,7 @@ def find_service_dirs():
 def run_pytest(service: pathlib.Path) -> int:
     print(f"\n=== Running tests for service: {service.name} ===")
     cmd = [sys.executable, "-m", "pytest"]
-    result = subprocess.run(cmd, cwd=service)
+    result = subprocess.run(cmd, check=False, cwd=service)
     return result.returncode
 
 

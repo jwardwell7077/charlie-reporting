@@ -1,14 +1,14 @@
-"""
-SQLAlchemy ORM models for email-related entities.
+"""SQLAlchemy ORM models for email-related entities.
 """
 
 from uuid import uuid4
+
 from sqlalchemy import (
+    JSON,
     Column,
+    DateTime,
     String,
     Text,
-    DateTime,
-    JSON,
 )
 from sqlalchemy.dialects.postgresql import UUID as PGUUID
 
