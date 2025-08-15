@@ -1,4 +1,0 @@
-Interval Start,Interval End,Interval Complete,Filters,Media Type,Agent Id,Agent Name,Handle
-2025-07-28 09:50:00,2025-07-28 10:50:00,0.0,Queue: Outbound-IB_QCB,callback,65fe4098-4972-4d06-8d5e-cfebc479b2ac,Grace Lee,3
-2025-07-28 09:50:00,2025-07-28 10:50:00,0.0,Queue: Outbound-IB_QCB,callback,a0c1e2b3-3d4e-5a6f-7b8c-9d0e1f2a3b4c,Derek Parker,3
-2025-07-28 09:50:00,2025-07-28 10:50:00,0.0,Queue: Outbound-IB_QCB,callback,589f3a7c-22e4-451f-91c0-8adc6b4e7f3d,Xavier Nguyen,2

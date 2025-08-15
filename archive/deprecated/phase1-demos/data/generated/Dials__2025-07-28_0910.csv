@@ -1,7 +1,0 @@
-Interval Start,Interval End,Interval Complete,Filters,Media Type,Agent Id,Agent Name,Handle,Avg Handle,Avg Talk,Avg Hold,Avg ACW,Total Handle,Total Talk,Total Hold,Total ACW
-2025-07-28 09:10:00,2025-07-28 10:10:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,6c7bba2a-d8ec-4b53-9934-cf52606b282a,Alice Smith,223,142690,41374,7992,22662,31819870,9226402,1782216,5045598
-2025-07-28 09:10:00,2025-07-28 10:10:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,fd3c454b-47c9-491e-9c37-5bc54c413ca4,Nathan Scott,237,89451,52404,4718,17752,21199887,12419748,1118166,1996014
-2025-07-28 09:10:00,2025-07-28 10:10:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,d1f3a0e2-47b9-4c73-a3d9-0c1e7f4b6c29,Ursula Rivera,87,239500,36366,26163,26602,20836500,3163842,2276181,1614546
-2025-07-28 09:10:00,2025-07-28 10:10:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,a16bfe90-f4bd-4b7c-af6e-881454647f5f,Eve Adams,138,87680,67403,29440,18639,12099840,9301614,4062720,822618
-2025-07-28 09:10:00,2025-07-28 10:10:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,f4e29da3-1c4e-4bd9-9c9f-5a0c7e18e7f8,Amber Gonzalez,113,36778,21340,23032,14459,4155914,2411420,2602616,1243452
-2025-07-28 09:10:00,2025-07-28 10:10:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,589f3a7c-22e4-451f-91c0-8adc6b4e7f3d,Xavier Nguyen,117,152042,13147,2618,8808,17788914,1538199,306306,2521350

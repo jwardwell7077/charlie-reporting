@@ -1,6 +1,0 @@
-Interval Start,Interval End,Interval Complete,Filters,Media Type,Agent Id,Agent Name,Handle,Avg Handle
-2025-07-28 12:30:00,2025-07-28 13:30:00,0.0,Initial Direction: Inbound; Queue: Demo Queue,voice,f4e29da3-1c4e-4bd9-9c9f-5a0c7e18e7f8,Amber Gonzalez,26,07:18
-2025-07-28 12:30:00,2025-07-28 13:30:00,0.0,Initial Direction: Inbound; Queue: Demo Queue,voice,5cce8f28-359c-4531-9d91-93f103f4edc1,Dana White,20,16:43
-2025-07-28 12:30:00,2025-07-28 13:30:00,0.0,Initial Direction: Inbound; Queue: Demo Queue,voice,a0c1e2b3-3d4e-5a6f-7b8c-9d0e1f2a3b4c,Derek Parker,5,30:18
-2025-07-28 12:30:00,2025-07-28 13:30:00,0.0,Initial Direction: Inbound; Queue: Demo Queue,voice,24bb913e-5636-4db3-aab7-1213b0928274,Bob Johnson,25,07:43
-2025-07-28 12:30:00,2025-07-28 13:30:00,0.0,Initial Direction: Inbound; Queue: Demo Queue,voice,7b6c2d91-3f28-4e66-b2a1-5f9e2f8d3a4b,Victor Ramirez,9,27:04

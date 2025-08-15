@@ -1,8 +1,0 @@
-Interval Start,Interval End,Interval Complete,Filters,Media Type,Agent Id,Agent Name,Handle,Avg Handle
-2025-07-28 12:35:00,2025-07-28 13:35:00,0.0,Initial Direction: Inbound; Queue: Demo Queue,voice,7b6c2d91-3f28-4e66-b2a1-5f9e2f8d3a4b,Victor Ramirez,4,26:07
-2025-07-28 12:35:00,2025-07-28 13:35:00,0.0,Initial Direction: Inbound; Queue: Demo Queue,voice,c7ca8c70-fce5-4eee-a913-813af2d2b9a4,Frank Miller,15,07:55
-2025-07-28 12:35:00,2025-07-28 13:35:00,0.0,Initial Direction: Inbound; Queue: Demo Queue,voice,08f54f08-058a-4e0b-9ec4-a738a595da3c,Charlie Brown,20,31:15
-2025-07-28 12:35:00,2025-07-28 13:35:00,0.0,Initial Direction: Inbound; Queue: Demo Queue,voice,5d3eedaf-cbf2-4fdc-aaf9-2e39f1c21e12,Heidi Clark,19,25:10
-2025-07-28 12:35:00,2025-07-28 13:35:00,0.0,Initial Direction: Inbound; Queue: Demo Queue,voice,c3aaf240-163b-40cd-aaed-2d10d7def648,Ivan Lewis,6,30:58
-2025-07-28 12:35:00,2025-07-28 13:35:00,0.0,Initial Direction: Inbound; Queue: Demo Queue,voice,ce4e5d79-18a2-4b0f-9c9d-7b1e3f5a2c6d,Wendy Flores,14,21:01
-2025-07-28 12:35:00,2025-07-28 13:35:00,0.0,Initial Direction: Inbound; Queue: Demo Queue,voice,fd3c454b-47c9-491e-9c37-5bc54c413ca4,Nathan Scott,7,09:35

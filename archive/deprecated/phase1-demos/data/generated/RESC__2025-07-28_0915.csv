@@ -1,8 +1,0 @@
-Interval Start,Interval End,Interval Complete,Filters,Media Type,Agent Id,Agent Name,Handle
-2025-07-28 09:15:00,2025-07-28 10:15:00,0.0,Initial Direction: Inbound; Queue: LLSA-RESC-DM,voice,c7ca8c70-fce5-4eee-a913-813af2d2b9a4,Frank Miller,7
-2025-07-28 09:15:00,2025-07-28 10:15:00,0.0,Initial Direction: Inbound; Queue: LLSA-RESC-DM,voice,38fcc711-e80e-4f78-88c2-1e88a75706c3,Olivia Green,4
-2025-07-28 09:15:00,2025-07-28 10:15:00,0.0,Initial Direction: Inbound; Queue: LLSA-RESC-DM,voice,8c5912fa-6b3e-4baa-9c0e-3f5a423e4d18,Brian Perez,7
-2025-07-28 09:15:00,2025-07-28 10:15:00,0.0,Initial Direction: Inbound; Queue: LLSA-RESC-DM,voice,ce4e5d79-18a2-4b0f-9c9d-7b1e3f5a2c6d,Wendy Flores,3
-2025-07-28 09:15:00,2025-07-28 10:15:00,0.0,Initial Direction: Inbound; Queue: LLSA-RESC-DM,voice,c3aaf240-163b-40cd-aaed-2d10d7def648,Ivan Lewis,4
-2025-07-28 09:15:00,2025-07-28 10:15:00,0.0,Initial Direction: Inbound; Queue: LLSA-RESC-DM,voice,6c7bba2a-d8ec-4b53-9934-cf52606b282a,Alice Smith,9
-2025-07-28 09:15:00,2025-07-28 10:15:00,0.0,Initial Direction: Inbound; Queue: LLSA-RESC-DM,voice,f4e29da3-1c4e-4bd9-9c9f-5a0c7e18e7f8,Amber Gonzalez,9

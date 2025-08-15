@@ -1,4 +1,0 @@
-Interval Start,Interval End,Interval Complete,Filters,Media Type,Agent Id,Agent Name,Handle,Avg Handle
-2025-07-28 10:30:00,2025-07-28 11:30:00,0.0,Initial Direction: Inbound; Queue: Demo Queue,voice,a0c1e2b3-3d4e-5a6f-7b8c-9d0e1f2a3b4c,Derek Parker,17,12:35
-2025-07-28 10:30:00,2025-07-28 11:30:00,0.0,Initial Direction: Inbound; Queue: Demo Queue,voice,fd3c454b-47c9-491e-9c37-5bc54c413ca4,Nathan Scott,13,09:44
-2025-07-28 10:30:00,2025-07-28 11:30:00,0.0,Initial Direction: Inbound; Queue: Demo Queue,voice,08f54f08-058a-4e0b-9ec4-a738a595da3c,Charlie Brown,20,16:46

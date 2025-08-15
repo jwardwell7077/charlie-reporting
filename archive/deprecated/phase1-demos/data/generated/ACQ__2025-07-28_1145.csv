@@ -1,8 +1,0 @@
-Interval Start,Interval End,Interval Complete,Filters,Media Type,Agent Id,Agent Name,Handle
-2025-07-28 11:45:00,2025-07-28 12:45:00,0.0,Initial Direction: Inbound; Queue: LLSA-ACQ-DM,voice,3775a1f6-e5fd-47bd-8039-e8f8d3a1a6bf,Leo Young,10
-2025-07-28 11:45:00,2025-07-28 12:45:00,0.0,Initial Direction: Inbound; Queue: LLSA-ACQ-DM,voice,24bb913e-5636-4db3-aab7-1213b0928274,Bob Johnson,5
-2025-07-28 11:45:00,2025-07-28 12:45:00,0.0,Initial Direction: Inbound; Queue: LLSA-ACQ-DM,voice,c7ca8c70-fce5-4eee-a913-813af2d2b9a4,Frank Miller,4
-2025-07-28 11:45:00,2025-07-28 12:45:00,0.0,Initial Direction: Inbound; Queue: LLSA-ACQ-DM,voice,1be98524-f56c-41bb-a6ff-3e14bb3dfb84,Judy Walker,12
-2025-07-28 11:45:00,2025-07-28 12:45:00,0.0,Initial Direction: Inbound; Queue: LLSA-ACQ-DM,voice,65fe4098-4972-4d06-8d5e-cfebc479b2ac,Grace Lee,6
-2025-07-28 11:45:00,2025-07-28 12:45:00,0.0,Initial Direction: Inbound; Queue: LLSA-ACQ-DM,voice,37f0a1b2-2e3d-4f4c-b9fa-1d2e3a4b5c6d,Christine Roberts,2
-2025-07-28 11:45:00,2025-07-28 12:45:00,0.0,Initial Direction: Inbound; Queue: LLSA-ACQ-DM,voice,38fcc711-e80e-4f78-88c2-1e88a75706c3,Olivia Green,11

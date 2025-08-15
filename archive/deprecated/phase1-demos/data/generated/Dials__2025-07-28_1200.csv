@@ -1,8 +1,0 @@
-Interval Start,Interval End,Interval Complete,Filters,Media Type,Agent Id,Agent Name,Handle,Avg Handle,Avg Talk,Avg Hold,Avg ACW,Total Handle,Total Talk,Total Hold,Total ACW
-2025-07-28 12:00:00,2025-07-28 13:00:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,c7ca8c70-fce5-4eee-a913-813af2d2b9a4,Frank Miller,210,120569,76452,12928,13435,25319490,16054920,2714880,4717230
-2025-07-28 12:00:00,2025-07-28 13:00:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,4898a757-15ec-47cc-b6be-d2e9b249e011,Tina Campbell,23,64488,19496,3362,12131,1483224,448408,77326,329705
-2025-07-28 12:00:00,2025-07-28 13:00:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,fd3c454b-47c9-491e-9c37-5bc54c413ca4,Nathan Scott,160,140419,40865,7473,18982,22467040,6538400,1195680,2977280
-2025-07-28 12:00:00,2025-07-28 13:00:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,1be98524-f56c-41bb-a6ff-3e14bb3dfb84,Judy Walker,18,215573,74689,11911,12364,3880314,1344402,214398,118926
-2025-07-28 12:00:00,2025-07-28 13:00:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,5d3eedaf-cbf2-4fdc-aaf9-2e39f1c21e12,Heidi Clark,133,39266,67193,28677,14197,5222378,8936669,3814041,1959888
-2025-07-28 12:00:00,2025-07-28 13:00:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,c3aaf240-163b-40cd-aaed-2d10d7def648,Ivan Lewis,38,124511,65399,9561,20789,4731418,2485162,363318,1138746
-2025-07-28 12:00:00,2025-07-28 13:00:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,8c5912fa-6b3e-4baa-9c0e-3f5a423e4d18,Brian Perez,217,71932,39144,6967,14053,15609244,8494248,1511839,3267803

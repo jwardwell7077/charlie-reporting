@@ -1,6 +1,0 @@
-Interval Start,Interval End,Interval Complete,Filters,Media Type,Agent Id,Agent Name,Handle
-2025-07-28 09:15:00,2025-07-28 10:15:00,0.0,Initial Direction: Inbound; Queue: LLSA-ACQ-DM,voice,24bb913e-5636-4db3-aab7-1213b0928274,Bob Johnson,9
-2025-07-28 09:15:00,2025-07-28 10:15:00,0.0,Initial Direction: Inbound; Queue: LLSA-ACQ-DM,voice,08f54f08-058a-4e0b-9ec4-a738a595da3c,Charlie Brown,11
-2025-07-28 09:15:00,2025-07-28 10:15:00,0.0,Initial Direction: Inbound; Queue: LLSA-ACQ-DM,voice,65fe4098-4972-4d06-8d5e-cfebc479b2ac,Grace Lee,10
-2025-07-28 09:15:00,2025-07-28 10:15:00,0.0,Initial Direction: Inbound; Queue: LLSA-ACQ-DM,voice,758a9386-a5db-43ee-8c79-cafe99a9d541,Rachel Turner,9
-2025-07-28 09:15:00,2025-07-28 10:15:00,0.0,Initial Direction: Inbound; Queue: LLSA-ACQ-DM,voice,a0c1e2b3-3d4e-5a6f-7b8c-9d0e1f2a3b4c,Derek Parker,1

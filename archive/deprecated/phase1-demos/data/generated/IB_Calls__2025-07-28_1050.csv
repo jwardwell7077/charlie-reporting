@@ -1,8 +1,0 @@
-Interval Start,Interval End,Interval Complete,Filters,Media Type,Agent Id,Agent Name,Handle,Avg Handle
-2025-07-28 10:50:00,2025-07-28 11:50:00,0.0,Initial Direction: Inbound; Queue: Demo Queue,voice,a16bfe90-f4bd-4b7c-af6e-881454647f5f,Eve Adams,6,33:01
-2025-07-28 10:50:00,2025-07-28 11:50:00,0.0,Initial Direction: Inbound; Queue: Demo Queue,voice,37f0a1b2-2e3d-4f4c-b9fa-1d2e3a4b5c6d,Christine Roberts,11,08:41
-2025-07-28 10:50:00,2025-07-28 11:50:00,0.0,Initial Direction: Inbound; Queue: Demo Queue,voice,3775a1f6-e5fd-47bd-8039-e8f8d3a1a6bf,Leo Young,12,30:03
-2025-07-28 10:50:00,2025-07-28 11:50:00,0.0,Initial Direction: Inbound; Queue: Demo Queue,voice,ce4e5d79-18a2-4b0f-9c9d-7b1e3f5a2c6d,Wendy Flores,7,20:54
-2025-07-28 10:50:00,2025-07-28 11:50:00,0.0,Initial Direction: Inbound; Queue: Demo Queue,voice,38fcc711-e80e-4f78-88c2-1e88a75706c3,Olivia Green,13,25:54
-2025-07-28 10:50:00,2025-07-28 11:50:00,0.0,Initial Direction: Inbound; Queue: Demo Queue,voice,e258b370-9093-401d-bcbf-d939ab51b265,Steve Phillips,23,27:06
-2025-07-28 10:50:00,2025-07-28 11:50:00,0.0,Initial Direction: Inbound; Queue: Demo Queue,voice,758a9386-a5db-43ee-8c79-cafe99a9d541,Rachel Turner,25,17:46

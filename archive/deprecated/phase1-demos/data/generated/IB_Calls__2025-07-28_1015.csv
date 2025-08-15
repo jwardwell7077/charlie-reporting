@@ -1,9 +1,0 @@
-Interval Start,Interval End,Interval Complete,Filters,Media Type,Agent Id,Agent Name,Handle,Avg Handle
-2025-07-28 10:15:00,2025-07-28 11:15:00,0.0,Initial Direction: Inbound; Queue: Demo Queue,voice,a10dac0a-bb6c-4eb3-81df-d8f45f96770f,Marie King,25,08:33
-2025-07-28 10:15:00,2025-07-28 11:15:00,0.0,Initial Direction: Inbound; Queue: Demo Queue,voice,1ed81f99-e294-4ba6-81d4-bb8752c69693,Karen Hall,16,08:01
-2025-07-28 10:15:00,2025-07-28 11:15:00,0.0,Initial Direction: Inbound; Queue: Demo Queue,voice,e258b370-9093-401d-bcbf-d939ab51b265,Steve Phillips,4,30:04
-2025-07-28 10:15:00,2025-07-28 11:15:00,0.0,Initial Direction: Inbound; Queue: Demo Queue,voice,4ab904ce-5677-4eb1-8354-109907f0f7d8,Quincy Wright,24,30:15
-2025-07-28 10:15:00,2025-07-28 11:15:00,0.0,Initial Direction: Inbound; Queue: Demo Queue,voice,4898a757-15ec-47cc-b6be-d2e9b249e011,Tina Campbell,18,17:12
-2025-07-28 10:15:00,2025-07-28 11:15:00,0.0,Initial Direction: Inbound; Queue: Demo Queue,voice,1be98524-f56c-41bb-a6ff-3e14bb3dfb84,Judy Walker,19,23:46
-2025-07-28 10:15:00,2025-07-28 11:15:00,0.0,Initial Direction: Inbound; Queue: Demo Queue,voice,37f0a1b2-2e3d-4f4c-b9fa-1d2e3a4b5c6d,Christine Roberts,2,11:46
-2025-07-28 10:15:00,2025-07-28 11:15:00,0.0,Initial Direction: Inbound; Queue: Demo Queue,voice,ce4e5d79-18a2-4b0f-9c9d-7b1e3f5a2c6d,Wendy Flores,15,14:46

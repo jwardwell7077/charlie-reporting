@@ -1,9 +1,0 @@
-Interval Start,Interval End,Interval Complete,Filters,Media Type,Agent Id,Agent Name,Handle,Avg Handle,Avg Talk,Avg Hold,Avg ACW,Total Handle,Total Talk,Total Hold,Total ACW
-2025-07-28 10:45:00,2025-07-28 11:45:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,08f54f08-058a-4e0b-9ec4-a738a595da3c,Charlie Brown,86,220537,42737,22952,15028,18966182,3675382,1973872,1165472
-2025-07-28 10:45:00,2025-07-28 11:45:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,a16bfe90-f4bd-4b7c-af6e-881454647f5f,Eve Adams,121,196033,68343,24903,22082,23719993,8269503,3013263,2557214
-2025-07-28 10:45:00,2025-07-28 11:45:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,a10dac0a-bb6c-4eb3-81df-d8f45f96770f,Marie King,72,222873,26268,13651,5632,16046856,1891296,982872,841104
-2025-07-28 10:45:00,2025-07-28 11:45:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,a07d4b63-36f1-4972-8e9b-c1d2e3f4a5b6,Yolanda Morales,2,134069,13583,22023,16699,268138,27166,44046,57216
-2025-07-28 10:45:00,2025-07-28 11:45:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,d1f3a0e2-47b9-4c73-a3d9-0c1e7f4b6c29,Ursula Rivera,191,61061,52292,7851,13985,11662651,9987772,1499541,3832224
-2025-07-28 10:45:00,2025-07-28 11:45:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,24bb913e-5636-4db3-aab7-1213b0928274,Bob Johnson,168,143916,31217,3253,18596,24177888,5244456,546504,1888992
-2025-07-28 10:45:00,2025-07-28 11:45:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,a0c1e2b3-3d4e-5a6f-7b8c-9d0e1f2a3b4c,Derek Parker,189,220585,66225,22017,10100,41690565,12516525,4161213,3338496
-2025-07-28 10:45:00,2025-07-28 11:45:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,6c7bba2a-d8ec-4b53-9934-cf52606b282a,Alice Smith,137,220736,74686,1733,25576,30240832,10231982,237421,2553543

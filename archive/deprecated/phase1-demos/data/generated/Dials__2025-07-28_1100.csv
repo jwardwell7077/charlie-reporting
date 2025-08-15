@@ -1,5 +1,0 @@
-Interval Start,Interval End,Interval Complete,Filters,Media Type,Agent Id,Agent Name,Handle,Avg Handle,Avg Talk,Avg Hold,Avg ACW,Total Handle,Total Talk,Total Hold,Total ACW
-2025-07-28 11:00:00,2025-07-28 12:00:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,c7ca8c70-fce5-4eee-a913-813af2d2b9a4,Frank Miller,96,27185,77488,7947,23027,2609760,7438848,762912,1560000
-2025-07-28 11:00:00,2025-07-28 12:00:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,1be98524-f56c-41bb-a6ff-3e14bb3dfb84,Judy Walker,52,156251,30451,4472,5541,8125052,1583452,232544,342264
-2025-07-28 11:00:00,2025-07-28 12:00:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,d1f3a0e2-47b9-4c73-a3d9-0c1e7f4b6c29,Ursula Rivera,182,62411,28534,23441,27849,11358802,5193188,4266262,4994990
-2025-07-28 11:00:00,2025-07-28 12:00:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,a10dac0a-bb6c-4eb3-81df-d8f45f96770f,Marie King,25,39791,65932,19763,29479,994775,1648300,494075,201675
