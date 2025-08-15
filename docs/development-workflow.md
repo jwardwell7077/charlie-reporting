@@ -12,6 +12,7 @@ Practical, lightweight flow for adding or changing functionality while keeping t
 | One obvious way | Consistent mental model |
 | Fail fast, log clearly | Speeds triage |
 | Delete before abstracting | Reduces dead code |
+| OOP for new features | Clear seams; easier testing & extension |
 
 ## 2. Work Item Lifecycle
 
@@ -23,11 +24,11 @@ Idea -> Ticket (issue) -> Branch -> (Update/Write Tests) -> Implement -> Local Q
 
 | Type | Pattern | Examples |
 |------|---------|----------|
-| Feature | feature/<short-topic> | feature/ingestion-log |
-| Fix | fix/<issue-id-or-short> | fix/excel-empty-sheet |
-| Chore | chore/<tooling-docs> | chore/update-ruff |
-| Docs | docs/<scope> | docs/dev-workflow |
-| Hotfix (direct to main if needed) | hotfix/<critical-issue> | hotfix/ingest-crash |
+| Feature | feature/\<short-topic\> | feature/ingestion-log |
+| Fix | fix/\<issue-id-or-short\> | fix/excel-empty-sheet |
+| Chore | chore/\<tooling-docs\> | chore/update-ruff |
+| Docs | docs/\<scope\> | docs/dev-workflow |
+| Hotfix (direct to main if needed) | hotfix/\<critical-issue\> | hotfix/ingest-crash |
 
 Keep branches < 300 lines diff when possible. Split otherwise.
 
@@ -51,6 +52,7 @@ Include follow-up `Co-authored-by:` only if pairing. Avoid bundling unrelated ch
 - Type check (mypy or Pylance) shows no new errors in touched areas
 - Docs updated if: new config key, new endpoint, new operational step
 - Status guidelines followed for notable changes (see `final-status-report.md`)
+- Non-trivial logic added as or migrated to a focused class (constructor + small public methods)
 
 ## 6. Test-First Flow (Recommended)
 
