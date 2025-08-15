@@ -54,12 +54,32 @@ Include follow-up `Co-authored-by:` only if pairing. Avoid bundling unrelated ch
 
 ## 6. Test-First Flow (Recommended)
 
-1. Identify behavior delta.
-2. Add/adjust test (fails red).
+1. Identify behavior delta & draft a Design Spec (see Section 6a) capturing contract.
+2. Add/adjust test (fails red) encoding spec cases.
 3. Implement minimal code.
 4. Green tests.
 5. Refactor (deduplicate / clarify names).
 6. Run full quick suite.
+
+### 6a. Design Spec (Lightweight Gate)
+
+Create before the first failing test for any non-trivial change (new table, endpoint, scheduler, aggregation logic, cross-cutting helper).
+
+Include 5 bullets max:
+
+- Purpose: one-line outcome / value
+- Inputs: parameters, config keys, file patterns
+- Outputs: return types, db rows, side-effects (paths, table names)
+- Errors: expected failure modes & handling strategy (skip, raise, log)
+- Success Criteria: measurable assertions (row counts, columns, status codes)
+
+Location options (choose one):
+
+- New short markdown file under `docs/design-specs/<feature>.md`
+- Module-level docstring in the new test file
+- PR description (copy spec into repo later if durable)
+
+Spec stays updated during Red/Green/Refactor; if behavior changes, update spec first, then tests.
 
 See `testing-approach.md` for case ideas.
 
