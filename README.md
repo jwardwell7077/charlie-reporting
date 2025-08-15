@@ -1,172 +1,88 @@
-# Charlie Reporting System
+# Charlie Reporting (Lean Foundation Restart)
 
-A modern microservices-based reporting system for processing CSV data and generating Excel reports.
+This repository has been reset to a **minimal, configurable reporting foundation** focused on:
 
-**🎯 Portfolio Project**: This demonstrates enterprise-grade microservices architecture, professional development practices, and legacy system modernization.
+* Ingesting SharePoint‑exported CSV drops
+* Loading data into a lightweight local SQLite store
+* Generating hourly and quad‑daily Excel/HTML outputs
+* Preparing for later email distribution & real SharePoint / Graph API integration
 
-## 🧭 **Development Philosophy**
+Historic microservice code has been pruned (kept in prior Git history). Documentation & configuration files remain for reference/value.
 
-This project follows two core engineering principles:
+## Current Core
 
-### **1. Plan and Architect Before Implement**
-
-- **📋 Design First**: All architectural changes documented before implementation
-- **🔍 Justify Decisions**: Include reasoning, alternatives, and trade-offs
-- **📊 Impact Analysis**: Review effects on existing services and tests
-- **⚡ Phased Implementation**: Break down changes into clear deliverables
-
-### **2. Test-Driven Development (TDD)**
-
-- **🔴 Red**: Write failing tests for new features first
-- **🟢 Green**: Write minimal code to pass tests  
-- **🔄 Refactor**: Improve code while maintaining test coverage
-- **📊 Coverage**: Minimum 80% test coverage for all business logic
-- **🚀 Automation**: All tests run in CI/CD pipeline
-
-**Quality Standards**:
-
-- ✅ Unit tests for business logic (no external dependencies)
-- ✅ Integration tests for API endpoints and database operations
-- ✅ End-to-end tests for complete workflows
-- ✅ Pytest framework with comprehensive fixtures and mocks
-- ❌ Manual terminal testing for validation (automated only)
-
-### **3. Code Quality & Standards**
-
-- **🐍 PEP 8 Compliance**: All code follows Python style guidelines
-- **🔍 Flake8 Linting**: Zero tolerance policy for linting errors
-- **📏 Line Length**: Maximum 88 characters (Black-compatible)
-- **🏷️ Type Hints**: Required for all public methods and functions
-- **📝 Docstrings**: Comprehensive documentation for public APIs
-- **🔄 Pre-commit Hooks**: Automated code quality checks before commits
-
-**Code Quality Tools**:
-
-```bash
-# Run Flake8 linting on entire project
-flake8 .
-
-# Run on specific service
-flake8 services/report-generator/
-
-# Check specific file
-flake8 services/email-service/email_processor.py
+```text
+foundation/
+	README.md              # Detailed foundation architecture
+	pyproject.toml         # Isolated tooling + deps (FastAPI, pandas, etc.)
+	src/
+		config/settings.py   # TOML settings loader (schedules, sources, columns)
+		pipeline/            # collector | loader | aggregator | excel
+		services/            # sharepoint_stub.py | api.py (FastAPI)
+	tests/
+		test_settings.py
+config/
+	settings.toml          # Active foundation configuration (new)
+	config.toml            # Legacy (phase 2) email + attachment config (retained)
+data/ (sample CSVs kept)
+docs/ (original documentation preserved)
 ```
 
-## 📖 **Project Documentation**
+## Configuration Overview
 
-- **[Development Diary](docs/development-diary.md)**: Complete journey from desktop app to microservices architecture
-- **[Final Deliverable](docs/deliverables/phase-2-final-deliverable.md)**: Portfolio-ready project summary and employment value
-- **[Architecture Documentation](docs/architecture/)**: Technical design and implementation details
-- **[Sprint Reviews](docs/sprint-reviews/)**: Professional project management and progress tracking
+Active runtime configuration now lives in `config/settings.toml` (see populated example in repo). Key sections:
 
-## 🚀 Quick Start
+* `[schedules]` – hourly interval + explicit quad‑daily times
+* `[data_sources]` / `[[data_sources.sources]]` – list of named CSV patterns to ingest
+* `[collector]` – input (SharePoint dump), staging, archive directories
+* `[report]` – output directory, workbook name, per‑source column whitelists
+* `[email]` – (placeholder) future outbound email metadata
+
+Legacy `config/config.toml` provided email folder filters & per‑file column selections. These have been **mapped forward**:
+
+| Legacy Section | New Mapping |
+|----------------|-------------|
+| `[attachments]` filename → columns | `[report.columns]` source name → columns (source name = lowercased filename stem) |
+| `output.excel_dir` | `report.output_dir` |
+| `output.archive_dir` | `collector.archive_dir` |
+| `directory_scan.scan_path` | `collector.input_root` |
+| `email.sender[0]` | `email.from` |
+| `email.subject_contains[0]` | `email.subject_template` (placeholder) |
+
+## Quick Start
 
 ```bash
-# Create / update local venv (first time)
 python3 -m venv .venv
 source .venv/bin/activate
-pip install -r requirements.txt
+pip install -r requirements.txt   # root (global tooling) if still used
+pip install -e foundation         # optional editable install of foundation package
 
-# Enforced: will abort if not using ./.venv (sitecustomize)
-python run.py
-
-# Run tests (always via project python)
-./.venv/bin/python -m pytest
+# Run API (inside venv)
+python -m foundation.src.services.api
 ```
 
-### 🔒 Interpreter Enforcement
-
-The project guarantees the correct Python interpreter (.venv) is used:
-
-- `sitecustomize.py` aborts any Python process using a non-project interpreter.
-- `scripts/ensure_project_venv.py` is a reusable assertion (import or run standalone).
-- Optional `direnv` support via `.envrc` to auto-activate the venv on entering the directory.
-- `pre-commit-venv-check.sh` (symlink into `.git/hooks/pre-commit`) blocks commits from the wrong env.
-
-To enable pre-commit enforcement:
+Generate an hourly workbook via API (example):
 
 ```bash
-ln -s ../../pre-commit-venv-check.sh .git/hooks/pre-commit
+curl -X POST http://localhost:8000/ingest
+curl -X POST http://localhost:8000/generate/hourly
 ```
 
-If you accidentally run `pytest` from a global env, it will terminate immediately with a clear message.
+## Roadmap (Near Term)
 
-## 📁 Project Structure
+1. Add scheduler (APScheduler) harness for hourly + quad‑daily triggers
+2. Implement email packaging (HTML inline + attachment) using configured sheet list
+3. Extend loader to additional sources & enforce idempotent ingestion tracking
+4. Introduce metrics & lightweight logging format
+5. Replace stub with Graph API SharePoint ingestion pipeline
 
-├── services/              # Microservices
-│   ├── report-generator/   # CSV processing & Excel generation (TDD-refactored)
-│   ├── email-service/      # Email processing
-│   ├── outlook-relay/      # Outlook integration
-│   ├── database-service/   # Data persistence
-│   └── scheduler-service/  # Task scheduling
-│
-├── shared/                # Shared utilities & libraries
-│   ├── config_manager.py   # Configuration management
-│   ├── logging_utils.py    # Logging utilities
-│   └── tests/             # Shared test utilities
-│
-├── scripts/               # Management & utility scripts
-│   ├── test_runner.py     # Service test runner
-│   └── start_dev_services.py
-│
-├── docs/                  # Documentation
-│   ├── api/              # API documentation
-│   ├── architecture/     # System architecture docs
-│   └── migration/        # Migration guides
-│
-├── tools/                 # Development & setup tools
-│   ├── setup/            # Environment setup scripts
-│   └── development/      # Development utilities
-│
-├── archive/               # Historical & deprecated files
-│   ├── migration/        # Migration artifacts
-│   ├── deprecated/       # Deprecated code
-│   └── debug/           # Debug scripts
-│
-├── config/               # Configuration files
-├── demo/                 # Demo data & scripts
-├── logs/                 # Application logs
-└── legacy_backup/        # Backup of migrated code
+## Contributing / Historical Docs
 
-## 🏗️ Architecture
+All prior microservices architecture rationale, migration notes, and phase achievements remain under `docs/` for portfolio storytelling. Use `git log` or GitHub history to view removed code.
 
-This system follows a modern microservices architecture:
+## License
 
-- **Report Generator Service**: Core CSV processing and Excel generation
-- **Email Service**: Email fetching and processing
-- **Outlook Relay**: Outlook/Exchange integration
-- **Database Service**: Data persistence and retrieval
-- **Scheduler Service**: Task scheduling and automation
+Proprietary / internal (adjust as needed). Add explicit license file if distribution requirements change.
 
-## 🧪 Testing
-
-```bash
-# Run all tests
-python3 scripts/test_runner.py
-
-# Run tests for specific service
-python3 scripts/test_runner.py --service report-generator
-
-# Run specific test types
-python3 scripts/test_runner.py --type unit
-python3 scripts/test_runner.py --type integration
-```
-
-## 📚 Documentation
-
-- [API Documentation](docs/api/)
-- [Architecture Overview](docs/architecture/)
-- [Migration Guide](docs/migration/)
-- [Development Setup](tools/setup/)
-
-## 🛠️ Development
-
-See [tools/development/](tools/development/) for development setup and utilities.
-
-## 📈 Status
-
-✅ Phase 2 Complete - Microservices architecture fully implemented
-✅ Legacy code migration completed
-✅ Test suite reorganized into service-specific tests
-✅ Root directory cleanup completed
+---
+This README intentionally reflects the lean restart state; for deeper architectural description see `foundation/README.md`.

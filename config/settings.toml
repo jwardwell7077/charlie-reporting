@@ -1,0 +1,73 @@
+############################################################
+# Foundation Runtime Settings
+#
+# This file supersedes legacy config/config.toml for the new
+# lean ingestion -> SQLite -> reporting pipeline.
+#
+# Mapping reference:
+#   legacy [attachments] filenames  -> [report.columns] source keys
+#   legacy output.excel_dir         -> report.output_dir
+#   legacy output.archive_dir       -> collector.archive_dir
+#   legacy directory_scan.scan_path -> collector.input_root
+#   legacy email.sender[0]          -> email.from
+#   legacy email.subject_contains   -> email.subject_template (simplified)
+############################################################
+
+[schedules]
+# Minutes between automatic hourly aggregation (scheduler not yet implemented)
+hourly_interval_minutes = 60
+# Explicit quad-daily run times in 24h HH:MM (local server time)
+quad_daily_times = ["08:00","12:00","16:00","19:00"]
+
+[data_sources]
+[[data_sources.sources]]
+name = "ib_calls"
+pattern = "IB_Calls*.csv"
+
+[[data_sources.sources]]
+name = "qcbs"
+pattern = "QCBs*.csv"
+
+[[data_sources.sources]]
+name = "dials"
+pattern = "Dials*.csv"
+
+[[data_sources.sources]]
+name = "productivity"
+pattern = "Productivity*.csv"
+
+[[data_sources.sources]]
+name = "campaign_interactions"
+pattern = "Campaign_Interactions*.csv"
+
+[[data_sources.sources]]
+name = "acq"
+pattern = "ACQ*.csv"
+
+[[data_sources.sources]]
+name = "resc"
+pattern = "RESC*.csv"
+
+[collector]
+input_root = "data/incoming"      # From legacy directory_scan.scan_path
+staging_dir = "_staging"          # Internal processing area
+archive_dir = "data/archive"      # Where processed files are archived
+
+[report]
+output_dir = "reports"            # Where Excel/HTML outputs are written
+workbook_name = "hourly_report.xlsx"
+
+[report.columns]
+ib_calls = ["Agent Name","Handle","Avg Handle"]
+qcbs = ["Agent Name","Handle"]
+dials = ["Agent Name","Handle","Avg Handle","Avg Talk","Avg Hold"]
+productivity = ["Agent Name","Logged In","On Queue","Idle","Off Queue","Interacting"]
+campaign_interactions = ["Date","Initial Direction","First Queue"]
+acq = ["Agent Name","Handle"]
+resc = ["Agent Name","Handle"]
+
+[email]
+from = "reports@example.com"        # Derived from legacy sender
+recipients = []                      # Populate when email feature added
+subject_template = "Daily Report {date}"  # Simplified from subject_contains
+include_sheets = ["HourlySummary"]  # Placeholder; sheets to embed/email
