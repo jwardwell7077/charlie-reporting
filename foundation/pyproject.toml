@@ -1,0 +1,38 @@
+[project]
+name = "reporting-foundation"
+version = "0.1.0"
+authors = [{name="Analytics Eng", email="analytics@example.com"}]
+requires-python = ">=3.11"
+description = "Minimal foundational reporting platform (SharePoint -> local DB -> Excel -> delivery)"
+readme = "README.md"
+license = {text = "MIT"}
+dependencies = [
+  "fastapi",
+  "uvicorn",
+  "pydantic>=2",
+  "pandas",
+  "openpyxl",
+  "python-dotenv",
+  "tomli; python_version<'3.11'",
+  "sqlite-utils",
+  "httpx",
+  "apscheduler"
+]
+
+[project.optional-dependencies]
+dev = ["pytest", "ruff", "mypy", "types-openpyxl", "pytest-asyncio"]
+
+[tool.ruff]
+line-length = 100
+select = ["E","F","I","UP","B","ANN","C4","SIM"]
+ignore = ["ANN101","ANN102"]
+
+[tool.mypy]
+python_version = "3.11"
+ignore_missing_imports = true
+strict = true
+
+[tool.pytest.ini_options]
+addopts = "-q"
+pythonpath = ["src"]
+
