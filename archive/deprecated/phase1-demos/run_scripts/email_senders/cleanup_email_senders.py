@@ -1,6 +1,5 @@
 #!/usr / bin / env python3
-"""
-cleanup_email_senders.py
+"""cleanup_email_senders.py
 ------------------------
 Clean up duplicate and obsolete email sender files
 

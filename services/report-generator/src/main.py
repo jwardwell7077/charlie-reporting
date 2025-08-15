@@ -1,12 +1,12 @@
-"""
-Main Application Entry Point
+"""Main Application Entry Point
 Initializes and runs the Report Generator Service
 """
 
-import uvicorn
-from pathlib import Path
-import sys
 import os
+import sys
+from pathlib import Path
+
+import uvicorn
 from infrastructure.config import get_config_manager
 from infrastructure.logging import initialize_logging
 from interface.app import app

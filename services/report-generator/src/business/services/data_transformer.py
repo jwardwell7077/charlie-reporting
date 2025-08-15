@@ -1,13 +1,11 @@
-"""
-Data_Transformer business service for report - generator
+"""Data_Transformer business service for report - generator
 """
 
 import logging
 
 
 class Datatransformer:
-    """
-    Data_Transformer business logic
+    """Data_Transformer business logic
     Pure domain logic with no infrastructure dependencies
     """
 

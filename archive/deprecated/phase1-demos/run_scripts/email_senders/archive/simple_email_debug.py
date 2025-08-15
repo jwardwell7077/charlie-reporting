@@ -1,12 +1,12 @@
 #!/usr / bin / env python3
-"""
-Simple email debug script to test Gmail SMTP connection
+"""Simple email debug script to test Gmail SMTP connection
 """
 
-import smtplib
 import os
-from email.mime.text import MIMEText
+import smtplib
 from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+
 from dotenv import load_dotenv
 
 

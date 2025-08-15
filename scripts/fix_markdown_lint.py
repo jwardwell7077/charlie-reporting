@@ -1,6 +1,5 @@
 #!/usr / bin / env python3
-"""
-Quick markdown lint fixes for documentation files
+"""Quick markdown lint fixes for documentation files
 """
 
 import re
@@ -10,7 +9,7 @@ from pathlib import Path
 def fix_markdown_file(file_path):
     """Fix common markdown lint issues in a file"""
     try:
-        with open(file_path, 'r', encoding='utf - 8') as f:
+        with open(file_path, encoding='utf - 8') as f:
             content = f.read()
 
         original_content = content

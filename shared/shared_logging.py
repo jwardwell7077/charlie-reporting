@@ -1,5 +1,4 @@
-"""
-Centralized Logging System for Charlie Reporting Services
+"""Centralized Logging System for Charlie Reporting Services
 Provides structured logging with service - aware context
 """
 
@@ -7,11 +6,11 @@ import json
 import logging
 import logging.handlers
 import sys
-from datetime import datetime
-from pathlib import Path
-from typing import Any, Dict, Optional, Union
 import threading
+from datetime import datetime
 from enum import Enum
+from pathlib import Path
+from typing import Any
 
 # Logging levels that map to Python logging
 
@@ -25,8 +24,7 @@ class LogLevel(str, Enum):
 
 
 class StructuredFormatter(logging.Formatter):
-    """
-    Structured JSON formatter for consistent log output
+    """Structured JSON formatter for consistent log output
     """
 
     def __init__(self, service_name: str, include_extra: bool = True):
@@ -75,8 +73,7 @@ class StructuredFormatter(logging.Formatter):
 
 
 class ServiceLogger:
-    """
-    Service - aware logger that provides structured logging capabilities
+    """Service - aware logger that provides structured logging capabilities
     """
 
     def __init__(self, service_name: str, log_level: LogLevel = LogLevel.INFO):
@@ -101,7 +98,7 @@ class ServiceLogger:
         console_handler.setFormatter(self.formatter)
         self.logger.addHandler(console_handler)
 
-    def add_file_handler(self, log_file_path: Union[str, Path],
+    def add_file_handler(self, log_file_path: str | Path,
                         max_bytes: int = 10 * 1024 * 1024,  # 10MB
                         backup_count: int = 5):
         """Add rotating file handler"""
@@ -146,11 +143,10 @@ class ServiceLogger:
 
 
 class LoggerContext:
-    """
-    Context manager for logger that automatically includes context fields
+    """Context manager for logger that automatically includes context fields
     """
 
-    def __init__(self, logger: ServiceLogger, context: Dict[str, Any]):
+    def __init__(self, logger: ServiceLogger, context: dict[str, Any]):
         self.logger = logger
         self.context = context
 
@@ -186,8 +182,7 @@ class LoggerContext:
 
 
 class RequestLogger:
-    """
-    HTTP request - specific logger with automatic request context
+    """HTTP request - specific logger with automatic request context
     """
 
     def __init__(self, logger: ServiceLogger):
@@ -235,8 +230,7 @@ class RequestLogger:
 
 
 class BusinessOperationLogger:
-    """
-    Business operation - specific logger for tracking operations
+    """Business operation - specific logger for tracking operations
     """
 
     def __init__(self, logger: ServiceLogger):
@@ -281,9 +275,8 @@ class BusinessOperationLogger:
 
 def setup_service_logging(service_name: str,
                          log_level: LogLevel = LogLevel.INFO,
-                         log_file: Optional[Union[str, Path]] = None) -> ServiceLogger:
-    """
-    Setup logging for a service with consistent configuration
+                         log_file: str | Path | None = None) -> ServiceLogger:
+    """Setup logging for a service with consistent configuration
 
     Args:
         service_name: Name of the service

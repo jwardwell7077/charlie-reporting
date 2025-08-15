@@ -1,21 +1,19 @@
-"""
-Logging Implementation
+"""Logging Implementation
 Production implementation of ILogger interface with structured logging.
 """
 
+import json
 import logging
 import sys
-from pathlib import Path
-from typing import Dict, Any, Optional
-import json
 from datetime import datetime
+from pathlib import Path
+from typing import Any
 
 from business.interfaces import ILogger
 
 
 class StructuredLoggerImpl(ILogger):
-    """
-    Production implementation of structured logging.
+    """Production implementation of structured logging.
 
     Features:
     - JSON structured logging for production
@@ -27,7 +25,7 @@ class StructuredLoggerImpl(ILogger):
     def __init__(self,
                  logger_name: str = "charlie - reporting",
                  log_level: str = "INFO",
-                 log_file: Optional[Path] = None):
+                 log_file: Path | None = None):
         self.logger_name = logger_name
         self.logger = logging.getLogger(logger_name)
         self.logger.setLevel(getattr(logging, log_level.upper()))
@@ -43,7 +41,7 @@ class StructuredLoggerImpl(ILogger):
         # Prevent duplicate logging
         self.logger.propagate = False
 
-        self.context: Dict[str, Any] = {}
+        self.context: dict[str, Any] = {}
 
     def setup_formatters(self) -> None:
         """Setup JSON and console formatters."""
@@ -74,7 +72,7 @@ class StructuredLoggerImpl(ILogger):
         """Log info level message with context."""
         self.log_with_context(logging.INFO, message, kwargs)
 
-    async def log_error(self, message: str, error: Optional[Exception] = None,
+    async def log_error(self, message: str, error: Exception | None = None,
                         **kwargs) -> None:
         """Log error level message with context and exception details."""
         if error:
@@ -92,7 +90,7 @@ class StructuredLoggerImpl(ILogger):
         self.log_with_context(logging.DEBUG, message, kwargs)
 
     def log_with_context(self, level: int, message: str,
-                         extra_data: Dict[str, Any]) -> None:
+                         extra_data: dict[str, Any]) -> None:
         """Log message with contextual information."""
         # Combine context with extra data
         log_data = {**self.context, **extra_data}

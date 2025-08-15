@@ -1,5 +1,4 @@
-"""
-archiver.py
+"""archiver.py
 -----------
 Handles archiving of processed files.
 Uses pathlib for cross - platform path handling.
@@ -15,8 +14,7 @@ from logger import LoggerFactory
 
 
 class Archiver:
-    """
-    Archiver encapsulates the logic for moving processed files to an archive directory,
+    """Archiver encapsulates the logic for moving processed files to an archive directory,
     optionally organizing by date subfolders.
     Uses pathlib for cross - platform path compatibility.
     """
@@ -26,8 +24,7 @@ class Archiver:
         self.logger = LoggerFactory.get_logger('archiver', log_file)
 
     def archive(self, filepath: str):
-        """
-        Move the given file to the archive directory.
+        """Move the given file to the archive directory.
         """
         filepath = Path(filepath)  # Convert to Path object
         if not file_path.is_file():

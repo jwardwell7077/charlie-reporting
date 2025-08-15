@@ -1,30 +1,27 @@
-"""
-Excel Report Generation Service
+"""Excel Report Generation Service
 Pure business logic for Excel report creation - migrated from src / excel_writer.py
 """
 
-from typing import Dict, List, Optional, Any
 import logging
 from pathlib import Path
-import pandas as pd
-from datetime import datetime
+from typing import Any
 
-from ..models.report import Report, ReportSheet
+import pandas as pd
+
 from ..interfaces import IExcelGenerator
+from ..models.report import Report
 
 
 class ExcelReportService:
-    """
-    Business service for Excel report generation
+    """Business service for Excel report generation
     Pure domain logic without infrastructure dependencies
     """
 
-    def __init__(self, logger: Optional[logging.Logger] = None):
+    def __init__(self, logger: logging.Logger | None = None):
         self.logger = logger or logging.getLogger(__name__)
 
-    def validate_report_for_excel(self, report: Report) -> Dict[str, Any]:
-        """
-        Business rules for Excel report validation
+    def validate_report_for_excel(self, report: Report) -> dict[str, Any]:
+        """Business rules for Excel report validation
         """
         validation = {
             'is_valid': True,
@@ -65,9 +62,8 @@ class ExcelReportService:
 
         return validation
 
-    def prepare_excel_data(self, report: Report) -> Dict[str, pd.DataFrame]:
-        """
-        Prepare report data for Excel writing
+    def prepare_excel_data(self, report: Report) -> dict[str, pd.DataFrame]:
+        """Prepare report data for Excel writing
         Combines multiple DataFrames per sheet and applies Excel - specific formatting
         """
         excel_data = {}
@@ -95,8 +91,7 @@ class ExcelReportService:
         return excel_data
 
     def generate_filename(self, report: Report, prefix: str = "report", suffix: str = "") -> str:
-        """
-        Business logic for generating Excel filenames
+        """Business logic for generating Excel filenames
         """
         # Base file_name from report
         basename = report.get_filename_suggestion(prefix)
@@ -118,10 +113,9 @@ class ExcelReportService:
         return base_name
 
     def create_incremental_update_strategy(self,
-                                         existing_file: Optional[Path],
-                                         new_report: Report) -> Dict[str, Any]:
-        """
-        Business logic for incremental Excel updates
+                                         existing_file: Path | None,
+                                         new_report: Report) -> dict[str, Any]:
+        """Business logic for incremental Excel updates
         """
         strategy = {
             'update_type': 'full_replace',  # default
@@ -155,9 +149,8 @@ class ExcelReportService:
 
         return strategy
 
-    def calculate_report_size_estimate(self, report: Report) -> Dict[str, Any]:
-        """
-        Estimate Excel file size and complexity
+    def calculate_report_size_estimate(self, report: Report) -> dict[str, Any]:
+        """Estimate Excel file size and complexity
         """
         totalcells = 0
         totalrows = 0
@@ -201,8 +194,7 @@ class ExcelReportService:
         return safe_name
 
     def clean_dataframe_for_excel(self, df: pd.DataFrame) -> pd.DataFrame:
-        """
-        Clean DataFrame for Excel compatibility
+        """Clean DataFrame for Excel compatibility
         """
         dfclean = df.copy()
 
@@ -235,7 +227,7 @@ class ExcelReportService:
         else:
             return 'low'
 
-    def get_performance_warnings(self, total_rows: int, total_cells: int) -> List[str]:
+    def get_performance_warnings(self, total_rows: int, total_cells: int) -> list[str]:
         """Generate performance warnings based on data size"""
         warnings = []
 
@@ -249,15 +241,14 @@ class ExcelReportService:
 
 
 class ExcelGeneratorService(IExcelGenerator):
-    """
-    Implementation of IExcelGenerator interface
+    """Implementation of IExcelGenerator interface
     Adapter for the existing ExcelReportService
     """
 
     def __init__(self):
         self.service = ExcelReportService()
 
-    async def create_workbook(self, data: Dict[str, Any]) -> bytes:
+    async def create_workbook(self, data: dict[str, Any]) -> bytes:
         """Create Excel workbook from data"""
         try:
             # For now, create a simple workbook with basic data
@@ -286,7 +277,7 @@ class ExcelGeneratorService(IExcelGenerator):
             return b''
 
     async def apply_formatting(
-        self, workbook_data: bytes, rules: Dict[str, Any]
+        self, workbook_data: bytes, rules: dict[str, Any]
     ) -> bytes:
         """Apply formatting rules to workbook"""
         # For now, return the workbook unchanged

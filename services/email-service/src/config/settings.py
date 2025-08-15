@@ -1,8 +1,8 @@
-"""
-Email Service Configuration
+"""Email Service Configuration
 """
 import os
 import sys
+
 from pydantic import Field
 
 # Add shared components to path

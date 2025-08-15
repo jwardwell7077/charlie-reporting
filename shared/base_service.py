@@ -1,21 +1,20 @@
-"""
-Shared Base Service Framework
+"""Shared Base Service Framework
 Base classes and utilities shared across all microservices
 """
 
-from abc import ABC, abstractmethod
-from typing import Dict, Any, Optional, List
 import asyncio
+import os
 import signal
+from abc import ABC, abstractmethod
+from datetime import datetime
+from typing import Any
+
 import structlog
 import uvloop
-from datetime import datetime
-import os
 
 
 class BaseService(ABC):
-    """
-    Base class for all Charlie Reporting microservices.
+    """Base class for all Charlie Reporting microservices.
 
     Provides:
     - Standardized startup / shutdown lifecycle
@@ -40,7 +39,7 @@ class BaseService(ABC):
 
         # Internal state
         self.shutdown_event = asyncio.Event()
-        self.tasks: List[asyncio.Task] = []
+        self.tasks: list[asyncio.Task] = []
 
     async def start(self):
         """Start the service with full lifecycle management"""
@@ -178,7 +177,7 @@ class BaseService(ABC):
             await asyncio.gather(*self.tasks, return_exceptions=True)
         self.tasks.clear()
 
-    def get_health_status(self) -> Dict[str, Any]:
+    def get_health_status(self) -> dict[str, Any]:
         """Get comprehensive health status"""
         return {
             "service": self.name,
@@ -190,12 +189,12 @@ class BaseService(ABC):
             "dependencies": self.check_dependencies()
         }
 
-    def get_uptime(self) -> Optional[float]:
+    def get_uptime(self) -> float | None:
         """Get service uptime in seconds"""
         # This would be implemented with start time tracking
         return None
 
-    def check_dependencies(self) -> Dict[str, Any]:
+    def check_dependencies(self) -> dict[str, Any]:
         """Check health of service dependencies"""
         dependencies = {}
 
@@ -209,8 +208,7 @@ class BaseService(ABC):
 
 
 class ServiceRunner:
-    """
-    Utility class to run services with proper async event loop setup
+    """Utility class to run services with proper async event loop setup
     """
 
     @staticmethod
@@ -232,12 +230,11 @@ class ServiceRunner:
 
 
 class ServiceManager:
-    """
-    Manages multiple services for local development (Windows batch file scenario)
+    """Manages multiple services for local development (Windows batch file scenario)
     """
 
     def __init__(self):
-        self.services: Dict[str, BaseService] = {}
+        self.services: dict[str, BaseService] = {}
         self.running = False
 
     def add_service(self, service: BaseService):

@@ -1,5 +1,4 @@
-"""
-run_integration_tests.py
+"""run_integration_tests.py
 -----------------------
 Integration test runner with safety checks and comprehensive reporting.
 
@@ -7,11 +6,11 @@ Author: Jonathan Wardwell, Copilot, GPT - 4o
 License: MIT
 """
 
+import logging
 import os
 import sys
-import logging
-import unittest
 import time
+import unittest
 from datetime import datetime
 from pathlib import Path
 

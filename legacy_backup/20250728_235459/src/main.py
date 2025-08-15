@@ -1,6 +1,5 @@
 
-"""
-main.py
+"""main.py
 -------
 Entry point for the real - time reporting ETL pipeline. Supports hourly incremental processing,
 on - demand reports, and end - of - day summaries for contact center data.
@@ -9,21 +8,23 @@ Author: Jonathan Wardwell, Copilot, GPT - 4o
 License: MIT
 """
 
-import sys
 import argparse
+import sys
 import time
-from datetime import datetime, timedelta
-from typing import Dict, List, Optional
+from datetime import datetime
 from pathlib import Path
+
 from config_loader import ConfigLoader
-from email_fetcher import EmailFetcher  # from db_service.db_processor import DBProcessor  # Temporarily disabled for demo  # from db_service.report_generator import ReportGenerator  # Temporarily disabled for demo
-from excel_writer import ExcelWriter
 from logger import LoggerFactory
+
+from email_fetcher import (
+    EmailFetcher,  # from db_service.db_processor import DBProcessor  # Temporarily disabled for demo  # from db_service.report_generator import ReportGenerator  # Temporarily disabled for demo
+)
+from excel_writer import ExcelWriter
 
 
 class ReportProcessor:
-    """
-    Handles real - time incremental processing of contact center reports.
+    """Handles real - time incremental processing of contact center reports.
     Supports hourly processing, incremental Excel updates, and on - demand reporting.
     """
 
@@ -50,9 +51,8 @@ class ReportProcessor:
         self.dailydata_cache = {}
         self.logger.debug("ReportProcessor.__init__: Initialization complete")
 
-    def process_hourly(self, target_datetime: Optional[datetime] = None) -> Dict:
-        """
-        Process emails for a specific hour and update Excel incrementally.
+    def process_hourly(self, target_datetime: datetime | None = None) -> dict:
+        """Process emails for a specific hour and update Excel incrementally.
 
         Args:
             target_datetime: Specific datetime to process (defaults to current hour)
@@ -112,9 +112,8 @@ class ReportProcessor:
             self.logger.debug("ReportProcessor.process_hourly: Method completed with error")
             return {}
 
-    def generate_on_demand_report(self, date_str: str, report_types: Optional[List[str]] = None) -> str:
-        """
-        Generate an on - demand report for a specific date.
+    def generate_on_demand_report(self, date_str: str, report_types: list[str] | None = None) -> str:
+        """Generate an on - demand report for a specific date.
 
         Args:
             date_str: Date in YYYY - MM - DD format
@@ -154,8 +153,7 @@ class ReportProcessor:
             return None
 
     def generate_end_of_day_summary(self, date_str: str) -> str:
-        """
-        Generate comprehensive end - of - day summary report.
+        """Generate comprehensive end - of - day summary report.
 
         Args:
             date_str: Date in YYYY - MM - DD format
@@ -218,8 +216,7 @@ class ReportProcessor:
             return None
 
     def run_continuous_processing(self, check_interval: int = 300):
-        """
-        Run continuous hourly processing (for production deployment).
+        """Run continuous hourly processing (for production deployment).
 
         Args:
             check_interval: Seconds between checks for new hour (default: 5 minutes)
@@ -244,7 +241,7 @@ class ReportProcessor:
                 self.logger.error(f'Error in continuous processing: {e}', exc_info=True)
                 time.sleep(check_interval)
 
-    def update_daily_cache(self, date_str: str, new_data: Dict):
+    def update_daily_cache(self, date_str: str, new_data: dict):
         """Update the daily data cache with new hourly data (for backward compatibility)."""
         if date_str not in self.daily_data_cache:
             self.daily_data_cache[date_str] = {}

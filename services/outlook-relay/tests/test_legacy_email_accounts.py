@@ -1,5 +1,4 @@
-"""
-test_email_fetcher_directory_and_accounts.py
+"""test_email_fetcher_directory_and_accounts.py
 ---------------------------------------------
 Tests for directory scanning and REST API email service functionality in EmailFetcher.
 Updated to test the new Windows Email Service + REST API architecture.
@@ -9,18 +8,20 @@ License: MIT
 """
 
 import os
-import pytest
-import tempfile
-from datetime import datetime, timedelta
-from unittest.mock import Mock, patch, MagicMock
-import glob
 
 # Import the classes we're testing
 import sys
+import tempfile
+from datetime import datetime, timedelta
+from unittest.mock import Mock, patch
+
+import pytest
+
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src'))
 
-from email_fetcher import EmailFetcher
 from config_loader import ConfigLoader
+
+from email_fetcher import EmailFetcher
 
 
 @pytest.fixture

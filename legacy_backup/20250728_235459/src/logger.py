@@ -1,11 +1,10 @@
-import os
 import logging
+import os
 from logging.handlers import TimedRotatingFileHandler
 
 
 class LoggerFactory:
-    """
-    LoggerFactory configures and returns loggers with both console and rotating file handlers.
+    """LoggerFactory configures and returns loggers with both console and rotating file handlers.
     """
     LOGDIR = os.path.join(os.getcwd(), 'logs')
 

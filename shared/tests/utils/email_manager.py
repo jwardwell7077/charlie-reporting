@@ -1,5 +1,4 @@
-"""
-email_manager.py
+"""email_manager.py
 ----------------
 SMTP email management for integration tests.
 
@@ -7,20 +6,19 @@ Author: Jonathan Wardwell, Copilot, GPT - 4o
 License: MIT
 """
 
-import smtplib
+import logging
 import os
+import smtplib
 import uuid
 from datetime import datetime
-from email.mime.text import MIMEText
-from email.mime.multipart import MIMEMultipart
-from email.mime.base import MIMEBase
 from email import encoders
-import logging
+from email.mime.base import MIMEBase
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
 
 
 class IntegrationEmailManager:
-    """
-    Manages sending test emails via SMTP for integration testing.
+    """Manages sending test emails via SMTP for integration testing.
     """
 
     def __init__(self, config):
@@ -44,8 +42,7 @@ class IntegrationEmailManager:
         return f"{self.test_prefix}_{timestamp}_{unique_id}"
 
     def send_simple_email(self, subject_suffix: str = "Simple Test") -> str:
-        """
-        Send a simple text email for testing.
+        """Send a simple text email for testing.
 
         Returns:
             str: The full subject line of the sent email
@@ -73,8 +70,7 @@ If you see this email, please check the integration test logs.
         return subject
 
     def send_email_with_csv_attachment(self, csv_file_path: str, subject_suffix: str = "CSV Test") -> str:
-        """
-        Send email with CSV attachment for testing.
+        """Send email with CSV attachment for testing.
 
         Args:
             csv_file_path: Path to CSV file to attach
@@ -136,8 +132,7 @@ This email should be automatically deleted by the test suite.
             raise
 
     def test_smtp_connection(self) -> bool:
-        """
-        Test SMTP connection and authentication.
+        """Test SMTP connection and authentication.
 
         Returns:
             bool: True if connection successful, False otherwise

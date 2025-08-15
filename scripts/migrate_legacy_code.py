@@ -1,13 +1,12 @@
 #!/usr / bin / env python3
-"""
-Legacy Code Migration Script
+"""Legacy Code Migration Script
 Phases out old src/ code and integrates with new microservices architecture
 """
 
-import shutil
-from pathlib import Path
-from datetime import datetime
 import argparse
+import shutil
+from datetime import datetime
+from pathlib import Path
 
 
 class LegacyMigrator:
@@ -169,7 +168,7 @@ ExcelWriter = LegacyExcelWriter
                 continue
 
             try:
-                with open(file_path, 'r') as f:
+                with open(file_path) as f:
                     content = f.read()
 
                 original_content = content
@@ -191,7 +190,7 @@ ExcelWriter = LegacyExcelWriter
     def update_imports_in_file(self, file_path: Path, original_name: str):
         """Update imports within a migrated file"""
         try:
-            with open(file_path, 'r') as f:
+            with open(file_path) as f:
                 content = f.read()
 
             # Update internal imports to use shared modules

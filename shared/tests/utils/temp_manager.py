@@ -1,5 +1,4 @@
-"""
-temp_manager.py
+"""temp_manager.py
 ---------------
 Temporary directory and file management for integration tests.
 
@@ -7,17 +6,14 @@ Author: Jonathan Wardwell, Copilot, GPT - 4o
 License: MIT
 """
 
+import logging
 import os
 import shutil
 import tempfile
-import logging
-from typing import Dict, List, Optional
-from pathlib import Path
 
 
 class IntegrationTempManager:
-    """
-    Manages temporary directories and files for integration testing.
+    """Manages temporary directories and files for integration testing.
     """
 
     def __init__(self, config):
@@ -27,9 +23,8 @@ class IntegrationTempManager:
         self.tempdirs = {}
         self.createdfiles = []
 
-    def setup_temp_environment(self) -> Dict[str, str]:
-        """
-        Create temporary directory structure for integration tests.
+    def setup_temp_environment(self) -> dict[str, str]:
+        """Create temporary directory structure for integration tests.
 
         Returns:
             Dict[str, str]: Mapping of directory types to paths
@@ -56,7 +51,7 @@ class IntegrationTempManager:
 
         return self.temp_dirs.copy()
 
-    def get_temp_dir(self, dir_type: str) -> Optional[str]:
+    def get_temp_dir(self, dir_type: str) -> str | None:
         """Get path to a specific temporary directory."""
         return self.temp_dirs.get(dir_type)
 
@@ -67,8 +62,7 @@ class IntegrationTempManager:
             self.logger.debug(f"Tracking file for cleanup: {file_path}")
 
     def cleanup_all(self) -> bool:
-        """
-        Clean up all temporary directories and files.
+        """Clean up all temporary directories and files.
 
         Returns:
             bool: True if cleanup successful
@@ -102,8 +96,7 @@ class IntegrationTempManager:
         return success
 
     def create_test_file(self, content: str, filename: str, dir_type: str = 'generated') -> str:
-        """
-        Create a test file with specified content.
+        """Create a test file with specified content.
 
         Args:
             content: File content
@@ -132,8 +125,7 @@ class IntegrationTempManager:
             raise
 
     def verify_directory_structure(self) -> bool:
-        """
-        Verify that all expected directories exist.
+        """Verify that all expected directories exist.
 
         Returns:
             bool: True if all directories exist
@@ -150,9 +142,8 @@ class IntegrationTempManager:
         self.logger.info("Directory structure verified")
         return True
 
-    def list_files_in_dir(self, dir_type: str) -> List[str]:
-        """
-        List all files in a specific directory.
+    def list_files_in_dir(self, dir_type: str) -> list[str]:
+        """List all files in a specific directory.
 
         Args:
             dir_type: Directory type to list
@@ -179,9 +170,8 @@ class IntegrationTempManager:
         """Get count of files in a directory."""
         return len(self.list_files_in_dir(dir_type))
 
-    def copy_file_to_dir(self, source_path: str, dir_type: str, new_name: Optional[str] = None) -> str:
-        """
-        Copy a file to a temporary directory.
+    def copy_file_to_dir(self, source_path: str, dir_type: str, new_name: str | None = None) -> str:
+        """Copy a file to a temporary directory.
 
         Args:
             source_path: Source file path

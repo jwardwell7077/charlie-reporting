@@ -1,17 +1,15 @@
 #!/usr / bin / env python3
-"""
-Final SRC Migration Analysis
+"""Final SRC Migration Analysis
 Checks what remains in src/ and if it's safe to delete
 """
 
-from pathlib import Path
 import ast
 import sys
+from pathlib import Path
 
 
 def analyze_src_directory():
     """Analyze what's left in src/ and determine if it's safe to delete"""
-
     srcdir = Path("src")
     if not src_dir.exists():
         print("❌ src/ directory doesn't exist")
@@ -83,7 +81,7 @@ def analyze_src_directory():
 
         # Check if file has any complex business logic
         try:
-            with open(file_path, 'r') as f:
+            with open(file_path) as f:
                 content = f.read()
                 lines = len(content.splitlines())
 
@@ -144,7 +142,7 @@ def analyze_src_directory():
         servicefiles = list(service_dir.glob("**/*.py"))
         for service_file in service_files:
             try:
-                with open(service_file, 'r') as f:
+                with open(service_file) as f:
                     content = f.read()
                     if 'from src.' in content or 'import src.' in content:
                         print(f"   ⚠️ {service_file} still imports from src/")

@@ -1,5 +1,4 @@
-"""
-REST Email Client - Updated EmailFetcher
+"""REST Email Client - Updated EmailFetcher
 ----------------------------------------
 Updated EmailFetcher that uses the Windows Email Service REST API instead of direct COM / IMAP.
 This allows cross - platform email access while keeping email credentials on the Windows service.
@@ -8,15 +7,13 @@ Author: Jonathan Wardwell, Copilot, GPT - 4o
 License: MIT
 """
 
-from datetime import datetime, timedelta
-from typing import Dict, Any, List
-from pathlib import Path
-import json
 import time
+from datetime import datetime, timedelta
+from pathlib import Path
+from typing import Any
 
 from config_loader import ConfigLoader
 from logger import LoggerFactory
-from utils import sanitize_filename
 
 
 class EmailServiceError(Exception):
@@ -25,8 +22,7 @@ class EmailServiceError(Exception):
 
 
 class EmailFetcher:
-    """
-    REST client for Windows Email Service.
+    """REST client for Windows Email Service.
     Fetches emails and CSV attachments via HTTP API calls to a Windows service.
     Provides cross - platform email access with fallback to directory scanning.
     """
@@ -82,7 +78,7 @@ class EmailFetcher:
             self.logger.error(f"Cannot connect to email service: {e}")
             return False
 
-    def make_request(self, method: str, endpoint: str, data: Dict = None) -> Dict[str, Any]:
+    def make_request(self, method: str, endpoint: str, data: dict = None) -> dict[str, Any]:
         """Make HTTP request to email service with retry logic"""
         url = f"{self.service_url}/api{endpoint}"
 
@@ -119,8 +115,7 @@ class EmailFetcher:
                     raise EmailServiceError("Cannot connect to email service")
 
     def fetch(self, date_str: str) -> bool:
-        """
-        Fetch emails for a specific date via REST API.
+        """Fetch emails for a specific date via REST API.
 
         Args:
             date_str: Date in YYYY - MM - DD format
@@ -175,8 +170,7 @@ class EmailFetcher:
             return self.fallback_directory_scan(date_str)
 
     def fetch_hourly(self, date_str: str, hour: int) -> bool:
-        """
-        Fetch emails for a specific hour via REST API.
+        """Fetch emails for a specific hour via REST API.
 
         Args:
             date_str: Date in YYYY - MM - DD format
@@ -220,8 +214,7 @@ class EmailFetcher:
             return self.fallback_directory_scan_hour(date_str, hour)
 
     def fetch_recent(self, hours: int) -> bool:
-        """
-        Fetch emails from recent hours via REST API.
+        """Fetch emails from recent hours via REST API.
 
         Args:
             hours: Number of hours to look back
@@ -261,7 +254,7 @@ class EmailFetcher:
             self.logger.error(f"Email service error: {e}")
             return self.fallback_directory_scan_recent(hours)
 
-    def download_files(self, files: List[Dict]) -> None:
+    def download_files(self, files: list[dict]) -> None:
         """Download files from email service to local directory"""
         for file_info in files:
             filename = file_info['filename']
@@ -283,7 +276,7 @@ class EmailFetcher:
             except Exception as e:
                 self.logger.error(f"Error downloading {filename}: {e}")
 
-    def get_accounts(self) -> List[Dict]:
+    def get_accounts(self) -> list[dict]:
         """Get list of available email accounts from service"""
         try:
             responsedata = self.make_request('GET', '/accounts')

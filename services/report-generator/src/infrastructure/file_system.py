@@ -1,22 +1,19 @@
-"""
-File System Infrastructure Implementations
+"""File System Infrastructure Implementations
 Real implementations for directory processing and file management
 """
 
+import asyncio
 import os
 import shutil
-import asyncio
-from pathlib import Path
-from typing import List, Dict
 from datetime import datetime
+from pathlib import Path
 
-from ..business.interfaces import IDirectoryProcessor, IFileManager
 from ..business.exceptions import DirectoryException, FileException
+from ..business.interfaces import IDirectoryProcessor, IFileManager
 
 
 class DirectoryProcessorImpl(IDirectoryProcessor):
-    """
-    Real implementation of directory scanning and processing
+    """Real implementation of directory scanning and processing
     """
 
     def __init__(self):
@@ -24,9 +21,8 @@ class DirectoryProcessorImpl(IDirectoryProcessor):
 
     async def scan_directory(
         self, directory_path: str, pattern: str = "*.csv"
-    ) -> List[str]:
-        """
-        Scan directory for files matching pattern
+    ) -> list[str]:
+        """Scan directory for files matching pattern
 
         Args:
             directory_path: Path to scan
@@ -80,9 +76,8 @@ class DirectoryProcessorImpl(IDirectoryProcessor):
                 f"Error scanning directory {directory_path}: {str(e)}"
             )
 
-    async def get_directory_stats(self, directory_path: str) -> Dict[str, Any]:
-        """
-        Get statistics about directory contents
+    async def get_directory_stats(self, directory_path: str) -> dict[str, Any]:
+        """Get statistics about directory contents
 
         Args:
             directory_path: Path to analyze
@@ -139,16 +134,14 @@ class DirectoryProcessorImpl(IDirectoryProcessor):
 
 
 class FileManagerImpl(IFileManager):
-    """
-    Real implementation of file operations
+    """Real implementation of file operations
     """
 
     def __init__(self):
         self.max_file_size = 100 * 1024 * 1024  # 100MB default
 
     async def read_file(self, file_path: str) -> bytes:
-        """
-        Read file contents as bytes
+        """Read file contents as bytes
 
         Args:
             file_path: Path to file to read
@@ -191,8 +184,7 @@ class FileManagerImpl(IFileManager):
             raise FileException(f"Error reading file {file_path}: {str(e)}")
 
     async def write_file(self, file_path: str, content: bytes) -> bool:
-        """
-        Write content to file
+        """Write content to file
 
         Args:
             file_path: Path where to write file
@@ -227,8 +219,7 @@ class FileManagerImpl(IFileManager):
             raise FileException(f"Error writing file {file_path}: {str(e)}")
 
     async def move_file(self, source_path: str, destination_path: str) -> bool:
-        """
-        Move file from source to destination
+        """Move file from source to destination
 
         Args:
             source_path: Current file location
@@ -269,8 +260,7 @@ class FileManagerImpl(IFileManager):
             raise FileException(f"Error moving file from {source_path} to {destination_path}: {str(e)}")
 
     async def copy_file(self, source_path: str, destination_path: str) -> bool:
-        """
-        Copy file from source to destination
+        """Copy file from source to destination
 
         Args:
             source_path: Source file location
@@ -311,8 +301,7 @@ class FileManagerImpl(IFileManager):
             raise FileException(f"Error copying file from {source_path} to {destination_path}: {str(e)}")
 
     async def delete_file(self, file_path: str) -> bool:
-        """
-        Delete file
+        """Delete file
 
         Args:
             file_path: Path to file to delete
@@ -348,9 +337,8 @@ class FileManagerImpl(IFileManager):
         except Exception as e:
             raise FileException(f"Error deleting file {file_path}: {str(e)}")
 
-    async def get_file_info(self, file_path: str) -> Dict[str, Any]:
-        """
-        Get file information
+    async def get_file_info(self, file_path: str) -> dict[str, Any]:
+        """Get file information
 
         Args:
             file_path: Path to file

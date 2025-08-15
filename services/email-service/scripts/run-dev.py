@@ -1,47 +1,50 @@
-#!/usr / bin / env python3
-"""
-Development runner for Email - Service Service
+#!/usr/bin/env python3
+"""Development runner for Email - Service Service
 """
 
+import logging
 import sys
 from pathlib import Path
 
-currentdir = Path(__file__).parent.parent
+current_dir = Path(__file__).parent.parent
 sys.path.insert(0, str(current_dir))
 
-shareddir = current_dir / "shared"
+shared_dir = current_dir / "shared"
 if shared_dir.exists():
     sys.path.insert(0, str(shared_dir))
 
 
-def main():
+def main() -> int:
     """Run the service in development mode"""
-    print("🚀 Starting Email - Service Service (Development Mode)")
-    print("=" * 50)
+    logging.basicConfig(level=logging.INFO)
+    logger = logging.getLogger("email_service.dev")
+    logger.info("🚀 Starting Email-Service (Development Mode)")
+    logger.info("%s", "=" * 50)
 
     if not shared_dir.exists():
-        print("⚠️  Shared components not found. Creating symlink...")
+        logger.warning("Shared components not found. Creating symlink...")
         try:
             shared_source = current_dir.parent.parent / "shared"
             if shared_source.exists():
                 shared_dir.symlink_to(shared_source)
-                print("✅ Created shared components symlink")
+                logger.info("Created shared components symlink")
             else:
-                print("❌ Shared components source not found")
+                logger.error("Shared components source not found")
                 return 1
-        except Exception as e:
-            print(f"❌ Failed to create symlink: {e}")
+        except Exception:
+            logger.exception("Failed to create symlink")
             return 1
 
     try:
-        from legacy_bridge import main as service_main
         import asyncio
+
+        from legacy_bridge import main as service_main  # type: ignore
         asyncio.run(service_main())
-    except ImportError as e:
-        print(f"❌ Import error: {e}")
+    except ImportError:
+        logger.exception("Import error starting legacy bridge")
         return 1
-    except Exception as e:
-        print(f"❌ Service error: {e}")
+    except Exception:
+        logger.exception("Service error during dev run")
         return 1
 
     return 0

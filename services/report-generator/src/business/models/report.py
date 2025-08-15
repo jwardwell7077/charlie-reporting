@@ -1,11 +1,10 @@
-"""
-Report Business Domain Model
+"""Report Business Domain Model
 Represents a report entity with its data and metadata
 """
 
-from typing import Dict, List, Optional
-from datetime import datetime
 from dataclasses import dataclass
+from datetime import datetime
+
 import pandas as pd
 
 
@@ -15,8 +14,8 @@ import pandas as pd
 class ReportSheet:
     """Represents a single sheet in a report"""
     name: str
-    data_frames: List[pd.DataFrame]
-    columns: List[str]
+    data_frames: list[pd.DataFrame]
+    columns: list[str]
     row_count: int = 0
 
     def __post_init__(self):
@@ -33,7 +32,7 @@ class ReportSheet:
 
         return pd.concat(self.data_frames, ignore_index=True)
 
-    def validate_columns(self, required_columns: List[str]) -> bool:
+    def validate_columns(self, required_columns: list[str]) -> bool:
         """Validate that all required columns are present"""
         if not self.data_frames:
             return False
@@ -46,22 +45,21 @@ class ReportSheet:
 
 
 class Report:
-    """
-    Core domain model for reports
+    """Core domain model for reports
     Business logic for report operations
     """
     date_str: str
     report_type: str
-    sheets: Dict[str, ReportSheet]
+    sheets: dict[str, ReportSheet]
     created_at: datetime
-    hour_filter: Optional[str] = None
-    output_path: Optional[str] = None
+    hour_filter: str | None = None
+    output_path: str | None = None
 
     def get_total_records(self) -> int:
         """Get total number of records across all sheets"""
         return sum(sheet.row_count for sheet in self.sheets.values())
 
-    def get_sheet_names(self) -> List[str]:
+    def get_sheet_names(self) -> list[str]:
         """Get list of all sheet names"""
         return list(self.sheets.keys())
 
@@ -69,7 +67,7 @@ class Report:
         """Check if report has any data"""
         return bool(self.sheets) and self.get_total_records() > 0
 
-    def get_report_summary(self) -> Dict[str, Any]:
+    def get_report_summary(self) -> dict[str, Any]:
         """Generate summary statistics for the report"""
         return {
             'date': self.date_str,
@@ -87,7 +85,7 @@ class Report:
             'created_at': self.created_at.isoformat()
         }
 
-    def validate_report_quality(self) -> Dict[str, Any]:
+    def validate_report_quality(self) -> dict[str, Any]:
         """Business rules for report quality validation"""
         qualityreport = {
             'is_valid': True,

@@ -1,18 +1,16 @@
 #!/usr / bin / env python3
-"""
-csv_email_sender.py
+"""csv_email_sender.py
 ------------------
 Direct CSV email sender - sends all 7 CSV types immediately
 """
 
 import os
-import time
 import smtplib
+import time
+from email import encoders
+from email.mime.base import MIMEBase
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
-from email.mime.base import MIMEBase
-from email import encoders
-from datetime import datetime
 
 
 def load_env_credentials():
@@ -21,7 +19,7 @@ def load_env_credentials():
     credentials = {}
 
     if os.path.exists(env_path):
-        with open(env_path, 'r') as f:
+        with open(env_path) as f:
             for line in f:
                 line = line.strip()
                 if line and not line.startswith('#') and '=' in line:

@@ -1,5 +1,4 @@
-"""
-data_generator.py
+"""data_generator.py
 -----------------
 Test data generation for integration tests.
 
@@ -7,19 +6,17 @@ Author: Jonathan Wardwell, Copilot, GPT - 4o
 License: MIT
 """
 
-import os
-import csv
-import pandas as pd
-import tempfile
 import logging
-from datetime import datetime, timedelta
-from typing import Dict, List, Optional
+import os
 import random
+import tempfile
+from datetime import datetime, timedelta
+
+import pandas as pd
 
 
 class IntegrationDataGenerator:
-    """
-    Generates test CSV data for integration testing.
+    """Generates test CSV data for integration testing.
     """
 
     def __init__(self, config):
@@ -28,8 +25,7 @@ class IntegrationDataGenerator:
         self.attachmentrules = config.attachments
 
     def generate_test_csv(self, csv_type: str, temp_dir: str, num_rows: int = 10) -> str:
-        """
-        Generate a test CSV file of the specified type.
+        """Generate a test CSV file of the specified type.
 
         Args:
             csv_type: Type of CSV to generate (e.g., 'IB_Calls', 'Dials')
@@ -57,9 +53,8 @@ class IntegrationDataGenerator:
         self.logger.info(f"Generated test CSV: {filename} with {num_rows} rows")
         return file_path
 
-    def generate_multiple_csvs(self, temp_dir: str, csv_types: Optional[List[str]] = None) -> List[str]:
-        """
-        Generate multiple CSV files for testing.
+    def generate_multiple_csvs(self, temp_dir: str, csv_types: list[str] | None = None) -> list[str]:
+        """Generate multiple CSV files for testing.
 
         Args:
             temp_dir: Directory to save files
@@ -81,7 +76,7 @@ class IntegrationDataGenerator:
 
         return generated_files
 
-    def generate_data_for_type(self, csv_type: str, columns: List[str], num_rows: int) -> Dict[str, List]:
+    def generate_data_for_type(self, csv_type: str, columns: list[str], num_rows: int) -> dict[str, list]:
         """Generate appropriate test data based on CSV type."""
         data = {}
 
@@ -125,9 +120,8 @@ class IntegrationDataGenerator:
         self.logger.info(f"Created temporary directory: {temp_dir}")
         return temp_dir
 
-    def cleanup_files(self, file_paths: List[str]) -> int:
-        """
-        Clean up generated test files.
+    def cleanup_files(self, file_paths: list[str]) -> int:
+        """Clean up generated test files.
 
         Args:
             file_paths: List of file paths to delete
@@ -147,9 +141,8 @@ class IntegrationDataGenerator:
 
         return deleted_count
 
-    def verify_csv_structure(self, file_path: str, expected_columns: List[str]) -> bool:
-        """
-        Verify that a CSV file has the expected structure.
+    def verify_csv_structure(self, file_path: str, expected_columns: list[str]) -> bool:
+        """Verify that a CSV file has the expected structure.
 
         Args:
             file_path: Path to CSV file

@@ -1,10 +1,9 @@
 #!/usr/bin/env python3
-"""
-Development runner for Database-Service Service
+"""Development runner for Database-Service Service
 """
 
+import logging
 import sys
-import os
 from pathlib import Path
 
 current_dir = Path(__file__).parent.parent
@@ -18,32 +17,35 @@ if shared_dir.exists():
 
 def main():
     """Run the service in development mode"""
-    print("🚀 Starting Database-Service Service (Development Mode)")
-    print("=" * 50)
+    logging.basicConfig(level=logging.INFO)
+    logger = logging.getLogger("database_service.dev")
+    logger.info("🚀 Starting Database-Service Service (Development Mode)")
+    logger.info("%s", "=" * 50)
 
     if not shared_dir.exists():
-        print("⚠️  Shared components not found. Creating symlink...")
+        logger.warning("Shared components not found. Creating symlink...")
         try:
             shared_source = current_dir.parent.parent / "shared"
             if shared_source.exists():
                 shared_dir.symlink_to(shared_source)
-                print("✅ Created shared components symlink")
+                logger.info("Created shared components symlink")
             else:
-                print("❌ Shared components source not found")
+                logger.error("Shared components source not found")
                 return 1
-        except Exception as e:
-            print(f"❌ Failed to create symlink: {e}")
+        except Exception:
+            logger.exception("Failed to create shared components symlink")
             return 1
 
     try:
-        from legacy_bridge import main as service_main
         import asyncio
+
+        from legacy_bridge import main as service_main
         asyncio.run(service_main())
-    except ImportError as e:
-        print(f"❌ Import error: {e}")
+    except ImportError:
+        logger.exception("Import error starting legacy bridge")
         return 1
-    except Exception as e:
-        print(f"❌ Service error: {e}")
+    except Exception:
+        logger.exception("Service error during dev run")
         return 1
 
     return 0

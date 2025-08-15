@@ -1,13 +1,11 @@
-"""
-Email_Sender business service for email - service
+"""Email_Sender business service for email - service
 """
 
 import logging
 
 
 class Emailsender:
-    """
-    Email_Sender business logic
+    """Email_Sender business logic
     Pure domain logic with no infrastructure dependencies
     """
 

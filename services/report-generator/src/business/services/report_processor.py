@@ -1,23 +1,22 @@
-"""
-Report Processing Service - Main Business Logic Orchestrator
+"""Report Processing Service - Main Business Logic Orchestrator
 TDD implementation with dependency injection
 """
 
-from typing import Dict, Any, Optional, Tuple
 import logging
-from pathlib import Path
-from datetime import datetime
 import time
+from datetime import datetime
+from pathlib import Path
+from typing import Any
 
 # Import interfaces - fixed import path
 from business.interfaces import (
-    IDirectoryProcessor,
+    IConfigManager,
     ICSVTransformer,
+    IDirectoryProcessor,
     IExcelGenerator,
     IFileManager,
-    IConfigManager,
     ILogger,
-    IMetricsCollector
+    IMetricsCollector,
 )
 from business.models.csv_file import CSVFile
 
@@ -32,16 +31,14 @@ except ImportError:
     else:
         DirectoryProcessRequest = object
         ProcessingResult = object
-from ..models.csv_data import CSVRule, CSVTransformationResult
-from ..models.report import Report
+from ..exceptions import BusinessException
+from ..models.csv_data import CSVRule
 from .csv_transformer import CSVTransformationService
 from .excel_service import ExcelReportService
-from ..exceptions import BusinessException
 
 
 class ReportProcessingService:
-    """
-    Main orchestration service for report processing workflow
+    """Main orchestration service for report processing workflow
 
     This service coordinates all the steps in processing CSV files:
     1. Directory scanning and file discovery
@@ -75,8 +72,7 @@ class ReportProcessingService:
         self.excel_service = ExcelReportService(self.legacy_logger)
 
     async def process_directory(self, request: DirectoryProcessRequest) -> ProcessingResult:
-        """
-        🟢 GREEN: Minimal implementation to pass the test
+        """🟢 GREEN: Minimal implementation to pass the test
 
         Process all CSV files in a directory according to the request configuration
         """
@@ -212,11 +208,10 @@ class ReportProcessingService:
                                  raw_dir: Path,
                                  archive_dir: Path,
                                  output_dir: Path,
-                                 attachment_config: Dict[str, Any],
+                                 attachment_config: dict[str, Any],
                                  date_filter: str,
-                                 hour_filter: Optional[str] = None) -> Dict[str, Any]:
-        """
-        Complete workflow for processing CSV files in a directory
+                                 hour_filter: str | None = None) -> dict[str, Any]:
+        """Complete workflow for processing CSV files in a directory
 
         Args:
             raw_dir: Directory containing raw CSV files
@@ -349,9 +344,8 @@ class ReportProcessingService:
     def process_single_file(self,
                            file_path: Path,
                            rule: CSVRule,
-                           output_dir: Path) -> Dict[str, Any]:
-        """
-        Process a single CSV file with specific rule
+                           output_dir: Path) -> dict[str, Any]:
+        """Process a single CSV file with specific rule
 
         Args:
             file_path: Path to the CSV file
@@ -430,9 +424,8 @@ class ReportProcessingService:
                 "errors": [str(e)]
             }
 
-    def validate_input_directory(self, raw_dir: Path) -> Dict[str, Any]:
-        """
-        Validate input directory for processing
+    def validate_input_directory(self, raw_dir: Path) -> dict[str, Any]:
+        """Validate input directory for processing
 
         Args:
             raw_dir: Directory to validate
@@ -484,9 +477,8 @@ class ReportProcessingService:
 
         return validation
 
-    def get_processing_statistics(self, results: Dict[str, Any]) -> Dict[str, Any]:
-        """
-        Generate detailed processing statistics
+    def get_processing_statistics(self, results: dict[str, Any]) -> dict[str, Any]:
+        """Generate detailed processing statistics
 
         Args:
             results: Processing results from process_directory_reports or process_single_file
@@ -536,9 +528,8 @@ class ReportProcessingService:
 
         return stats
 
-    def create_processing_summary(self, results: Dict[str, Any]) -> str:
-        """
-        Create a human - readable processing summary
+    def create_processing_summary(self, results: dict[str, Any]) -> str:
+        """Create a human - readable processing summary
 
         Args:
             results: Processing results

@@ -1,20 +1,19 @@
-"""
-quick_email_test.py
+"""quick_email_test.py
 ------------------
 Quick test of the email configuration
 """
 
-import smtplib
-from email.mime.text import MIMEText
-from email.mime.multipart import MIMEMultipart
 import os
+import smtplib
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
 
 
 def load_env():
     """Load .env file"""
     envpath = "../.env"
     if os.path.exists(env_path):
-        with open(env_path, 'r') as f:
+        with open(env_path) as f:
             for line in f:
                 if '=' in line and not line.startswith('#'):
                     key, value = line.strip().split('=', 1)

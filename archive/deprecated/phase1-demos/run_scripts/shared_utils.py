@@ -1,6 +1,5 @@
 #!/usr / bin / env python3
-"""
-shared_utils.py
+"""shared_utils.py
 ---------------
 Shared utilities for the run_scripts directory
 
@@ -10,7 +9,6 @@ License: MIT
 
 import os
 from pathlib import Path
-from typing import Dict, Optional, Tuple
 
 
 def getproject_root() -> Path:
@@ -40,9 +38,8 @@ def get_python_executable() -> str:
     return str(getproject_root() / ".venv" / "Scripts" / "python.exe")
 
 
-def load_env_credentials(env_file_path: Optional[str] = None) -> Optional[Dict[str, str]]:
-    """
-    Load credentials from .env file
+def load_env_credentials(env_file_path: str | None = None) -> dict[str, str] | None:
+    """Load credentials from .env file
 
     Args:
         env_file_path: Optional path to .env file. If None, uses project root/.env
@@ -59,7 +56,7 @@ def load_env_credentials(env_file_path: Optional[str] = None) -> Optional[Dict[s
 
     if env_path.exists():
         try:
-            with open(env_path, 'r', encoding='utf - 8') as f:
+            with open(env_path, encoding='utf - 8') as f:
                 for line in f:
                     line = line.strip()
                     if line and not line.startswith('#') and '=' in line:
@@ -75,9 +72,8 @@ def load_env_credentials(env_file_path: Optional[str] = None) -> Optional[Dict[s
         return None
 
 
-def validate_required_credentials(credentials: Dict[str, str], required_keys: list) -> bool:
-    """
-    Validate that all required credential keys are present
+def validate_required_credentials(credentials: dict[str, str], required_keys: list) -> bool:
+    """Validate that all required credential keys are present
 
     Args:
         credentials: Dictionary of loaded credentials
@@ -95,9 +91,8 @@ def validate_required_credentials(credentials: Dict[str, str], required_keys: li
     return True
 
 
-def find_csv_files_by_type(data_dir: Optional[Path] = None) -> Dict[str, list]:
-    """
-    Find CSV files grouped by type in the data directory
+def find_csv_files_by_type(data_dir: Path | None = None) -> dict[str, list]:
+    """Find CSV files grouped by type in the data directory
 
     Args:
         data_dir: Optional path to data directory. If None, uses generated data dir
@@ -122,9 +117,8 @@ def find_csv_files_by_type(data_dir: Optional[Path] = None) -> Dict[str, list]:
     return files_by_type
 
 
-def get_one_file_per_type(data_dir: Optional[Path] = None) -> Tuple[Dict[str, str], bool]:
-    """
-    Get one representative file for each CSV type
+def get_one_file_per_type(data_dir: Path | None = None) -> tuple[dict[str, str], bool]:
+    """Get one representative file for each CSV type
 
     Args:
         data_dir: Optional path to data directory. If None, uses generated data dir
@@ -155,8 +149,7 @@ def get_one_file_per_type(data_dir: Optional[Path] = None) -> Tuple[Dict[str, st
 
 
 def safe_path_join(*args) -> str:
-    """
-    Safely join path components and return absolute path
+    """Safely join path components and return absolute path
 
     Returns:
         Absolute path string
@@ -165,8 +158,7 @@ def safe_path_join(*args) -> str:
 
 
 def ensure_directory_exists(directory_path: Path) -> bool:
-    """
-    Ensure a directory exists, creating it if necessary
+    """Ensure a directory exists, creating it if necessary
 
     Args:
         directory_path: Path to directory
@@ -183,8 +175,7 @@ def ensure_directory_exists(directory_path: Path) -> bool:
 
 
 def get_relative_script_path(script_name: str, subdirectory: str = "") -> Path:
-    """
-    Get path to a script relative to the run_scripts directory
+    """Get path to a script relative to the run_scripts directory
 
     Args:
         script_name: Name of the script file

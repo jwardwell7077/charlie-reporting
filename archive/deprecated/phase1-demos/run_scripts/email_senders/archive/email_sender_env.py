@@ -1,5 +1,4 @@
-"""
-email_sender_env.py
+"""email_sender_env.py
 ------------------
 Email sender using environment variables for secure credential storage.
 This is a simpler alternative to OAuth that still avoids hardcoded passwords.
@@ -14,19 +13,17 @@ License: MIT
 """
 
 import os
-import time
 import smtplib
+from datetime import datetime
+from email import encoders
+from email.mime.base import MIMEBase
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
-from email.mime.base import MIMEBase
-from email import encoders
-from datetime import datetime, timedelta
 
 
 class EnvEmailSender:
     def __init__(self, config_path: str = None):
         """Initialize email sender with environment variable authentication"""
-
         # Load configuration
         if config_path is None:
             configpath = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'config.toml')
@@ -77,7 +74,7 @@ class EnvEmailSender:
         currentsection = None
 
         try:
-            with open(config_path, 'r') as f:
+            with open(config_path) as f:
                 for line in f:
                     line = line.strip()
                     if not line or line.startswith('#'):
@@ -139,7 +136,6 @@ Automated Report Distribution System"""
     def send_single_csv_email(self, csv_file_path: str, report_type: str,
                              timestamp: datetime, interval_type: str = "hourly") -> bool:
         """Send a single email with one CSV attachment"""
-
         if not os.path.exists(csv_file_path):
             print(f"❌ CSV file not found: {csv_file_path}")
             return False

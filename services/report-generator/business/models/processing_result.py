@@ -1,9 +1,7 @@
-"""
-Business domain models for processing results and operations
+"""Business domain models for processing results and operations
 """
 
 from dataclasses import dataclass
-from typing import List, Optional
 from datetime import datetime
 
 
@@ -14,10 +12,10 @@ class ProcessingResult:
     files_processed: int
     total_records: int
     processing_time_seconds: float
-    output_file: Optional[str] = None
-    errors: Optional[List[str]] = None
-    warnings: Optional[List[str]] = None
-    timestamp: Optional[datetime] = None
+    output_file: str | None = None
+    errors: list[str] | None = None
+    warnings: list[str] | None = None
+    timestamp: datetime | None = None
 
     def __post_init__(self):
         if self.errors is None:

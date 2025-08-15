@@ -1,19 +1,17 @@
 #!/usr/bin/env python3
-"""
-Phase D: Final Validation & Coverage Analysis
+"""Phase D: Final Validation & Coverage Analysis
 Complete TDD refactoring validation and project completion
 """
 
-import sys
-import subprocess
 import json
-from pathlib import Path
+import subprocess
+import sys
 from datetime import datetime
+from pathlib import Path
 
 
 def run_coverage_analysis():
     """Run comprehensive test coverage analysis"""
-
     print("📊 Running Coverage Analysis...")
 
     try:
@@ -25,7 +23,7 @@ def run_coverage_analysis():
             "--cov - report=term - missing",
             "--cov - report=json:coverage.json",
             "-v"
-        ], capture_output=True, text=True, cwd=".")
+        ], check=False, capture_output=True, text=True, cwd=".")
 
         print("Coverage Output:")
         print(result.stdout)
@@ -52,7 +50,6 @@ def run_coverage_analysis():
 
 def validate_tdd_architecture():
     """Validate TDD architecture principles"""
-
     print("\n🏗️ Validating TDD Architecture...")
 
     checks = []
@@ -104,7 +101,6 @@ def validate_tdd_architecture():
 
 def run_final_test_suite():
     """Run complete test suite for final validation"""
-
     print("\n🧪 Running Final Test Suite...")
 
     test_results = {}
@@ -115,7 +111,7 @@ def run_final_test_suite():
         sys.executable, "-m", "pytest",
         "tests / test_tdd_cycle.py",
         "-v", "--tb=short"
-    ], capture_output=True, text=True, cwd=".")
+    ], check=False, capture_output=True, text=True, cwd=".")
 
     test_results['tdd_cycle'] = {
         'success': result.returncode == 0,
@@ -128,7 +124,7 @@ def run_final_test_suite():
         sys.executable, "-m", "pytest",
         "test_phase_b.py",
         "-v", "--tb=short"
-    ], capture_output=True, text=True, cwd=".")
+    ], check=False, capture_output=True, text=True, cwd=".")
 
     test_results['phase_b'] = {
         'success': result.returncode == 0,
@@ -141,7 +137,7 @@ def run_final_test_suite():
         sys.executable, "-m", "pytest",
         "tests / test_phase_c_basic.py",
         "-v", "--tb=short"
-    ], capture_output=True, text=True, cwd=".")
+    ], check=False, capture_output=True, text=True, cwd=".")
 
     test_results['phase_c'] = {
         'success': result.returncode == 0,
@@ -153,7 +149,6 @@ def run_final_test_suite():
 
 def generate_project_summary():
     """Generate comprehensive project completion summary"""
-
     summary = {
         'project': 'Phase 2.6 TDD - First Refactoring',
         'completion_date': datetime.now().isoformat(),
@@ -186,7 +181,6 @@ def generate_project_summary():
 
 def validate_phase_d():
     """Complete Phase D validation"""
-
     print("🔍 PHASE D VALIDATION: Final Validation & Coverage Analysis")
     print("=" * 70)
 

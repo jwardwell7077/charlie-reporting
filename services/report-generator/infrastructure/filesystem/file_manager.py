@@ -1,21 +1,18 @@
-"""
-File Management Implementation
+"""File Management Implementation
 Production implementation of IFileManager interface for file operations.
 """
 
 import asyncio
+import os
+import shutil
 import tempfile
 from pathlib import Path
-from typing import Union
-import shutil
-import os
 
 from business.interfaces import IFileManager
 
 
 class FileManagerImpl(IFileManager):
-    """
-    Production implementation of file management operations.
+    """Production implementation of file management operations.
 
     Handles:
     - Atomic file writing with temporary files
@@ -28,9 +25,8 @@ class FileManagerImpl(IFileManager):
         self.temp_dir = Path(tempfile.gettempdir()) / "charlie - reporting"
         self.temp_dir.mkdir(exist_ok=True)
 
-    async def save_file(self, content: Union[str, bytes], file_path: Path) -> str:
-        """
-        Save content to file using atomic operations.
+    async def save_file(self, content: str | bytes, file_path: Path) -> str:
+        """Save content to file using atomic operations.
 
         Args:
             content: File content as string or bytes
@@ -57,7 +53,7 @@ class FileManagerImpl(IFileManager):
 
         return result_path
 
-    def save_file_sync(self, content: Union[str, bytes], file_path: Path) -> str:
+    def save_file_sync(self, content: str | bytes, file_path: Path) -> str:
         """Synchronous atomic file writing implementation."""
         # Create temporary file in same directory for atomic move
         temp_path = file_path.parent / f".tmp_{file_path.name}_{os.getpid()}"
@@ -81,8 +77,7 @@ class FileManagerImpl(IFileManager):
             raise OSError(f"Failed to save file {file_path}: {e}") from e
 
     async def read_file(self, file_path: Path) -> bytes:
-        """
-        Read file content as bytes.
+        """Read file content as bytes.
 
         Args:
             file_path: Path to file to read
@@ -109,8 +104,7 @@ class FileManagerImpl(IFileManager):
         return content
 
     async def delete_file(self, file_path: Path) -> bool:
-        """
-        Delete file if it exists.
+        """Delete file if it exists.
 
         Args:
             file_path: Path to file to delete
@@ -133,8 +127,7 @@ class FileManagerImpl(IFileManager):
         return True
 
     async def file_exists(self, file_path: Path) -> bool:
-        """
-        Check if file exists.
+        """Check if file exists.
 
         Args:
             file_path: Path to check

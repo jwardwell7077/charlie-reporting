@@ -1,13 +1,11 @@
-"""
-Attachment_Processor business service for outlook - relay
+"""Attachment_Processor business service for outlook - relay
 """
 
 import logging
 
 
 class Attachmentprocessor:
-    """
-    Attachment_Processor business logic
+    """Attachment_Processor business logic
     Pure domain logic with no infrastructure dependencies
     """
 

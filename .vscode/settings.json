@@ -32,7 +32,7 @@
     "python.linting.pylintEnabled": false,
     "python.linting.flake8Enabled": true,
     "python.formatting.provider": "black",
-    "python.analysis.typeCheckingMode": "basic",
+    "python.analysis.typeCheckingMode": "off",
     "python.analysis.autoImportCompletions": true,
     
 
@@ -50,8 +50,11 @@
 
     "editor.formatOnSave": true,
     "editor.codeActionsOnSave": {
-        "source.organizeImports": "explicit"
+        "source.organizeImports": "never"
     },
+    "ruff.format.enable": true,
+    "ruff.lint.enable": true,
+    "ruff.lint.args": ["--fix"],
     
 
     "files.exclude": {

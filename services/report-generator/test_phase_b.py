@@ -1,19 +1,19 @@
-"""
-Integration test for Phase B infrastructure implementations
+"""Integration test for Phase B infrastructure implementations
 Tests that all dependencies can be injected and work together
 """
 
-import pytest
 import asyncio
+
+import pytest
+from business.services.csv_transformer import CSVTransformerService
+from business.services.excel_service import ExcelGeneratorService
 
 # Imports will work with PYTHONPATH set properly
 from business.services.report_processor import ReportProcessingService
-from infrastructure.file_system import DirectoryProcessorImpl, FileManagerImpl
 from infrastructure.config import ConfigManagerImpl
+from infrastructure.file_system import DirectoryProcessorImpl, FileManagerImpl
 from infrastructure.logging import StructuredLoggerImpl
 from infrastructure.metrics import MetricsCollectorImpl
-from business.services.csv_transformer import CSVTransformerService
-from business.services.excel_service import ExcelGeneratorService
 
 
 class TestPhaseB:
@@ -21,7 +21,6 @@ class TestPhaseB:
 
     def test_infrastructure_instantiation(self):
         """Test that all infrastructure classes can be instantiated"""
-
         # Infrastructure implementations
         directory_processor = DirectoryProcessorImpl()
         file_manager = FileManagerImpl()
@@ -46,7 +45,6 @@ class TestPhaseB:
 
     def test_dependency_injection(self):
         """Test that ReportProcessingService can be created with real dependencies"""
-
         # Create all dependencies
         directory_processor = DirectoryProcessorImpl()
         csv_transformer = CSVTransformerService()
@@ -84,7 +82,6 @@ class TestPhaseB:
     @pytest.mark.asyncio
     async def test_async_interface_methods(self):
         """Test that async interface methods work"""
-
         # Test directory processor
         directory_processor = DirectoryProcessorImpl()
         files = await directory_processor.scan_directory("/tmp", "*.csv")

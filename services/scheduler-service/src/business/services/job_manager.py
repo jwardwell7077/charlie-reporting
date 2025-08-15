@@ -1,13 +1,11 @@
-"""
-Job_Manager business service for scheduler - service
+"""Job_Manager business service for scheduler - service
 """
 
 import logging
 
 
 class Jobmanager:
-    """
-    Job_Manager business logic
+    """Job_Manager business logic
     Pure domain logic with no infrastructure dependencies
     """
 

@@ -1,10 +1,9 @@
 #!/usr / bin / env python3
-"""
-Migrate existing code from src/ into appropriate microservice structures
+"""Migrate existing code from src/ into appropriate microservice structures
 """
 
 from pathlib import Path
-from typing import Dict, Any
+from typing import Any
 
 # Code migration mapping - where each existing file should go
 MIGRATION_MAP = {
@@ -96,7 +95,7 @@ MIGRATION_MAP = {
 def read_source_file(file_path: str) -> str:
     """Read source file content"""
     try:
-        with open(file_path, 'r', encoding='utf - 8') as f:
+        with open(file_path, encoding='utf - 8') as f:
             return f.read()
     except Exception as e:
         print(f"❌ Error reading {file_path}: {e}")
@@ -105,7 +104,6 @@ def read_source_file(file_path: str) -> str:
 
 def extract_business_logic(content: str, original_file: str) -> str:
     """Extract business logic from email_fetcher.py"""
-
     if "email_fetcher.py" in original_file:
         return '''"""
 
@@ -179,7 +177,6 @@ class EmailFetcherService:
 
 def extract_outlook_com_integration(content: str, original_file: str) -> str:
     """Extract Outlook COM integration infrastructure"""
-
     return '''"""
 
 
@@ -273,7 +270,6 @@ class OutlookComClient:
 
 def create_rest_interface(content: str, original_file: str) -> str:
     """Create REST interface for email operations"""
-
     return '''"""
 
 
@@ -343,7 +339,6 @@ async def email_health():
 
 def extract_transformation_logic(content: str, original_file: str) -> str:
     """Extract data transformation business logic"""
-
     return '''"""
 
 
@@ -427,7 +422,6 @@ class DataTransformerService:
 
 def extract_report_building_logic(content: str, original_file: str) -> str:
     """Extract report building business logic"""
-
     return '''"""
 
 
@@ -512,7 +506,6 @@ class ReportBuilderService:
 
 def extract_excel_infrastructure(content: str, original_file: str) -> str:
     """Extract Excel writing infrastructure"""
-
     return '''"""
 
 
@@ -581,7 +574,6 @@ class ExcelWriter:
 
 def extract_orchestration_logic(content: str, original_file: str) -> str:
     """Extract orchestration logic from main.py"""
-
     return '''"""
 
 
@@ -666,7 +658,6 @@ class OrchestratorService:
 
 def extract_email_sending_logic(content: str, original_file: str) -> str:
     """Extract email sending logic from utils.py"""
-
     return '''"""
 
 
@@ -753,7 +744,6 @@ class EmailSenderService:
 
 def create_business_models(service_name: str):
     """Create business model files for a service"""
-
     models = {
         "outlook - relay": {
             "email.py": '''"""Email domain model"""
@@ -891,9 +881,8 @@ class DeliveryResult:
         print(f"  ✅ Created {filename}")
 
 
-def migrate_file(source_path: str, migration_config: Dict[str, Any]):
+def migrate_file(source_path: str, migration_config: dict[str, Any]):
     """Migrate a single source file according to configuration"""
-
     print(f"\n📄 Migrating {source_path}...")
 
     if not Path(source_path).exists():
@@ -941,7 +930,6 @@ def migrate_file(source_path: str, migration_config: Dict[str, Any]):
 
 def create_symlinks():
     """Create symlinks to shared components in each service"""
-
     print("\n🔗 Creating shared component symlinks...")
 
     shared_source = Path("shared").absolute()
@@ -962,7 +950,6 @@ def create_symlinks():
 
 def main():
     """Execute the migration"""
-
     print("🚀 Migrating Existing Code to Microservices")
     print("=" * 60)
 

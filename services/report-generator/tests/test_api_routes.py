@@ -1,17 +1,14 @@
-"""
-Unit Tests for Report Generator API Routes
+"""Unit Tests for Report Generator API Routes
 Testing FastAPI endpoints with proper business service integration
 """
 
-import pytest
-import pytest_asyncio
-from fastapi.testclient import TestClient
-from pathlib import Path
-import sys
-import json
 import io
-import tempfile
-from unittest.mock import Mock, patch, AsyncMock
+import sys
+from pathlib import Path
+from unittest.mock import Mock, patch
+
+import pytest
+from fastapi.testclient import TestClient
 
 # Add the parent directories to the Python path
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
@@ -341,7 +338,6 @@ class TestReportGeneratorAPIIntegration:
     def test_concurrent_health_checks(self, client):
         """Test handling of concurrent requests"""
         import concurrent.futures
-        import threading
 
         def make_request():
             return client.get("/api / v1 / health")

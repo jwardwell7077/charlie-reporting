@@ -10,7 +10,7 @@ authors = [
     { name = "Your Name", email = "your.email@example.com" }
 ]
 readme = "README.md"
-requires-python = ">=3.13"
+requires-python = ">=3.11"
 dependencies = [
     "pandas>=2.0.0",
     "openpyxl>=3.1.0",
@@ -28,5 +28,42 @@ pythonpath = ["src"]
 dev = [
     "pytest",
     "black",
-    "flake8"
+    "flake8",
+    "ruff",
+    "pylint",
 ]
+
+[tool.ruff]
+target-version = "py312"
+line-length = 120
+extend-exclude = ["venv", ".venv", "build", "dist", ".mypy_cache", ".ruff_cache"]
+
+[tool.ruff.lint]
+select = ["E","F","I","UP","B","C4","SIM","PL","PT","D","S","T20","ANN","TID","C90"]
+ignore = []
+
+[tool.ruff.lint.mccabe]
+max-complexity = 10
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+docstring-code-format = true
+
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+warn_unused_ignores = true
+warn_redundant_casts = true
+no_implicit_optional = true
+check_untyped_defs = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+show_error_codes = true
+pretty = true
+exclude = '^(venv|.venv|build|dist)/'
+plugins = ["pydantic.mypy"]

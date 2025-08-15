@@ -1,5 +1,4 @@
-"""
-email_sender_oauth.py
+"""email_sender_oauth.py
 --------------------
 Enhanced email sender with Google OAuth 2.0 and service account support for secure authentication.
 
@@ -12,26 +11,23 @@ Author: Jonathan Wardwell, Copilot, GPT - 4o
 License: MIT
 """
 
+import base64
+import getpass
 import os
-import sys
-import time
 import smtplib
-import json
+import sys
+from datetime import datetime
+from email import encoders
+from email.mime.base import MIMEBase
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
-from email.mime.base import MIMEBase
-from email import encoders
-from datetime import datetime, timedelta
-from typing import Dict, Optional
-import getpass
-import base64
 
 # Optional Google API imports - will fallback gracefully if not available
 try:
     from google.auth.transport.requests import Request
+    from google.oauth2 import service_account
     from google.oauth2.credentials import Credentials
     from google_auth_oauthlib.flow import Flow
-    from google.oauth2 import service_account
     GOOGLE_AUTH_AVAILABLE = True
 except ImportError:
     GOOGLE_AUTH_AVAILABLE = False
@@ -41,7 +37,6 @@ except ImportError:
 class SecureEmailSender:
     def __init__(self, config_path: str = None):
         """Initialize email sender with secure authentication from config file"""
-
         # Load configuration
         if config_path is None:
             configpath = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'config.toml')
@@ -90,7 +85,7 @@ class SecureEmailSender:
         currentsection = None
 
         try:
-            with open(config_path, 'r') as f:
+            with open(config_path) as f:
                 for line in f:
                     line = line.strip()
                     if not line or line.startswith('#'):
@@ -134,7 +129,7 @@ class SecureEmailSender:
             }
         }
 
-    def get_oauth_credentials(self) -> Optional[Credentials]:
+    def get_oauth_credentials(self) -> Credentials | None:
         """Get OAuth 2.0 credentials for Gmail API"""
         if not GOOGLE_AUTH_AVAILABLE:
             print("❌ Google Auth libraries not installed. Use: pip install google - auth google - auth - oauthlib")
@@ -195,7 +190,7 @@ class SecureEmailSender:
 
         return creds
 
-    def get_service_account_credentials(self) -> Optional[service_account.Credentials]:
+    def get_service_account_credentials(self) -> service_account.Credentials | None:
         """Get service account credentials"""
         if not GOOGLE_AUTH_AVAILABLE:
             print("❌ Google Auth libraries not installed")
@@ -223,7 +218,7 @@ class SecureEmailSender:
             print(f"❌ Service account setup failed: {e}")
             return None
 
-    def get_access_token(self) -> Optional[str]:
+    def get_access_token(self) -> str | None:
         """Get access token based on auth method"""
         if self.auth_method == 'oauth':
             creds = self.get_oauth_credentials()
@@ -297,7 +292,6 @@ Automated Report Distribution System"""
     def send_single_csv_email(self, csv_file_path: str, report_type: str,
                              timestamp: datetime, interval_type: str = "hourly") -> bool:
         """Send a single email with one CSV attachment"""
-
         if not os.path.exists(csv_file_path):
             print(f"❌ CSV file not found: {csv_file_path}")
             return False

@@ -1,5 +1,4 @@
-"""
-demo_directory_scanning_feature.py
+"""demo_directory_scanning_feature.py
 ----------------------------------
 Demonstrates the directory scanning capabilities of the enhanced EmailFetcher.
 
@@ -13,16 +12,16 @@ Author: Jonathan Wardwell, Copilot, GPT - 4o
 License: MIT
 """
 
-import sys
 import os
+import sys
 import tempfile
 from datetime import datetime, timedelta
 
 # Add src to path
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src'))
 
+
 from email_fetcher import EmailFetcher
-from config_loader import ConfigLoader
 
 
 def create_sample_config_with_directory_scan(scan_path: str):

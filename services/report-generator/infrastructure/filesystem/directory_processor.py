@@ -1,21 +1,18 @@
-"""
-Directory Processing Implementation
+"""Directory Processing Implementation
 Production implementation of IDirectoryProcessor interface for file
 system operations.
 """
 
 import asyncio
-from pathlib import Path
-from typing import List
 import glob
 import os
+from pathlib import Path
 
 from business.interfaces import IDirectoryProcessor
 
 
 class DirectoryProcessorImpl(IDirectoryProcessor):
-    """
-    Production implementation of directory processing for CSV file discovery.
+    """Production implementation of directory processing for CSV file discovery.
 
     Handles file system scanning with support for:
     - Glob pattern matching
@@ -27,9 +24,8 @@ class DirectoryProcessorImpl(IDirectoryProcessor):
     def __init__(self):
         self.supported_extensions = {'.csv'}
 
-    async def scan_directory(self, directory_path: Path) -> List[Path]:
-        """
-        Scan directory for CSV files matching expected patterns.
+    async def scan_directory(self, directory_path: Path) -> list[Path]:
+        """Scan directory for CSV files matching expected patterns.
 
         Args:
             directory_path: Path to directory to scan
@@ -56,7 +52,7 @@ class DirectoryProcessorImpl(IDirectoryProcessor):
 
         return csv_files
 
-    def scan_directory_sync(self, directory_path: Path) -> List[Path]:
+    def scan_directory_sync(self, directory_path: Path) -> list[Path]:
         """Synchronous directory scanning implementation."""
         csv_files = []
 
@@ -84,8 +80,7 @@ class DirectoryProcessorImpl(IDirectoryProcessor):
         return unique_files
 
     def is_valid_csv_file(self, file_path: Path) -> bool:
-        """
-        Validate if file is a processable CSV file.
+        """Validate if file is a processable CSV file.
 
         Args:
             file_path: Path to file to validate

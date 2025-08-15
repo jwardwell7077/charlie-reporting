@@ -1,13 +1,11 @@
-"""
-Template_Engine business service for report - generator
+"""Template_Engine business service for report - generator
 """
 
 import logging
 
 
 class Templateengine:
-    """
-    Template_Engine business logic
+    """Template_Engine business logic
     Pure domain logic with no infrastructure dependencies
     """
 

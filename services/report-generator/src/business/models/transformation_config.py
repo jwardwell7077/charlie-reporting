@@ -1,11 +1,10 @@
-"""
-Transformation Configuration Domain Model
+"""Transformation Configuration Domain Model
 Represents configuration options for data transformations
 """
 
 from dataclasses import dataclass, field
-from typing import Dict, List, Optional, Any
 from enum import Enum
+from typing import Any
 
 
 class DateFormat(Enum):
@@ -38,13 +37,12 @@ class NumericFormat(Enum):
 
 
 class TransformationRule:
-    """
-    Represents a single transformation rule to apply to data
+    """Represents a single transformation rule to apply to data
     """
     rule_type: str
-    target_columns: List[str]
-    parameters: Dict[str, Any] = field(default_factory=dict)
-    description: Optional[str] = None
+    target_columns: list[str]
+    parameters: dict[str, Any] = field(default_factory=dict)
+    description: str | None = None
     is_active: bool = True
 
     def get_parameter(self, key: str, default: Any = None) -> Any:
@@ -55,7 +53,7 @@ class TransformationRule:
         """Set a transformation parameter"""
         self.parameters[key] = value
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert rule to dictionary representation"""
         return {
             "rule_type": self.rule_type,
@@ -70,49 +68,48 @@ class TransformationRule:
 
 
 class TransformationConfig:
-    """
-    Configuration for CSV data transformations
+    """Configuration for CSV data transformations
     """
     # Date transformation settings
     date_format: str = DateFormat.ISO_8601.value
     auto_detect_dates: bool = True
-    date_columns: List[str] = field(default_factory=list)
+    date_columns: list[str] = field(default_factory=list)
 
     # Numeric transformation settings
     numeric_precision: int = 2
     numeric_format: str = NumericFormat.DECIMAL_2.value
     auto_detect_numeric: bool = True
-    numeric_columns: List[str] = field(default_factory=list)
+    numeric_columns: list[str] = field(default_factory=list)
 
     # Text transformation settings
     text_case: str = TextCase.NONE.value
     trim_whitespace: bool = True
-    text_columns: List[str] = field(default_factory=list)
+    text_columns: list[str] = field(default_factory=list)
 
     # Data cleaning settings
     remove_duplicates: bool = False
-    duplicate_subset_columns: List[str] = field(default_factory=list)
+    duplicate_subset_columns: list[str] = field(default_factory=list)
     handle_missing_values: bool = True
     missing_value_strategy: str = "skip"  # skip, fill, remove
-    fill_value: Optional[Any] = None
+    fill_value: Any | None = None
 
     # Column mapping and renaming
-    column_mappings: Dict[str, str] = field(default_factory=dict)
-    columns_to_drop: List[str] = field(default_factory=list)
+    column_mappings: dict[str, str] = field(default_factory=dict)
+    columns_to_drop: list[str] = field(default_factory=list)
 
     # Validation settings
-    required_columns: List[str] = field(default_factory=list)
-    max_rows: Optional[int] = None
-    min_rows: Optional[int] = None
+    required_columns: list[str] = field(default_factory=list)
+    max_rows: int | None = None
+    min_rows: int | None = None
 
     # Custom transformation rules
-    custom_rules: List[TransformationRule] = field(default_factory=list)
+    custom_rules: list[TransformationRule] = field(default_factory=list)
 
     def add_custom_rule(self, rule: TransformationRule):
         """Add a custom transformation rule"""
         self.custom_rules.append(rule)
 
-    def remove_custom_rule(self, rule_type: str, target_columns: List[str]) -> bool:
+    def remove_custom_rule(self, rule_type: str, target_columns: list[str]) -> bool:
         """Remove a custom transformation rule"""
         for i, rule in enumerate(self.custom_rules):
             if rule.rule_type == rule_type and rule.target_columns == target_columns:
@@ -120,7 +117,7 @@ class TransformationConfig:
                 return True
         return False
 
-    def get_active_rules(self) -> List[TransformationRule]:
+    def get_active_rules(self) -> list[TransformationRule]:
         """Get only active transformation rules"""
         return [rule for rule in self.custom_rules if rule.is_active]
 
@@ -159,7 +156,7 @@ class TransformationConfig:
             return True
         return False
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert configuration to dictionary representation"""
         return {
             "date_format": self.date_format,
@@ -186,7 +183,7 @@ class TransformationConfig:
         }
 
     @classmethod
-    def from_dict(cls, data: Dict[str, Any]) -> 'TransformationConfig':
+    def from_dict(cls, data: dict[str, Any]) -> 'TransformationConfig':
         """Create configuration from dictionary"""
         # Extract custom rules and convert them back to objects
         customrules_data = data.pop('custom_rules', [])
@@ -228,16 +225,15 @@ class TransformationConfig:
 
 
 class TransformationResult:
-    """
-    Result of applying transformations to data
+    """Result of applying transformations to data
     """
     success: bool
-    transformed_data: Optional[Any] = None  # Could be DataFrame or other data structure
-    applied_rules: List[str] = field(default_factory=list)
-    warnings: List[str] = field(default_factory=list)
-    errors: List[str] = field(default_factory=list)
-    error_message: Optional[str] = None
-    processing_time_seconds: Optional[float] = None
+    transformed_data: Any | None = None  # Could be DataFrame or other data structure
+    applied_rules: list[str] = field(default_factory=list)
+    warnings: list[str] = field(default_factory=list)
+    errors: list[str] = field(default_factory=list)
+    error_message: str | None = None
+    processing_time_seconds: float | None = None
 
     def add_warning(self, warning: str):
         """Add a warning message"""
@@ -252,7 +248,7 @@ class TransformationResult:
         """Add a description of an applied rule"""
         self.applied_rules.append(rule_description)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert result to dictionary representation"""
         result = {
             "success": self.success,

@@ -1,13 +1,10 @@
 #!/usr/bin/env python3
-"""
-Final comprehensive cleanup for report-generator service.
+"""Final comprehensive cleanup for report-generator service.
 Handles remaining F401 (unused imports), E302/E304 (blank lines), and other issues.
 """
 
-import ast
 import re
 from pathlib import Path
-from typing import Set
 
 
 class FinalCleanup:
@@ -24,7 +21,7 @@ class FinalCleanup:
         
         for py_file in self.service_root.glob("**/*.py"):
             try:
-                with open(py_file, 'r', encoding='utf-8') as f:
+                with open(py_file, encoding='utf-8') as f:
                     content = f.read()
                 
                 if not content.strip():

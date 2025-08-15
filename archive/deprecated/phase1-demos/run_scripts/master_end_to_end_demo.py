@@ -1,5 +1,4 @@
-"""
-master_end_to_end_demo.py
+"""master_end_to_end_demo.py
 -------------------------
 Complete end - to - end demonstration of the Charlie Reporting System.
 
@@ -14,12 +13,11 @@ Author: Jonathan Wardwell, Copilot, GPT - 4o
 License: MIT
 """
 
+import logging
 import os
 import sys
 import time
-from datetime import datetime, timedelta
-from typing import Dict, List
-import logging
+from datetime import datetime
 
 # Add paths for imports
 demodir = os.path.dirname(os.path.abspath(__file__))
@@ -28,15 +26,11 @@ sys.path.insert(0, os.path.join(project_root, 'src'))
 sys.path.insert(0, demo_dir)
 
 # Import project modules
-from config_loader import ConfigLoader
-from email_fetcher import EmailFetcher
-from services.report_generator.csv_processor import CSVTransformer
-from services.report_generator.excel_generator import ExcelWriter
-from main import ReportProcessor
-
 # Import demo modules
 from data_generator import RealisticDataGenerator
 from email_sender import EmailSender
+
+from main import ReportProcessor
 
 
 class EndToEndDemo:
@@ -91,7 +85,7 @@ class EndToEndDemo:
         print("📊 Simulation: 4 hours of call center data (5 - minute intervals)")
         print("=" * 80)
 
-    def phase_1_data_generation(self) -> Dict[str, List[str]]:
+    def phase_1_data_generation(self) -> dict[str, list[str]]:
         """Phase 1: Generate realistic call center data"""
         print("\n🔷 PHASE 1: DATA GENERATION")
         print("-" * 50)
@@ -124,7 +118,7 @@ class EndToEndDemo:
         self.logger.info(f"Phase 1 complete: Generated {len(demo_files)} time intervals")
         return demo_files
 
-    def phase_2_email_sending(self, demo_files: Dict[str, List[str]]) -> int:
+    def phase_2_email_sending(self, demo_files: dict[str, list[str]]) -> int:
         """Phase 2: Send emails with CSV attachments"""
         print("\n🔷 PHASE 2: EMAIL SENDING")
         print("-" * 50)
@@ -188,7 +182,7 @@ class EndToEndDemo:
             self.logger.error(f"Phase 3 failed: {e}")
             return False
 
-    def phase_4_automated_processing(self) -> Dict[str, any]:
+    def phase_4_automated_processing(self) -> dict[str, any]:
         """Phase 4: Run automated email monitoring and processing"""
         print("\n🔷 PHASE 4: AUTOMATED PROCESSING")
         print("-" * 50)

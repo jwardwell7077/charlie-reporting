@@ -1,9 +1,7 @@
-"""
-Outlook configuration model for outlook - relay
+"""Outlook configuration model for outlook - relay
 """
 
 from dataclasses import dataclass
-from typing import Optional, List
 from datetime import datetime, timedelta
 
 
@@ -11,22 +9,21 @@ from datetime import datetime, timedelta
 
 
 class OutlookConfiguration:
-    """
-    Configuration for Outlook email operations
+    """Configuration for Outlook email operations
     """
     folder_name: str = "Inbox"
     time_range_hours: int = 24
-    sender_filter: Optional[str] = None
+    sender_filter: str | None = None
     attachment_required: bool = True  # Only fetch emails with attachments
     csv_attachments_only: bool = True  # Only fetch emails with CSV attachments
 
     # Date filtering
-    start_date: Optional[datetime] = None
-    end_date: Optional[datetime] = None
+    start_date: datetime | None = None
+    end_date: datetime | None = None
 
     # Advanced filtering
-    subject_keywords: Optional[List[str]] = None
-    exclude_keywords: Optional[List[str]] = None
+    subject_keywords: list[str] | None = None
+    exclude_keywords: list[str] | None = None
     max_emails: int = 100
 
     def get_time_range(self) -> tuple[datetime, datetime]:
@@ -40,7 +37,6 @@ class OutlookConfiguration:
 
     def should_process_email(self, subject: str, sender: str, has_attachments: bool) -> bool:
         """Business logic for determining if an email should be processed"""
-
         # Check attachment requirement
         if self.attachment_required and not has_attachments:
             return False

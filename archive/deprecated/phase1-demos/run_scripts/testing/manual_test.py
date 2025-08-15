@@ -1,5 +1,4 @@
-"""
-Manual SMTP Test
+"""Manual SMTP Test
 """
 import os
 import sys
@@ -35,7 +34,7 @@ def main():
             print(f"✅ .env file found at: {env_path}")
             envfound = True
             try:
-                with open(env_path, 'r') as f:
+                with open(env_path) as f:
                     for line in f:
                         line = line.strip()
                         if line and not line.startswith('#') and '=' in line:
@@ -78,9 +77,9 @@ def main():
         print("✅ Gmail authentication successful!")
 
         # Send test email
-        from email.mime.text import MIMEText
-        from email.mime.multipart import MIMEMultipart
         from datetime import datetime
+        from email.mime.multipart import MIMEMultipart
+        from email.mime.text import MIMEText
 
         msg = MIMEMultipart()
         msg['From'] = f"Charlie Reporting <{gmail_address}>"

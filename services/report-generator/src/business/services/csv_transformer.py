@@ -1,32 +1,30 @@
-"""
-CSV Transformation Service
+"""CSV Transformation Service
 Pure business logic for CSV data transformation - migrated from src / transformer.py
 """
 
-from typing import List, Dict, Any, Optional
 import logging
-from pathlib import Path
-import pandas as pd
 import shutil
+from datetime import datetime
+from pathlib import Path
+from typing import Any
 
+import pandas as pd
+
+from ..interfaces import ICSVTransformer
 from ..models.csv_data import CSVFile, CSVRule, CSVTransformationResult
 from ..models.report import Report, ReportSheet
-from ..interfaces import ICSVTransformer
-from datetime import datetime
 
 
 class CSVTransformationService:
-    """
-    Business service for CSV transformation operations
+    """Business service for CSV transformation operations
     Pure domain logic without infrastructure dependencies
     """
 
-    def __init__(self, logger: Optional[logging.Logger] = None):
+    def __init__(self, logger: logging.Logger | None = None):
         self.logger = logger or logging.getLogger(__name__)
 
-    def create_transformation_rules(self, attachment_config: Dict[str, Any]) -> List[CSVRule]:
-        """
-        Convert configuration to domain rules
+    def create_transformation_rules(self, attachment_config: dict[str, Any]) -> list[CSVRule]:
+        """Convert configuration to domain rules
         """
         rules = []
         for key, cfg in attachment_config.items():
@@ -41,9 +39,8 @@ class CSVTransformationService:
         self.logger.debug(f"Created {len(rules)} transformation rules")
         return rules
 
-    def discover_csv_files(self, raw_dir: Path, date_filter: str, hour_filter: Optional[str] = None) -> List[CSVFile]:
-        """
-        Business logic for discovering CSV files to process
+    def discover_csv_files(self, raw_dir: Path, date_filter: str, hour_filter: str | None = None) -> list[CSVFile]:
+        """Business logic for discovering CSV files to process
         """
         csv_files = []
 
@@ -88,9 +85,8 @@ class CSVTransformationService:
         self.logger.info(f"Discovered {len(csv_files)} CSV files for processing")
         return csv_files
 
-    def match_files_to_rules(self, csv_files: List[CSVFile], rules: List[CSVRule]) -> List[CSVFile]:
-        """
-        Business logic for matching files to transformation rules
+    def match_files_to_rules(self, csv_files: list[CSVFile], rules: list[CSVRule]) -> list[CSVFile]:
+        """Business logic for matching files to transformation rules
         """
         matched_files = []
 
@@ -112,8 +108,7 @@ class CSVTransformationService:
         return matched_files
 
     def transform_csv_file(self, csv_file: CSVFile) -> CSVTransformationResult:
-        """
-        Transform a single CSV file according to its rule
+        """Transform a single CSV file according to its rule
         """
         if not csv_file.rule:
             return CSVTransformationResult(
@@ -162,11 +157,10 @@ class CSVTransformationService:
             )
 
     def create_report_from_results(self,
-                                  transformation_results: List[CSVTransformationResult],
+                                  transformation_results: list[CSVTransformationResult],
                                   date_str: str,
-                                  hour_filter: Optional[str] = None) -> Report:
-        """
-        Business logic for creating a report from transformation results
+                                  hour_filter: str | None = None) -> Report:
+        """Business logic for creating a report from transformation results
         """
         sheets = {}
 
@@ -199,10 +193,9 @@ class CSVTransformationService:
         return report
 
     def archive_processed_files(self,
-                               successful_results: List[CSVTransformationResult],
-                               archive_dir: Path) -> Dict[str, str]:
-        """
-        Business logic for archiving successfully processed files
+                               successful_results: list[CSVTransformationResult],
+                               archive_dir: Path) -> dict[str, str]:
+        """Business logic for archiving successfully processed files
         """
         archived_files = {}
 
@@ -241,7 +234,7 @@ class CSVTransformationService:
 
         return df
 
-    def extract_hour_from_filename(self, file_name: str) -> Optional[str]:
+    def extract_hour_from_filename(self, file_name: str) -> str | None:
         """Extract hour from file_name pattern"""
         import re
 
@@ -256,8 +249,7 @@ class CSVTransformationService:
 
 
 class CSVTransformerService(ICSVTransformer):
-    """
-    Implementation of ICSVTransformer interface
+    """Implementation of ICSVTransformer interface
     Adapter for the existing CSVTransformationService
     """
 
@@ -265,8 +257,8 @@ class CSVTransformerService(ICSVTransformer):
         self.service = CSVTransformationService()
 
     async def transform_csv(
-        self, file_path: str, rules: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, file_path: str, rules: dict[str, Any]
+    ) -> dict[str, Any]:
         """Transform CSV file according to rules"""
         try:
             # Convert rules dict to CSVRule objects
@@ -303,7 +295,7 @@ class CSVTransformerService(ICSVTransformer):
                 "message": "Transformation failed"
             }
 
-    async def validate_csv_format(self, file_path: str) -> Dict[str, Any]:
+    async def validate_csv_format(self, file_path: str) -> dict[str, Any]:
         """Validate CSV file format"""
         try:
             # Use pandas to validate basic CSV structure

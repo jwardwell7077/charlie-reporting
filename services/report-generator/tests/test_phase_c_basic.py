@@ -1,14 +1,14 @@
-"""
-Phase C Simple Demonstration Test
+"""Phase C Simple Demonstration Test
 Validates enhanced test infrastructure is working
 """
 
-import pytest
-from pathlib import Path
 import tempfile
+from pathlib import Path
+
+import pytest
 
 # Import Phase C test infrastructure directly
-from tests.utils.test_utilities import TestTimer, TestAssertions, test_reporter
+from tests.utils.test_utilities import TestAssertions, TestTimer, test_reporter
 
 
 class TestPhaseCSimpleDemo:
@@ -17,7 +17,6 @@ class TestPhaseCSimpleDemo:
     @pytest.mark.smoke
     def test_test_infrastructure_basic(self):
         """Smoke test: Verify basic test infrastructure works"""
-
         # Test TestTimer utility
         timer = TestTimer("Basic Test")
         assert timer.name == "Basic Test"
@@ -40,7 +39,6 @@ class TestPhaseCSimpleDemo:
     @pytest.mark.unit
     def test_tempfile_management(self):
         """Test temporary file management capabilities"""
-
         with TestTimer("File Management Test"):
             # Create temporary directory
             with tempfile.TemporaryDirectory() as temp_dir:
@@ -60,7 +58,6 @@ class TestPhaseCSimpleDemo:
     @pytest.mark.unit
     def test_enhanced_assertions(self):
         """Test enhanced assertion capabilities"""
-
         assertions = TestAssertions()
 
         # Test performance assertions
@@ -78,7 +75,6 @@ class TestPhaseCSimpleDemo:
     @pytest.mark.performance
     def test_test_timer_functionality(self):
         """Test timer functionality for performance testing"""
-
         timer = TestTimer("Timer Test")
 
         # Timer should track execution
@@ -96,7 +92,6 @@ class TestPhaseCSimpleDemo:
     @pytest.mark.integration
     def test_test_reporter_functionality(self):
         """Test the test reporting system"""
-
         # Record multiple test results
         test_reporter.record_test_result("Test 1", True, 0.1)
         test_reporter.record_test_result("Test 2", True, 0.2)
@@ -118,7 +113,6 @@ class TestPhaseCSummarySimple:
 
     def test_phase_c_basic_capabilities(self):
         """Summary of basic Phase C capabilities demonstrated"""
-
         capabilities = [
             "✅ Test Utilities - TestTimer, TestAssertions, test_reporter",
             "✅ Performance Testing - Timing and threshold validation",

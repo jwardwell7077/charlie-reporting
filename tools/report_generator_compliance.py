@@ -1,13 +1,10 @@
 #!/usr/bin/env python3
-"""
-Report-Generator Service Flake8 Compliance Script
+"""Report-Generator Service Flake8 Compliance Script
 Systematically fixes common flake8 violations in the report-generator service.
 """
 
-import os
 import re
 from pathlib import Path
-from typing import Dict, List
 
 
 class ReportGeneratorCompliance:
@@ -29,7 +26,7 @@ class ReportGeneratorCompliance:
         
         for py_file in python_files:
             try:
-                with open(py_file, 'r', encoding='utf-8') as f:
+                with open(py_file, encoding='utf-8') as f:
                     content = f.read()
                 
                 original_content = content

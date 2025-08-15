@@ -1,8 +1,7 @@
-"""
-Business domain models package
+"""Business domain models package
 """
 
-from .processing_result import ProcessingResult, FileInfo, ProcessingConfig
+from .processing_result import FileInfo, ProcessingConfig, ProcessingResult
 
 __all__ = [
     'ProcessingResult',

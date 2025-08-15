@@ -1,6 +1,5 @@
 #!/usr / bin / env python3
-"""
-Root Directory Cleanup Script
+"""Root Directory Cleanup Script
 Organize and clean up the cluttered root directory structure
 """
 import shutil
@@ -9,7 +8,6 @@ from pathlib import Path
 
 def analyze_root_directory():
     """Analyze current root directory structure."""
-
     print("🔍 ANALYZING ROOT DIRECTORY STRUCTURE")
     print("=" * 60)
 
@@ -83,7 +81,6 @@ def analyze_root_directory():
 
 def create_cleanup_plan():
     """Create a cleanup plan for reorganizing files."""
-
     cleanupplan = {
         # Create new directories for organization
         "create_directories": [
@@ -165,7 +162,6 @@ def create_cleanup_plan():
 
 def execute_cleanup(plan, dry_run=True):
     """Execute the cleanup plan."""
-
     actionprefix = "🔍 [DRY RUN]" if dry_run else "🧹 [EXECUTING]"
 
     print(f"\n{action_prefix} CLEANUP OPERATIONS")
@@ -206,7 +202,6 @@ def execute_cleanup(plan, dry_run=True):
 
 def create_root_readme():
     """Create a clean root directory README."""
-
     readme_content = '''# Charlie Reporting System
 
 A modern microservices - based reporting system for processing CSV data and generating Excel reports.
@@ -309,7 +304,6 @@ See [tools / development/](tools / development/) for development setup and utili
 
 def main():
     """Main cleanup function."""
-
     print("🧹 ROOT DIRECTORY CLEANUP UTILITY")
     print("=" * 50)
 

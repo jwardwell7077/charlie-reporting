@@ -1,16 +1,14 @@
-"""
-Test Data Factories
+"""Test Data Factories
 Generates realistic test data for comprehensive testing scenarios
 """
 
 import random
-import pandas as pd
+import tempfile
+from dataclasses import dataclass
 from datetime import datetime, timedelta
 from pathlib import Path
-from typing import Dict, List, Any, Optional
-from dataclasses import dataclass
-import tempfile
 
+import pandas as pd
 from business.models.csv_data import CSVFile, CSVRule
 from business.models.processing_result import ProcessingResult
 
@@ -45,10 +43,10 @@ class CSVDataFactory:
 
     STATUSES = ["Active", "Pending", "Completed", "Cancelled", "On Hold"]
 
-    def __init__(self, config: Optional[TestDataConfig] = None):
+    def __init__(self, config: TestDataConfig | None = None):
         self.config = config or TestDataConfig()
 
-    def create_acq_data(self, num_records: Optional[int] = None) -> pd.DataFrame:
+    def create_acq_data(self, num_records: int | None = None) -> pd.DataFrame:
         """Generate realistic ACQ (Acquisition) data"""
         records = num_records or self.config.num_records
 
@@ -83,7 +81,7 @@ class CSVDataFactory:
 
         return pd.DataFrame(data)
 
-    def create_productivity_data(self, num_records: Optional[int] = None) -> pd.DataFrame:
+    def create_productivity_data(self, num_records: int | None = None) -> pd.DataFrame:
         """Generate realistic Productivity data"""
         records = num_records or self.config.num_records
 
@@ -107,7 +105,7 @@ class CSVDataFactory:
 
         return pd.DataFrame(data)
 
-    def create_campaign_data(self, num_records: Optional[int] = None) -> pd.DataFrame:
+    def create_campaign_data(self, num_records: int | None = None) -> pd.DataFrame:
         """Generate realistic Campaign Interactions data"""
         records = num_records or self.config.num_records
 
@@ -137,7 +135,7 @@ class CSVDataFactory:
 class CSVFileFactory:
     """Factory for creating CSVFile domain objects"""
 
-    def __init__(self, data_factory: Optional[CSVDataFactory] = None):
+    def __init__(self, data_factory: CSVDataFactory | None = None):
         self.datafactory = data_factory or CSVDataFactory()
 
     def create_csv_file(
@@ -148,7 +146,6 @@ class CSVFileFactory:
         temp_dir: str = None
     ) -> CSVFile:
         """Create a CSVFile object with actual file on disk"""
-
         if date_str is None:
             datestr = datetime.now().strftime("%Y-%m-%d")
 
@@ -196,13 +193,12 @@ class CSVFileFactory:
 
     def create_multiple_csv_files(
         self,
-        file_types: List[str] = None,
-        dates: List[str] = None,
-        hours: List[str] = None,
+        file_types: list[str] = None,
+        dates: list[str] = None,
+        hours: list[str] = None,
         temp_dir: str = None
-    ) -> List[CSVFile]:
+    ) -> list[CSVFile]:
         """Create multiple CSV files for testing"""
-
         if file_types is None:
             filetypes = ["ACQ", "Productivity", "Campaign_Interactions"]
 
@@ -274,7 +270,7 @@ class ProcessingResultFactory:
     def create_partial_result(
         files_processed: int = 2,
         total_records: int = 150,
-        warnings: List[str] = None
+        warnings: list[str] = None
     ) -> ProcessingResult:
         """Create a partially successful processing result"""
         return ProcessingResult(
@@ -295,16 +291,15 @@ class TestEnvironmentFactory:
     def __init__(self):
         self.csvfactory = CSVFileFactory()
         self.resultfactory = ProcessingResultFactory()
-        self.temp_dirs: List[str] = []
+        self.temp_dirs: list[str] = []
 
     def create_test_directory_with_files(
         self,
-        file_types: List[str] = None,
+        file_types: list[str] = None,
         num_dates: int = 2,
         num_hours: int = 2
-    ) -> tuple[str, List[CSVFile]]:
+    ) -> tuple[str, list[CSVFile]]:
         """Create a temporary directory with realistic test files"""
-
         # Create temporary directory
         tempdir = tempfile.mkdtemp(prefix="test_csv_")
         self.temp_dirs.append(temp_dir)

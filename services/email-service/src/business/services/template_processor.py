@@ -1,13 +1,11 @@
-"""
-Template_Processor business service for email - service
+"""Template_Processor business service for email - service
 """
 
 import logging
 
 
 class Templateprocessor:
-    """
-    Template_Processor business logic
+    """Template_Processor business logic
     Pure domain logic with no infrastructure dependencies
     """
 

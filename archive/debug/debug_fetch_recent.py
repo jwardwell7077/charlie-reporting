@@ -1,10 +1,11 @@
 import sys
+
 sys.path.insert(0, 'src')
 
-from datetime import datetime, timedelta
-from unittest.mock import Mock, patch
-import tempfile
 import os
+import tempfile
+from datetime import datetime
+from unittest.mock import Mock, patch
 
 # Mock win32com before importing email_fetcher
 with patch.dict('sys.modules', {'win32com': Mock(), 'win32com.client': Mock()}):

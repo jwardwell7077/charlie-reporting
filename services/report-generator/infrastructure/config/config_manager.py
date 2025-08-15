@@ -1,20 +1,18 @@
-"""
-Configuration Management Implementation
+"""Configuration Management Implementation
 Production implementation of IConfigManager interface.
 """
 
 import asyncio
 from pathlib import Path
-from typing import Dict, Any
-import toml
+from typing import Any
 
+import toml
 from business.interfaces import IConfigManager
 from business.models.csv_data import CSVRule
 
 
 class ConfigManagerImpl(IConfigManager):
-    """
-    Production implementation of configuration management.
+    """Production implementation of configuration management.
 
     Handles:
     - TOML configuration file loading
@@ -25,12 +23,11 @@ class ConfigManagerImpl(IConfigManager):
 
     def __init__(self, config_path: Path | None = None):
         self.config_path = config_path or Path("config/config.toml")
-        self.config_cache: Dict[str, Any] = {}
-        self.csv_rules_cache: Dict[str, CSVRule] = {}
+        self.config_cache: dict[str, Any] = {}
+        self.csv_rules_cache: dict[str, CSVRule] = {}
 
-    async def get_csv_rules(self) -> Dict[str, CSVRule]:
-        """
-        Load and parse CSV processing rules from configuration.
+    async def get_csv_rules(self) -> dict[str, CSVRule]:
+        """Load and parse CSV processing rules from configuration.
 
         Returns:
             Dictionary mapping rule names to CSVRule objects
@@ -45,8 +42,7 @@ class ConfigManagerImpl(IConfigManager):
         return self.csv_rules_cache.copy()
 
     async def get_setting(self, key: str, default: Any = None) -> Any:
-        """
-        Get configuration setting by key.
+        """Get configuration setting by key.
 
         Args:
             key: Configuration key (supports dot notation)
@@ -71,8 +67,7 @@ class ConfigManagerImpl(IConfigManager):
         return value
 
     async def reload_configuration(self) -> None:
-        """
-        Force reload of configuration from file.
+        """Force reload of configuration from file.
 
         Raises:
             FileNotFoundError: If config file doesn't exist
@@ -97,15 +92,15 @@ class ConfigManagerImpl(IConfigManager):
         self.config_cache = config_data
         self.csv_rules_cache = self.parse_csv_rules(config_data)
 
-    def load_toml_file(self, file_path: Path) -> Dict[str, Any]:
+    def load_toml_file(self, file_path: Path) -> dict[str, Any]:
         """Load TOML file synchronously."""
         try:
-            with open(file_path, 'r', encoding='utf-8') as f:
+            with open(file_path, encoding='utf-8') as f:
                 return toml.load(f)
         except Exception as e:
             raise ValueError(f"Invalid TOML configuration: {e}") from e
 
-    def parse_csv_rules(self, config_data: Dict[str, Any]) -> Dict[str, CSVRule]:
+    def parse_csv_rules(self, config_data: dict[str, Any]) -> dict[str, CSVRule]:
         """Parse CSV rules from configuration data."""
         csv_rules = {}
 
@@ -129,27 +124,24 @@ class ConfigManagerImpl(IConfigManager):
 
         return csv_rules
 
-    async def get_database_config(self) -> Dict[str, Any]:
-        """
-        Get database configuration settings.
+    async def get_database_config(self) -> dict[str, Any]:
+        """Get database configuration settings.
 
         Returns:
             Database configuration dictionary
         """
         return await self.get_setting('database', {})
 
-    async def get_excel_config(self) -> Dict[str, Any]:
-        """
-        Get Excel generation configuration settings.
+    async def get_excel_config(self) -> dict[str, Any]:
+        """Get Excel generation configuration settings.
 
         Returns:
             Excel configuration dictionary
         """
         return await self.get_setting('excel', {})
 
-    async def get_logging_config(self) -> Dict[str, Any]:
-        """
-        Get logging configuration settings.
+    async def get_logging_config(self) -> dict[str, Any]:
+        """Get logging configuration settings.
 
         Returns:
             Logging configuration dictionary

@@ -1,5 +1,4 @@
-"""
-test_single_csv.py
+"""test_single_csv.py
 -----------------
 Test sending a single CSV file as an email attachment
 
@@ -12,15 +11,15 @@ This will test:
 Author: Jonathan Wardwell, Copilot, GPT - 4o
 """
 
+import csv
 import os
+import random
 import smtplib
+from datetime import datetime
+from email import encoders
+from email.mime.base import MIMEBase
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
-from email.mime.base import MIMEBase
-from email import encoders
-from datetime import datetime
-import csv
-import random
 
 
 def load_env_file():
@@ -28,7 +27,7 @@ def load_env_file():
     envpath = os.path.join(os.path.dirname(os.path.dirname(__file__)), '.env')
 
     if os.path.exists(env_path):
-        with open(env_path, 'r') as f:
+        with open(env_path) as f:
             for line in f:
                 line = line.strip()
                 if line and not line.startswith('#') and '=' in line:
@@ -40,7 +39,6 @@ def load_env_file():
 
 def create_test_csv():
     """Create a sample CSV file for testing"""
-
     # Create test data directory
     testdir = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'data', 'raw')
     os.makedirs(test_dir, exist_ok=True)
@@ -74,7 +72,6 @@ def create_test_csv():
 
 def send_test_email_with_csv():
     """Send test email with CSV attachment"""
-
     # Load credentials
     load_env_file()
 

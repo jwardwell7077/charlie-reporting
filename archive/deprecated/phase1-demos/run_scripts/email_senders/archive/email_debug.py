@@ -1,13 +1,12 @@
-"""
-email_debug.py
+"""email_debug.py
 --------------
 Debug email sending issues for the Charlie Reporting demo
 """
 
 import time
-import win32com.client as win32
 from datetime import datetime
-import random
+
+import win32com.client as win32
 
 
 def check_outlook_folders():

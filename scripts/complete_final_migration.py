@@ -1,13 +1,10 @@
 #!/usr / bin / env python3
+"""Complete the final src/ migration steps
 """
-Complete the final src/ migration steps
-"""
-from pathlib import Path
 
 
 def complete_migration():
     """Complete the final migration steps."""
-
     # The archiver functionality is now in shared / file_archiver.py
     # The email fetcher functionality is now in services / email - service / email_processor.py
 

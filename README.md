@@ -63,15 +63,34 @@ flake8 services/email-service/email_processor.py
 ## 🚀 Quick Start
 
 ```bash
-# Run the main application
-python3 run.py
+# Create / update local venv (first time)
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
 
-# Run tests across all services
-python3 scripts/test_runner.py
+# Enforced: will abort if not using ./.venv (sitecustomize)
+python run.py
 
-# Start development services
-python3 scripts/start_dev_services.py
+# Run tests (always via project python)
+./.venv/bin/python -m pytest
 ```
+
+### 🔒 Interpreter Enforcement
+
+The project guarantees the correct Python interpreter (.venv) is used:
+
+- `sitecustomize.py` aborts any Python process using a non-project interpreter.
+- `scripts/ensure_project_venv.py` is a reusable assertion (import or run standalone).
+- Optional `direnv` support via `.envrc` to auto-activate the venv on entering the directory.
+- `pre-commit-venv-check.sh` (symlink into `.git/hooks/pre-commit`) blocks commits from the wrong env.
+
+To enable pre-commit enforcement:
+
+```bash
+ln -s ../../pre-commit-venv-check.sh .git/hooks/pre-commit
+```
+
+If you accidentally run `pytest` from a global env, it will terminate immediately with a clear message.
 
 ## 📁 Project Structure
 

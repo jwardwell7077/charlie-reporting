@@ -1,24 +1,24 @@
-"""
-Basic Test for Report Generator Service
+"""Basic Test for Report Generator Service
 Tests the main components to ensure they're working correctly
 """
 
-import pytest
 import sys
-from pathlib import Path
 import tempfile
+from pathlib import Path
+
 import pandas as pd
+import pytest
 
 # Add src to path for testing
 src_path = Path(__file__).parent.parent / "src"
 sys.path.insert(0, str(src_path))
 
-from business.services.report_processor import ReportProcessingService
 from business.models.csv_data import CSVFile, CSVRule
 from business.models.transformation_config import TransformationConfig
-from infrastructure.config import ServiceConfig, ConfigurationManager
-from infrastructure.metrics import MetricsCollector
+from business.services.report_processor import ReportProcessingService
+from infrastructure.config import ConfigurationManager, ServiceConfig
 from infrastructure.logging import StructuredLogger
+from infrastructure.metrics import MetricsCollector
 
 
 class TestReportProcessingService:

@@ -1,5 +1,4 @@
-"""
-cross_platform_email_checker.py
+"""cross_platform_email_checker.py
 -------------------------------
 Cross - platform email verification that works on both WSL2 and Windows.
 
@@ -7,17 +6,16 @@ Author: Jonathan Wardwell, Copilot, GPT - 4o
 License: MIT
 """
 
+import logging
 import os
 import platform
-import logging
 from abc import ABC, abstractmethod
-from typing import Dict, Optional
 
 
 class EmailCheckerBase(ABC):
     """Abstract base class for email verification."""
 
-    def __init__(self, config: Dict[str, Any]):
+    def __init__(self, config: dict[str, Any]):
         self.config = config
         self.logger = logging.getLogger(self.__class__.__name__)
 
@@ -32,7 +30,7 @@ class EmailCheckerBase(ABC):
         pass
 
     @abstractmethod
-    def get_latest_email(self, subject_contains: str) -> Optional[Dict[str, Any]]:
+    def get_latest_email(self, subject_contains: str) -> dict[str, Any] | None:
         """Get latest email matching subject filter."""
         pass
 
@@ -45,7 +43,7 @@ class EmailCheckerBase(ABC):
 class WindowsOutlookChecker(EmailCheckerBase):
     """Windows - specific Outlook COM interface checker."""
 
-    def __init__(self, config: Dict[str, Any]):
+    def __init__(self, config: dict[str, Any]):
         super().__init__(config)
         self.outlook = None
         self.initialize_outlook()
@@ -88,7 +86,7 @@ class WindowsOutlookChecker(EmailCheckerBase):
 
         return False
 
-    def get_latest_email(self, subject_contains: str) -> Optional[Dict[str, Any]]:
+    def get_latest_email(self, subject_contains: str) -> dict[str, Any] | None:
         """Get latest email using Outlook COM."""
         try:
             namespace = self.outlook.GetNamespace("MAPI")
@@ -163,7 +161,7 @@ class WindowsOutlookChecker(EmailCheckerBase):
 class CrossPlatformIMAPChecker(EmailCheckerBase):
     """Cross - platform IMAP email checker for WSL2 / Linux."""
 
-    def __init__(self, config: Dict[str, Any]):
+    def __init__(self, config: dict[str, Any]):
         super().__init__(config)
         self.imapserver = config.get('email', {}).get('imap_server', 'imap.gmail.com')
         self.username = config.get('email', {}).get('test_receiver_address')
@@ -200,11 +198,11 @@ class CrossPlatformIMAPChecker(EmailCheckerBase):
 
         return False
 
-    def get_latest_email(self, subject_contains: str) -> Optional[Dict[str, Any]]:
+    def get_latest_email(self, subject_contains: str) -> dict[str, Any] | None:
         """Get latest email using IMAP."""
         try:
-            import imaplib
             import email
+            import imaplib
             from email.header import decode_header
 
             mail = imaplib.IMAP4_SSL(self.imap_server)
@@ -268,7 +266,6 @@ class CrossPlatformIMAPChecker(EmailCheckerBase):
         """Delete test emails using IMAP."""
         try:
             import imaplib
-            import datetime
 
             mail = imaplib.IMAP4_SSL(self.imap_server)
             mail.login(self.username, self.password)
@@ -317,9 +314,8 @@ class CrossPlatformIMAPChecker(EmailCheckerBase):
             return False
 
 
-def create_email_checker(config: Dict[str, Any]) -> EmailCheckerBase:
-    """
-    Factory function to create appropriate email checker based on platform.
+def create_email_checker(config: dict[str, Any]) -> EmailCheckerBase:
+    """Factory function to create appropriate email checker based on platform.
 
     Args:
         config: Configuration dictionary

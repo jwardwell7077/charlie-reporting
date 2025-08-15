@@ -1,0 +1,21 @@
+You are my automation assistant. Apply the following style system to THIS repository.
+Create or update the listed files EXACTLY as provided (verbatim). If a file exists, replace its contents.
+After writing files, output the shell commands I should run locally. Do not execute commands yourself.
+
+# FILES TO CREATE/UPDATE
+
+1. pyproject.toml (Ruff + mypy config already integrated manually)
+2. pyrightconfig.json
+3. .pre-commit-config.yaml
+4. .editorconfig
+5. .vscode/settings.json
+6. .github/workflows/ci.yml
+7. CONTRIBUTING.md
+
+# AFTER WRITING FILES, OUTPUT THESE COMMANDS (DON'T RUN THEM)
+1. python -m venv .venv
+2. source .venv/bin/activate   # or .venv\\Scripts\\Activate.ps1 on Windows
+3. pip install -U pip ruff mypy pre-commit pydantic
+4. pre-commit install
+5. ruff check . --fix && ruff format .
+6. git add -A && git commit -m "chore(style): apply Ruff+mypy style system"

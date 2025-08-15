@@ -1,11 +1,9 @@
-"""
-Email Fetcher Business Service
+"""Email Fetcher Business Service
 Pure business logic for email operations - migrated from src / email_fetcher.py
 """
 
-from typing import List, Dict
-from datetime import datetime, timedelta
 import logging
+from datetime import datetime
 from pathlib import Path
 
 from ..models.email import Email
@@ -13,17 +11,15 @@ from ..models.outlook import OutlookConfiguration
 
 
 class EmailFetcherService:
-    """
-    Business service for email fetching operations
+    """Business service for email fetching operations
     Pure domain logic without infrastructure dependencies
     """
 
     def __init__(self, logger: logging.Logger = None):
         self.logger = logger or logging.getLogger(__name__)
 
-    def should_fetch_email(self, email_data: Dict[str, Any], config: OutlookConfiguration) -> bool:
-        """
-        Business rule: Determine if an email should be fetched
+    def should_fetch_email(self, email_data: dict[str, Any], config: OutlookConfiguration) -> bool:
+        """Business rule: Determine if an email should be fetched
         """
         subject = email_data.get('subject', '')
         sender = email_data.get('sender', '')
@@ -31,9 +27,8 @@ class EmailFetcherService:
 
         return config.should_process_email(subject, sender, has_attachments)
 
-    def process_email_batch(self, emails: List[Dict[str, Any]], config: OutlookConfiguration) -> List[Email]:
-        """
-        Business logic for processing a batch of emails
+    def process_email_batch(self, emails: list[dict[str, Any]], config: OutlookConfiguration) -> list[Email]:
+        """Business logic for processing a batch of emails
         """
         processedemails = []
 
@@ -49,9 +44,8 @@ class EmailFetcherService:
         self.logger.info(f"Processed {len(processed_emails)} emails from {len(emails)} total")
         return processed_emails
 
-    def filter_emails_by_time_range(self, emails: List[Email], config: OutlookConfiguration) -> List[Email]:
-        """
-        Filter emails by the configured time range
+    def filter_emails_by_time_range(self, emails: list[Email], config: OutlookConfiguration) -> list[Email]:
+        """Filter emails by the configured time range
         """
         start_time, endtime = config.get_time_range()
 
@@ -63,9 +57,8 @@ class EmailFetcherService:
         self.logger.info(f"Filtered {len(filtered_emails)} emails within time range {start_time} to {end_time}")
         return filtered_emails
 
-    def categorize_emails_by_type(self, emails: List[Email]) -> Dict[str, List[Email]]:
-        """
-        Group emails by their detected type (ACQ, QCBS, etc.)
+    def categorize_emails_by_type(self, emails: list[Email]) -> dict[str, list[Email]]:
+        """Group emails by their detected type (ACQ, QCBS, etc.)
         """
         categorized = {}
 
@@ -83,9 +76,8 @@ class EmailFetcherService:
 
         return categorized
 
-    def prepare_attachmentsave_paths(self, email: Email, base_save_dir: Path) -> Dict[str, Path]:
-        """
-        Business logic for determining where to save attachments
+    def prepare_attachmentsave_paths(self, email: Email, base_save_dir: Path) -> dict[str, Path]:
+        """Business logic for determining where to save attachments
         """
         savepaths = {}
         emailtype = email.extractemail_type() or 'UNCLASSIFIED'
@@ -109,9 +101,8 @@ class EmailFetcherService:
 
         return save_paths
 
-    def validate_email_data_quality(self, emails: List[Email]) -> Dict[str, Any]:
-        """
-        Business rules for data quality validation
+    def validate_email_data_quality(self, emails: list[Email]) -> dict[str, Any]:
+        """Business rules for data quality validation
         """
         qualityreport = {
             'total_emails': len(emails),
@@ -142,7 +133,7 @@ class EmailFetcherService:
 
         return quality_report
 
-    def convert_to_domain_email(self, email_data: Dict[str, Any]) -> Email:
+    def convert_to_domain_email(self, email_data: dict[str, Any]) -> Email:
         """Convert raw email data to domain model"""
         return Email(
             subject=email_data.get('subject', ''),
@@ -155,8 +146,7 @@ class EmailFetcherService:
         )
 
     def sanitize_filename(self, filename: str) -> str:
-        """
-        Sanitize filename for filesystem compatibility
+        """Sanitize filename for filesystem compatibility
         Migrated from utils.py
         """
         import re

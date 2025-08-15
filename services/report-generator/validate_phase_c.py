@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
-"""
-Phase C Validation Script
+"""Phase C Validation Script
 Validates enhanced test infrastr    # 7. C    # 7. Check integration test infrastructure
     print("\n7. Testing Integration Test Infrastructure...")
     try:
@@ -24,13 +23,12 @@ Validates enhanced test infrastr    # 7. C    # 7. Check integration test infras
         success_count += 1mentation
 """
 
-import sys
 import subprocess
+import sys
 
 
 def validate_phase_c():
     """Validate Phase C enhanced test infrastructure"""
-
     print("🔍 PHASE C VALIDATION: Enhanced Test Infrastructure")
     print("=" * 60)
 
@@ -40,7 +38,7 @@ def validate_phase_c():
     # 1. Check test utilities exist
     print("\n1. Testing Test Utilities...")
     try:
-        from tests.utils.test_utilities import TestTimer, TestAssertions, test_reporter
+        from tests.utils.test_utilities import TestAssertions, TestTimer, test_reporter
         print("✅ Test utilities imported successfully")
         success_count += 1
     except ImportError as e:
@@ -122,7 +120,7 @@ def validate_phase_c():
             sys.executable, "-m", "pytest",
             "tests / test_phase_c_basic.py",
             "-v", "--tb=no", "-q"
-        ], capture_output=True, text=True, cwd=".")
+        ], check=False, capture_output=True, text=True, cwd=".")
 
         if result.returncode == 0:
             print("✅ All Phase C basic tests passing")

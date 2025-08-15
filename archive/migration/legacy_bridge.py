@@ -1,5 +1,4 @@
-"""
-Legacy Compatibility Bridge
+"""Legacy Compatibility Bridge
 Provides backward compatibility during Phase 2 migration
 DEPRECATED: This module will be removed in Phase 3
 """

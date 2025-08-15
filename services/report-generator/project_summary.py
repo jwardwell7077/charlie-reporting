@@ -1,17 +1,15 @@
 #!/usr/bin/env python3
-"""
-Project Achievement Summary and Final Validation
+"""Project Achievement Summary and Final Validation
 Phase 2.6 TDD Refactoring - Achievement Documentation
 """
 
+import subprocess
 import sys
 from pathlib import Path
-import subprocess
 
 
 def validate_project_achievements():
     """Document and validate what we've actually accomplished"""
-
     print("🎯 PROJECT PHASE 2.6 TDD REFACTORING - ACHIEVEMENT SUMMARY")
     print("=" * 70)
 
@@ -117,7 +115,7 @@ def validate_project_achievements():
             "tests / test_phase_c_basic.py",
             "-v", "--tb=short"
         ],
-        capture_output=True, text=True,
+        check=False, capture_output=True, text=True,
         cwd=".",
         env={
             "PYTHONPATH": "/home / jon / repos / charlie - reporting / services / report - generator / src:/home / jon / repos / charlie - reporting / services / report - generator / tests"

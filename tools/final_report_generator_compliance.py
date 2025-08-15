@@ -1,13 +1,11 @@
 #!/usr/bin/env python3
-"""
-Final Report-Generator Compliance Script
+"""Final Report-Generator Compliance Script
 This script addresses the remaining Flake8, PEP 8, and Pylance compliance issues.
 """
 
 import re
 import subprocess
 from pathlib import Path
-from typing import List, Dict
 
 
 class ReportGeneratorCompliance:
@@ -61,12 +59,12 @@ class ReportGeneratorCompliance:
             
         return len(final_violations) == 0
     
-    def get_flake8_violations(self) -> List[str]:
+    def get_flake8_violations(self) -> list[str]:
         """Get current flake8 violations."""
         try:
             result = subprocess.run(
                 ['flake8', '--config=../../.flake8', '.'],
-                cwd=self.service_root,
+                check=False, cwd=self.service_root,
                 capture_output=True,
                 text=True,
                 timeout=30
@@ -98,7 +96,7 @@ class ReportGeneratorCompliance:
         
         for py_file in self.service_root.glob("**/*.py"):
             try:
-                with open(py_file, 'r', encoding='utf-8') as f:
+                with open(py_file, encoding='utf-8') as f:
                     content = f.read()
                 
                 original_content = content
@@ -122,7 +120,7 @@ class ReportGeneratorCompliance:
         """Fix common import issues."""
         for py_file in self.service_root.glob("**/*.py"):
             try:
-                with open(py_file, 'r', encoding='utf-8') as f:
+                with open(py_file, encoding='utf-8') as f:
                     lines = f.readlines()
                 
                 new_lines = []
@@ -153,7 +151,7 @@ class ReportGeneratorCompliance:
         """Fix common formatting issues."""
         for py_file in self.service_root.glob("**/*.py"):
             try:
-                with open(py_file, 'r', encoding='utf-8') as f:
+                with open(py_file, encoding='utf-8') as f:
                     content = f.read()
                 
                 if not content.strip():
@@ -190,7 +188,7 @@ class ReportGeneratorCompliance:
             except Exception as e:
                 print(f"Error fixing formatting in {py_file}: {e}")
     
-    def show_remaining_violations(self, violations: List[str]):
+    def show_remaining_violations(self, violations: list[str]):
         """Show remaining violations."""
         print("\nTop remaining violations:")
         for violation in violations:

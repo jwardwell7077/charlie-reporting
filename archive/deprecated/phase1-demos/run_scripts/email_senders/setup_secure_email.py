@@ -1,12 +1,11 @@
-"""
-setup_secure_email.py
+"""setup_secure_email.py
 ---------------------
 Setup script for secure email authentication with Google OAuth 2.0
 """
 
+import os
 import subprocess
 import sys
-import os
 
 
 def install_google_auth():

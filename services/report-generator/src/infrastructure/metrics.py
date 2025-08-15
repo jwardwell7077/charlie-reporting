@@ -1,14 +1,13 @@
-"""
-Metrics Collection Infrastructure
+"""Metrics Collection Infrastructure
 Prometheus - compatible metrics collection for monitoring and observability
 """
 
+import threading
 import time
-from typing import Dict, Any, List, Optional
+from collections import defaultdict, deque
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
-import threading
-from collections import defaultdict, deque
+from typing import Any
 
 from ..business.interfaces import IMetricsCollector
 
@@ -21,7 +20,7 @@ class MetricData:
     name: str
     value: float
     timestamp: datetime
-    labels: Dict[str, str] = field(default_factory=dict)
+    labels: dict[str, str] = field(default_factory=dict)
 
 
 @dataclass
@@ -38,8 +37,7 @@ class ProcessingMetric:
 
 
 class MetricsCollector:
-    """
-    Infrastructure service for collecting and exposing metrics
+    """Infrastructure service for collecting and exposing metrics
     Compatible with Prometheus monitoring but works standalone
     """
 
@@ -49,21 +47,21 @@ class MetricsCollector:
         self.start_time = time.time()
 
         # Metric storage
-        self.counters: Dict[str, float] = defaultdict(float)
-        self.gauges: Dict[str, float] = defaultdict(float)
-        self.histograms: Dict[str, List[float]] = defaultdict(list)
+        self.counters: dict[str, float] = defaultdict(float)
+        self.gauges: dict[str, float] = defaultdict(float)
+        self.histograms: dict[str, list[float]] = defaultdict(list)
         self.processing_metrics: deque = deque(maxlen=1000)  # Keep last 1000 operations
 
         # Request tracking
         self.requests_total = 0
         self.requests_success = 0
         self.requests_failed = 0
-        self.request_durations: List[float] = []
+        self.request_durations: list[float] = []
 
         # Processing tracking
         self.files_processed_total = 0
         self.records_processed_total = 0
-        self.processing_errors: List[str] = []
+        self.processing_errors: list[str] = []
 
         # Health status
         self.healthy = True
@@ -177,22 +175,22 @@ class MetricsCollector:
             if len(self.processing_errors) > 100:
                 self.processing_errors = self.processing_errors[-100:]
 
-    def get_metrics(self) -> Dict[str, Any]:
+    def get_metrics(self) -> dict[str, Any]:
         """Get all collected metrics"""
         with self.lock:
-            uptimeseconds = time.time() - self.start_time
+            uptime_seconds = time.time() - self.start_time
 
             # Calculate processing rates
-            filesper_second = self.files_processed_total / uptime_seconds if uptime_seconds > 0 else 0
-            recordsper_second = self.records_processed_total / uptime_seconds if uptime_seconds > 0 else 0
+            files_per_second = self.files_processed_total / uptime_seconds if uptime_seconds > 0 else 0
+            records_per_second = self.records_processed_total / uptime_seconds if uptime_seconds > 0 else 0
 
             # Calculate success rates
             total_operations = len(self.processing_metrics)
             successful_operations = sum(1 for m in self.processing_metrics if m.success)
-            successrate = (successful_operations / total_operations * 100) if total_operations > 0 else 0
+            success_rate = (successful_operations / total_operations * 100) if total_operations > 0 else 0
 
             # Processing efficiency assessment
-            avgprocessing_time = self.calculate_average_processing_time()
+            avg_processing_time = self.calculate_average_processing_time()
             efficiency = self.assess_processing_efficiency(avg_processing_time)
 
             # Generate recommendations
@@ -259,19 +257,21 @@ class MetricsCollector:
 
             return "\n".join(lines)
 
-    def get_health_metrics(self) -> Dict[str, Any]:
-        """Get health - specific metrics"""
+    def get_health_metrics(self) -> dict[str, Any]:
+        """Get health-specific metrics"""
         with self.lock:
-            recenterrors = len([e for e in self.processing_errors
-                               if "error" in e.lower() or "failed" in e.lower()])
+            recent_error_count = len([
+                e for e in self.processing_errors
+                if "error" in e.lower() or "failed" in e.lower()
+            ])
 
             return {
                 "healthy": self.healthy,
                 "uptime_seconds": time.time() - self.start_time,
-                "recent_error_count": recent_errors,
+                "recent_error_count": recent_error_count,
                 "success_rate": self.calculate_success_rate(),
                 "avg_response_time": self.gauges.get("avg_request_duration_seconds", 0.0),
-                "last_health_check": self.last_health_check.isoformat()
+                "last_health_check": self.last_health_check.isoformat(),
             }
 
     def reset_metrics(self):
@@ -293,12 +293,14 @@ class MetricsCollector:
             self.start_time = time.time()
 
     def calculate_average_processing_time(self) -> float:
-        """Calculate average processing time for recent operations"""
+        """Calculate average processing time for recent operations (last hour)"""
         if not self.processing_metrics:
             return 0.0
 
-        recentoperations = [m for m in self.processing_metrics
-                           if m.timestamp > datetime.utcnow() - timedelta(hours=1)]
+        recent_operations = [
+            m for m in self.processing_metrics
+            if m.timestamp > datetime.utcnow() - timedelta(hours=1)
+        ]
 
         if not recent_operations:
             return 0.0
@@ -317,12 +319,14 @@ class MetricsCollector:
             return "slow"
 
     def calculate_success_rate(self) -> float:
-        """Calculate recent success rate"""
+        """Calculate success rate for operations in the last hour"""
         if not self.processing_metrics:
             return 100.0
 
-        recentoperations = [m for m in self.processing_metrics
-                           if m.timestamp > datetime.utcnow() - timedelta(hours=1)]
+        recent_operations = [
+            m for m in self.processing_metrics
+            if m.timestamp > datetime.utcnow() - timedelta(hours=1)
+        ]
 
         if not recent_operations:
             return 100.0
@@ -330,34 +334,34 @@ class MetricsCollector:
         successful = sum(1 for op in recent_operations if op.success)
         return (successful / len(recent_operations)) * 100
 
-    def generate_recommendations(self) -> List[str]:
+    def generate_recommendations(self) -> list[str]:
         """Generate performance recommendations based on metrics"""
-        recommendations = []
+        recommendations: list[str] = []
 
-        # Check success rate
-        successrate = self.calculate_success_rate()
+        # Success rate assessment
+        success_rate = self.calculate_success_rate()
         if success_rate < 95:
             recommendations.append("Success rate below 95% - investigate processing errors")
 
-        # Check processing time
-        avgtime = self.calculate_average_processing_time()
+        # Processing time assessment
+        avg_time = self.calculate_average_processing_time()
         if avg_time > 30:
             recommendations.append("High processing times detected - consider optimizing data operations")
 
-        # Check error frequency
-        recenterrors = len(self.processing_errors)
-        if recent_errors > 10:
+        # Error frequency assessment
+        recent_error_count = len(self.processing_errors)
+        if recent_error_count > 10:
             recommendations.append("High error frequency - review input data quality")
 
-        # Check memory usage (approximate)
+        # Retention / memory usage heuristic
         if len(self.processing_metrics) > 800:
-            recommendations.append("Consider increasing retention settings or implementing data archival")
+            recommendations.append("High metrics volume - consider increasing retention window or archiving older entries")
 
         return recommendations
 
 
 # Global metrics collector instance
-global_metrics: Optional[MetricsCollector] = None
+global_metrics: MetricsCollector | None = None
 
 
 def get_metrics_collector() -> MetricsCollector:
@@ -371,8 +375,7 @@ def get_metrics_collector() -> MetricsCollector:
 
 
 class MetricsCollectorImpl(IMetricsCollector):
-    """
-    Implementation of IMetricsCollector interface
+    """Implementation of IMetricsCollector interface
     Adapter for the existing MetricsCollector
     """
 
@@ -435,6 +438,6 @@ class MetricsCollectorImpl(IMetricsCollector):
             )
             self.metrics.processing_metrics.append(metric)
 
-    async def get_metrics_summary(self) -> Dict[str, Any]:
+    async def get_metrics_summary(self) -> dict[str, Any]:
         """Get summary of all metrics"""
         return self.metrics.get_metrics()

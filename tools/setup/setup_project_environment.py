@@ -1,5 +1,4 @@
-"""
-setup_project_environment.py
+"""setup_project_environment.py
 ---------------------------
 One - time setup script to configure the project environment properly.
 
@@ -8,8 +7,8 @@ License: MIT
 """
 
 import os
-import sys
 import subprocess
+import sys
 from pathlib import Path
 
 

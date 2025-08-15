@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
-"""
-Fix validate_final.py variable naming issues specifically.
+"""Fix validate_final.py variable naming issues specifically.
 """
 
 import re
@@ -34,7 +33,7 @@ def fix_validate_final():
     }
     
     try:
-        with open(file_path, 'r', encoding='utf-8') as f:
+        with open(file_path, encoding='utf-8') as f:
             content = f.read()
         
         original_content = content

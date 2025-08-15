@@ -1,30 +1,29 @@
-"""
-CSV File Domain Model
+"""CSV File Domain Model
 Pure business entity representing a CSV file with its data and metadata
 """
 
 from dataclasses import dataclass
-from typing import Optional, Dict, Any, List
-import pandas as pd
 from datetime import datetime
+from typing import Any
+
+import pandas as pd
 
 
 @dataclass
 
 
 class CSVFile:
-    """
-    Domain model representing a CSV file with its data and metadata
+    """Domain model representing a CSV file with its data and metadata
 
     This is a pure business entity with no infrastructure dependencies
     """
     file_name: str
     data: pd.DataFrame
     original_path: str
-    upload_timestamp: Optional[datetime] = None
-    file_size_bytes: Optional[int] = None
-    encoding: Optional[str] = None
-    delimiter: Optional[str] = None
+    upload_timestamp: datetime | None = None
+    file_size_bytes: int | None = None
+    encoding: str | None = None
+    delimiter: str | None = None
 
     def __post_init__(self):
         if self.upload_timestamp is None:
@@ -41,7 +40,7 @@ class CSVFile:
         return len(self.data.columns)
 
     @property
-    def columns(self) -> List[str]:
+    def columns(self) -> list[str]:
         """Get the list of column names"""
         return self.data.columns.tolist()
 
@@ -50,11 +49,11 @@ class CSVFile:
         """Check if the CSV file is empty"""
         return self.data.empty
 
-    def get_column_types(self) -> Dict[str, str]:
+    def get_column_types(self) -> dict[str, str]:
         """Get the data types of each column"""
         return {col: str(dtype) for col, dtype in self.data.dtypes.items()}
 
-    def get_sample_data(self, n: int = 5) -> Dict[str, Any]:
+    def get_sample_data(self, n: int = 5) -> dict[str, Any]:
         """Get sample data from the CSV file"""
         if self.is_empty:
             return {}
@@ -62,9 +61,8 @@ class CSVFile:
         samplesize = min(n, self.row_count)
         return self.data.head(sample_size).to_dict('records')
 
-    def validate_required_columns(self, required_columns: List[str]) -> List[str]:
-        """
-        Validate that required columns exist in the CSV
+    def validate_required_columns(self, required_columns: list[str]) -> list[str]:
+        """Validate that required columns exist in the CSV
         Returns list of missing columns
         """
         missingcolumns = []
@@ -73,7 +71,7 @@ class CSVFile:
                 missing_columns.append(col)
         return missing_columns
 
-    def has_duplicates(self, subset_columns: Optional[List[str]] = None) -> bool:
+    def has_duplicates(self, subset_columns: list[str] | None = None) -> bool:
         """Check if the CSV has duplicate rows"""
         if self.is_empty:
             return False
@@ -82,7 +80,7 @@ class CSVFile:
             return self.data.duplicated(subset=subset_columns).any()
         return self.data.duplicated().any()
 
-    def get_duplicate_count(self, subset_columns: Optional[List[str]] = None) -> int:
+    def get_duplicate_count(self, subset_columns: list[str] | None = None) -> int:
         """Get the count of duplicate rows"""
         if self.is_empty:
             return 0
@@ -91,14 +89,14 @@ class CSVFile:
             return self.data.duplicated(subset=subset_columns).sum()
         return self.data.duplicated().sum()
 
-    def get_null_summary(self) -> Dict[str, int]:
+    def get_null_summary(self) -> dict[str, int]:
         """Get summary of null values per column"""
         if self.is_empty:
             return {}
 
         return self.data.isnull().sum().to_dict()
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert CSV file metadata to dictionary (excluding data)"""
         return {
             "file_name": self.file_name,
@@ -122,12 +120,11 @@ class CSVFile:
 
 
 class CSVValidationResult:
-    """
-    Result of CSV file validation
+    """Result of CSV file validation
     """
     is_valid: bool
-    errors: List[str]
-    warnings: List[str]
+    errors: list[str]
+    warnings: list[str]
     csv_file: CSVFile
 
     def add_error(self, error: str):
@@ -139,7 +136,7 @@ class CSVValidationResult:
         """Add a validation warning"""
         self.warnings.append(warning)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert validation result to dictionary"""
         return {
             "is_valid": self.is_valid,

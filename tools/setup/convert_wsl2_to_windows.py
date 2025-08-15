@@ -1,5 +1,4 @@
-"""
-convert_wsl2_to_windows.py
+"""convert_wsl2_to_windows.py
 -------------------------
 Automated script to convert WSL2 development setup to Windows production.
 
@@ -7,8 +6,8 @@ Author: Jonathan Wardwell, Copilot, GPT - 4o
 License: MIT
 """
 
-import shutil
 import platform
+import shutil
 from pathlib import Path
 
 
@@ -198,7 +197,6 @@ USE_OUTLOOK_COM=true
 
 def create_windows_setup_scripts(deploy_dir: Path):
     """Create Windows setup scripts."""
-
     # PowerShell setup script
     psscript = """# setup_windows.ps1  # Windows setup script for Charlie Reporting
 

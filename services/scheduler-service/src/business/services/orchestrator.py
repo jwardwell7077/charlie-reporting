@@ -1,13 +1,11 @@
-"""
-Orchestrator business service for scheduler - service
+"""Orchestrator business service for scheduler - service
 """
 
 import logging
 
 
 class Orchestrator:
-    """
-    Orchestrator business logic
+    """Orchestrator business logic
     Pure domain logic with no infrastructure dependencies
     """
 

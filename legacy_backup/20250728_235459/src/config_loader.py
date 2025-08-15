@@ -1,6 +1,5 @@
 
-"""
-config_loader.py
+"""config_loader.py
 ----------------
 Loads and provides access to TOML - based configuration for the reporting pipeline.
 
@@ -8,14 +7,14 @@ Author: Jonathan Wardwell, Copilot, GPT - 4o
 License: MIT
 """
 
-import tomllib
 import os
+import tomllib
+
 from logger import LoggerFactory
 
 
 class ConfigLoader:
-    """
-    Loads and provides access to TOML configuration for the reporting pipeline.
+    """Loads and provides access to TOML configuration for the reporting pipeline.
     Exposes sections as properties and provides compatibility with legacy config access patterns.
     """
     def __init__(self, config_path=None):

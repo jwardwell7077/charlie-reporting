@@ -1,15 +1,15 @@
-"""
-Configuration Management Infrastructure
+"""Configuration Management Infrastructure
 Centralized configuration loading and validation
 """
 
-import os
 import json
-import toml
-from typing import Dict, Any, Optional, List, Union
-from pathlib import Path
+import os
 from dataclasses import dataclass, field
 from datetime import datetime
+from pathlib import Path
+from typing import Any
+
+import toml
 
 from ..business.exceptions import ConfigurationException
 from ..business.interfaces import IConfigManager
@@ -28,7 +28,7 @@ class ServiceConfig:
 
     # Logging configuration
     log_level: str = "INFO"
-    log_file: Optional[str] = None
+    log_file: str | None = None
     enable_console_logging: bool = True
     structured_logging: bool = True
 
@@ -39,10 +39,10 @@ class ServiceConfig:
     enable_file_archival: bool = True
 
     # Directories
-    default_raw_directory: Optional[str] = None
-    default_archive_directory: Optional[str] = None
-    default_output_directory: Optional[str] = None
-    temp_directory: Optional[str] = None
+    default_raw_directory: str | None = None
+    default_archive_directory: str | None = None
+    default_output_directory: str | None = None
+    temp_directory: str | None = None
 
     # CSV processing
     csv_encoding: str = "utf - 8"
@@ -58,7 +58,7 @@ class ServiceConfig:
 
     # Security
     enable_cors: bool = True
-    cors_origins: List[str] = field(default_factory=lambda: ["*"])
+    cors_origins: list[str] = field(default_factory=lambda: ["*"])
     max_request_size_mb: int = 50
 
     # Monitoring
@@ -68,21 +68,20 @@ class ServiceConfig:
 
     # Performance
     worker_pool_size: int = 4
-    memory_limit_mb: Optional[int] = None
+    memory_limit_mb: int | None = None
     enable_async_processing: bool = True
 
 
 class ConfigurationManager:
-    """
-    Infrastructure service for configuration management
+    """Infrastructure service for configuration management
     Handles loading, validation, and runtime configuration updates
     """
 
-    def __init__(self, config_file: Optional[Union[str, Path]] = None):
+    def __init__(self, config_file: str | Path | None = None):
         self.configfile = Path(config_file) if config_file else None
         self.config = ServiceConfig()
-        self.config_loaded_at: Optional[datetime] = None
-        self.environment_overrides: Dict[str, Any] = {}
+        self.config_loaded_at: datetime | None = None
+        self.environment_overrides: dict[str, Any] = {}
 
         # Load configuration
         self.load_configuration()
@@ -107,10 +106,10 @@ class ConfigurationManager:
 
         self.configloaded_at = datetime.utcnow()
 
-    def load_config_file(self, config_path: Path) -> Dict[str, Any]:
+    def load_config_file(self, config_path: Path) -> dict[str, Any]:
         """Load configuration from file (TOML or JSON)"""
         try:
-            with open(config_path, 'r', encoding='utf - 8') as f:
+            with open(config_path, encoding='utf - 8') as f:
                 if config_path.suffix.lower() == '.toml':
                     return toml.load(f)
                 elif config_path.suffix.lower() == '.json':
@@ -130,7 +129,7 @@ class ConfigurationManager:
                 config_value=str(config_path)
             ) from e
 
-    def load_environment_variables(self) -> Dict[str, Any]:
+    def load_environment_variables(self) -> dict[str, Any]:
         """Load configuration from environment variables"""
         envconfig = {}
         prefix = "REPORT_GENERATOR_"
@@ -176,7 +175,7 @@ class ConfigurationManager:
             return value
         return value.lower() in ('true', '1', 'yes', 'on', 'enabled')
 
-    def update_service_config(self, config_data: Dict[str, Any]):
+    def update_service_config(self, config_data: dict[str, Any]):
         """Update service configuration with loaded data"""
         for key, value in config_data.items():
             if hasattr(self.config, key):
@@ -239,7 +238,7 @@ class ConfigurationManager:
         """Get the current service configuration"""
         return self.config
 
-    def get_config_dict(self) -> Dict[str, Any]:
+    def get_config_dict(self) -> dict[str, Any]:
         """Get configuration as dictionary"""
         return {
             "host": self.config.host,
@@ -259,9 +258,8 @@ class ConfigurationManager:
             "environment_overrides": self.environment_overrides
         }
 
-    def update_config(self, updates: Dict[str, Any], validate: bool = True) -> Dict[str, Any]:
-        """
-        Update configuration at runtime
+    def update_config(self, updates: dict[str, Any], validate: bool = True) -> dict[str, Any]:
+        """Update configuration at runtime
 
         Args:
             updates: Dictionary of configuration updates
@@ -315,7 +313,7 @@ class ConfigurationManager:
         """Reload configuration from file and environment"""
         self.load_configuration()
 
-    def get_processing_defaults(self) -> Dict[str, Any]:
+    def get_processing_defaults(self) -> dict[str, Any]:
         """Get default values for processing operations"""
         return {
             "raw_directory": self.config.default_raw_directory,
@@ -328,7 +326,7 @@ class ConfigurationManager:
             "processing_timeout_seconds": self.config.processing_timeout_seconds
         }
 
-    def get_server_config(self) -> Dict[str, Any]:
+    def get_server_config(self) -> dict[str, Any]:
         """Get server - specific configuration"""
         return {
             "host": self.config.host,
@@ -339,7 +337,7 @@ class ConfigurationManager:
             "max_request_size_mb": self.config.max_request_size_mb
         }
 
-    def get_logging_config(self) -> Dict[str, Any]:
+    def get_logging_config(self) -> dict[str, Any]:
         """Get logging - specific configuration"""
         return {
             "log_level": self.config.log_level,
@@ -352,7 +350,7 @@ class ConfigurationManager:
         """Check if running in development mode"""
         return self.config.debug or self.config.log_level.upper() == "DEBUG"
 
-    def get_health_info(self) -> Dict[str, Any]:
+    def get_health_info(self) -> dict[str, Any]:
         """Get configuration health information"""
         return {
             "config_file": str(self.config_file) if self.config_file else None,
@@ -364,10 +362,10 @@ class ConfigurationManager:
 
 
 # Global configuration manager instance
-config_manager: Optional[ConfigurationManager] = None
+config_manager: ConfigurationManager | None = None
 
 
-def get_config_manager(config_file: Optional[Union[str, Path]] = None) -> ConfigurationManager:
+def get_config_manager(config_file: str | Path | None = None) -> ConfigurationManager:
     """Get the global configuration manager"""
     global config_manager
 
@@ -383,8 +381,7 @@ def get_config() -> ServiceConfig:
 
 
 class ConfigManagerImpl(IConfigManager):
-    """
-    Implementation of IConfigManager interface
+    """Implementation of IConfigManager interface
     Adapter for the existing ConfigurationManager
     """
 
@@ -399,7 +396,7 @@ class ConfigManagerImpl(IConfigManager):
         except Exception:
             return None
 
-    async def get_all_settings(self) -> Dict[str, Any]:
+    async def get_all_settings(self) -> dict[str, Any]:
         """Get all configuration settings"""
         try:
             return self.config_manager.get_config_dict()

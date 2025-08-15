@@ -1,13 +1,11 @@
-"""
-Report_Builder business service for report - generator
+"""Report_Builder business service for report - generator
 """
 
 import logging
 
 
 class Reportbuilder:
-    """
-    Report_Builder business logic
+    """Report_Builder business logic
     Pure domain logic with no infrastructure dependencies
     """
 

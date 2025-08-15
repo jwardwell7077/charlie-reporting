@@ -1,14 +1,13 @@
-"""
-Metrics Collection Implementation
+"""Metrics Collection Implementation
 Production implementation of IMetricsCollector interface.
 """
 
-import time
-from typing import Dict, Any, Optional
-from collections import defaultdict
 import threading
+import time
+from collections import defaultdict
 from dataclasses import dataclass, field
 from datetime import datetime
+from typing import Any
 
 from business.interfaces import IMetricsCollector
 
@@ -18,12 +17,11 @@ class MetricData:
     """Container for metric data with timestamp."""
     value: float
     timestamp: datetime = field(default_factory=datetime.utcnow)
-    labels: Dict[str, str] = field(default_factory=dict)
+    labels: dict[str, str] = field(default_factory=dict)
 
 
 class MetricsCollectorImpl(IMetricsCollector):
-    """
-    Production implementation of metrics collection.
+    """Production implementation of metrics collection.
 
     Features:
     - Thread - safe metric collection
@@ -37,19 +35,18 @@ class MetricsCollectorImpl(IMetricsCollector):
         self.lock = threading.RLock()
 
         # Metric storage
-        self.counters: Dict[str, float] = defaultdict(float)
-        self.gauges: Dict[str, MetricData] = {}
-        self.timings: Dict[str, list] = defaultdict(list)
-        self.histogram_data: Dict[str, list] = defaultdict(list)
+        self.counters: dict[str, float] = defaultdict(float)
+        self.gauges: dict[str, MetricData] = {}
+        self.timings: dict[str, list] = defaultdict(list)
+        self.histogram_data: dict[str, list] = defaultdict(list)
 
         # Metadata
         self.start_time = time.time()
         self.metric_count = 0
 
     async def increment_counter(self, metric_name: str, value: float = 1.0,
-                                labels: Optional[Dict[str, str]] = None) -> None:
-        """
-        Increment a counter metric.
+                                labels: dict[str, str] | None = None) -> None:
+        """Increment a counter metric.
 
         Args:
             metric_name: Name of the counter metric
@@ -64,9 +61,8 @@ class MetricsCollectorImpl(IMetricsCollector):
             self.cleanup_if_needed()
 
     async def set_gauge(self, metric_name: str, value: float,
-                        labels: Optional[Dict[str, str]] = None) -> None:
-        """
-        Set a gauge metric value.
+                        labels: dict[str, str] | None = None) -> None:
+        """Set a gauge metric value.
 
         Args:
             metric_name: Name of the gauge metric
@@ -84,9 +80,8 @@ class MetricsCollectorImpl(IMetricsCollector):
             self.cleanup_if_needed()
 
     async def record_timing(self, metric_name: str, duration_seconds: float,
-                            labels: Optional[Dict[str, str]] = None) -> None:
-        """
-        Record a timing metric.
+                            labels: dict[str, str] | None = None) -> None:
+        """Record a timing metric.
 
         Args:
             metric_name: Name of the timing metric
@@ -109,9 +104,8 @@ class MetricsCollectorImpl(IMetricsCollector):
             self.cleanup_if_needed()
 
     async def record_histogram(self, metric_name: str, value: float,
-                               labels: Optional[Dict[str, str]] = None) -> None:
-        """
-        Record a histogram metric value.
+                               labels: dict[str, str] | None = None) -> None:
+        """Record a histogram metric value.
 
         Args:
             metric_name: Name of the histogram metric
@@ -134,7 +128,7 @@ class MetricsCollectorImpl(IMetricsCollector):
             self.cleanup_if_needed()
 
     def build_metric_key(self, metric_name: str,
-                         labels: Optional[Dict[str, str]]) -> str:
+                         labels: dict[str, str] | None) -> str:
         """Build a unique key for metric with labels."""
         if not labels:
             return metric_name
@@ -164,9 +158,8 @@ class MetricsCollectorImpl(IMetricsCollector):
             self.metric_count = len(self.counters) + len(self.gauges) + \
                 len(self.timings) + len(self.histogram_data)
 
-    def get_metrics_summary(self) -> Dict[str, Any]:
-        """
-        Get summary of all collected metrics.
+    def get_metrics_summary(self) -> dict[str, Any]:
+        """Get summary of all collected metrics.
 
         Returns:
             Dictionary containing metric summaries

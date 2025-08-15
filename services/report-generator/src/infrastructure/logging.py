@@ -1,17 +1,16 @@
-"""
-Structured Logging Infrastructure
+"""Structured Logging Infrastructure
 JSON - based logging for better observability and log analysis
 """
 
 import json
 import logging
 import sys
-from datetime import datetime
-from typing import Dict, Any, Optional, Union
-from pathlib import Path
 import traceback
-from dataclasses import dataclass, asdict
+from dataclasses import asdict, dataclass
+from datetime import datetime
 from enum import Enum
+from pathlib import Path
+from typing import Any
 
 from ..business.interfaces import ILogger
 
@@ -34,14 +33,14 @@ class LogEntry:
     level: str
     message: str
     service: str = "report - generator"
-    component: Optional[str] = None
-    request_id: Optional[str] = None
-    user_id: Optional[str] = None
-    operation: Optional[str] = None
-    duration_ms: Optional[float] = None
-    error_type: Optional[str] = None
-    stack_trace: Optional[str] = None
-    metadata: Optional[Dict[str, Any]] = None
+    component: str | None = None
+    request_id: str | None = None
+    user_id: str | None = None
+    operation: str | None = None
+    duration_ms: float | None = None
+    error_type: str | None = None
+    stack_trace: str | None = None
+    metadata: dict[str, Any] | None = None
 
     def __post_init__(self):
         if self.metadata is None:
@@ -57,7 +56,6 @@ class StructuredFormatter(logging.Formatter):
 
     def format(self, record: logging.LogRecord) -> str:
         """Format log record as structured JSON"""
-
         # Base log entry
         logentry = LogEntry(
             timestamp=datetime.utcnow().isoformat() + "Z",
@@ -104,15 +102,14 @@ class StructuredFormatter(logging.Formatter):
 
 
 class StructuredLogger:
-    """
-    Infrastructure service for structured logging
+    """Infrastructure service for structured logging
     Provides consistent logging interface across the application
     """
 
     def __init__(self,
                  service_name: str = "report - generator",
                  log_level: str = "INFO",
-                 log_file: Optional[Union[str, Path]] = None,
+                 log_file: str | Path | None = None,
                  enable_console: bool = True):
 
         self.servicename = service_name
@@ -192,7 +189,7 @@ class StructuredLogger:
             **kwargs
         )
 
-    def log_processing_start(self, operation: str, request_id: Optional[str] = None, **kwargs):
+    def log_processing_start(self, operation: str, request_id: str | None = None, **kwargs):
         """Log processing operation start"""
         self.log_info(
             f"Processing started: {operation}",
@@ -202,7 +199,7 @@ class StructuredLogger:
         )
 
     def log_processing_end(self, operation: str, success: bool, duration_ms: float,
-                          request_id: Optional[str] = None, **kwargs):
+                          request_id: str | None = None, **kwargs):
         """Log processing operation completion"""
         level = LogLevel.INFO if success else LogLevel.ERROR
         message = f"Processing {'completed' if success else 'failed'}: {operation}"
@@ -217,7 +214,7 @@ class StructuredLogger:
             **kwargs
         )
 
-    def log_business_event(self, event_type: str, details: Dict[str, Any], **kwargs):
+    def log_business_event(self, event_type: str, details: dict[str, Any], **kwargs):
         """Log business - specific events"""
         self.log_info(
             f"Business event: {event_type}",
@@ -227,7 +224,7 @@ class StructuredLogger:
             **kwargs
         )
 
-    def log_security_event(self, event_type: str, severity: str, details: Dict[str, Any], **kwargs):
+    def log_security_event(self, event_type: str, severity: str, details: dict[str, Any], **kwargs):
         """Log security - related events"""
         level = LogLevel.WARNING if severity.lower() in ['medium', 'high'] else LogLevel.INFO
 
@@ -252,7 +249,7 @@ class StructuredLogger:
             **kwargs
         )
 
-    def log_exception(self, exception: Exception, operation: Optional[str] = None, **kwargs):
+    def log_exception(self, exception: Exception, operation: str | None = None, **kwargs):
         """Log exception with full context"""
         self.log_error(
             f"Exception in {operation or 'unknown operation'}: {str(exception)}",
@@ -282,7 +279,7 @@ class StructuredLogger:
             logging.getLogger().error(fallback_message)
             self.healthy = False
 
-    def get_logger_stats(self) -> Dict[str, Any]:
+    def get_logger_stats(self) -> dict[str, Any]:
         """Get logger statistics"""
         return {
             "service_name": self.service_name,
@@ -294,8 +291,7 @@ class StructuredLogger:
 
 
 class ComponentLogger:
-    """
-    Component - specific logger that automatically adds component context
+    """Component - specific logger that automatically adds component context
     """
 
     def __init__(self, parent_logger: StructuredLogger, component: str):
@@ -322,7 +318,7 @@ class ComponentLogger:
         """Log critical message with component context"""
         self.parent.log_critical(message, component=self.component, **kwargs)
 
-    def log_exception(self, exception: Exception, operation: Optional[str] = None, **kwargs):
+    def log_exception(self, exception: Exception, operation: str | None = None, **kwargs):
         """Log exception with component context"""
         self.parent.log_exception(
             exception,
@@ -333,10 +329,10 @@ class ComponentLogger:
 
 
 # Global logger instance
-global_logger: Optional[StructuredLogger] = None
+global_logger: StructuredLogger | None = None
 
 
-def get_logger(component: Optional[str] = None) -> Union[StructuredLogger, ComponentLogger]:
+def get_logger(component: str | None = None) -> StructuredLogger | ComponentLogger:
     """Get the global structured logger or a component - specific logger"""
     global global_logger
 
@@ -351,7 +347,7 @@ def get_logger(component: Optional[str] = None) -> Union[StructuredLogger, Compo
 
 def initialize_logging(service_name: str = "report - generator",
                       log_level: str = "INFO",
-                      log_file: Optional[Union[str, Path]] = None,
+                      log_file: str | Path | None = None,
                       enable_console: bool = True) -> StructuredLogger:
     """Initialize global structured logging"""
     global global_logger
@@ -367,12 +363,11 @@ def initialize_logging(service_name: str = "report - generator",
 
 
 class StructuredLoggerImpl(ILogger):
-    """
-    Implementation of ILogger interface
+    """Implementation of ILogger interface
     Adapter for the existing StructuredLogger
     """
 
-    def __init__(self, component: Optional[str] = None):
+    def __init__(self, component: str | None = None):
         self.logger = get_logger(component)
 
     async def info(self, message: str, **kwargs) -> None:

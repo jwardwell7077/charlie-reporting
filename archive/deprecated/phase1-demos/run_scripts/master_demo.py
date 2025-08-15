@@ -1,6 +1,5 @@
 #!/usr / bin / env python3
-"""
-master_demo.py
+"""master_demo.py
 --------------
 Complete Charlie Reporting System End - to - End Demo
 
@@ -15,17 +14,17 @@ Author: Jonathan Wardwell, Copilot, GPT - 4o
 License: MIT
 """
 
-import time
 import subprocess
+import time
 from datetime import datetime
 
 # Import shared utilities
 from shared_utils import (
-    getproject_root,
+    ensure_directory_exists,
     get_demo_root,
     get_python_executable,
     get_relative_script_path,
-    ensure_directory_exists
+    getproject_root,
 )
 
 
@@ -59,7 +58,7 @@ class MasterDemo:
             if wait_for_completion:
                 result = subprocess.run(
                     [self.python_exe, str(script_path)],
-                    cwd=script_path.parent,
+                    check=False, cwd=script_path.parent,
                     capture_output=True,
                     text=True,
                     timeout=300
@@ -141,7 +140,7 @@ class MasterDemo:
         try:
             result = subprocess.run(
                 [self.python_exe, str(main_script), "--config", str(self.demo_config)],
-                cwd=main_script.parent,
+                check=False, cwd=main_script.parent,
                 capture_output=True,
                 text=True,
                 timeout=180

@@ -1,14 +1,11 @@
-"""
-Standard Metrics and Monitoring System
+"""Standard Metrics and Monitoring System
 Prometheus - compatible metrics for all services
 """
 
-from typing import Dict, Any, List
-import time
-from abc import ABC, abstractmethod
-from collections import defaultdict
-from datetime import datetime
 import threading
+import time
+from collections import defaultdict
+from typing import Any
 
 # Metrics implementations (compatible with prometheus_client when available)
 
@@ -17,10 +14,10 @@ class MetricCollector:
     """Base metric collector that can work with or without prometheus_client"""
 
     def __init__(self):
-        self.metrics: Dict[str, Any] = {}
+        self.metrics: dict[str, Any] = {}
         self.lock = threading.Lock()
 
-    def get_metrics(self) -> Dict[str, Any]:
+    def get_metrics(self) -> dict[str, Any]:
         """Get all metrics as dictionary"""
         with self.lock:
             return dict(self.metrics)
@@ -29,7 +26,7 @@ class MetricCollector:
 class Counter:
     """Counter metric - only increases"""
 
-    def __init__(self, name: str, description: str, labels: List[str] = None):
+    def __init__(self, name: str, description: str, labels: list[str] = None):
         self.name = name
         self.description = description
         self.labels = labels or []
@@ -46,7 +43,7 @@ class Counter:
         """Return labeled counter"""
         return LabeledCounter(self, label_values)
 
-    def make_label_key(self, label_values: Dict[str, str]) -> str:
+    def make_label_key(self, label_values: dict[str, str]) -> str:
         """Create key from label values"""
         if not self.labels:
             return ""
@@ -62,7 +59,7 @@ class Counter:
 class LabeledCounter:
     """Labeled counter for fluent API"""
 
-    def __init__(self, counter: Counter, label_values: Dict[str, str]):
+    def __init__(self, counter: Counter, label_values: dict[str, str]):
         self.counter = counter
         self.labelvalues = label_values
 
@@ -74,7 +71,7 @@ class LabeledCounter:
 class Histogram:
     """Histogram metric for measuring distributions"""
 
-    def __init__(self, name: str, description: str, labels: List[str] = None, buckets: List[float] = None):
+    def __init__(self, name: str, description: str, labels: list[str] = None, buckets: list[float] = None):
         self.name = name
         self.description = description
         self.labels = labels or []
@@ -92,13 +89,13 @@ class Histogram:
         """Return labeled histogram"""
         return LabeledHistogram(self, label_values)
 
-    def make_label_key(self, label_values: Dict[str, str]) -> str:
+    def make_label_key(self, label_values: dict[str, str]) -> str:
         """Create key from label values"""
         if not self.labels:
             return ""
         return ",".join(f"{k}={v}" for k, v in sorted(label_values.items()))
 
-    def get_stats(self, **label_values) -> Dict[str, float]:
+    def get_stats(self, **label_values) -> dict[str, float]:
         """Get histogram statistics"""
         with self.lock:
             label_key = self.make_label_key(label_values)
@@ -119,7 +116,7 @@ class Histogram:
 class LabeledHistogram:
     """Labeled histogram for fluent API"""
 
-    def __init__(self, histogram: Histogram, label_values: Dict[str, str]):
+    def __init__(self, histogram: Histogram, label_values: dict[str, str]):
         self.histogram = histogram
         self.labelvalues = label_values
 
@@ -131,7 +128,7 @@ class LabeledHistogram:
 class Gauge:
     """Gauge metric - can go up and down"""
 
-    def __init__(self, name: str, description: str, labels: List[str] = None):
+    def __init__(self, name: str, description: str, labels: list[str] = None):
         self.name = name
         self.description = description
         self.labels = labels or []
@@ -160,7 +157,7 @@ class Gauge:
         """Return labeled gauge"""
         return LabeledGauge(self, label_values)
 
-    def make_label_key(self, label_values: Dict[str, str]) -> str:
+    def make_label_key(self, label_values: dict[str, str]) -> str:
         """Create key from label values"""
         if not self.labels:
             return ""
@@ -176,7 +173,7 @@ class Gauge:
 class LabeledGauge:
     """Labeled gauge for fluent API"""
 
-    def __init__(self, gauge: Gauge, label_values: Dict[str, str]):
+    def __init__(self, gauge: Gauge, label_values: dict[str, str]):
         self.gauge = gauge
         self.labelvalues = label_values
 
@@ -194,8 +191,7 @@ class LabeledGauge:
 
 
 class ServiceMetrics:
-    """
-    Standard metrics collection for all Charlie Reporting services.
+    """Standard metrics collection for all Charlie Reporting services.
 
     Provides consistent metrics across all services:
     - Request metrics (count, duration, status)
@@ -320,7 +316,7 @@ class ServiceMetrics:
         """Set number of active connections"""
         self.active_connections.labels(service=self.service_name).set(count)
 
-    def get_all_metrics(self) -> Dict[str, Any]:
+    def get_all_metrics(self) -> dict[str, Any]:
         """Get all metrics as dictionary for debugging / monitoring"""
         return {
             "http_requests_total": dict(self.http_requests_total.values),

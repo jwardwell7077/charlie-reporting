@@ -1,5 +1,4 @@
-"""
-simple_password_test.py
+"""simple_password_test.py
 ----------------------
 Test Gmail authentication with just username and password (app password)
 
@@ -9,10 +8,10 @@ No OAuth, no tokens, no complexity.
 Author: Jonathan Wardwell, Copilot, GPT - 4o
 """
 
-import smtplib
 import os
-from email.mime.text import MIMEText
+import smtplib
 from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
 
 
 def load_env_file():
@@ -20,7 +19,7 @@ def load_env_file():
     envpath = os.path.join(os.path.dirname(os.path.dirname(__file__)), '.env')
 
     if os.path.exists(env_path):
-        with open(env_path, 'r') as f:
+        with open(env_path) as f:
             for line in f:
                 line = line.strip()
                 if line and not line.startswith('#') and '=' in line:
@@ -32,7 +31,6 @@ def load_env_file():
 
 def test_simple_gmail_auth():
     """Test Gmail authentication with just username and password"""
-
     # Load credentials
     load_env_file()
 

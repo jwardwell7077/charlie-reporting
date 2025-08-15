@@ -1,19 +1,18 @@
-"""
-Test Infrastructure Setup - Mock Services for Testing
+"""Test Infrastructure Setup - Mock Services for Testing
 Mock implementations of all business interfaces for isolated testing
 """
 
-from typing import List, Dict, Any, Optional
 from pathlib import Path
+from typing import Any
 
 from business.interfaces import (
-    IDirectoryProcessor,
+    IConfigManager,
     ICSVTransformer,
+    IDirectoryProcessor,
     IExcelGenerator,
     IFileManager,
-    IConfigManager,
     ILogger,
-    IMetricsCollector
+    IMetricsCollector,
 )
 from business.models.csv_file import CSVFile
 
@@ -26,11 +25,11 @@ class MockDirectoryProcessor(IDirectoryProcessor):
         self.validatecalls = []
         self.mockfiles = []
 
-    async def scan_directory(self, directory_path: Path, date_filter: str) -> List[Path]:
+    async def scan_directory(self, directory_path: Path, date_filter: str) -> list[Path]:
         self.scan_calls.append((directory_path, date_filter))
         return self.mock_files
 
-    async def validate_directory(self, directory_path: Path) -> Dict[str, Any]:
+    async def validate_directory(self, directory_path: Path) -> dict[str, Any]:
         self.validate_calls.append(directory_path)
         return {"is_valid": True, "csv_count": len(self.mock_files)}
 
@@ -43,7 +42,7 @@ class MockCSVTransformer(ICSVTransformer):
         self.validatecalls = []
         self.mockresult = {"sheet_name": "Test", "data": []}
 
-    async def transform_csv(self, csv_file: CSVFile, config: Dict[str, Any]) -> Dict[str, Any]:
+    async def transform_csv(self, csv_file: CSVFile, config: dict[str, Any]) -> dict[str, Any]:
         self.transform_calls.append((csv_file, config))
         return self.mock_result
 
@@ -60,11 +59,11 @@ class MockExcelGenerator(IExcelGenerator):
         self.formatcalls = []
         self.mockcontent = b"mock_excel_content"
 
-    async def create_workbook(self, data: Dict[str, Any]) -> bytes:
+    async def create_workbook(self, data: dict[str, Any]) -> bytes:
         self.create_calls.append(data)
         return self.mock_content
 
-    async def apply_formatting(self, workbook: bytes, rules: Dict[str, Any]) -> bytes:
+    async def apply_formatting(self, workbook: bytes, rules: dict[str, Any]) -> bytes:
         self.format_calls.append((workbook, rules))
         return workbook + b"formatted"
 
@@ -103,11 +102,11 @@ class MockConfigManager(IConfigManager):
             ]
         }
 
-    def get_attachment_config(self) -> Dict[str, Any]:
+    def get_attachment_config(self) -> dict[str, Any]:
         self.get_calls.append("attachment_config")
         return self.mock_config
 
-    def validate_config(self, config: Dict[str, Any]) -> bool:
+    def validate_config(self, config: dict[str, Any]) -> bool:
         self.validate_calls.append(config)
         return True
 
@@ -138,11 +137,11 @@ class MockMetricsCollector(IMetricsCollector):
         self.timings = []
         self.gauges = []
 
-    def increment_counter(self, metric_name: str, value: int = 1, tags: Optional[Dict[str, str]] = None) -> None:
+    def increment_counter(self, metric_name: str, value: int = 1, tags: dict[str, str] | None = None) -> None:
         self.counters.append((metric_name, value, tags))
 
-    def record_timing(self, metric_name: str, duration_seconds: float, tags: Optional[Dict[str, str]] = None) -> None:
+    def record_timing(self, metric_name: str, duration_seconds: float, tags: dict[str, str] | None = None) -> None:
         self.timings.append((metric_name, duration_seconds, tags))
 
-    def set_gauge(self, metric_name: str, value: float, tags: Optional[Dict[str, str]] = None) -> None:
+    def set_gauge(self, metric_name: str, value: float, tags: dict[str, str] | None = None) -> None:
         self.gauges.append((metric_name, value, tags))

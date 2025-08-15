@@ -1,13 +1,11 @@
-"""
-Delivery_Tracker business service for email - service
+"""Delivery_Tracker business service for email - service
 """
 
 import logging
 
 
 class Deliverytracker:
-    """
-    Delivery_Tracker business logic
+    """Delivery_Tracker business logic
     Pure domain logic with no infrastructure dependencies
     """
 

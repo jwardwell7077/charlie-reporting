@@ -1,5 +1,4 @@
-"""
-demo_new_features.py
+"""demo_new_features.py
 --------------------
 Demonstration of the new EmailFetcher features:
 1. Directory scanning
@@ -10,10 +9,12 @@ License: MIT
 """
 
 import sys
+
 sys.path.insert(0, 'src')
 
-from email_fetcher import EmailFetcher
 from config_loader import ConfigLoader
+
+from email_fetcher import EmailFetcher
 
 
 def demo_directory_scanning():

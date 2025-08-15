@@ -1,6 +1,5 @@
 #!/usr / bin / env python3
-"""
-Test script to verify pathlib changes work cross - platform.
+"""Test script to verify pathlib changes work cross - platform.
 """
 
 import sys
@@ -12,9 +11,10 @@ sys.path.insert(0, str(src_path))
 
 try:
     from config_loader import ConfigLoader
+
+    from archiver import Archiver
     from email_fetcher import EmailFetcher
     from services.report_generator.excel_generator import ExcelWriter
-    from archiver import Archiver
 
     print("✅ All imports successful!")
 

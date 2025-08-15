@@ -1,5 +1,4 @@
-"""
-Report Generator Service - Main Entry Point
+"""Report Generator Service - Main Entry Point
 Phase 1: Core business logic implementation complete
 
 This service implements the core CSV transformation and Excel report generation
@@ -13,10 +12,9 @@ from pathlib import Path
 # Add src to path for local imports
 sys.path.append(str(Path(__file__).parent))
 
+from business.models.report import Report
 from business.services.csv_transformer import CSVTransformationService
 from business.services.excel_service import ExcelReportService
-from business.models.csv_data import CSVRule
-from business.models.report import Report
 
 
 def setup_logging():
@@ -33,8 +31,7 @@ def setup_logging():
 
 
 def demo_phase1_business_logic():
-    """
-    Demo Phase 1 implementation: Pure business logic services
+    """Demo Phase 1 implementation: Pure business logic services
     """
     logger = setup_logging()
     logger.info("=== Report Generator Service - Phase 1 Demo ===")
@@ -68,8 +65,9 @@ def demo_phase1_business_logic():
 
     # Demo report creation (with mock data)
     from datetime import datetime
-    from business.models.report import ReportSheet
+
     import pandas as pd
+    from business.models.report import ReportSheet
 
     # Create sample data
     sampledf = pd.DataFrame({

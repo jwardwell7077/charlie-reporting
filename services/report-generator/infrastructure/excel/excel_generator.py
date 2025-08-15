@@ -1,23 +1,20 @@
-"""
-Excel Generation Implementation
+"""Excel Generation Implementation
 Production implementation of IExcelGenerator interface using openpyxl.
 """
 
 import asyncio
-from typing import Dict, Any, List
 import io
+from typing import Any
 
 import pandas as pd
-from openpyxl import Workbook, load_workbook
-from openpyxl.styles import Font, PatternFill, Alignment
-from openpyxl.utils.dataframe import dataframe_to_rows
-
 from business.interfaces import IExcelGenerator
+from openpyxl import Workbook, load_workbook
+from openpyxl.styles import Alignment, Font, PatternFill
+from openpyxl.utils.dataframe import dataframe_to_rows
 
 
 class ExcelGeneratorImpl(IExcelGenerator):
-    """
-    Production implementation of Excel workbook generation using openpyxl.
+    """Production implementation of Excel workbook generation using openpyxl.
 
     Features:
     - Multi - sheet workbook creation
@@ -35,9 +32,8 @@ class ExcelGeneratorImpl(IExcelGenerator):
             fill_type='solid'
         )
 
-    async def create_workbook(self, data: Dict[str, Any]) -> bytes:
-        """
-        Create Excel workbook from data dictionary.
+    async def create_workbook(self, data: dict[str, Any]) -> bytes:
+        """Create Excel workbook from data dictionary.
 
         Args:
             data: Dictionary with sheet names as keys and data as values
@@ -60,7 +56,7 @@ class ExcelGeneratorImpl(IExcelGenerator):
 
         return workbook_bytes
 
-    def create_workbook_sync(self, data: Dict[str, Any]) -> bytes:
+    def create_workbook_sync(self, data: dict[str, Any]) -> bytes:
         """Synchronous workbook creation implementation."""
         wb = Workbook()
 
@@ -95,7 +91,7 @@ class ExcelGeneratorImpl(IExcelGenerator):
         for row in dataframe_to_rows(df, index=False, header=True):
             worksheet.append(row)
 
-    def add_list_data_to_sheet(self, worksheet, data: List[Any]) -> None:
+    def add_list_data_to_sheet(self, worksheet, data: list[Any]) -> None:
         """Add list data to worksheet."""
         if not data:
             return
@@ -116,7 +112,7 @@ class ExcelGeneratorImpl(IExcelGenerator):
             for item in data:
                 worksheet.append([item])
 
-    def add_dict_data_to_sheet(self, worksheet, data: Dict[str, Any]) -> None:
+    def add_dict_data_to_sheet(self, worksheet, data: dict[str, Any]) -> None:
         """Add dictionary data to worksheet as key - value pairs."""
         for key, value in data.items():
             worksheet.append([key, value])
@@ -137,8 +133,7 @@ class ExcelGeneratorImpl(IExcelGenerator):
 
             for cell in column:
                 try:
-                    if len(str(cell.value)) > max_length:
-                        max_length = len(str(cell.value))
+                    max_length = max(max_length, len(str(cell.value)))
                 except Exception:
                     pass
 
@@ -154,9 +149,8 @@ class ExcelGeneratorImpl(IExcelGenerator):
                     cell.alignment = Alignment(vertical='center')
 
     async def add_formatting_rules(self, workbook_bytes: bytes,
-                                   rules: Dict[str, Any]) -> bytes:
-        """
-        Apply additional formatting rules to existing workbook.
+                                   rules: dict[str, Any]) -> bytes:
+        """Apply additional formatting rules to existing workbook.
 
         Args:
             workbook_bytes: Existing workbook as bytes
@@ -176,7 +170,7 @@ class ExcelGeneratorImpl(IExcelGenerator):
         return formatted_bytes
 
     def apply_formatting_rules_sync(self, workbook_bytes: bytes,
-                                    rules: Dict[str, Any]) -> bytes:
+                                    rules: dict[str, Any]) -> bytes:
         """Apply formatting rules synchronously."""
         # Load existing workbook
         input_stream = io.BytesIO(workbook_bytes)

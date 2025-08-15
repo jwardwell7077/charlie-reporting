@@ -1,6 +1,5 @@
 #!/usr / bin / env python3
-"""
-Development runner for Scheduler - Service Service
+"""Development runner for Scheduler - Service Service
 """
 
 import sys
@@ -34,8 +33,9 @@ def main():
             return 1
 
     try:
-        from legacy_bridge import main as service_main
         import asyncio
+
+        from legacy_bridge import main as service_main
         asyncio.run(service_main())
     except ImportError as e:
         print(f"❌ Import error: {e}")

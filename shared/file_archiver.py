@@ -1,17 +1,14 @@
-"""
-File Management Utilities
+"""File Management Utilities
 Migrated from src / archiver.py
 """
-import shutil
-from pathlib import Path
-from typing import Optional
 import logging
+import shutil
 from datetime import datetime
+from pathlib import Path
 
 
 class FileArchiver:
-    """
-    Handles archiving of processed files with date organization.
+    """Handles archiving of processed files with date organization.
     Migrated and enhanced from src / archiver.py
     """
 
@@ -21,8 +18,7 @@ class FileArchiver:
         self.logger = logging.getLogger('file_archiver')
 
     async def archive_file(self, filepath: str, organize_by_date: bool = True) -> bool:
-        """
-        Archive a file to the archive directory.
+        """Archive a file to the archive directory.
 
         Args:
             filepath: Path to file to archive
@@ -79,7 +75,7 @@ class FileArchiver:
 
         return results
 
-    def list_archived_files(self, date_filter: Optional[str] = None) -> list:
+    def list_archived_files(self, date_filter: str | None = None) -> list:
         """List files in archive, optionally filtered by date."""
         archivedfiles = []
 

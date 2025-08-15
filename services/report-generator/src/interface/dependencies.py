@@ -1,26 +1,24 @@
-"""
-Dependency Injection Configuration for Report Generator Service
+"""Dependency Injection Configuration for Report Generator Service
 FastAPI dependency injection with interface - based design for testing
 """
 
 from functools import lru_cache
 from typing import Annotated
-from fastapi import Depends
 
 from business.interfaces import (
-    IDirectoryProcessor,
+    IConfigManager,
     ICSVTransformer,
+    IDirectoryProcessor,
     IExcelGenerator,
     IFileManager,
-    IConfigManager,
     ILogger,
-    IMetricsCollector
+    IMetricsCollector,
 )
-
 from business.services.report_processor import ReportProcessingService
+from fastapi import Depends
 
 
-@lru_cache()
+@lru_cache
 
 
 def get_directory_processor() -> IDirectoryProcessor:
@@ -29,7 +27,7 @@ def get_directory_processor() -> IDirectoryProcessor:
     return DirectoryProcessorImpl()
 
 
-@lru_cache()
+@lru_cache
 
 
 def get_csv_transformer() -> ICSVTransformer:
@@ -38,7 +36,7 @@ def get_csv_transformer() -> ICSVTransformer:
     return CSVTransformerService()
 
 
-@lru_cache()
+@lru_cache
 
 
 def getexcel_generator() -> IExcelGenerator:
@@ -47,7 +45,7 @@ def getexcel_generator() -> IExcelGenerator:
     return ExcelGeneratorService()
 
 
-@lru_cache()
+@lru_cache
 
 
 def get_file_manager() -> IFileManager:
@@ -56,7 +54,7 @@ def get_file_manager() -> IFileManager:
     return FileManagerImpl()
 
 
-@lru_cache()
+@lru_cache
 
 
 def get_config_manager() -> IConfigManager:
@@ -65,7 +63,7 @@ def get_config_manager() -> IConfigManager:
     return ConfigManagerImpl()
 
 
-@lru_cache()
+@lru_cache
 
 
 def get_logger() -> ILogger:
@@ -74,7 +72,7 @@ def get_logger() -> ILogger:
     return StructuredLoggerImpl()
 
 
-@lru_cache()
+@lru_cache
 
 
 def get_metrics_collector() -> IMetricsCollector:
@@ -83,7 +81,7 @@ def get_metrics_collector() -> IMetricsCollector:
     return MetricsCollectorImpl()
 
 
-@lru_cache()
+@lru_cache
 
 
 def get_report_processor(
@@ -95,8 +93,7 @@ def get_report_processor(
     logger: Annotated[ILogger, Depends(get_logger)],
     metrics: Annotated[IMetricsCollector, Depends(get_metrics_collector)]
 ) -> ReportProcessingService:
-    """
-    Create main report processing service with all dependencies injected
+    """Create main report processing service with all dependencies injected
 
     This is the main service orchestrator that coordinates all other services
     """

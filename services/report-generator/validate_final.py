@@ -1,11 +1,10 @@
 #!/usr/bin/env python3
-"""
-Phase D Final Validation Script
+"""Phase D Final Validation Script
 Complete project validation with coverage analysis and final assessment
 """
 
-import sys
 import subprocess
+import sys
 import time
 from pathlib import Path
 
@@ -21,7 +20,7 @@ def run_command(cmd, description):
 
         result = subprocess.run(
             cmd.split(),
-            capture_output=True,
+            check=False, capture_output=True,
             text=True,
             cwd=".",
             timeout=60
@@ -43,7 +42,6 @@ def run_command(cmd, description):
 
 def validate_phase_d():
     """Complete Phase D validation"""
-
     print("🚀 PHASE D VALIDATION: Final Project Assessment")
     print("=" * 60)
 
@@ -111,7 +109,7 @@ print("DI_SUCCESS: All dependencies injected successfully")
         result = subprocess.run([
             "/home / jon / repos / charlie - reporting/.venv / bin / python",
             "-c", test_code
-        ], capture_output=True, text=True, cwd=".")
+        ], check=False, capture_output=True, text=True, cwd=".")
 
         if "DI_SUCCESS" in result.stdout:
             print("✅ Dependency injection system operational")
@@ -155,7 +153,7 @@ print("INTERFACE_SUCCESS: All implementations comply with interfaces")
         result = subprocess.run([
             "/home / jon / repos / charlie - reporting/.venv / bin / python",
             "-c", interfaces_code
-        ], capture_output=True, text=True, cwd=".")
+        ], check=False, capture_output=True, text=True, cwd=".")
 
         if "INTERFACE_SUCCESS" in result.stdout:
             print("✅ All interfaces properly implemented")
@@ -168,7 +166,7 @@ print("INTERFACE_SUCCESS: All implementations comply with interfaces")
     # 7. Test infrastructure validation
     print("\n7. Test Infrastructure Validation...")
     try:
-        from tests.utils.test_utilities import TestTimer, TestAssertions, test_reporter
+        from tests.utils.test_utilities import TestAssertions, TestTimer, test_reporter
 
         # Quick functionality test
         timer = TestTimer("Validation")

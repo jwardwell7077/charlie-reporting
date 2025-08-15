@@ -1,5 +1,4 @@
-"""
-demo_enhanced_excel_operations.py
+"""demo_enhanced_excel_operations.py
 ---------------------------------
 Demonstrates the enhanced Excel operations with incremental updates, custom reports, and summaries.
 
@@ -13,11 +12,12 @@ Author: Jonathan Wardwell, Copilot, GPT - 4o
 License: MIT
 """
 
-import sys
 import os
+import sys
 import tempfile
+from datetime import datetime
+
 import pandas as pd
-from datetime import datetime, timedelta
 
 # Add src to path
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src'))
@@ -27,7 +27,6 @@ from services.report_generator.excel_generator import ExcelWriter
 
 def create_sample_hourly_data():
     """Create sample data for different hours"""
-
     # Hour 9 data
     hour_9data = {
         'IB_Calls': [pd.DataFrame({

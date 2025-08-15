@@ -1,5 +1,4 @@
-"""
-config_loader_enhanced.py
+"""config_loader_enhanced.py
 ------------------------
 Enhanced configuration loader with integration test support and environment variable overrides.
 
@@ -7,24 +6,23 @@ Author: Jonathan Wardwell, Copilot, GPT - 4o
 License: MIT
 """
 
-import os
-import toml
 import logging
-from typing import Dict, Any, Optional
+import os
+from typing import Any
+
+import toml
 
 
 class EnhancedConfigLoader:
-    """
-    Enhanced configuration loader with support for integration tests and environment overrides.
+    """Enhanced configuration loader with support for integration tests and environment overrides.
     """
 
     def __init__(self):
         self.logger = logging.getLogger('enhanced_config_loader')
         self.logger.debug(f"[{__name__}.EnhancedConfigLoader.__init__:21] Initializing enhanced config loader")
 
-    def load_main_config(self, config_path: Optional[str] = None) -> Dict[str, Any]:
-        """
-        Load main application configuration.
+    def load_main_config(self, config_path: str | None = None) -> dict[str, Any]:
+        """Load main application configuration.
 
         Args:
             config_path: Optional path to config file
@@ -42,7 +40,7 @@ class EnhancedConfigLoader:
             raise FileNotFoundError(f"Configuration file not found: {config_path}")
 
         try:
-            with open(config_path, 'r', encoding='utf - 8') as f:
+            with open(config_path, encoding='utf - 8') as f:
                 config = toml.load(f)
 
             self.logger.info(f"Loaded main config from: {config_path}")
@@ -52,9 +50,8 @@ class EnhancedConfigLoader:
             self.logger.error(f"Failed to load main config from {config_path}: {e}")
             raise
 
-    def load_integration_config(self, config_path: Optional[str] = None) -> Dict[str, Any]:
-        """
-        Load integration test configuration with environment variable overrides.
+    def load_integration_config(self, config_path: str | None = None) -> dict[str, Any]:
+        """Load integration test configuration with environment variable overrides.
 
         Args:
             config_path: Optional path to integration config file
@@ -72,7 +69,7 @@ class EnhancedConfigLoader:
             raise FileNotFoundError(f"Integration config file not found: {config_path}")
 
         try:
-            with open(config_path, 'r', encoding='utf - 8') as f:
+            with open(config_path, encoding='utf - 8') as f:
                 config = toml.load(f)
 
             # Apply environment variable overrides
@@ -85,9 +82,8 @@ class EnhancedConfigLoader:
             self.logger.error(f"Failed to load integration config from {config_path}: {e}")
             raise
 
-    def apply_environment_overrides(self, config: Dict[str, Any]) -> Dict[str, Any]:
-        """
-        Apply environment variable overrides to configuration.
+    def apply_environment_overrides(self, config: dict[str, Any]) -> dict[str, Any]:
+        """Apply environment variable overrides to configuration.
 
         Args:
             config: Base configuration dictionary
@@ -161,9 +157,8 @@ class EnhancedConfigLoader:
 
         return config
 
-    def validate_config(self, config: Dict[str, Any], config_type: str = 'main') -> bool:
-        """
-        Validate configuration dictionary.
+    def validate_config(self, config: dict[str, Any], config_type: str = 'main') -> bool:
+        """Validate configuration dictionary.
 
         Args:
             config: Configuration to validate
@@ -181,7 +176,7 @@ class EnhancedConfigLoader:
         else:
             raise ValueError(f"Unknown config type: {config_type}")
 
-    def validate_main_config(self, config: Dict[str, Any]) -> bool:
+    def validate_main_config(self, config: dict[str, Any]) -> bool:
         """Validate main configuration."""
         requiredsections = ['directories', 'logging']
 
@@ -201,7 +196,7 @@ class EnhancedConfigLoader:
         self.logger.info("Main config validation passed")
         return True
 
-    def validate_integration_config(self, config: Dict[str, Any]) -> bool:
+    def validate_integration_config(self, config: dict[str, Any]) -> bool:
         """Validate integration test configuration."""
         requiredsections = ['integration_tests', 'email', 'smtp']
 
@@ -235,9 +230,8 @@ class EnhancedConfigLoader:
         self.logger.info("Integration config validation passed")
         return True
 
-    def get_config_value(self, config: Dict[str, Any], key_path: str, default=None):
-        """
-        Get configuration value using dot notation.
+    def get_config_value(self, config: dict[str, Any], key_path: str, default=None):
+        """Get configuration value using dot notation.
 
         Args:
             config: Configuration dictionary
@@ -259,9 +253,8 @@ class EnhancedConfigLoader:
 
         return value
 
-    def merge_configs(self, base_config: Dict[str, Any], override_config: Dict[str, Any]) -> Dict[str, Any]:
-        """
-        Merge two configuration dictionaries.
+    def merge_configs(self, base_config: dict[str, Any], override_config: dict[str, Any]) -> dict[str, Any]:
+        """Merge two configuration dictionaries.
 
         Args:
             base_config: Base configuration

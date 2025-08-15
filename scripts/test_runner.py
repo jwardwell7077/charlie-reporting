@@ -1,16 +1,14 @@
 #!/usr / bin / env python3
-"""
-Service - Based Test Runner
+"""Service - Based Test Runner
 Runs tests across all services with proper organization
 """
+import argparse
 import subprocess
 from pathlib import Path
-import argparse
 
 
 def run_service_tests(service_name=None, test_type=None, verbose=False):
     """Run tests for a specific service or all services."""
-
     basecmd = ["python3", "-m", "pytest"]
 
     if verbose:
@@ -30,7 +28,7 @@ def run_service_tests(service_name=None, test_type=None, verbose=False):
             cmd.extend(["-m", test_type])
 
         print(f"🧪 Running tests for {service_name} service...")
-        return subprocess.run(cmd).returncode
+        return subprocess.run(cmd, check=False).returncode
 
     else:
         # Run tests for all services
@@ -54,7 +52,7 @@ def run_service_tests(service_name=None, test_type=None, verbose=False):
             if test_type:
                 cmd.extend(["-m", test_type])
 
-            result = subprocess.run(cmd)
+            result = subprocess.run(cmd, check=False)
             exit_codes.append(result.returncode)
 
             if result.returncode == 0:
@@ -70,7 +68,7 @@ def run_service_tests(service_name=None, test_type=None, verbose=False):
             if test_type:
                 cmd.extend(["-m", test_type])
 
-            result = subprocess.run(cmd)
+            result = subprocess.run(cmd, check=False)
             exit_codes.append(result.returncode)
 
             if result.returncode == 0:
@@ -126,7 +124,7 @@ def run_coverage_report():
     ]
 
     print("📊 Generating coverage report...")
-    result = subprocess.run(cmd)
+    result = subprocess.run(cmd, check=False)
 
     if result.returncode == 0:
         print("✅ Coverage report generated in coverage_html/")

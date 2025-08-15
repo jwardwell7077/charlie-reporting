@@ -1,8 +1,9 @@
 import sys
+
 sys.path.insert(0, 'src')
 
-from datetime import datetime, timedelta
-from unittest.mock import Mock, patch
+from datetime import datetime
+from unittest.mock import Mock
 
 
 def test_mock_setup():

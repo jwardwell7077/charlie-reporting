@@ -1,12 +1,12 @@
-"""
-API Schema Models for Report Generator Service
+"""API Schema Models for Report Generator Service
 Pydantic models for request / response validation and API documentation
 """
 
-from typing import List, Dict, Any, Optional
-from pydantic import BaseModel, Field, validator
 from datetime import datetime
 from enum import Enum
+from typing import Any
+
+from pydantic import BaseModel, Field, validator
 
 
 class ProcessingStatus(str, Enum):
@@ -30,8 +30,8 @@ class DirectoryProcessRequest(BaseModel):
     archive_directory: str = Field(..., description="Path to directory for archiving processed files")
     output_directory: str = Field(..., description="Path to directory for output Excel files")
     date_filter: str = Field(..., description="Date filter in YYYY - MM - DD format", pattern=r"^\d{4}-\d{2}-\d{2}$")
-    hour_filter: Optional[str] = Field(None, description="Optional hour filter in HH format", pattern=r"^\d{2}$")
-    attachment_config: Dict[str, Any] = Field(..., description="Configuration for file processing rules")
+    hour_filter: str | None = Field(None, description="Optional hour filter in HH format", pattern=r"^\d{2}$")
+    attachment_config: dict[str, Any] = Field(..., description="Configuration for file processing rules")
 
     @validator('date_filter')
     def validate_date_format(cls, v):
@@ -58,33 +58,33 @@ class SingleFileProcessRequest(BaseModel):
     file_path: str = Field(..., description="Path to the CSV file to process")
     output_directory: str = Field(..., description="Path to directory for output Excel file")
     file_pattern: str = Field(..., description="File pattern for transformation rule")
-    columns: List[str] = Field(..., description="Columns to extract from CSV")
+    columns: list[str] = Field(..., description="Columns to extract from CSV")
     sheet_name: str = Field(..., description="Name for Excel sheet")
-    required_columns: Optional[List[str]] = Field(None, description="Required columns for validation")
+    required_columns: list[str] | None = Field(None, description="Required columns for validation")
 
 
 class ProcessingResult(BaseModel):
     """Response model for processing results"""
     success: bool = Field(..., description="Whether processing was successful")
     processing_time_seconds: float = Field(..., description="Time taken for processing")
-    message: Optional[str] = Field(None, description="Human - readable status message")
+    message: str | None = Field(None, description="Human - readable status message")
 
     # File statistics
-    discovered_files: Optional[int] = Field(None, description="Number of files discovered")
-    matched_files: Optional[int] = Field(None, description="Number of files matched to rules")
-    transformed_files: Optional[int] = Field(None, description="Number of successfully transformed files")
-    failed_files: Optional[int] = Field(None, description="Number of files that failed processing")
+    discovered_files: int | None = Field(None, description="Number of files discovered")
+    matched_files: int | None = Field(None, description="Number of files matched to rules")
+    transformed_files: int | None = Field(None, description="Number of successfully transformed files")
+    failed_files: int | None = Field(None, description="Number of files that failed processing")
 
     # Report statistics
-    report_sheets: Optional[int] = Field(None, description="Number of sheets in generated report")
-    total_records: Optional[int] = Field(None, description="Total number of records processed")
-    excel_filename: Optional[str] = Field(None, description="Name of generated Excel file")
+    report_sheets: int | None = Field(None, description="Number of sheets in generated report")
+    total_records: int | None = Field(None, description="Total number of records processed")
+    excel_filename: str | None = Field(None, description="Name of generated Excel file")
 
     # Processing details
-    archived_files: List[str] = Field(default_factory=list, description="List of archived file names")
-    warnings: List[str] = Field(default_factory=list, description="Processing warnings")
-    errors: List[str] = Field(default_factory=list, description="Processing errors")
-    error_message: Optional[str] = Field(None, description="Primary error message if processing failed")
+    archived_files: list[str] = Field(default_factory=list, description="List of archived file names")
+    warnings: list[str] = Field(default_factory=list, description="Processing warnings")
+    errors: list[str] = Field(default_factory=list, description="Processing errors")
+    error_message: str | None = Field(None, description="Primary error message if processing failed")
 
 
 class DirectoryValidationRequest(BaseModel):
@@ -97,8 +97,8 @@ class DirectoryValidationResult(BaseModel):
     is_valid: bool = Field(..., description="Whether directory is valid for processing")
     directory_exists: bool = Field(..., description="Whether directory exists")
     csv_file_count: int = Field(..., description="Number of CSV files found")
-    errors: List[str] = Field(default_factory=list, description="Validation errors")
-    warnings: List[str] = Field(default_factory=list, description="Validation warnings")
+    errors: list[str] = Field(default_factory=list, description="Validation errors")
+    warnings: list[str] = Field(default_factory=list, description="Validation warnings")
 
 
 class ProcessingStatistics(BaseModel):
@@ -107,7 +107,7 @@ class ProcessingStatistics(BaseModel):
     files_per_second: float = Field(..., description="Files processed per second")
     records_per_second: float = Field(..., description="Records processed per second")
     processing_efficiency: str = Field(..., description="Efficiency rating: excellent, good, moderate, slow")
-    recommendations: List[str] = Field(default_factory=list, description="Performance recommendations")
+    recommendations: list[str] = Field(default_factory=list, description="Performance recommendations")
 
 
 class ReportInfo(BaseModel):
@@ -115,7 +115,7 @@ class ReportInfo(BaseModel):
     report_id: str = Field(..., description="Unique identifier for the report")
     report_type: ReportType = Field(..., description="Type of report generated")
     created_at: datetime = Field(..., description="When the report was created")
-    file_path: Optional[str] = Field(None, description="Path to the generated file")
+    file_path: str | None = Field(None, description="Path to the generated file")
     sheet_count: int = Field(..., description="Number of sheets in the report")
     total_records: int = Field(..., description="Total number of records in the report")
     processing_time_seconds: float = Field(..., description="Time taken to generate the report")
@@ -127,7 +127,7 @@ class HealthCheckResponse(BaseModel):
     timestamp: datetime = Field(..., description="Current timestamp")
     version: str = Field(..., description="Service version")
     uptime_seconds: float = Field(..., description="Service uptime in seconds")
-    checks: Dict[str, bool] = Field(..., description="Individual health check results")
+    checks: dict[str, bool] = Field(..., description="Individual health check results")
 
 
 class ServiceMetrics(BaseModel):
@@ -145,14 +145,14 @@ class ErrorResponse(BaseModel):
     """Error response model"""
     error: str = Field(..., description="Error type")
     message: str = Field(..., description="Error message")
-    details: Optional[Dict[str, Any]] = Field(None, description="Additional error details")
+    details: dict[str, Any] | None = Field(None, description="Additional error details")
     timestamp: datetime = Field(default_factory=datetime.utcnow, description="Error timestamp")
-    request_id: Optional[str] = Field(None, description="Request ID for tracing")
+    request_id: str | None = Field(None, description="Request ID for tracing")
 
 
 class ConfigurationRequest(BaseModel):
     """Request model for configuration updates"""
-    attachment_config: Dict[str, Any] = Field(..., description="New attachment configuration")
+    attachment_config: dict[str, Any] = Field(..., description="New attachment configuration")
     validate_only: bool = Field(False, description="Whether to only validate without applying")
 
 
@@ -160,15 +160,15 @@ class ConfigurationResponse(BaseModel):
     """Response model for configuration operations"""
     success: bool = Field(..., description="Whether configuration operation was successful")
     message: str = Field(..., description="Status message")
-    validation_errors: List[str] = Field(default_factory=list, description="Configuration validation errors")
-    current_config: Optional[Dict[str, Any]] = Field(None, description="Current configuration")
+    validation_errors: list[str] = Field(default_factory=list, description="Configuration validation errors")
+    current_config: dict[str, Any] | None = Field(None, description="Current configuration")
 
 
 class FileOperationRequest(BaseModel):
     """Request model for file operations"""
     operation: str = Field(..., description="Operation to perform: validate, check, analyze")
     file_path: str = Field(..., description="Path to file to operate on")
-    parameters: Optional[Dict[str, Any]] = Field(None, description="Additional operation parameters")
+    parameters: dict[str, Any] | None = Field(None, description="Additional operation parameters")
 
 
 class FileOperationResult(BaseModel):
@@ -176,9 +176,9 @@ class FileOperationResult(BaseModel):
     success: bool = Field(..., description="Whether operation was successful")
     operation: str = Field(..., description="Operation that was performed")
     file_path: str = Field(..., description="Path to file that was operated on")
-    results: Dict[str, Any] = Field(..., description="Operation results")
-    errors: List[str] = Field(default_factory=list, description="Operation errors")
-    warnings: List[str] = Field(default_factory=list, description="Operation warnings")
+    results: dict[str, Any] = Field(..., description="Operation results")
+    errors: list[str] = Field(default_factory=list, description="Operation errors")
+    warnings: list[str] = Field(default_factory=list, description="Operation warnings")
 
 
 # API Response wrappers
@@ -187,14 +187,14 @@ class FileOperationResult(BaseModel):
 class APIResponse(BaseModel):
     """Generic API response wrapper"""
     success: bool = Field(..., description="Whether the API call was successful")
-    data: Optional[Any] = Field(None, description="Response data")
-    error: Optional[str] = Field(None, description="Error message if success is False")
+    data: Any | None = Field(None, description="Response data")
+    error: str | None = Field(None, description="Error message if success is False")
     timestamp: datetime = Field(default_factory=datetime.utcnow, description="Response timestamp")
 
 
 class PaginatedResponse(BaseModel):
     """Paginated response model"""
-    items: List[Any] = Field(..., description="Items in current page")
+    items: list[Any] = Field(..., description="Items in current page")
     total_count: int = Field(..., description="Total number of items")
     page: int = Field(..., description="Current page number (1 - based)")
     page_size: int = Field(..., description="Number of items per page")

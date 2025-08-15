@@ -1,13 +1,11 @@
-"""
-Outlook_Connector business service for outlook - relay
+"""Outlook_Connector business service for outlook - relay
 """
 
 import logging
 
 
 class Outlookconnector:
-    """
-    Outlook_Connector business logic
+    """Outlook_Connector business logic
     Pure domain logic with no infrastructure dependencies
     """
 

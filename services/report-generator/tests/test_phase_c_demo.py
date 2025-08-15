@@ -1,20 +1,15 @@
-"""
-Phase C Demonstration Test
+"""Phase C Demonstration Test
 Showcases all enhanced test infrastructure capabilities
 """
 
-import pytest
 from pathlib import Path
+
+import pytest
 
 # Import all Phase C test infrastructure
 from tests.fixtures.test_data_factories import TestEnvironmentFactory
-from tests.utils.test_utilities import (
-    TestTimer, TestAssertions,
-    with_test_timer, test_reporter
-)
-from tests.integration.test_infrastructure import (
-    IntegrationTestRunner, PerformanceTestSuite
-)
+from tests.integration.test_infrastructure import IntegrationTestRunner, PerformanceTestSuite
+from tests.utils.test_utilities import TestAssertions, TestTimer, test_reporter, with_test_timer
 
 
 class TestPhaseCDemonstration:
@@ -23,7 +18,6 @@ class TestPhaseCDemonstration:
     @pytest.mark.smoke
     def test_test_infrastructure_available(self):
         """Smoke test: Verify all test infrastructure is available"""
-
         # Test that we can import all components
         assert TestEnvironmentFactory is not None
         assert IntegrationTestRunner is not None
@@ -43,7 +37,6 @@ class TestPhaseCDemonstration:
         assert_helpers
     ):
         """Demonstrate enhanced fixtures and mock services"""
-
         # Test enhanced mock services
         assert len(all_mock_services) == 7
 
@@ -79,7 +72,6 @@ class TestPhaseCDemonstration:
     @pytest.mark.data_integrity
     async def test_test_environment_factory_demo(self):
         """Demonstrate test environment factory capabilities"""
-
         with TestEnvironmentFactory() as env:
             # Create realistic test environment
             temp_dir, csvfiles = env.create_test_directory_with_files(
@@ -116,7 +108,6 @@ class TestPhaseCDemonstration:
         assert_helpers
     ):
         """Demonstrate complete workflow testing with scenarios"""
-
         with TestTimer("Complete Workflow Test"):
             # Use pre - configured success scenario
             services = success_scenario['services']
@@ -151,7 +142,6 @@ class TestPhaseCDemonstration:
         performance_thresholds
     ):
         """Demonstrate performance testing capabilities"""
-
         suite = PerformanceTestSuite()
 
         # Run performance test with small load
@@ -185,7 +175,6 @@ class TestPhaseCDemonstration:
         assert_helpers
     ):
         """Demonstrate error injection and handling testing"""
-
         # Use pre - configured error scenario
         services = error_scenario['services']
 
@@ -211,7 +200,6 @@ class TestPhaseCDemonstration:
     @with_test_timer("Data Generation Test")
     def test_realistic_data_generation_demo(self, csv_data_factory):
         """Demonstrate realistic test data generation"""
-
         # Generate different types of realistic data
         acqdata = csv_data_factory.create_acq_data(100)
         productivitydata = csv_data_factory.create_productivity_data(50)
@@ -235,7 +223,6 @@ class TestPhaseCDemonstration:
     @pytest.mark.regression
     def test_backward_compatibility_demo(self, csv_file_factory):
         """Demonstrate regression testing capabilities"""
-
         # Test that old test patterns still work
         csv_file = csv_file_factory.create_csv_file("ACQ")
 
@@ -259,7 +246,6 @@ class TestPhaseCSummary:
 
     def test_phase_c_capabilities_summary(self):
         """Summary of all Phase C enhanced testing capabilities"""
-
         capabilities = [
             "✅ Test Data Factories - Realistic data generation",
             "✅ Enhanced Fixtures - Comprehensive pytest fixtures",

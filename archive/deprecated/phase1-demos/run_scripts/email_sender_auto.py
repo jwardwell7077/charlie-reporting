@@ -1,5 +1,4 @@
-"""
-email_sender_auto.py
+"""email_sender_auto.py
 -------------------
 Automatic email sender that reads credentials from .env file - no password prompts!
 
@@ -16,20 +15,18 @@ License: MIT
 """
 
 import os
-import time
 import smtplib
+import time
+from datetime import datetime
+from email import encoders
+from email.mime.base import MIMEBase
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
-from email.mime.base import MIMEBase
-from email import encoders
-from datetime import datetime, timedelta
-from typing import List, Dict
 
 
 class AutoEmailSender:
     def __init__(self, config_path: str = None):
         """Initialize email sender with automatic credential loading"""
-
         # Load configuration
         if config_path is None:
             configpath = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'config.toml')
@@ -78,7 +75,7 @@ class AutoEmailSender:
             return
 
         try:
-            with open(env_path, 'r') as f:
+            with open(env_path) as f:
                 for line in f:
                     line = line.strip()
                     if line and not line.startswith('#') and '=' in line:
@@ -159,7 +156,7 @@ TARGET_EMAIL={self.config.get('smtp', {}).get('target_email', 'jontajon191@gmail
         currentsection = None
 
         try:
-            with open(config_path, 'r') as f:
+            with open(config_path) as f:
                 for line in f:
                     line = line.strip()
                     if not line or line.startswith('#'):
@@ -223,7 +220,6 @@ Automated Report Distribution System"""
     def send_single_csv_email(self, csv_file_path: str, report_type: str,
                              timestamp: datetime, interval_type: str = "hourly") -> bool:
         """Send a single email with one CSV attachment"""
-
         if not os.path.exists(csv_file_path):
             print(f"❌ CSV file not found: {csv_file_path}")
             return False
@@ -277,10 +273,9 @@ This automated report contains call center metrics and performance data.
             print(f"   ❌ Failed to send {report_type}: {e}")
             return False
 
-    def send_hourly_report_email(self, timestamp: datetime, csv_files: List[str],
+    def send_hourly_report_email(self, timestamp: datetime, csv_files: list[str],
                                 interval_type: str = "hourly") -> int:
         """Send individual emails for each CSV file in the hourly report"""
-
         print(f"📧 Sending {interval_type} reports for {timestamp.strftime('%H:%M')}...")
         print(f"   Found {len(csv_files)} CSV files to send")
 
@@ -304,7 +299,7 @@ This automated report contains call center metrics and performance data.
         print(f"   📊 Sent {sent_count}/{len(csv_files)} reports successfully")
         return sent_count
 
-    def send_batch_emails(self, files_by_time: Dict[str, List[str]], delay_minutes: int = 1) -> int:
+    def send_batch_emails(self, files_by_time: dict[str, list[str]], delay_minutes: int = 1) -> int:
         """Send emails for multiple time periods with delays"""
         print("📧 Starting batch email sending...")
         print(f"   Total time periods: {len(files_by_time)}")

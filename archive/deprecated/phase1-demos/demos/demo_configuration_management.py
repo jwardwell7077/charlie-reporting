@@ -1,5 +1,4 @@
-"""
-demo_configuration_management.py
+"""demo_configuration_management.py
 -------------------------------
 Demonstrates the configuration management system with different scenarios and settings.
 
@@ -14,8 +13,8 @@ Author: Jonathan Wardwell, Copilot, GPT - 4o
 License: MIT
 """
 
-import sys
 import os
+import sys
 import tempfile
 
 # Add src to path
@@ -26,7 +25,6 @@ from config_loader import ConfigLoader
 
 def create_sample_configs():
     """Create sample configuration files for testing"""
-
     # Base configuration
     baseconfig = """
 [email]

@@ -1,5 +1,4 @@
-"""
-outlook_checker.py
+"""outlook_checker.py
 ------------------
 Outlook email verification and cleanup for integration tests.
 
@@ -7,16 +6,15 @@ Author: Jonathan Wardwell, Copilot, GPT - 4o
 License: MIT
 """
 
-import win32com.client
-import time
 import logging
+import time
 from datetime import datetime, timedelta
-from typing import Optional, Dict
+
+import win32com.client
 
 
 class IntegrationOutlookChecker:
-    """
-    Checks and manages emails in Outlook for integration testing.
+    """Checks and manages emails in Outlook for integration testing.
     """
 
     def __init__(self, config):
@@ -25,9 +23,8 @@ class IntegrationOutlookChecker:
         self.testprefix = config.integration_tests.get('test_subject_prefix', 'INTEGRATION_TEST')
         self.outlookaccount = config.email.get('outlook_account')
 
-    def wait_for_email(self, subject: str, timeout_seconds: int = 60) -> Optional[Any]:
-        """
-        Wait for email with specific subject to arrive.
+    def wait_for_email(self, subject: str, timeout_seconds: int = 60) -> Any | None:
+        """Wait for email with specific subject to arrive.
 
         Args:
             subject: Email subject to search for
@@ -70,8 +67,7 @@ class IntegrationOutlookChecker:
         return None
 
     def delete_test_emails(self, max_age_hours: int = 1) -> int:
-        """
-        Delete all test emails (identified by test prefix) from inbox.
+        """Delete all test emails (identified by test prefix) from inbox.
 
         Args:
             max_age_hours: Only delete emails newer than this many hours
@@ -124,8 +120,7 @@ class IntegrationOutlookChecker:
         return deleted_count
 
     def verify_email_received(self, subject: str, timeout_seconds: int = 60) -> bool:
-        """
-        Verify that an email with the given subject was received.
+        """Verify that an email with the given subject was received.
 
         Args:
             subject: Email subject to search for
@@ -137,9 +132,8 @@ class IntegrationOutlookChecker:
         email = self.wait_for_email(subject, timeout_seconds)
         return email is not None
 
-    def get_email_with_attachment(self, subject: str, timeout_seconds: int = 60) -> Optional[Dict[str, Any]]:
-        """
-        Get email with subject and return attachment info.
+    def get_email_with_attachment(self, subject: str, timeout_seconds: int = 60) -> dict[str, Any] | None:
+        """Get email with subject and return attachment info.
 
         Args:
             subject: Email subject to search for
@@ -175,8 +169,7 @@ class IntegrationOutlookChecker:
         return result
 
     def delete_specific_email(self, email) -> bool:
-        """
-        Delete a specific email object.
+        """Delete a specific email object.
 
         Args:
             email: Email object to delete

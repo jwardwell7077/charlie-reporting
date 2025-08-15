@@ -1,9 +1,7 @@
 #!/usr/bin/env python3
-"""
-Final push for 100% compliance - removing most common remaining violations.
+"""Final push for 100% compliance - removing most common remaining violations.
 """
 
-import os
 import re
 from pathlib import Path
 
@@ -39,7 +37,7 @@ def final_compliance_push():
             continue
 
         try:
-            with open(py_file, 'r', encoding='utf-8') as f:
+            with open(py_file, encoding='utf-8') as f:
                 content = f.read()
 
             original_content = content

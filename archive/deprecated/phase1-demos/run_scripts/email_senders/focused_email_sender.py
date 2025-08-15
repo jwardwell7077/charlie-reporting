@@ -1,28 +1,26 @@
 #!/usr / bin / env python3
-"""
-focused_email_sender.py
+"""focused_email_sender.py
 ----------------------
 Sends exactly 7 emails - one per CSV type, 1 hour of data
 Perfect for testing the complete end - to - end pipeline
 """
 
 import os
+import smtplib
 import sys
 import time
-import smtplib
+from email import encoders
+from email.mime.base import MIMEBase
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
-from email.mime.base import MIMEBase
-from email import encoders
-from datetime import datetime
 
 # Add parent directory to path to import shared utilities
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 from shared_utils import (
+    get_generated_data_dir,
+    get_one_file_per_type,
     load_env_credentials,
     validate_required_credentials,
-    get_one_file_per_type,
-    get_generated_data_dir
 )
 
 

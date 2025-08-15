@@ -1,6 +1,5 @@
 
-"""
-config_loader.py
+"""config_loader.py
 ----------------
 Loads and provides access to TOML - based configuration for the reporting pipeline.
 
@@ -8,24 +7,25 @@ Author: Jonathan Wardwell, Copilot, GPT - 4o
 License: MIT
 """
 
-import tomllib
 import os
-from .logging_utils import LoggerFactory
+import tomllib
+
+from shared.service_logging import configure_logging, get_logger
 
 
 class ConfigLoader:
-    """
-    Loads and provides access to TOML configuration for the reporting pipeline.
+    """Loads and provides access to TOML configuration for the reporting pipeline.
     Exposes sections as properties and provides compatibility with legacy config access patterns.
     """
-    def __init__(self, config_path=None):
-        self.logger = LoggerFactory.get_logger('config_loader', 'main.log')
+    def __init__(self, config_path: str | None = None):
+        configure_logging()
+        self.logger = get_logger('config_loader')
         self.logger.debug("ConfigLoader.__init__: Starting initialization")
 
         if config_path is None:
-            configpath = os.path.join(os.getcwd(), 'config', 'config.toml')
-        self.configpath = config_path
-        self.logger.debug(f"ConfigLoader.__init__: config_path={config_path}")
+            config_path = os.path.join(os.getcwd(), 'config', 'config.toml')
+        self.config_path = config_path
+        self.logger.debug(f"ConfigLoader.__init__: config_path={self.config_path}")
 
         with open(self.config_path, 'rb') as f:
             self.config = tomllib.load(f)

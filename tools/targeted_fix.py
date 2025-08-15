@@ -1,9 +1,7 @@
 #!/usr/bin/env python3
-"""
-Targeted fix for specific F821/F841 violations.
+"""Targeted fix for specific F821/F841 violations.
 """
 
-import os
 import re
 from pathlib import Path
 
@@ -47,7 +45,7 @@ def fix_specific_violations():
             continue
 
         try:
-            with open(py_file, 'r', encoding='utf-8') as f:
+            with open(py_file, encoding='utf-8') as f:
                 content = f.read()
 
             original_content = content

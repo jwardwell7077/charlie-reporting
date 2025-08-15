@@ -1,16 +1,16 @@
 #!/usr / bin / env python3
-"""
-Performance Benchmark Script for Charlie Reporting
+"""Performance Benchmark Script for Charlie Reporting
 Establishes baseline metrics for Phase 1 services and tracks performance over time
 """
 
-import time
-import psutil
+import json
 import logging
 import sys
-from pathlib import Path
-import json
+import time
 from datetime import datetime
+from pathlib import Path
+
+import psutil
 
 # Add services to path
 sys.path.append(str(Path(__file__).parent.parent / "services"))
@@ -23,9 +23,9 @@ try:
     reportgen_path = Path(__file__).parent.parent / "services" / "report - generator" / "src"
     sys.path.insert(0, str(report_gen_path))
 
+    from business.models.csv_data import CSVRule
     from business.services.csv_transformer import CSVTransformationService
     from business.services.excel_service import ExcelReportService
-    from business.models.csv_data import CSVRule
 except ImportError as e:
     print(f"Warning: Could not import services for benchmarking: {e}")
     CSVTransformationService = None
@@ -179,7 +179,7 @@ class PerformanceBenchmark:
 
         # Load existing results
         if results_file.exists():
-            with open(results_file, 'r') as f:
+            with open(results_file) as f:
                 allresults = json.load(f)
         else:
             allresults = []

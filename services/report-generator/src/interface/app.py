@@ -1,49 +1,40 @@
-"""
-FastAPI Application for Report Generator Service
+"""FastAPI Application for Report Generator Service
 Interface layer implementing REST API endpoints
 """
 
-from fastapi import FastAPI, HTTPException, Depends, BackgroundTasks, Request
-from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse
-from fastapi.openapi.utils import get_openapi
-import logging
 import time
 import uuid
 from datetime import datetime
 from pathlib import Path
-from typing import Dict, Any
 
+from business.exceptions import BusinessException, ValidationException
+from business.models.csv_data import CSVRule
+from business.services.report_processor import ReportProcessingService
+from fastapi import BackgroundTasks, Depends, FastAPI, HTTPException, Request
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi.openapi.utils import get_openapi
+from fastapi.responses import JSONResponse
+from infrastructure.logging import StructuredLogger
+from infrastructure.metrics import MetricsCollector
 from interface.schemas import (
     DirectoryProcessRequest,
-    SingleFileProcessRequest,
-    ProcessingResult,
     DirectoryValidationRequest,
     DirectoryValidationResult,
-    ProcessingStatistics,
-    HealthCheckResponse,
-    ServiceMetrics,
     ErrorResponse,
-    APIResponse,
-    ConfigurationRequest,
-    ConfigurationResponse,
-    FileOperationRequest,
-    FileOperationResult
+    HealthCheckResponse,
+    ProcessingResult,
+    ProcessingStatistics,
+    ServiceMetrics,
+    SingleFileProcessRequest,
 )
-from business.services.report_processor import ReportProcessingService
-from business.models.csv_data import CSVRule
-from business.exceptions import BusinessException, ValidationException
-from infrastructure.metrics import MetricsCollector
-from infrastructure.logging import StructuredLogger
-
 
 # Global service instances
 report_processor = ReportProcessingService()
-metricscollector = MetricsCollector()
-structuredlogger = StructuredLogger()
+metrics_collector = MetricsCollector()
+structured_logger = StructuredLogger()
 
 # Application startup time for uptime calculation
-appstart_time = time.time()
+app_start_time = time.time()
 
 # FastAPI application
 app = FastAPI(
@@ -116,7 +107,7 @@ async def validation_exception_handler(request: Request, exc: ValidationExceptio
 @app.exception_handler(Exception)
 async def general_exception_handler(request: Request, exc: Exception):
     """Handle unexpected exceptions"""
-    requestid = str(uuid.uuid4())
+    request_id = str(uuid.uuid4())
 
     structured_logger.log_error(
         "Unexpected exception occurred",
@@ -162,8 +153,8 @@ async def get_report_processor() -> ReportProcessingService:
 @app.middleware("http")
 async def log_requests(request: Request, call_next):
     """Log all requests and collect metrics"""
-    starttime = time.time()
-    requestid = str(uuid.uuid4())
+    start_time = time.time()
+    request_id = str(uuid.uuid4())
 
     # Log request
     structured_logger.log_info(
@@ -178,7 +169,7 @@ async def log_requests(request: Request, call_next):
     response = await call_next(request)
 
     # Calculate processing time
-    processtime = time.time() - start_time
+    process_time = time.time() - start_time
 
     # Log response
     structured_logger.log_info(
@@ -195,12 +186,12 @@ async def log_requests(request: Request, call_next):
         method=request.method,
         path=request.url.path,
         status_code=response.status_code,
-        duration_seconds=process_time
+    duration_seconds=process_time
     )
 
     # Add headers
-    response.headers["X - Request - ID"] = request_id
-    response.headers["X - Process - Time"] = str(process_time)
+    response.headers["X-Request-ID"] = request_id
+    response.headers["X-Process-Time"] = str(process_time)
 
     return response
 
@@ -211,8 +202,8 @@ async def log_requests(request: Request, call_next):
 @app.get("/health", response_model=HealthCheckResponse, tags=["Health"])
 async def health_check():
     """Health check endpoint"""
-    currenttime = datetime.utcnow()
-    uptime = time.time() - appstart_time
+    current_time = datetime.utcnow()
+    uptime = time.time() - app_start_time
 
     # Perform health checks
     checks = {
@@ -222,11 +213,11 @@ async def health_check():
     }
 
     # Determine overall status
-    overallstatus = "healthy" if all(checks.values()) else "unhealthy"
+    overall_status = "healthy" if all(checks.values()) else "unhealthy"
 
     return HealthCheckResponse(
-        status=overall_status,
-        timestamp=current_time,
+    status=overall_status,
+    timestamp=current_time,
         version="1.0.0",
         uptime_seconds=uptime,
         checks=checks
@@ -251,7 +242,7 @@ async def liveness_check():
 @app.get("/metrics", response_model=ServiceMetrics, tags=["Metrics"])
 async def get_metrics(collector: MetricsCollector = Depends(get_metrics_collector)):
     """Get service metrics"""
-    uptime = time.time() - appstart_time
+    uptime = time.time() - app_start_time
 
     metrics = collector.get_metrics()
 
@@ -277,25 +268,25 @@ async def process_directory(
     logger: StructuredLogger = Depends(get_logger),
     collector: MetricsCollector = Depends(get_metrics_collector)
 ):
-    """
-    Process CSV files in a directory and generate Excel report
+    """Process CSV files in a directory and generate Excel report
 
     This endpoint processes all CSV files in the specified directory that match
     the date and hour filters, transforms them according to the attachment
     configuration, and generates a consolidated Excel report.
     """
-    starttime = time.time()
-
+    start_time = time.time()
     try:
-        logger.log_info("Starting directory processing",
-                       raw_directory=request.raw_directory,
-                       date_filter=request.date_filter,
-                       hour_filter=request.hour_filter)
+        logger.log_info(
+            "Starting directory processing",
+            raw_directory=request.raw_directory,
+            date_filter=request.date_filter,
+            hour_filter=request.hour_filter,
+        )
 
         # Convert paths to Path objects
-        rawdir = Path(request.raw_directory)
-        archivedir = Path(request.archive_directory)
-        outputdir = Path(request.output_directory)
+        raw_dir = Path(request.raw_directory)
+        archive_dir = Path(request.archive_directory)
+        output_dir = Path(request.output_directory)
 
         # Process directory
         result = processor.process_directory_reports(
@@ -304,26 +295,27 @@ async def process_directory(
             output_dir=output_dir,
             attachment_config=request.attachment_config,
             date_filter=request.date_filter,
-            hour_filter=request.hour_filter
+            hour_filter=request.hour_filter,
         )
 
         # Convert to API response model
-        processingresult = ProcessingResult(**result)
+        processing_result = ProcessingResult(**result)
 
         # Collect metrics
         collector.record_directory_processing(
             files_processed=result.get("transformed_files", 0),
             records_processed=result.get("total_records", 0),
             success=result.get("success", False),
-            duration_seconds=time.time() - start_time
+            duration_seconds=time.time() - start_time,
         )
 
-        logger.log_info("Directory processing completed",
-                       success=result.get("success"),
-                       processing_time=time.time() - start_time)
+        logger.log_info(
+            "Directory processing completed",
+            success=result.get("success"),
+            processing_time=time.time() - start_time,
+        )
 
         return processing_result
-
     except Exception as e:
         logger.log_error("Directory processing failed", error=str(e))
         collector.record_processing_error("directory_processing", str(e))
@@ -337,14 +329,12 @@ async def process_single_file(
     logger: StructuredLogger = Depends(get_logger),
     collector: MetricsCollector = Depends(get_metrics_collector)
 ):
-    """
-    Process a single CSV file and generate Excel report
+    """Process a single CSV file and generate Excel report
 
     This endpoint processes a single CSV file with the specified transformation
     rule and generates an Excel report.
     """
-    starttime = time.time()
-
+    start_time = time.time()
     try:
         logger.log_info("Starting single file processing", file_path=request.file_path)
 
@@ -353,37 +343,38 @@ async def process_single_file(
             file_pattern=request.file_pattern,
             columns=request.columns,
             sheet_name=request.sheet_name,
-            required_columns=request.required_columns
+            required_columns=request.required_columns,
         )
 
         # Convert paths to Path objects
         file_path = Path(request.file_path)
-        outputdir = Path(request.output_directory)
+        output_dir = Path(request.output_directory)
 
         # Process file
         result = processor.process_single_file(
             file_path=file_path,
             rule=rule,
-            output_dir=output_dir
+            output_dir=output_dir,
         )
 
         # Convert to API response model
-        processingresult = ProcessingResult(**result)
+        processing_result = ProcessingResult(**result)
 
         # Collect metrics
         collector.record_file_processing(
             file_name=file_path.name,
             records_processed=result.get("total_records", 0),
             success=result.get("success", False),
-            duration_seconds=time.time() - start_time
+            duration_seconds=time.time() - start_time,
         )
 
-        logger.log_info("Single file processing completed",
-                       success=result.get("success"),
-                       processing_time=time.time() - start_time)
+        logger.log_info(
+            "Single file processing completed",
+            success=result.get("success"),
+            processing_time=time.time() - start_time,
+        )
 
         return processing_result
-
     except Exception as e:
         logger.log_error("Single file processing failed", error=str(e))
         collector.record_processing_error("file_processing", str(e))
@@ -398,8 +389,7 @@ async def validate_directory(
     request: DirectoryValidationRequest,
     processor: ReportProcessingService = Depends(get_report_processor)
 ):
-    """
-    Validate a directory for processing
+    """Validate a directory for processing
 
     This endpoint checks if a directory exists, is accessible, and contains
     CSV files suitable for processing.
@@ -421,8 +411,7 @@ async def get_processing_statistics(
     processor: ReportProcessingService = Depends(get_report_processor),
     collector: MetricsCollector = Depends(get_metrics_collector)
 ):
-    """
-    Get enhanced processing statistics
+    """Get enhanced processing statistics
 
     This endpoint provides detailed statistics about processing performance
     and recommendations for optimization.
@@ -433,9 +422,9 @@ async def get_processing_statistics(
 
         # Calculate enhanced statistics
         if metrics.get("total_requests", 0) > 0:
-            successrate = (metrics.get("successful_requests", 0) / metrics.get("total_requests")) * 100
+            success_rate = (metrics.get("successful_requests", 0) / metrics.get("total_requests")) * 100
         else:
-            successrate = 0.0
+            success_rate = 0.0
 
         return ProcessingStatistics(
             success_rate=success_rate,
@@ -453,10 +442,10 @@ async def get_processing_statistics(
 
 
 def custom_openapi():
-    if app.openapi_schema:
+    if getattr(app, "openapi_schema", None):
         return app.openapi_schema
 
-    openapischema = get_openapi(
+    openapi_schema = get_openapi(
         title="Report Generator Service",
         version="1.0.0",
         description="""
@@ -486,12 +475,11 @@ def custom_openapi():
         "name": "MIT License",
         "url": "https://opensource.org / licenses / MIT"
     }
+    app.openapi_schema = openapi_schema
+    return openapi_schema
 
-    app.openapischema = openapi_schema
-    return app.openapi_schema
 
-
-app.openapi = custom_openapi
+app.openapi = custom_openapi  # type: ignore
 
 
 # Startup and shutdown events

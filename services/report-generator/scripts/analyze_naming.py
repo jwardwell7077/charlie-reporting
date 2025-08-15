@@ -1,14 +1,10 @@
 #!/usr/bin/env python3
-"""
-Variable Naming Standardization Script
+"""Variable Naming Standardization Script
 Systematically fixes variable naming violations in the report-generator service.
 """
 
 import re
-import os
 from pathlib import Path
-from typing import Dict, List, Tuple
-
 
 # Define the variable naming patterns to fix
 NAMING_FIXES = {
@@ -125,7 +121,7 @@ NAMING_FIXES = {
 }
 
 
-def get_python_files(directory: Path) -> List[Path]:
+def get_python_files(directory: Path) -> list[Path]:
     """Get all Python files in the directory recursively."""
     python_files = []
     for file_path in directory.rglob("*.py"):
@@ -134,7 +130,7 @@ def get_python_files(directory: Path) -> List[Path]:
     return python_files
 
 
-def find_variable_usage(content: str, old_name: str, new_name: str) -> List[Tuple[int, str]]:
+def find_variable_usage(content: str, old_name: str, new_name: str) -> list[tuple[int, str]]:
     """Find all lines where the variable is used incorrectly."""
     lines = content.split('\n')
     issues = []
@@ -162,10 +158,10 @@ def find_variable_usage(content: str, old_name: str, new_name: str) -> List[Tupl
     return issues
 
 
-def analyze_file(file_path: Path) -> Dict[str, List[Tuple[int, str]]]:
+def analyze_file(file_path: Path) -> dict[str, list[tuple[int, str]]]:
     """Analyze a file for variable naming issues."""
     try:
-        with open(file_path, 'r', encoding='utf-8') as f:
+        with open(file_path, encoding='utf-8') as f:
             content = f.read()
     except Exception as e:
         print(f"Error reading {file_path}: {e}")
@@ -229,7 +225,7 @@ def main():
     pattern_counts = {}
     for file_path in python_files:
         try:
-            with open(file_path, 'r', encoding='utf-8') as f:
+            with open(file_path, encoding='utf-8') as f:
                 content = f.read()
                 
             for old_name, new_name in NAMING_FIXES.items():
@@ -244,7 +240,7 @@ def main():
     for i, (pattern, count) in enumerate(sorted_patterns[:10], 1):
         print(f"{i:2d}. {pattern:<30} ({count} occurrences)")
     
-    print(f"\n📝 Next steps:")
+    print("\n📝 Next steps:")
     print("1. Use replace_string_in_file to fix these patterns systematically")
     print("2. Start with the highest-count patterns first")
     print("3. Test after each file to ensure no breaking changes")

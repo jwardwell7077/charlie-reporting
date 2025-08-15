@@ -1,15 +1,13 @@
 #!/usr / bin / env python3
-"""
-Phase 2 Validation Script for Charlie Reporting
+"""Phase 2 Validation Script for Charlie Reporting
 Comprehensive validation of testing framework and API implementation
 """
 
-import sys
-import subprocess
 import json
-from pathlib import Path
 import logging
-from typing import Dict, List
+import subprocess
+import sys
+from pathlib import Path
 
 
 def setup_logging():
@@ -29,7 +27,7 @@ class Phase2Validator:
         self.validationresults = []
         self.workspaceroot = Path(__file__).parent.parent
 
-    def validate_pytest_setup(self) -> Dict[str, Any]:
+    def validate_pytest_setup(self) -> dict[str, Any]:
         """Validate pytest configuration and test discovery"""
         self.logger.info("Validating pytest setup...")
 
@@ -49,7 +47,7 @@ class Phase2Validator:
             # Check test discovery
             discoveryresult = subprocess.run([
                 sys.executable, '-m', 'pytest', '--collect - only', 'tests/'
-            ], capture_output=True, text=True, cwd=self.workspace_root)
+            ], check=False, capture_output=True, text=True, cwd=self.workspace_root)
 
             if discovery_result.returncode == 0:
                 result['details'].append("✅ Test discovery working")
@@ -64,7 +62,7 @@ class Phase2Validator:
 
         return result
 
-    def validate_test_coverage(self) -> Dict[str, Any]:
+    def validate_test_coverage(self) -> dict[str, Any]:
         """Validate test coverage functionality"""
         self.logger.info("Validating test coverage...")
 
@@ -80,7 +78,7 @@ class Phase2Validator:
             coverageresult = subprocess.run([
                 sys.executable, '-m', 'pytest', '--cov=services',
                 '--cov - report=term', 'tests/', '--tb=no'
-            ], capture_output=True, text=True, cwd=self.workspace_root)
+            ], check=False, capture_output=True, text=True, cwd=self.workspace_root)
 
             if coverage_result.returncode == 0:
                 result['details'].append("✅ Coverage reporting functional")
@@ -99,7 +97,7 @@ class Phase2Validator:
 
         return result
 
-    def validate_phase1_services(self) -> Dict[str, Any]:
+    def validate_phase1_services(self) -> dict[str, Any]:
         """Validate Phase 1 business logic services"""
         self.logger.info("Validating Phase 1 services...")
 
@@ -114,7 +112,7 @@ class Phase2Validator:
             # Run Phase 1 demo
             phase1result = subprocess.run([
                 sys.executable, 'services / report - generator / src / main_phase1.py'
-            ], capture_output=True, text=True, cwd=self.workspace_root)
+            ], check=False, capture_output=True, text=True, cwd=self.workspace_root)
 
             if phase1_result.returncode == 0:
                 result['details'].append("✅ Phase 1 business logic execution successful")
@@ -136,7 +134,7 @@ class Phase2Validator:
 
         return result
 
-    def validate_vscode_integration(self) -> Dict[str, Any]:
+    def validate_vscode_integration(self) -> dict[str, Any]:
         """Validate VS Code task integration"""
         self.logger.info("Validating VS Code integration...")
 
@@ -153,7 +151,7 @@ class Phase2Validator:
             if tasks_file.exists():
                 result['details'].append("✅ VS Code tasks.json exists")
 
-                with open(tasks_file, 'r') as f:
+                with open(tasks_file) as f:
                     taskscontent = f.read()
 
                 # Check for Phase 2 tasks
@@ -181,7 +179,7 @@ class Phase2Validator:
 
         return result
 
-    def validate_dependencies(self) -> Dict[str, Any]:
+    def validate_dependencies(self) -> dict[str, Any]:
         """Validate required dependencies are installed"""
         self.logger.info("Validating dependencies...")
 
@@ -206,7 +204,7 @@ class Phase2Validator:
             # Get installed packages
             pip_result = subprocess.run([
                 sys.executable, '-m', 'pip', 'list'
-            ], capture_output=True, text=True)
+            ], check=False, capture_output=True, text=True)
 
             installedpackages = pip_result.stdout.lower()
 
@@ -230,7 +228,7 @@ class Phase2Validator:
 
         return result
 
-    def run_validation_suite(self) -> List[Dict[str, Any]]:
+    def run_validation_suite(self) -> list[dict[str, Any]]:
         """Execute all validation tests"""
         self.logger.info("=== Starting Phase 2 Validation Suite ===")
 
@@ -245,7 +243,7 @@ class Phase2Validator:
         self.validationresults = validations
         return validations
 
-    def display_validation_summary(self, validations: List[Dict[str, Any]]):
+    def display_validation_summary(self, validations: list[dict[str, Any]]):
         """Display formatted validation summary"""
         print("\n" + "="*70)
         print("PHASE 2 VALIDATION SUMMARY")

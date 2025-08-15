@@ -1,5 +1,4 @@
-"""
-demo_multiple_outlook_accounts.py
+"""demo_multiple_outlook_accounts.py
 ---------------------------------
 Demonstrates the multiple Outlook account support in the enhanced EmailFetcher.
 
@@ -13,8 +12,8 @@ Author: Jonathan Wardwell, Copilot, GPT - 4o
 License: MIT
 """
 
-import sys
 import os
+import sys
 from datetime import datetime
 from unittest.mock import Mock, patch
 
@@ -67,7 +66,6 @@ def create_sample_config_with_account(account_email: str = None):
 
 def create_mock_outlook_with_multiple_accounts():
     """Create mock Outlook environment with multiple accounts"""
-
     # Mock Account 1 - Primary business account
     account1 = Mock()
     account1.SmtpAddress = 'john.doe@company.com'

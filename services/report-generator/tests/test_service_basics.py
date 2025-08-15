@@ -1,13 +1,12 @@
-"""
-Simple Unit Tests for Report Generator Service
+"""Simple Unit Tests for Report Generator Service
 Testing the main application and service integration
 """
 
-import pytest
 import sys
 from pathlib import Path
-from unittest.mock import Mock, patch
-import io
+from unittest.mock import patch
+
+import pytest
 
 # Add the service source directory to Python path
 service_root = Path(__file__).parent.parent

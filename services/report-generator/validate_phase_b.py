@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
-"""
-Phase B Implementation Validation
+"""Phase B Implementation Validation
 Validates that all infrastructure implementations are complete and functional
 """
 
@@ -15,8 +14,8 @@ def main():
     # Test 1: TDD Tests Still Pass
     print("\n1. Testing TDD Test Suite...")
     try:
-        import subprocess
         import os
+        import subprocess
 
         env = os.environ.copy()
         env['PYTHONPATH'] = '/home / jon / repos / charlie - reporting / services / report - generator / src'
@@ -26,7 +25,7 @@ def main():
             'tests/unit/test_report_processor_tdd.py',
             '-v', '--tb=short'
         ],
-            cwd='/home/jon/repos/charlie-reporting/services/report-generator',
+            check=False, cwd='/home/jon/repos/charlie-reporting/services/report-generator',
             env=env,
             capture_output=True,
             text=True

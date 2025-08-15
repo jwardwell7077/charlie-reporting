@@ -1,6 +1,5 @@
 #!/usr / bin / env python3
-"""
-Test Migration Script: Move tests into service directories
+"""Test Migration Script: Move tests into service directories
 Reorganize test structure for better maintainability and co - location
 """
 import shutil
@@ -9,7 +8,6 @@ from pathlib import Path
 
 def migrate_tests_to_services():
     """Move all tests from tests/ directory into respective service directories."""
-
     print("🔄 MIGRATING TESTS TO SERVICE DIRECTORIES")
     print("=" * 60)
 
@@ -161,7 +159,6 @@ def sample_csv_data():
 
 def create_service_test_templates():
     """Create test templates for each service."""
-
     # Email Service test template
     email_service_test = '''
 """

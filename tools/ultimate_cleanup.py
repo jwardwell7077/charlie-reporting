@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
-"""
-Ultimate final cleanup for 100% compliance.
+"""Ultimate final cleanup for 100% compliance.
 """
 
 import re
@@ -18,7 +17,7 @@ def ultimate_cleanup():
             continue
 
         try:
-            with open(py_file, 'r', encoding='utf-8') as f:
+            with open(py_file, encoding='utf-8') as f:
                 content = f.read()
 
             original_content = content

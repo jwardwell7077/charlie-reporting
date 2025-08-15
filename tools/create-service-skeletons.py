@@ -1,6 +1,5 @@
 #!/usr / bin / env python3
-"""
-Create skeleton structure for all Charlie Reporting services
+"""Create skeleton structure for all Charlie Reporting services
 """
 
 import os
@@ -48,7 +47,6 @@ SERVICES = {
 
 def create_service_skeleton(service_name: str, service_config: dict):
     """Create complete directory structure for a service"""
-
     print(f"\n🏗️  Creating {service_name} skeleton...")
 
     base_path = Path(f"services/{service_name}")
@@ -125,7 +123,6 @@ def create_service_skeleton(service_name: str, service_config: dict):
 
 def create_service_files(service_name: str, service_config: dict, base_path: Path):
     """Create skeleton files for a service"""
-
     # Service - specific requirements.txt
     requirements_content = """# {service_name.title()} Service Requirements
 
@@ -282,7 +279,7 @@ from config.settings import load_config
 
 try:
     from shared.base_service import BaseService
-    from shared.logging import setup_service_logging
+    from shared.service_logging import setup_service_logging
     from shared.metrics import ServiceMetrics
     from shared.health import HealthMonitor
 except ImportError:

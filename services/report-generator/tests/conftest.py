@@ -1,14 +1,14 @@
-"""
-Test Configuration for Report Generator Tests
+"""Test Configuration for Report Generator Tests
 """
 
-import pytest
 import sys
 from pathlib import Path
 
+import pytest
+
 # Add the service source directory to Python path
 service_root = Path(__file__).parent.parent
-srcpath = service_root / "src"
+src_path = service_root / "src"
 sys.path.insert(0, str(src_path))
 
 
@@ -46,13 +46,14 @@ Bob Johnson,2025 - 01 - 15,7,1750.00,Winter Promo"""
 
 def mock_transformation_result():
     """Mock transformation result for testing"""
-    import pandas as pd
     from unittest.mock import Mock
+
+    import pandas as pd
 
     result = Mock()
     result.success = True
-    result.errormessage = None
-    result.transformeddata = pd.DataFrame({
+    result.errormessage = None  # legacy attribute name retained if used elsewhere
+    result.transformeddata = pd.DataFrame({  # legacy attribute name retained
         "Agent": ["John Doe", "Jane Smith", "Bob Johnson"],
         "Date": ["2025 - 01 - 15", "2025 - 01 - 15", "2025 - 01 - 15"],
         "Acquisitions": [5, 3, 7],
@@ -61,7 +62,12 @@ def mock_transformation_result():
     })
     return result
 
-# Test markers
-pytest.mark.unit = pytest.mark.mark("unit")
-pytest.mark.integration = pytest.mark.mark("integration")
-pytest.mark.slow = pytest.mark.mark("slow")
+# To use custom markers (unit, integration, slow), declare them in pytest.ini or pyproject.toml
+# Example in pyproject.toml under [tool.pytest.ini_options]:
+"""
+markers = [
+    "unit: unit level tests",
+    "integration: integration tests",
+    "slow: slow running tests"
+]
+"""

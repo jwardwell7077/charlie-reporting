@@ -1,5 +1,4 @@
-"""
-test_email_fetcher_enhanced.py
+"""test_email_fetcher_enhanced.py
 -----------------------------
 Tests for the enhanced EmailFetcher class with hourly processing capabilities.
 
@@ -8,16 +7,17 @@ License: MIT
 """
 
 import os
-import pytest
-from datetime import datetime, timedelta
-from unittest.mock import Mock, patch, MagicMock
 
 # Import the classes we're testing
 import sys
+from datetime import datetime
+from unittest.mock import Mock, patch
+
+import pytest
+
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src'))
 
 from email_fetcher import EmailFetcher
-
 
 # --- Fixtures ---
 

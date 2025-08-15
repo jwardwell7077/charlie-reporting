@@ -1,13 +1,11 @@
-"""
-Scheduler business service for scheduler - service
+"""Scheduler business service for scheduler - service
 """
 
 import logging
 
 
 class Scheduler:
-    """
-    Scheduler business logic
+    """Scheduler business logic
     Pure domain logic with no infrastructure dependencies
     """
 

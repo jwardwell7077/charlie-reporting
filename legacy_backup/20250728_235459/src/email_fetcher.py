@@ -1,9 +1,8 @@
 import os
-from datetime import datetime, timedelta
 import platform
-from typing import Optional
-from pathlib import Path
 import shutil
+from datetime import datetime, timedelta
+from pathlib import Path
 
 from config_loader import ConfigLoader
 from logger import LoggerFactory
@@ -19,8 +18,8 @@ except ImportError:
 
 # Cross - platform email support
 try:
-    import imaplib
     import email
+    import imaplib
     from email.header import decode_header
     HAS_IMAP = True
 except ImportError:
@@ -28,8 +27,7 @@ except ImportError:
 
 
 class EmailFetcher:
-    """
-    Connects to email service, filters emails by date / time, sender, subject, and saves CSV attachments.
+    """Connects to email service, filters emails by date / time, sender, subject, and saves CSV attachments.
     Supports both daily batch processing and hourly incremental processing.
     Uses pathlib for cross - platform path handling.
     TODO: Implement Graph API for simpler, cleaner email access.
@@ -79,8 +77,7 @@ class EmailFetcher:
             self.logger.warning("Set INTEGRATION_TEST_RECEIVER_EMAIL and INTEGRATION_TEST_EMAIL_PASSWORD environment variables")
 
     def fetch(self, date_str: str):
-        """
-        Legacy method: Fetch emails received on date_str (YYYY - MM - DD), apply filters, and save CSV attachments.
+        """Legacy method: Fetch emails received on date_str (YYYY - MM - DD), apply filters, and save CSV attachments.
         Also scans directory if enabled in config.
         """
         self.logger.debug("EmailFetcher.fetch: Starting method")
@@ -96,9 +93,8 @@ class EmailFetcher:
 
         self.logger.debug("EmailFetcher.fetch: Method completed")
 
-    def fetch_for_timeframe(self, date_str: str, start_hour: Optional[int] = None, end_hour: Optional[int] = None):
-        """
-        Fetch emails for a specific date or timeframe.
+    def fetch_for_timeframe(self, date_str: str, start_hour: int | None = None, end_hour: int | None = None):
+        """Fetch emails for a specific date or timeframe.
 
         Args:
             date_str: Date in YYYY - MM - DD format
@@ -368,8 +364,7 @@ class EmailFetcher:
         return processed_count
 
     def fetch_hourly(self, date_str: str, hour: int):
-        """
-        Fetch emails for a specific hour of a specific date.
+        """Fetch emails for a specific hour of a specific date.
         Also scans directory if enabled in config.
 
         Args:
@@ -383,8 +378,7 @@ class EmailFetcher:
             self.scan_directory_for_hour(date_str, hour)
 
     def fetch_recent(self, hours_back: int = 1):
-        """
-        Fetch emails from the last N hours.
+        """Fetch emails from the last N hours.
         Also scans directory if enabled in config.
 
         Args:
@@ -528,11 +522,12 @@ class EmailFetcher:
         return processed_count
 
     def is_valid_email(self, msg, global_filter: dict) -> bool:
-        """
-        Check sender and optional subject filters from global_filter.
+        """Check sender and optional subject filters from global_filter.
+
         Args:
             msg: Outlook mail item or mock message object.
             global_filter (dict): Filter with 'sender' and 'subject_contains'.
+
         Returns:
             bool: True if email passes filters, False otherwise.
         """
@@ -553,8 +548,7 @@ class EmailFetcher:
         return True
 
     def get_attachment_rule(self, filename: str, rules: dict) -> dict:
-        """
-        Return the matching rule dict for a given filename via substring matching.
+        """Return the matching rule dict for a given filename via substring matching.
         """
         namel = filename.lower()
         for key, rule in rules.items():
@@ -565,8 +559,7 @@ class EmailFetcher:
         return None
 
     def get_inbox_for_account(self, outlook_namespace):
-        """
-        Get the inbox for the specified account, or default if not specified / found.
+        """Get the inbox for the specified account, or default if not specified / found.
 
         Args:
             outlook_namespace: Outlook MAPI namespace
@@ -598,8 +591,7 @@ class EmailFetcher:
             return outlook_namespace.GetDefaultFolder(6)
 
     def scan_directory_for_date(self, date_str: str):
-        """
-        Scan the configured directory for CSV files modified on the target date.
+        """Scan the configured directory for CSV files modified on the target date.
         Uses pathlib for cross - platform path handling.
 
         Args:
@@ -674,8 +666,7 @@ class EmailFetcher:
         self.logger.info(f"Directory scan completed. Processed {processed_count} files.")
 
     def scan_directory_for_hour(self, date_str: str, hour: int):
-        """
-        Scan the configured directory for CSV files modified in a specific hour.
+        """Scan the configured directory for CSV files modified in a specific hour.
         Uses pathlib for cross - platform path handling.
 
         Args:
@@ -701,8 +692,7 @@ class EmailFetcher:
         self.scan_directory_for_timeframe(scan_path, start_time, end_time)
 
     def scan_directory_for_recent(self, hours_back: int):
-        """
-        Scan the configured directory for CSV files modified in the last N hours.
+        """Scan the configured directory for CSV files modified in the last N hours.
         Uses pathlib for cross - platform path handling.
 
         Args:
@@ -721,8 +711,7 @@ class EmailFetcher:
         self.scan_directory_for_timeframe(scan_path, start_time, end_time)
 
     def scan_directory_for_timeframe(self, scan_path: Path, start_time: datetime, end_time: datetime):
-        """
-        Scan directory for files modified within a specific timeframe.
+        """Scan directory for files modified within a specific timeframe.
         Uses pathlib for cross - platform path handling.
 
         Args:

@@ -1,10 +1,10 @@
-"""
-Scheduler - Service Service Configuration
+"""Scheduler - Service Service Configuration
 """
 
-from pydantic import Field
-import sys
 import os
+import sys
+
+from pydantic import Field
 
 # Add shared components to path
 sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'shared'))

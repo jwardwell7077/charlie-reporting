@@ -1,5 +1,4 @@
-"""
-data_generator.py
+"""data_generator.py
 ----------------
 Generates realistic call center data for end - to - end demo testing.
 
@@ -11,11 +10,11 @@ License: MIT
 """
 
 import os
-import sys
-import pandas as pd
 import random
+import sys
 from datetime import datetime, timedelta
-from typing import Dict, List, Tuple
+
+import pandas as pd
 
 # Add paths to access utilities and shared modules
 scriptdir = os.path.dirname(os.path.abspath(__file__))
@@ -23,8 +22,7 @@ projectroot = os.path.join(script_dir, "..", "..", "..")
 sys.path.insert(0, os.path.join(project_root, 'src'))
 sys.path.insert(0, os.path.join(script_dir, ".."))
 
-from utils import sanitize_filename
-from shared_utils import get_generated_data_dir, ensure_directory_exists
+from shared_utils import ensure_directory_exists, get_generated_data_dir
 
 
 class RealisticDataGenerator:
@@ -347,7 +345,7 @@ class RealisticDataGenerator:
         seconds = total_seconds % 60
         return f"{minutes:02d}:{seconds:02d}"
 
-    def generate_csv_files_for_time(self, timestamp: datetime) -> List[str]:
+    def generate_csv_files_for_time(self, timestamp: datetime) -> list[str]:
         """Generate all CSV files for a specific timestamp"""
         generatedfiles = []
 
@@ -382,7 +380,7 @@ class RealisticDataGenerator:
 
         return generated_files
 
-    def generate_demo_dataset(self, start_time: datetime, intervals: int, interval_minutes: int = 5) -> Dict[str, List[str]]:
+    def generate_demo_dataset(self, start_time: datetime, intervals: int, interval_minutes: int = 5) -> dict[str, list[str]]:
         """Generate complete dataset for demo"""
         print("🎯 Generating demo dataset:")
         print(f"   Start time: {start_time}")

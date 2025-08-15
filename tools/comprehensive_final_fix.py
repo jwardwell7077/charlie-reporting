@@ -1,13 +1,9 @@
 #!/usr/bin/env python3
-"""
-Final comprehensive fix for 100% Flake8 compliance.
+"""Final comprehensive fix for 100% Flake8 compliance.
 This script systematically fixes the remaining core violations.
 """
 
-import os
-import re
 from pathlib import Path
-from typing import Dict, List
 
 
 class ComprehensiveFinalFix:
@@ -32,7 +28,7 @@ class ComprehensiveFinalFix:
                 continue
 
             try:
-                with open(python_file, 'r', encoding='utf-8') as f:
+                with open(python_file, encoding='utf-8') as f:
                     original_content = f.read()
 
                 # Skip empty files

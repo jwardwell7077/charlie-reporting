@@ -1,31 +1,28 @@
-"""
-TDD Cycle 1: Core Report Generation
+"""TDD Cycle 1: Core Report Generation
 RED phase - Write failing tests first
 """
-
-import pytest
-from pathlib import Path
-from unittest.mock import AsyncMock
-import pandas as pd
-from datetime import datetime
 
 # Import our interfaces and schemas
 import sys
 from pathlib import Path
+
+import pandas as pd
+import pytest
 
 # Add src to path for imports
 sys.path.insert(0, str(Path(__file__).parent.parent.parent / "src"))
 
 from business.models.csv_file import CSVFile
 from interface.schemas import DirectoryProcessRequest, ProcessingResult
+
 from tests.fixtures.mock_services import (
-    MockDirectoryProcessor,
+    MockConfigManager,
     MockCSVTransformer,
+    MockDirectoryProcessor,
     MockExcelGenerator,
     MockFileManager,
-    MockConfigManager,
     MockLogger,
-    MockMetricsCollector
+    MockMetricsCollector,
 )
 
 
@@ -76,8 +73,7 @@ class TestReportProcessingService:
 
     @pytest.mark.asyncio
     async def test_process_directory_success(self, mock_services, sample_request):
-        """
-        🔴 RED: This test will FAIL because ReportProcessingService doesn't exist yet
+        """🔴 RED: This test will FAIL because ReportProcessingService doesn't exist yet
 
         Test the complete directory processing workflow:
         1. Scan directory for CSV files
@@ -86,7 +82,6 @@ class TestReportProcessingService:
         4. Save Excel file
         5. Archive processed CSV files
         """
-
         # This import will fail - that's the RED phase!
         from business.services.report_processor import ReportProcessingService
 
@@ -131,8 +126,7 @@ class TestReportProcessingService:
 
     @pytest.mark.asyncio
     async def test_process_directory_no_files_found(self, mock_services, sample_request):
-        """
-        🔴 RED: Test handling when no CSV files are found
+        """🔴 RED: Test handling when no CSV files are found
         """
         from business.services.report_processor import ReportProcessingService
 
@@ -150,8 +144,7 @@ class TestReportProcessingService:
 
     @pytest.mark.asyncio
     async def test_process_directory_transformation_error(self, mock_services, sample_request):
-        """
-        🔴 RED: Test handling when CSV transformation fails
+        """🔴 RED: Test handling when CSV transformation fails
         """
         from business.services.report_processor import ReportProcessingService
 

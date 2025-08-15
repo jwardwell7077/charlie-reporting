@@ -14,7 +14,7 @@ from config.settings import load_config
 
 try:
     from shared.base_service import BaseService
-    from shared.logging import setup_service_logging
+    from shared.service_logging import setup_service_logging
     from shared.metrics import ServiceMetrics
     from shared.health import HealthMonitor
 except ImportError:

@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
-"""
-Targeted fix for specific F821/F841 variable naming issues.
+"""Targeted fix for specific F821/F841 variable naming issues.
 """
 
 import re
@@ -48,7 +47,7 @@ def fix_variable_issues():
     
     for py_file in service_root.glob("**/*.py"):
         try:
-            with open(py_file, 'r', encoding='utf-8') as f:
+            with open(py_file, encoding='utf-8') as f:
                 content = f.read()
             
             original_content = content

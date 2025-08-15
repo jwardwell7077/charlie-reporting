@@ -1,5 +1,4 @@
-"""
-integration_base.py
+"""integration_base.py
 ------------------
 Base class for integration tests with safety checks and cleanup.
 
@@ -7,23 +6,22 @@ Author: Jonathan Wardwell, Copilot, GPT - 4o
 License: MIT
 """
 
-import os
-import unittest
 import logging
+import os
 import time
-from typing import Dict
+import unittest
 from datetime import datetime
 
-from .temp_manager import IntegrationTempManager
+from tests.config_loader_enhanced import EnhancedConfigLoader
+
+from .data_generator import IntegrationDataGenerator
 from .email_manager import IntegrationEmailManager
 from .outlook_checker import OutlookChecker
-from .data_generator import IntegrationDataGenerator
-from tests.config_loader_enhanced import EnhancedConfigLoader
+from .temp_manager import IntegrationTempManager
 
 
 class IntegrationTestBase(unittest.TestCase):
-    """
-    Base class for integration tests with comprehensive safety checks and cleanup.
+    """Base class for integration tests with comprehensive safety checks and cleanup.
     """
 
     @classmethod
@@ -171,8 +169,7 @@ class IntegrationTestBase(unittest.TestCase):
         time.sleep(seconds)
 
     def verify_file_exists(self, file_path: str, timeout_seconds: int = 30) -> bool:
-        """
-        Verify that a file exists, with timeout.
+        """Verify that a file exists, with timeout.
 
         Args:
             file_path: Path to file
@@ -192,8 +189,7 @@ class IntegrationTestBase(unittest.TestCase):
         return False
 
     def verify_file_count(self, directory: str, expected_count: int, timeout_seconds: int = 30) -> bool:
-        """
-        Verify file count in directory, with timeout.
+        """Verify file count in directory, with timeout.
 
         Args:
             directory: Directory path
@@ -218,9 +214,8 @@ class IntegrationTestBase(unittest.TestCase):
         self.logger.error(f"File count mismatch in {directory}: expected {expected_count}, got {actual_count}")
         return False
 
-    def assert_email_sent_and_received(self, subject: str, timeout_seconds: int = 60) -> Dict[str, Any]:
-        """
-        Assert that an email was sent and received.
+    def assert_email_sent_and_received(self, subject: str, timeout_seconds: int = 60) -> dict[str, Any]:
+        """Assert that an email was sent and received.
 
         Args:
             subject: Email subject to check
@@ -243,8 +238,7 @@ class IntegrationTestBase(unittest.TestCase):
         return email_details
 
     def get_config_value(self, key_path: str, default=None):
-        """
-        Get configuration value using dot notation.
+        """Get configuration value using dot notation.
 
         Args:
             key_path: Dot - separated key path (e.g., 'email.test_sender_address')

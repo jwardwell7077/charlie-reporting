@@ -1,20 +1,9 @@
+"""Backward compatibility shim for legacy import path.
+
+Re-exports the new domain-level ``EmailRecord`` model.
 """
-Email_Record domain model for database-service
-"""
+from __future__ import annotations
 
-from dataclasses import dataclass
-from typing import Optional, List
-from datetime import datetime
+from ...domain.models.email_record import EmailRecord  # noqa: F401
 
-@dataclass
-class Email_Record:
-    """
-    Email_Record domain model
-    TODO: Define attributes and methods
-    """
-
-    id: Optional[str] = None
-    created_at: Optional[datetime] = None
-    updated_at: Optional[datetime] = None
-
-    # TODO: Add domain-specific attributes
+__all__ = ["EmailRecord"]

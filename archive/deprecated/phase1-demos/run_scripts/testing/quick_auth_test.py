@@ -1,23 +1,21 @@
-"""
-quick_auth_test.py
+"""quick_auth_test.py
 -----------------
 Quick test of the new Gmail app password
 
 Author: Jonathan Wardwell, Copilot, GPT - 4o
 """
 
-import smtplib
 import os
+import smtplib
 
 
 def test_quick_auth():
     """Quick authentication test"""
-
     # Load .env file
     envpath = os.path.join(os.path.dirname(os.path.dirname(__file__)), '.env')
 
     if os.path.exists(env_path):
-        with open(env_path, 'r') as f:
+        with open(env_path) as f:
             for line in f:
                 line = line.strip()
                 if line and not line.startswith('#') and '=' in line:

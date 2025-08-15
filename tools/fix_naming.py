@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
-"""
-Fix variable naming inconsistencies causing F821/F841 violations.
+"""Fix variable naming inconsistencies causing F821/F841 violations.
 """
 
 import re
@@ -44,7 +43,7 @@ def fix_variable_naming():
             continue
 
         try:
-            with open(py_file, 'r', encoding='utf-8') as f:
+            with open(py_file, encoding='utf-8') as f:
                 content = f.read()
 
             original_content = content

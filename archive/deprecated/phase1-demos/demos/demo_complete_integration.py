@@ -1,5 +1,4 @@
-"""
-demo_complete_integration.py
+"""demo_complete_integration.py
 ---------------------------
 Demonstrates the complete integration of all system components working together.
 
@@ -14,26 +13,25 @@ Author: Jonathan Wardwell, Copilot, GPT - 4o
 License: MIT
 """
 
-import sys
 import os
-import tempfile
 import shutil
+import sys
+import tempfile
 import time
-from datetime import datetime, timedelta
 
 # Add src to path
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src'))
 
 from config_loader import ConfigLoader
+
 from email_fetcher import EmailFetcher
+from main import ReportProcessor
 from services.report_generator.csv_processor import CSVTransformer
 from services.report_generator.excel_generator import ExcelWriter
-from main import ReportProcessor
 
 
 def create_test_environment():
     """Create a complete test environment with sample data"""
-
     basedir = tempfile.mkdtemp(prefix='charlie_reporting_demo_')
 
     # Create directory structure
@@ -91,7 +89,6 @@ file_extensions = [".csv"]
 
 def create_sample_data_files(base_dir):
     """Create sample CSV files for testing"""
-
     scan_dir = os.path.join(base_dir, 'scan_directory')
     subfolder = os.path.join(scan_dir, 'subfolder')
 

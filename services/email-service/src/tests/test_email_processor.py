@@ -1,11 +1,10 @@
 
+"""Email Service Tests
 """
-Email Service Tests
-"""
-import pytest
-from unittest.mock import Mock, patch
-from pathlib import Path
 import sys
+from pathlib import Path
+
+import pytest
 
 # Add service to path
 sys.path.append(str(Path(__file__).parent.parent))

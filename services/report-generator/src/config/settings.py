@@ -1,10 +1,10 @@
-"""
-Report - Generator Service Configuration
+"""Report - Generator Service Configuration
 """
 
-from pydantic import Field
-import sys
 import os
+import sys
+
+from pydantic import Field
 
 # Add shared components to path
 sys.path.append(os.path.join(os.path.dir_name(__file__), '..', 'shared'))

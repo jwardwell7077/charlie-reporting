@@ -1,6 +1,5 @@
 #!/usr / bin / env python3
-"""
-Phase 2 Validation Script
+"""Phase 2 Validation Script
 Comprehensive validation of Phase 2 implementation requirements
 
 This script validates all Phase 2 deliverables:
@@ -12,12 +11,11 @@ This script validates all Phase 2 deliverables:
 - Documentation completeness
 """
 
-import os
-import sys
-import subprocess
 import json
+import os
+import subprocess
+import sys
 from pathlib import Path
-from typing import Dict, List, Tuple
 
 
 class Phase2Validator:
@@ -28,7 +26,7 @@ class Phase2Validator:
         self.results = []
         self.errors = []
 
-    def validate_all(self) -> Dict[str, Any]:
+    def validate_all(self) -> dict[str, Any]:
         """Run all Phase 2 validation checks"""
         print("🎯 Phase 2 Implementation Validation")
         print("=" * 50)
@@ -67,7 +65,7 @@ class Phase2Validator:
             "results": validation_results
         }
 
-    def validate_testing_framework(self) -> List[Dict[str, str]]:
+    def validate_testing_framework(self) -> list[dict[str, str]]:
         """Validate testing framework configuration"""
         print("\n🧪 Testing Framework Configuration")
         checks = []
@@ -109,7 +107,7 @@ class Phase2Validator:
 
         return checks
 
-    def validate_test_coverage(self) -> List[Dict[str, str]]:
+    def validate_test_coverage(self) -> list[dict[str, str]]:
         """Validate test coverage requirements"""
         print("\n📊 Test Coverage Analysis")
         checks = []
@@ -121,7 +119,7 @@ class Phase2Validator:
                 "--cov=services",
                 "--cov - report=term - missing",
                 "--tb=no", "-q"
-            ], capture_output=True, text=True, cwd=self.workspace_root)
+            ], check=False, capture_output=True, text=True, cwd=self.workspace_root)
 
             if result.returncode == 0:
                 coverageoutput = result.stdout
@@ -178,7 +176,7 @@ class Phase2Validator:
 
         return checks
 
-    def validate_api_implementation(self) -> List[Dict[str, str]]:
+    def validate_api_implementation(self) -> list[dict[str, str]]:
         """Validate API implementation status"""
         print("\n🌐 API Implementation Status")
         checks = []
@@ -219,7 +217,7 @@ class Phase2Validator:
 
         return checks
 
-    def validate_integration_tests(self) -> List[Dict[str, str]]:
+    def validate_integration_tests(self) -> list[dict[str, str]]:
         """Validate integration testing framework"""
         print("\n🔗 Integration Testing Framework")
         checks = []
@@ -260,7 +258,7 @@ class Phase2Validator:
 
         return checks
 
-    def validate_performance_benchmarks(self) -> List[Dict[str, str]]:
+    def validate_performance_benchmarks(self) -> list[dict[str, str]]:
         """Validate performance benchmarking implementation"""
         print("\n📊 Performance Benchmarks")
         checks = []
@@ -294,7 +292,7 @@ class Phase2Validator:
 
         return checks
 
-    def validate_documentation(self) -> List[Dict[str, str]]:
+    def validate_documentation(self) -> list[dict[str, str]]:
         """Validate documentation completeness"""
         print("\n📖 Documentation Completeness")
         checks = []
@@ -336,7 +334,7 @@ class Phase2Validator:
 
         return checks
 
-    def validate_vscode_integration(self) -> List[Dict[str, str]]:
+    def validate_vscode_integration(self) -> list[dict[str, str]]:
         """Validate VS Code integration"""
         print("\n⚙️ VS Code Integration")
         checks = []

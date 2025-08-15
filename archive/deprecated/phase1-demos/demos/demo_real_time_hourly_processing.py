@@ -1,5 +1,4 @@
-"""
-demo_real_time_hourly_processing.py
+"""demo_real_time_hourly_processing.py
 -----------------------------------
 Demonstrates the real - time hourly processing capabilities of the enhanced EmailFetcher and ReportProcessor.
 
@@ -13,15 +12,16 @@ Author: Jonathan Wardwell, Copilot, GPT - 4o
 License: MIT
 """
 
-import sys
 import os
+import sys
 from datetime import datetime, timedelta
 
 # Add src to path
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src'))
 
-from main import ReportProcessor
 from config_loader import ConfigLoader
+
+from main import ReportProcessor
 
 
 def demo_hourly_processing():

@@ -1,5 +1,4 @@
-"""
-setup_complete_wsl2_workflow.py
+"""setup_complete_wsl2_workflow.py
 -------------------------------
 Complete automation for WSL2 development with Windows production conversion.
 
@@ -8,9 +7,9 @@ License: MIT
 """
 
 import os
-import sys
-import subprocess
 import platform
+import subprocess
+import sys
 from pathlib import Path
 
 
@@ -42,7 +41,7 @@ def setup_wsl2_development():
     wslsetup_script = project_root / "setup_wsl2_dev.sh"
     if wsl_setup_script.exists():
         print("📜 Running WSL2 setup script...")
-        result = subprocess.run(['bash', str(wsl_setup_script)], capture_output=True, text=True)
+        result = subprocess.run(['bash', str(wsl_setup_script)], check=False, capture_output=True, text=True)
         if result.returncode == 0:
             print("✅ WSL2 setup script completed successfully")
         else:
@@ -218,7 +217,7 @@ def test_wsl2_environment(project_root: Path):
         return
 
     # Test Python version
-    result = subprocess.run([str(python_path), '--version'], capture_output=True, text=True)
+    result = subprocess.run([str(python_path), '--version'], check=False, capture_output=True, text=True)
     if result.returncode == 0:
         print(f"✅ Python: {result.stdout.strip()}")
     else:
@@ -229,7 +228,7 @@ def test_wsl2_environment(project_root: Path):
     testimports = ['pandas', 'toml', 'email', 'smtplib', 'imaplib']
     for package in test_imports:
         result = subprocess.run([str(python_path), '-c', f'import {package}; print("✅ {package}")'],
-                              capture_output=True, text=True)
+                              check=False, capture_output=True, text=True)
         if result.returncode == 0:
             print(result.stdout.strip())
         else:
@@ -240,7 +239,7 @@ def test_wsl2_environment(project_root: Path):
     if dep_check_script.exists():
         print("🔍 Running dependency checker...")
         result = subprocess.run([str(python_path), str(dep_check_script)],
-                              capture_output=True, text=True,
+                              check=False, capture_output=True, text=True,
                               env={**os.environ, 'PYTHONPATH': f"{project_root}/src:{project_root}/tests"})
         if result.returncode == 0:
             print("✅ Dependency check passed")
@@ -273,7 +272,7 @@ def run_windows_setup(deploy_dir: Path):
     psscript = deploy_dir / "setup_windows.ps1"
     if ps_script.exists():
         print("📜 Running PowerShell setup script...")
-        result = subprocess.run(['powershell', '-File', str(ps_script)], capture_output=True, text=True)
+        result = subprocess.run(['powershell', '-File', str(ps_script)], check=False, capture_output=True, text=True)
         if result.returncode == 0:
             print("✅ PowerShell setup completed")
             print(result.stdout)
@@ -284,7 +283,7 @@ def run_windows_setup(deploy_dir: Path):
             batscript = deploy_dir / "setup_windows.bat"
             if bat_script.exists():
                 print("📜 Trying batch setup script...")
-                subprocess.run([str(bat_script)], shell=True)
+                subprocess.run([str(bat_script)], check=False, shell=True)
 
 
 def show_wsl2_guide():

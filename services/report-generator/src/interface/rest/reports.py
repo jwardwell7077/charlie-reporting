@@ -1,23 +1,22 @@
-"""
-Report Generator API Routes
+"""Report Generator API Routes
 FastAPI routes using business services with proper layered architecture
 """
-from fastapi import APIRouter, HTTPException, UploadFile, File, BackgroundTasks, Depends
-from fastapi.responses import FileResponse, JSONResponse
-from pydantic import BaseModel
-from typing import List, Optional, Dict
-import uuid
 import json
-import tempfile
 import os
+import tempfile
+import uuid
 from datetime import datetime
 from pathlib import Path
+
+from fastapi import APIRouter, BackgroundTasks, Depends, File, HTTPException, UploadFile
+from fastapi.responses import JSONResponse
+from pydantic import BaseModel
+
+from ...business.models.report import Report, ReportSheet
 
 # Import business services
 from ...business.services.csv_transformer import CSVTransformationService
 from ...business.services.excel_service import ExcelReportService
-from ...business.models.csv_data import CSVRule, CSVTransformationResult
-from ...business.models.report import Report, ReportSheet
 
 # Router instance
 router = APIRouter()
@@ -26,10 +25,10 @@ router = APIRouter()
 
 
 class ReportRequest(BaseModel):
-    files: List[str]
+    files: list[str]
     output_format: str = "xlsx"
-    template: Optional[str] = None
-    filters: Optional[Dict[str, Any]] = None
+    template: str | None = None
+    filters: dict[str, Any] | None = None
 
 
 class ProcessingStatus(BaseModel):
@@ -38,15 +37,15 @@ class ProcessingStatus(BaseModel):
     progress: int
     message: str
     created_at: datetime
-    completed_at: Optional[datetime] = None
-    output_file: Optional[str] = None
+    completed_at: datetime | None = None
+    output_file: str | None = None
 
 
 class TransformationConfig(BaseModel):
-    group_by: List[str]
-    aggregations: Dict[str, str]
-    filters: Optional[Dict[str, Any]] = None
-    sort_by: Optional[List[str]] = None
+    group_by: list[str]
+    aggregations: dict[str, str]
+    filters: dict[str, Any] | None = None
+    sort_by: list[str] | None = None
 
 # Dependencies for business services
 
@@ -247,7 +246,7 @@ async def download_report(task_id: str):
 @router.post("/transform")
 async def transform_csv_data(
     file: UploadFile = File(...),
-    config: Optional[str] = None,
+    config: str | None = None,
     csv_service: CSVTransformationService = Depends(get_csv_transformer)
 ):
     """Transform CSV data using business service"""
@@ -328,7 +327,7 @@ async def transform_csv_data(
 
 @router.post("/validate - files")
 async def validate_csv_files(
-    files: List[UploadFile] = File(...),
+    files: list[UploadFile] = File(...),
     csv_service: CSVTransformationService = Depends(get_csv_transformer)
 ):
     """Validate CSV files using business service"""
@@ -377,7 +376,7 @@ async def validate_csv_files(
 
 
 @router.get("/tasks")
-async def list_tasks(status: Optional[str] = None, limit: int = 50):
+async def list_tasks(status: str | None = None, limit: int = 50):
     """List all tasks with optional status filter"""
     tasks = list(task_storage.values())
 
