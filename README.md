@@ -13,17 +13,17 @@ Historic microservice code has been pruned (kept in prior Git history). Document
 
 ```text
 foundation/
-	README.md              # Detailed foundation architecture
-	pyproject.toml         # Isolated tooling + deps (FastAPI, pandas, etc.)
-	src/
-		config/settings.py   # TOML settings loader (schedules, sources, columns)
-		pipeline/            # collector | loader | aggregator | excel
-		services/            # sharepoint_stub.py | api.py (FastAPI)
-	tests/
-		test_settings.py
+ README.md              # Detailed foundation architecture
+ pyproject.toml         # Isolated tooling + deps (FastAPI, pandas, etc.)
+ src/
+  config/settings.py   # TOML settings loader (schedules, sources, columns)
+  pipeline/            # collector | loader | aggregator | excel
+  services/            # sharepoint_stub.py | api.py (FastAPI)
+ tests/
+  test_settings.py
 config/
-	settings.toml          # Active foundation configuration (new)
-	config.toml            # Legacy (phase 2) email + attachment config (retained)
+ settings.toml          # Active foundation configuration (new)
+ config.toml            # Legacy (phase 2) email + attachment config (retained)
 data/ (sample CSVs kept)
 docs/ (original documentation preserved)
 ```
