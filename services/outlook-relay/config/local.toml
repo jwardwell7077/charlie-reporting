@@ -1,0 +1,18 @@
+[service]
+name = "outlook-relay"
+host = "localhost"
+port = 8080
+debug = true
+environment = "local"
+
+[logging]
+level = "DEBUG"
+file = "logs/outlook-relay-local.log"
+json_format = true
+
+[metrics]
+enabled = true
+port = 9090
+
+[health]
+check_interval = 30.0

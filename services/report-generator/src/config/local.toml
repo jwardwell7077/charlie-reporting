@@ -1,0 +1,18 @@
+[service]
+name = "report-generator"
+host = "localhost"
+port = 8083
+debug = true
+environment = "local"
+
+[logging]
+level = "DEBUG"
+file = "logs/report-generator-local.log"
+json_format = true
+
+[metrics]
+enabled = true
+port = 9093
+
+[health]
+check_interval = 30.0

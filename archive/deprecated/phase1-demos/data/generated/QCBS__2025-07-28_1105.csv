@@ -1,0 +1,6 @@
+Interval Start,Interval End,Interval Complete,Filters,Media Type,Agent Id,Agent Name,Handle
+2025-07-28 11:05:00,2025-07-28 12:05:00,0.0,Queue: Outbound-IB_QCB,callback,1be98524-f56c-41bb-a6ff-3e14bb3dfb84,Judy Walker,2
+2025-07-28 11:05:00,2025-07-28 12:05:00,0.0,Queue: Outbound-IB_QCB,callback,f4e29da3-1c4e-4bd9-9c9f-5a0c7e18e7f8,Amber Gonzalez,5
+2025-07-28 11:05:00,2025-07-28 12:05:00,0.0,Queue: Outbound-IB_QCB,callback,fd3c454b-47c9-491e-9c37-5bc54c413ca4,Nathan Scott,8
+2025-07-28 11:05:00,2025-07-28 12:05:00,0.0,Queue: Outbound-IB_QCB,callback,a16bfe90-f4bd-4b7c-af6e-881454647f5f,Eve Adams,2
+2025-07-28 11:05:00,2025-07-28 12:05:00,0.0,Queue: Outbound-IB_QCB,callback,,,4

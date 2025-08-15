@@ -1,0 +1,71 @@
+{
+    "python.defaultInterpreterPath": "./.venv/bin/python",
+    "python.terminal.activateEnvironment": true,
+    "python.terminal.activateEnvInCurrentTerminal": true,
+    
+
+    "python.testing.pytestEnabled": true,
+    "python.testing.unittestEnabled": false,
+    "python.testing.pytestArgs": [
+        "-v",
+        "--tb=short",
+        "./tests"
+    ],
+    "python.testing.autoTestDiscoverOnSaveEnabled": true,
+    
+
+    "python.analysis.extraPaths": [
+        "${workspaceFolder}/src",
+        "${workspaceFolder}/tests", 
+        "${workspaceFolder}/shared",
+        "${workspaceFolder}/services/outlook-relay/src",
+        "${workspaceFolder}/services/report-generator/src",
+        "${workspaceFolder}/services/database-service/src",
+        "${workspaceFolder}/services/scheduler-service/src",
+        "${workspaceFolder}/services/email-service/src"
+    ],
+    
+
+    "python.envFile": "${workspaceFolder}/.env",
+
+    "python.linting.enabled": true,
+    "python.linting.pylintEnabled": false,
+    "python.linting.flake8Enabled": true,
+    "python.formatting.provider": "black",
+    "python.analysis.typeCheckingMode": "basic",
+    "python.analysis.autoImportCompletions": true,
+    
+
+    "terminal.integrated.env.linux": {
+        "PYTHONPATH": "${workspaceFolder}/src:${workspaceFolder}/tests:${workspaceFolder}/shared:${workspaceFolder}/services"
+    },
+    
+
+    "files.associations": {
+        "*.toml": "toml",
+        "*.yml": "yaml",
+        "*.yaml": "yaml"
+    },
+    
+
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+        "source.organizeImports": "explicit"
+    },
+    
+
+    "files.exclude": {
+        "**/__pycache__": true,
+        "**/*.pyc": true,
+        "**/.pytest_cache": true,
+        "**/node_modules": true,
+        "**/.git": false
+    },
+    
+    "search.exclude": {
+        "**/__pycache__": true,
+        "**/*.pyc": true,
+        "**/.pytest_cache": true,
+        "**/logs": true
+    }
+}

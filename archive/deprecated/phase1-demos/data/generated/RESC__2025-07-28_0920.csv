@@ -1,0 +1,5 @@
+Interval Start,Interval End,Interval Complete,Filters,Media Type,Agent Id,Agent Name,Handle
+2025-07-28 09:20:00,2025-07-28 10:20:00,0.0,Initial Direction: Inbound; Queue: LLSA-RESC-DM,voice,589f3a7c-22e4-451f-91c0-8adc6b4e7f3d,Xavier Nguyen,7
+2025-07-28 09:20:00,2025-07-28 10:20:00,0.0,Initial Direction: Inbound; Queue: LLSA-RESC-DM,voice,a0c1e2b3-3d4e-5a6f-7b8c-9d0e1f2a3b4c,Derek Parker,3
+2025-07-28 09:20:00,2025-07-28 10:20:00,0.0,Initial Direction: Inbound; Queue: LLSA-RESC-DM,voice,a10dac0a-bb6c-4eb3-81df-d8f45f96770f,Marie King,9
+2025-07-28 09:20:00,2025-07-28 10:20:00,0.0,Initial Direction: Inbound; Queue: LLSA-RESC-DM,voice,c7ca8c70-fce5-4eee-a913-813af2d2b9a4,Frank Miller,3

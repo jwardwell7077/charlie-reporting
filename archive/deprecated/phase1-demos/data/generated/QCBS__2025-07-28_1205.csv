@@ -1,0 +1,6 @@
+Interval Start,Interval End,Interval Complete,Filters,Media Type,Agent Id,Agent Name,Handle
+2025-07-28 12:05:00,2025-07-28 13:05:00,0.0,Queue: Outbound-IB_QCB,callback,08f54f08-058a-4e0b-9ec4-a738a595da3c,Charlie Brown,7
+2025-07-28 12:05:00,2025-07-28 13:05:00,0.0,Queue: Outbound-IB_QCB,callback,589f3a7c-22e4-451f-91c0-8adc6b4e7f3d,Xavier Nguyen,6
+2025-07-28 12:05:00,2025-07-28 13:05:00,0.0,Queue: Outbound-IB_QCB,callback,1be98524-f56c-41bb-a6ff-3e14bb3dfb84,Judy Walker,9
+2025-07-28 12:05:00,2025-07-28 13:05:00,0.0,Queue: Outbound-IB_QCB,callback,,,2
+2025-07-28 12:05:00,2025-07-28 13:05:00,0.0,Queue: Outbound-IB_QCB,callback,ce4e5d79-18a2-4b0f-9c9d-7b1e3f5a2c6d,Wendy Flores,3

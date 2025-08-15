@@ -1,0 +1,6 @@
+Interval Start,Interval End,Interval Complete,Filters,Media Type,Agent Id,Agent Name,Handle,Avg Handle,Avg Talk,Avg Hold,Avg ACW,Total Handle,Total Talk,Total Hold,Total ACW
+2025-07-28 10:50:00,2025-07-28 11:50:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,589f3a7c-22e4-451f-91c0-8adc6b4e7f3d,Xavier Nguyen,157,243480,24336,1529,26081,38226360,3820752,240053,1653367
+2025-07-28 10:50:00,2025-07-28 11:50:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,8c5912fa-6b3e-4baa-9c0e-3f5a423e4d18,Brian Perez,91,33703,26470,16179,21842,3066973,2408770,1472289,1246609
+2025-07-28 10:50:00,2025-07-28 11:50:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,c7ca8c70-fce5-4eee-a913-813af2d2b9a4,Frank Miller,126,172349,40061,9352,16352,21715974,5047686,1178352,1284570
+2025-07-28 10:50:00,2025-07-28 11:50:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,4898a757-15ec-47cc-b6be-d2e9b249e011,Tina Campbell,7,32951,76343,3452,18805,230657,534401,24164,61698
+2025-07-28 10:50:00,2025-07-28 11:50:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,a0c1e2b3-3d4e-5a6f-7b8c-9d0e1f2a3b4c,Derek Parker,187,235436,12532,13134,27766,44026532,2343484,2456058,3695494

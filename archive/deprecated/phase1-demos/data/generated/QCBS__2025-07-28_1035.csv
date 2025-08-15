@@ -1,0 +1,8 @@
+Interval Start,Interval End,Interval Complete,Filters,Media Type,Agent Id,Agent Name,Handle
+2025-07-28 10:35:00,2025-07-28 11:35:00,0.0,Queue: Outbound-IB_QCB,callback,5cce8f28-359c-4531-9d91-93f103f4edc1,Dana White,6
+2025-07-28 10:35:00,2025-07-28 11:35:00,0.0,Queue: Outbound-IB_QCB,callback,ce4e5d79-18a2-4b0f-9c9d-7b1e3f5a2c6d,Wendy Flores,7
+2025-07-28 10:35:00,2025-07-28 11:35:00,0.0,Queue: Outbound-IB_QCB,callback,e258b370-9093-401d-bcbf-d939ab51b265,Steve Phillips,9
+2025-07-28 10:35:00,2025-07-28 11:35:00,0.0,Queue: Outbound-IB_QCB,callback,a0c1e2b3-3d4e-5a6f-7b8c-9d0e1f2a3b4c,Derek Parker,5
+2025-07-28 10:35:00,2025-07-28 11:35:00,0.0,Queue: Outbound-IB_QCB,callback,4ab904ce-5677-4eb1-8354-109907f0f7d8,Quincy Wright,8
+2025-07-28 10:35:00,2025-07-28 11:35:00,0.0,Queue: Outbound-IB_QCB,callback,,,3
+2025-07-28 10:35:00,2025-07-28 11:35:00,0.0,Queue: Outbound-IB_QCB,callback,589f3a7c-22e4-451f-91c0-8adc6b4e7f3d,Xavier Nguyen,9

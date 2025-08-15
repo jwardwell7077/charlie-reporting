@@ -1,0 +1,8 @@
+Interval Start,Interval End,Interval Complete,Filters,Media Type,Agent Id,Agent Name,Handle
+2025-07-28 11:55:00,2025-07-28 12:55:00,0.0,Initial Direction: Inbound; Queue: LLSA-ACQ-DM,voice,f4e29da3-1c4e-4bd9-9c9f-5a0c7e18e7f8,Amber Gonzalez,10
+2025-07-28 11:55:00,2025-07-28 12:55:00,0.0,Initial Direction: Inbound; Queue: LLSA-ACQ-DM,voice,24bb913e-5636-4db3-aab7-1213b0928274,Bob Johnson,1
+2025-07-28 11:55:00,2025-07-28 12:55:00,0.0,Initial Direction: Inbound; Queue: LLSA-ACQ-DM,voice,5cce8f28-359c-4531-9d91-93f103f4edc1,Dana White,6
+2025-07-28 11:55:00,2025-07-28 12:55:00,0.0,Initial Direction: Inbound; Queue: LLSA-ACQ-DM,voice,a10dac0a-bb6c-4eb3-81df-d8f45f96770f,Marie King,1
+2025-07-28 11:55:00,2025-07-28 12:55:00,0.0,Initial Direction: Inbound; Queue: LLSA-ACQ-DM,voice,4ab904ce-5677-4eb1-8354-109907f0f7d8,Quincy Wright,12
+2025-07-28 11:55:00,2025-07-28 12:55:00,0.0,Initial Direction: Inbound; Queue: LLSA-ACQ-DM,voice,,,1
+2025-07-28 11:55:00,2025-07-28 12:55:00,0.0,Initial Direction: Inbound; Queue: LLSA-ACQ-DM,voice,ce4e5d79-18a2-4b0f-9c9d-7b1e3f5a2c6d,Wendy Flores,8

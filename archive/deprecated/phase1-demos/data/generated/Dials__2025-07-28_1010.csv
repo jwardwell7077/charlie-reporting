@@ -1,0 +1,7 @@
+Interval Start,Interval End,Interval Complete,Filters,Media Type,Agent Id,Agent Name,Handle,Avg Handle,Avg Talk,Avg Hold,Avg ACW,Total Handle,Total Talk,Total Hold,Total ACW
+2025-07-28 10:10:00,2025-07-28 11:10:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,5cce8f28-359c-4531-9d91-93f103f4edc1,Dana White,139,38514,13726,25938,10712,5353446,1907914,3605382,928937
+2025-07-28 10:10:00,2025-07-28 11:10:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,1be98524-f56c-41bb-a6ff-3e14bb3dfb84,Judy Walker,227,162451,41958,10867,20418,36876377,9524466,2466809,6183707
+2025-07-28 10:10:00,2025-07-28 11:10:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,8c5912fa-6b3e-4baa-9c0e-3f5a423e4d18,Brian Perez,29,33045,27264,25684,25615,958305,790656,744836,166518
+2025-07-28 10:10:00,2025-07-28 11:10:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,9b585b97-8826-4653-9363-696d3fa4570e,Peter Baker,48,107657,15809,20936,7663,5167536,758832,1004928,273312
+2025-07-28 10:10:00,2025-07-28 11:10:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,37f0a1b2-2e3d-4f4c-b9fa-1d2e3a4b5c6d,Christine Roberts,60,188677,18485,20456,12487,11320620,1109100,1227360,1143840
+2025-07-28 10:10:00,2025-07-28 11:10:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,589f3a7c-22e4-451f-91c0-8adc6b4e7f3d,Xavier Nguyen,98,108846,73104,8995,19214,10666908,7164192,881510,1717450

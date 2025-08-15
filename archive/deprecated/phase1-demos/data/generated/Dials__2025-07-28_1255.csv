@@ -1,0 +1,6 @@
+Interval Start,Interval End,Interval Complete,Filters,Media Type,Agent Id,Agent Name,Handle,Avg Handle,Avg Talk,Avg Hold,Avg ACW,Total Handle,Total Talk,Total Hold,Total ACW
+2025-07-28 12:55:00,2025-07-28 13:55:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,a16bfe90-f4bd-4b7c-af6e-881454647f5f,Eve Adams,217,139247,24603,6279,20724,30216599,5338851,1362543,1090208
+2025-07-28 12:55:00,2025-07-28 13:55:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,c3aaf240-163b-40cd-aaed-2d10d7def648,Ivan Lewis,105,204425,64791,23091,15891,21464625,6803055,2424555,812385
+2025-07-28 12:55:00,2025-07-28 13:55:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,7b6c2d91-3f28-4e66-b2a1-5f9e2f8d3a4b,Victor Ramirez,143,38288,62562,28749,19952,5475184,8946366,4111107,3820245
+2025-07-28 12:55:00,2025-07-28 13:55:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,37f0a1b2-2e3d-4f4c-b9fa-1d2e3a4b5c6d,Christine Roberts,8,80706,50657,22448,28978,645648,405256,179584,48704
+2025-07-28 12:55:00,2025-07-28 13:55:00,0.0,Initial Direction: Outbound; Queue: Demo Outbound,voice,a07d4b63-36f1-4972-8e9b-c1d2e3f4a5b6,Yolanda Morales,180,180528,23433,4869,25206,32495040,4217940,876420,3925440

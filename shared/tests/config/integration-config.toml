@@ -1,0 +1,79 @@
+[general]
+debug = true
+log_level = "DEBUG"
+date_format = "%Y-%m-%d"
+
+# Cross-platform note: All paths use forward slashes
+# pathlib will automatically convert to the correct OS-specific format
+
+[integration_tests]
+enabled = true  # ENABLED: Ready to run integration tests
+cleanup_emails = true
+use_temp_dirs = true
+test_subject_prefix = "INTEGRATION_TEST"
+test_timeout_seconds = 300
+default_timeout_seconds = 60
+
+# Platform-specific settings - WSL2/Linux Configuration
+# Options: "auto", "windows", "imap"
+# "auto" = detect platform automatically
+# "windows" = force Windows Outlook COM interface
+# "imap" = force IMAP email verification (WSL2/Linux compatible)
+email_checker_platform = "imap"  # Force IMAP for WSL2/Linux development
+
+[email]
+test_sender_address = "jwardwell7077@gmail.com"  # Sending account
+test_receiver_address = "jontajon191@gmail.com"  # Receiving account
+outlook_folder = "Inbox"
+outlook_account = "jontajon191@gmail.com"  # Receiving account (Windows COM)
+imap_server = "imap.gmail.com"  # IMAP server for cross-platform (WSL2/Linux)
+sender = ["charlie.reporting.dev@gmail.com"]  # Expected sender for filtering
+subject_contains = ["INTEGRATION_TEST", "Test CSV Attachment", "Hourly Report", "Call Center Data"]
+
+# SMTP Configuration for sending test emails
+[smtp]
+server = "smtp.gmail.com"
+port = 587
+use_tls = true
+sender_email = "jwardwell7077@gmail.com"  # Sending account (env: GMAIL_ADDRESS)
+sender_name = "Integration Test - Charlie Reporting"
+target_email = "jontajon191@gmail.com"  # Receiving account (env: TARGET_EMAIL)
+
+[outlook]
+test_account = "jontajon191@gmail.com"
+folder = "Inbox"
+
+# Authentication method: "env_vars" for integration tests
+auth_method = "env_vars"
+credentials_file = "credentials.json"
+token_file = "token.json"
+
+[directory_scan]
+enabled = false
+scan_path = "tests/temp/scan"  # Will use temp directories
+process_subdirs = false
+
+[attachments]
+"IB_Calls.csv"              = ["Agent Name", "Handle", "Avg Handle"]
+"QCBs.csv"                  = ["Agent Name", "Handle"]
+"Dials.csv"                 = ["Agent Name", "Handle", "Avg Handle", "Avg Talk", "Avg Hold"]
+"Productivity.csv"          = ["Agent Name", "Logged In", "On Queue", "Idle", "Off Queue", "Interacting"]
+"Campaign_Interactions.csv" = ["Date", "Initial Direction", "First Queue"]
+"ACQ.csv"                   = ["Agent Name", "Handle"]
+"RESC.csv"                  = ["Agent Name", "Handle"]
+"TEST_Report.csv"           = ["Data", "Timestamp", "Status"]  # Integration test specific
+
+[output]
+excel_dir = "tests/temp/output"
+archive_dir = "tests/temp/archive"
+excel_prefix = "integration_test_"
+
+[directories]
+data_dir = "tests/temp/data"
+logs_dir = "tests/temp/logs"
+archive_dir = "tests/temp/archive"
+
+[processing]
+mode = "interval"
+enable_summaries = true
+archive_after_processing = true

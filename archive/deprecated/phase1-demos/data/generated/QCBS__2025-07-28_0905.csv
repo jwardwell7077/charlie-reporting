@@ -1,0 +1,9 @@
+Interval Start,Interval End,Interval Complete,Filters,Media Type,Agent Id,Agent Name,Handle
+2025-07-28 09:05:00,2025-07-28 10:05:00,0.0,Queue: Outbound-IB_QCB,callback,4ab904ce-5677-4eb1-8354-109907f0f7d8,Quincy Wright,5
+2025-07-28 09:05:00,2025-07-28 10:05:00,0.0,Queue: Outbound-IB_QCB,callback,7b6c2d91-3f28-4e66-b2a1-5f9e2f8d3a4b,Victor Ramirez,9
+2025-07-28 09:05:00,2025-07-28 10:05:00,0.0,Queue: Outbound-IB_QCB,callback,f4e29da3-1c4e-4bd9-9c9f-5a0c7e18e7f8,Amber Gonzalez,5
+2025-07-28 09:05:00,2025-07-28 10:05:00,0.0,Queue: Outbound-IB_QCB,callback,4898a757-15ec-47cc-b6be-d2e9b249e011,Tina Campbell,2
+2025-07-28 09:05:00,2025-07-28 10:05:00,0.0,Queue: Outbound-IB_QCB,callback,c7ca8c70-fce5-4eee-a913-813af2d2b9a4,Frank Miller,8
+2025-07-28 09:05:00,2025-07-28 10:05:00,0.0,Queue: Outbound-IB_QCB,callback,38fcc711-e80e-4f78-88c2-1e88a75706c3,Olivia Green,4
+2025-07-28 09:05:00,2025-07-28 10:05:00,0.0,Queue: Outbound-IB_QCB,callback,a0c1e2b3-3d4e-5a6f-7b8c-9d0e1f2a3b4c,Derek Parker,7
+2025-07-28 09:05:00,2025-07-28 10:05:00,0.0,Queue: Outbound-IB_QCB,callback,24bb913e-5636-4db3-aab7-1213b0928274,Bob Johnson,8

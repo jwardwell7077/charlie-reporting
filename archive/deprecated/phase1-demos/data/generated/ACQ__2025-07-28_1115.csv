@@ -1,0 +1,11 @@
+Interval Start,Interval End,Interval Complete,Filters,Media Type,Agent Id,Agent Name,Handle
+2025-07-28 11:15:00,2025-07-28 12:15:00,0.0,Initial Direction: Inbound; Queue: LLSA-ACQ-DM,voice,38fcc711-e80e-4f78-88c2-1e88a75706c3,Olivia Green,8
+2025-07-28 11:15:00,2025-07-28 12:15:00,0.0,Initial Direction: Inbound; Queue: LLSA-ACQ-DM,voice,ce4e5d79-18a2-4b0f-9c9d-7b1e3f5a2c6d,Wendy Flores,4
+2025-07-28 11:15:00,2025-07-28 12:15:00,0.0,Initial Direction: Inbound; Queue: LLSA-ACQ-DM,voice,fd3c454b-47c9-491e-9c37-5bc54c413ca4,Nathan Scott,5
+2025-07-28 11:15:00,2025-07-28 12:15:00,0.0,Initial Direction: Inbound; Queue: LLSA-ACQ-DM,voice,9b585b97-8826-4653-9363-696d3fa4570e,Peter Baker,9
+2025-07-28 11:15:00,2025-07-28 12:15:00,0.0,Initial Direction: Inbound; Queue: LLSA-ACQ-DM,voice,f4e29da3-1c4e-4bd9-9c9f-5a0c7e18e7f8,Amber Gonzalez,7
+2025-07-28 11:15:00,2025-07-28 12:15:00,0.0,Initial Direction: Inbound; Queue: LLSA-ACQ-DM,voice,6c7bba2a-d8ec-4b53-9934-cf52606b282a,Alice Smith,3
+2025-07-28 11:15:00,2025-07-28 12:15:00,0.0,Initial Direction: Inbound; Queue: LLSA-ACQ-DM,voice,1ed81f99-e294-4ba6-81d4-bb8752c69693,Karen Hall,12
+2025-07-28 11:15:00,2025-07-28 12:15:00,0.0,Initial Direction: Inbound; Queue: LLSA-ACQ-DM,voice,a10dac0a-bb6c-4eb3-81df-d8f45f96770f,Marie King,8
+2025-07-28 11:15:00,2025-07-28 12:15:00,0.0,Initial Direction: Inbound; Queue: LLSA-ACQ-DM,voice,8c5912fa-6b3e-4baa-9c0e-3f5a423e4d18,Brian Perez,8
+2025-07-28 11:15:00,2025-07-28 12:15:00,0.0,Initial Direction: Inbound; Queue: LLSA-ACQ-DM,voice,e258b370-9093-401d-bcbf-d939ab51b265,Steve Phillips,11

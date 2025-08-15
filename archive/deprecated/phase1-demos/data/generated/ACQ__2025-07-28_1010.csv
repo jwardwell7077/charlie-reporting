@@ -1,0 +1,5 @@
+Interval Start,Interval End,Interval Complete,Filters,Media Type,Agent Id,Agent Name,Handle
+2025-07-28 10:10:00,2025-07-28 11:10:00,0.0,Initial Direction: Inbound; Queue: LLSA-ACQ-DM,voice,758a9386-a5db-43ee-8c79-cafe99a9d541,Rachel Turner,4
+2025-07-28 10:10:00,2025-07-28 11:10:00,0.0,Initial Direction: Inbound; Queue: LLSA-ACQ-DM,voice,589f3a7c-22e4-451f-91c0-8adc6b4e7f3d,Xavier Nguyen,2
+2025-07-28 10:10:00,2025-07-28 11:10:00,0.0,Initial Direction: Inbound; Queue: LLSA-ACQ-DM,voice,65fe4098-4972-4d06-8d5e-cfebc479b2ac,Grace Lee,5
+2025-07-28 10:10:00,2025-07-28 11:10:00,0.0,Initial Direction: Inbound; Queue: LLSA-ACQ-DM,voice,8c5912fa-6b3e-4baa-9c0e-3f5a423e4d18,Brian Perez,4

@@ -1,0 +1,28 @@
+# Charlie Reporting - Main Project Requirements
+# This file contains requirements for the existing monolithic application
+# For microservices, see shared/requirements.txt and services/*/requirements.txt
+
+# === Core Data Processing ===
+pandas>=2.0.0
+openpyxl>=3.1.0
+xlsxwriter>=3.1.0
+
+# === Configuration ===
+toml>=0.10.2
+python-dotenv>=1.0.0
+
+# === Email Integration ===
+pywin32>=306; sys_platform == "win32"
+msal>=1.24.0
+msgraph-core>=0.2.2
+
+# === Testing ===
+pytest>=7.4.0
+pytest-asyncio>=0.21.0
+
+# === Utilities ===
+python-dateutil>=2.8.0
+pathlib2>=2.3.0; python_version < "3.4"
+
+# === Optional/Legacy ===
+pyyaml>=6.0.0
