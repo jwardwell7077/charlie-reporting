@@ -1,19 +1,14 @@
-"""ACQ dataset generator.
+"""ACQ dataset generator matching spec headers.
 
-Headers inferred from real samples (spec section).
+Spec headers (section 3.1):
+Interval Start,Interval End,Interval Complete,Filters,Media Type,Agent Id,Agent Name,Handle
 """
 from __future__ import annotations
 
 from datetime import datetime, timezone
+from typing import Final  # noqa: F401 (legacy typing retained for stability comment)
 from sharepoint_sim.datasets.base import DatasetGenerator
-
-ACQ_HEADERS = [
-    "AccountId",
-    "UserId",
-    "EmployeeName",
-    "Value",
-    "Created",
-]
+from sharepoint_sim.schemas import ACQ_HEADERS, ROLE_RULES
 
 
 class ACQGenerator(DatasetGenerator):
@@ -28,14 +23,25 @@ class ACQGenerator(DatasetGenerator):
 
     def generate_rows(self, count: int):  # type: ignore[override]
         rows: list[dict[str, str]] = []
+        now = datetime.now(timezone.utc)
+        # Use same interval start/end truncated to minute for simplicity
+        interval_start = now.replace(second=0, microsecond=0)
+        interval_end = interval_start
         for _ in range(count):
-            emp = self.pick_employee()
+            # pick employee restricted to allowed roles
+            while True:
+                emp = self.pick_employee()
+                if emp.role in ROLE_RULES[self.name]:
+                    break
             rows.append({
-                "AccountId": str(self.rnd.rand_int(1000, 9999)),
-                "UserId": emp.uuid,
-                "EmployeeName": emp.name,
-                "Value": str(self.rnd.rand_int(1, 5000)),
-                "Created": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+                "Interval Start": interval_start.isoformat(timespec="seconds"),
+                "Interval End": interval_end.isoformat(timespec="seconds"),
+                "Interval Complete": "true",
+                "Filters": "",
+                "Media Type": "voice",
+                "Agent Id": emp.uuid,
+                "Agent Name": emp.name,
+                "Handle": str(self.rnd.rand_int(0, 25)),
             })
         return rows
 
