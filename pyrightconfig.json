@@ -1,0 +1,31 @@
+{
+    "pythonVersion": "3.12",
+    "typeCheckingMode": "strict",
+    "include": [
+        "foundation/src"
+    ],
+    "exclude": [
+        "**/venv",
+        "**/.venv",
+        "build",
+        "dist",
+        ".mypy_cache",
+        ".ruff_cache",
+        "tests"
+    ],
+    "executionEnvironments": [
+        {
+            "root": "foundation/src"
+        }
+    ],
+    "reportMissingTypeStubs": false,
+    "reportUnknownParameterType": true,
+    "reportUnknownVariableType": true,
+    "reportUnknownMemberType": true,
+    "reportUntypedFunctionDecorator": true,
+    "reportImplicitStringConcatenation": true,
+    "reportMissingImports": true,
+    "reportMissingModuleSource": true,
+    "reportUnusedImport": "warning",
+    "reportUnusedVariable": "warning"
+}

@@ -11,6 +11,7 @@
     ],
     "python.testing.autoTestDiscoverOnSaveEnabled": true,
     "python.analysis.extraPaths": [
+        "${workspaceFolder}/foundation/src",
         "${workspaceFolder}/src",
         "${workspaceFolder}/tests",
         "${workspaceFolder}/shared",

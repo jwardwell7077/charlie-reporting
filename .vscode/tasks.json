@@ -124,28 +124,6 @@
             "problemMatcher": []
         },
         {
-            "label": "Test Report Generator Phase 1",
-            "type": "shell",
-            "command": "${workspaceFolder}/.venv/bin/python",
-            "args": [
-                "services/report-generator/src/main_phase1.py"
-            ],
-            "group": "test",
-            "presentation": {
-                "echo": true,
-                "reveal": "always",
-                "focus": false,
-                "panel": "new"
-            },
-            "options": {
-                "cwd": "${workspaceFolder}",
-                "env": {
-                    "PYTHONPATH": "${workspaceFolder}/src:${workspaceFolder}/shared:${workspaceFolder}/services"
-                }
-            },
-            "problemMatcher": []
-        },
-        {
             "label": "Test with Coverage",
             "type": "shell",
             "command": "${workspaceFolder}/.venv/bin/python",
@@ -218,50 +196,6 @@
             "problemMatcher": []
         },
         {
-            "label": "Run Outlook Relay Service",
-            "type": "shell",
-            "command": "${workspaceFolder}/.venv/bin/python",
-            "args": [
-                "services/outlook-relay/src/main.py"
-            ],
-            "group": "build",
-            "presentation": {
-                "echo": true,
-                "reveal": "always",
-                "focus": false,
-                "panel": "new"
-            },
-            "options": {
-                "cwd": "${workspaceFolder}",
-                "env": {
-                    "PYTHONPATH": "${workspaceFolder}/src:${workspaceFolder}/shared:${workspaceFolder}/services"
-                }
-            },
-            "problemMatcher": []
-        },
-        {
-            "label": "Run Report Generator Service",
-            "type": "shell",
-            "command": "${workspaceFolder}/.venv/bin/python",
-            "args": [
-                "services/report-generator/src/main.py"
-            ],
-            "group": "build",
-            "presentation": {
-                "echo": true,
-                "reveal": "always",
-                "focus": false,
-                "panel": "new"
-            },
-            "options": {
-                "cwd": "${workspaceFolder}",
-                "env": {
-                    "PYTHONPATH": "${workspaceFolder}/src:${workspaceFolder}/shared:${workspaceFolder}/services"
-                }
-            },
-            "problemMatcher": []
-        },
-        {
             "label": "Check Dependencies",
             "type": "shell",
             "command": "${workspaceFolder}/.venv/bin/python",
@@ -305,28 +239,6 @@
             "problemMatcher": []
         },
         {
-            "label": "Start Report Generator API",
-            "type": "shell",
-            "command": "${workspaceFolder}/.venv/bin/python",
-            "args": [
-                "services/report-generator/src/api/main.py"
-            ],
-            "group": "build",
-            "presentation": {
-                "echo": true,
-                "reveal": "always",
-                "focus": false,
-                "panel": "new"
-            },
-            "options": {
-                "cwd": "${workspaceFolder}",
-                "env": {
-                    "PYTHONPATH": "${workspaceFolder}/src:${workspaceFolder}/shared:${workspaceFolder}/services"
-                }
-            },
-            "problemMatcher": []
-        },
-        {
             "label": "API Documentation Server",
             "type": "shell",
             "command": "${workspaceFolder}/.venv/bin/python",
@@ -350,13 +262,16 @@
             "problemMatcher": []
         },
         {
-            "label": "Validate Phase 2",
+            "label": "Quality Gate",
             "type": "shell",
-            "command": "${workspaceFolder}/.venv/bin/python",
+            "command": "/bin/bash",
             "args": [
-                "scripts/validate_phase2.py"
+                "scripts/quality_gate.sh"
             ],
-            "group": "test",
+            "group": {
+                "kind": "test",
+                "isDefault": false
+            },
             "presentation": {
                 "echo": true,
                 "reveal": "always",
@@ -366,7 +281,7 @@
             "options": {
                 "cwd": "${workspaceFolder}",
                 "env": {
-                    "PYTHONPATH": "${workspaceFolder}/src:${workspaceFolder}/shared:${workspaceFolder}/services"
+                    "PYTHONPATH": "${workspaceFolder}/src:${workspaceFolder}/tests:${workspaceFolder}/shared"
                 }
             },
             "problemMatcher": []

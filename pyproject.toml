@@ -22,7 +22,6 @@ dependencies = [
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 addopts = "--maxfail=3 --disable-warnings"
-pythonpath = ["src"]
 
 [project.optional-dependencies]
 dev = [
@@ -31,6 +30,10 @@ dev = [
     "flake8",
     "ruff",
     "pylint",
+    "mypy",
+    "interrogate",
+    "pydoclint",
+    "pyright",
 ]
 
 [tool.ruff]
@@ -81,3 +84,34 @@ pretty = true
 exclude = '^(venv|.venv|build|dist|services/database-service|tools|archive|demo|docs)/'
 # Pydantic plugin for v2 supports type checking of Pydantic models
 plugins = ["pydantic.mypy"]
+explicit_package_bases = true
+mypy_path = ["foundation/src"]
+
+[tool.interrogate]
+fail-under = 100
+verbose = 0
+quiet = false
+color = true
+whitelist-regex = []
+ignore-init-method = true
+ignore-init-module = true
+ignore-module = false
+ignore-nested-functions = false
+ignore-nested-classes = false
+ignore-private = false
+ignore-property-decorators = false
+exclude = ["tests", "venv", ".venv", "build", "dist"]
+
+[tool.pydoclint]
+style = "google"
+allow-init-docstring = true
+require-return-section-when-returning-value = true
+require-return-section-when-no-return-value = false
+require-yields-section-when-yielding-value = true
+require-yields-section-when-no-yield-value = false
+skip-checking-short-docstrings = true
+allow-section-blank-line = true
+check-return-types = true
+check-yields-types = true
+check-raises-types = true
+exclude = ["tests", "venv", ".venv", "build", "dist"]

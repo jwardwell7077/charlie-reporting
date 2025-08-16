@@ -18,11 +18,21 @@ app = FastAPI(title="Reporting Foundation", version="0.1.0")
 
 @app.get("/health")
 async def health() -> dict[str, str]:
+    """Health probe endpoint.
+
+    Returns:
+        Simple status dictionary when the service is responsive.
+    """
     return {"status": "ok"}
 
 
 @app.post("/ingest")
 async def ingest() -> dict[str, int]:
+    """Run collection + load pipeline steps.
+
+    Returns:
+        Counts of staged files and total rows loaded.
+    """
     settings = load_settings()
     staged = collector.collect(settings)
     results = loader.load_staged(settings)
@@ -31,6 +41,11 @@ async def ingest() -> dict[str, int]:
 
 @app.post("/generate/hourly")
 async def generate_hourly() -> dict[str, str]:
+    """Generate the hourly workbook and upload via SharePoint stub.
+
+    Returns:
+        Path (string) to uploaded workbook inside stub library.
+    """
     settings = load_settings()
     db_path = Path("foundation.sqlite")
     frames = aggregator.build_report_frames(db_path)
