@@ -1,0 +1,8 @@
+seed = 12345
+output_dir = "sharepoint_sim_output"
+timezone = "UTC"
+
+# This file configures the lightweight SharePoint CSV simulator.
+# - seed: deterministic random seed (set to null to get a new seed each run)
+# - output_dir: where generated CSV files are written
+# - timezone: currently only 'UTC' is used; reserved for future expansion

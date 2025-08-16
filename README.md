@@ -30,6 +30,28 @@ data/ (sample CSVs kept)
 docs/ (original documentation preserved)
 ```
 
+* Lightweight SharePoint CSV simulator (deterministic test data generator) under `sharepoint_sim` with FastAPI endpoints mounted at `/sim`:
+
+## SharePoint CSV Simulator Usage
+
+The simulator is mounted at `/sim` in the main API. Example endpoints:
+
+* `POST /sim/generate?types=ACQ,Productivity&rows=25` — generate one or more datasets
+* `GET /sim/files` — list generated files
+* `GET /sim/download/{filename}` — download CSV
+* `POST /sim/reset` — clear generated files
+
+Simulator configuration: edit `config/sharepoint_sim.toml`:
+
+```toml
+# config/sharepoint_sim.toml
+seed = 12345  # (optional) for deterministic output; omit for random
+output_dir = "sharepoint_sim"  # where generated CSVs are written
+timezone = "UTC"  # currently only UTC supported
+```
+
+Files are named `<DATASET>__YYYY-MM-DD_HHMM.csv` (5‑minute UTC rounding) and retained until reset.
+
 ## Configuration Overview
 
 Active runtime configuration now lives in `config/settings.toml` (see populated example in repo). Key sections:

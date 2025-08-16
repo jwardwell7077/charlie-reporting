@@ -21,4 +21,4 @@ def test_acq_generation_deterministic():
     rows1 = g1.build(15)
     rows2 = g2.build(15)
     assert rows1 == rows2
-    assert all(r.keys() == set(ACQ_HEADERS) for r in rows1)
+    assert all(list(r.keys()) == ACQ_HEADERS for r in rows1)

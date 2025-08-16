@@ -6,7 +6,7 @@ Interval Start,Interval End,Interval Complete,Filters,Media Type,Agent Id,Agent 
 from __future__ import annotations
 
 from datetime import datetime, timezone
-from typing import Final  # noqa: F401 (legacy typing retained for stability comment)
+from typing import Final  # noqa: F401
 from sharepoint_sim.datasets.base import DatasetGenerator
 from sharepoint_sim.schemas import ACQ_HEADERS, ROLE_RULES
 
@@ -23,7 +23,7 @@ class ACQGenerator(DatasetGenerator):
 
     def generate_rows(self, count: int):  # type: ignore[override]
         rows: list[dict[str, str]] = []
-        now = datetime.now(timezone.utc)
+        now = self.rnd.now().astimezone(timezone.utc)
         # Use same interval start/end truncated to minute for simplicity
         interval_start = now.replace(second=0, microsecond=0)
         interval_end = interval_start
