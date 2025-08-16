@@ -113,7 +113,7 @@ curl -X POST http://localhost:8000/generate/hourly
 
 ## Quality Gate & Tooling
 
-Strict gate (local & CI): Ruff (lint/format), mypy (strict), Pyright (strict), pydoclint, interrogate (100% doc coverage), pytest.
+Strict gate (local & CI): Ruff (lint/format), mypy (strict), Pyright (strict), pydoclint, interrogate (100% doc coverage), pytest (100% line coverage enforced). Test files are now included in Ruff, mypy, and Pyright runs to keep helper code quality aligned with production modules.
 
 Run locally:
 ```bash
