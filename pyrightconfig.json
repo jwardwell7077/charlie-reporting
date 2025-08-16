@@ -2,7 +2,8 @@
     "pythonVersion": "3.12",
     "typeCheckingMode": "strict",
     "include": [
-        "foundation/src"
+        "foundation/src",
+        "foundation/tests"
     ],
     "exclude": [
         "**/venv",
@@ -10,8 +11,7 @@
         "build",
         "dist",
         ".mypy_cache",
-        ".ruff_cache",
-        "tests"
+        ".ruff_cache"
     ],
     "executionEnvironments": [
         {

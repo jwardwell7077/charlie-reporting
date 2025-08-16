@@ -20,3 +20,10 @@ def test_sheet_to_html_contains_headers() -> None:
 	html = sheet_to_html(df, max_rows=5)
 	assert "<table" in html.lower()
 	assert "a" in html and "b" in html
+
+
+def test_sheet_to_html_empty_dataframe() -> None:
+	df = pd.DataFrame({"a": [], "b": []})
+	html = sheet_to_html(df)
+	# Should still render table structure
+	assert "<table" in html.lower()

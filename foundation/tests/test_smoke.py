@@ -11,5 +11,6 @@ def test_settings_model_slots() -> None:
 
     # Ensure __slots__ present (dataclass with slots=True) and contains at least the expected fields
     assert hasattr(Settings, "__slots__")
-    slots = set(getattr(Settings, "__slots__"))
+    # Direct attribute access; getattr with constant triggers Ruff B009.
+    slots = set(Settings.__slots__)  # type: ignore[attr-defined]
     assert expected.issubset(slots)

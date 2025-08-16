@@ -198,6 +198,10 @@ cython_debug/
 .ruff_cache/
 
 # PyPI configuration file
+.sharepoint_library/
+_sharepoint_library/
+foundation.sqlite
+reports/
 .pypirc
 
 # Cursor

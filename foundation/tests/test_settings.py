@@ -3,7 +3,7 @@
 from pathlib import Path
 from textwrap import dedent
 
-from config.settings import Settings
+from config.settings import Settings, load_settings
 
 
 def test_settings_load_example(tmp_path: Path) -> None:
@@ -91,3 +91,13 @@ def test_settings_defaults_when_missing(tmp_path: Path) -> None:
     assert settings.data_sources == []
     assert settings.report.workbook_name.endswith("hourly_report.xlsx")
     assert settings.email.from_addr == "reports@example.com"
+
+
+def test_load_settings_missing_file_raises(tmp_path: Path) -> None:
+    missing = tmp_path / "nope.toml"
+    try:
+        load_settings(missing)
+    except FileNotFoundError as exc:  # pragma: no cover - defensive
+        assert str(missing) in str(exc)
+    else:  # pragma: no cover - defensive
+        raise AssertionError("Expected FileNotFoundError")

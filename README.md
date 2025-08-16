@@ -1,5 +1,7 @@
 # Charlie Reporting (Lean Foundation Restart)
 
+[![Quality Gate](https://github.com/jwardwell7077/charlie-reporting/actions/workflows/quality-gate.yml/badge.svg)](https://github.com/jwardwell7077/charlie-reporting/actions/workflows/quality-gate.yml)
+
 This repository has been reset to a **minimal, configurable reporting foundation** focused on:
 
 * Ingesting SharePoint‑exported CSV drops
@@ -46,6 +48,7 @@ Legacy `config/config.toml` provided email folder filters & per‑file column se
 | `output.excel_dir` | `report.output_dir` |
 | `output.archive_dir` | `collector.archive_dir` |
 | `directory_scan.scan_path` | `collector.input_root` |
+
 ````markdown
 # Charlie Reporting (Lean Foundation Restart)
 

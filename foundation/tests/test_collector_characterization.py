@@ -47,3 +47,10 @@ def test_stage_file_idempotent_filename(tmp_path: Path) -> None:
 	second = stage_file(f, staging)
 	assert first == second
 	assert second.read_text() == f.read_text()
+
+
+def test_discover_source_files_missing_root(tmp_path: Path) -> None:
+	ds = DataSource(name="x", pattern="*.csv", enabled=True)
+	missing = tmp_path / "nope"
+	files = discover_source_files(missing, ds)
+	assert files == []
