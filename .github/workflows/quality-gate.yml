@@ -1,0 +1,38 @@
+name: Quality Gate
+
+on:
+  push:
+    branches: [ main, main-foundation, restart-foundation ]
+  pull_request:
+    branches: [ main, main-foundation ]
+
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install system deps
+        run: sudo apt-get update && sudo apt-get install -y sqlite3
+      - name: Install dependencies
+        run: |
+          python -m venv .venv
+          . .venv/bin/activate
+          pip install --upgrade pip
+          pip install -e .[dev]
+          pip install pyright
+      - name: Ruff
+        run: . .venv/bin/activate && ruff check foundation/src
+      - name: Mypy
+        run: . .venv/bin/activate && mypy foundation/src
+      - name: Pydoclint
+        run: . .venv/bin/activate && pydoclint foundation/src
+      - name: Interrogate
+        run: . .venv/bin/activate && interrogate -c pyproject.toml foundation/src
+      - name: Pyright
+        run: . .venv/bin/activate && pyright
+      - name: Pytest
+        run: . .venv/bin/activate && pytest -q

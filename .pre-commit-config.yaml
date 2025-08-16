@@ -9,3 +9,17 @@ repos:
     rev: v1.11.2
     hooks:
       - id: mypy
+        args: ["foundation/src"]
+
+  - repo: local
+    hooks:
+      - id: pyright
+        name: pyright
+        entry: pyright
+        language: system
+        pass_filenames: false
+      - id: pytest-quick
+        name: pytest-quick
+        entry: pytest -q foundation/tests/test_settings.py foundation/tests/test_smoke.py
+        language: system
+        pass_filenames: false
