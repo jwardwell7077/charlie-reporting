@@ -2,25 +2,85 @@
 from __future__ import annotations
 
 ACQ_HEADERS = [
-    "Interval Start","Interval End","Interval Complete","Filters","Media Type","Agent Id","Agent Name","Handle"
+    "Interval Start",
+    "Interval End",
+    "Interval Complete",
+    "Filters",
+    "Media Type",
+    "Agent Id",
+    "Agent Name",
+    "Handle",
 ]
 PRODUCTIVITY_HEADERS = [
-    "Interval Start","Interval End","Interval Complete","Filters","Agent Id","Agent Name","Logged In","On Queue","Idle","Off Queue","Interacting"
+    "Interval Start",
+    "Interval End",
+    "Interval Complete",
+    "Filters",
+    "Agent Id",
+    "Agent Name",
+    "Logged In",
+    "On Queue",
+    "Idle",
+    "Off Queue",
+    "Interacting",
 ]
 QCBS_HEADERS = [
-    "Interval Start","Interval End","Interval Complete","Filters","Media Type","Agent Id","Agent Name","Handle"
+    "Interval Start",
+    "Interval End",
+    "Interval Complete",
+    "Filters",
+    "Media Type",
+    "Agent Id",
+    "Agent Name",
+    "Handle",
 ]
 RESC_HEADERS = [
-    "Interval Start","Interval End","Interval Complete","Filters","Media Type","Agent Id","Agent Name","Handle"
+    "Interval Start",
+    "Interval End",
+    "Interval Complete",
+    "Filters",
+    "Media Type",
+    "Agent Id",
+    "Agent Name",
+    "Handle",
 ]
 CAMPAIGN_INTERACTIONS_HEADERS = [
-    "Full Export Completed","Partial Result Timestamp","Filters","Users","Date","Initial Direction","First Queue"
+    "Full Export Completed",
+    "Partial Result Timestamp",
+    "Filters",
+    "Users",
+    "Date",
+    "Initial Direction",
+    "First Queue",
 ]
 DIALS_HEADERS = [
-    "Interval Start","Interval End","Interval Complete","Filters","Media Type","Agent Id","Agent Name","Handle","Avg Handle","Avg Talk","Avg Hold","Avg ACW","Total Handle","Total Talk","Total Hold","Total ACW"
+    "Interval Start",
+    "Interval End",
+    "Interval Complete",
+    "Filters",
+    "Media Type",
+    "Agent Id",
+    "Agent Name",
+    "Handle",
+    "Avg Handle",
+    "Avg Talk",
+    "Avg Hold",
+    "Avg ACW",
+    "Total Handle",
+    "Total Talk",
+    "Total Hold",
+    "Total ACW",
 ]
 IB_CALLS_HEADERS = [
-    "Interval Start","Interval End","Interval Complete","Filters","Media Type","Agent Id","Agent Name","Handle","Avg Handle"
+    "Interval Start",
+    "Interval End",
+    "Interval Complete",
+    "Filters",
+    "Media Type",
+    "Agent Id",
+    "Agent Name",
+    "Handle",
+    "Avg Handle",
 ]
 
 ROLE_RULES = {

@@ -29,7 +29,9 @@
     "python.analysis.typeCheckingMode": "off",
     "python.analysis.autoImportCompletions": true,
     "terminal.integrated.env.linux": {
-        "PYTHONPATH": "${workspaceFolder}/src:${workspaceFolder}/tests:${workspaceFolder}/shared:${workspaceFolder}/services"
+        "PYTHONPATH": "${workspaceFolder}/src:${workspaceFolder}/tests:${workspaceFolder}/shared:${workspaceFolder}/services",
+        "VIRTUAL_ENV": "${workspaceFolder}/.venv",
+        "PATH": "${workspaceFolder}/.venv/bin:${env:PATH}"
     },
     "files.associations": {
         "*.toml": "toml",

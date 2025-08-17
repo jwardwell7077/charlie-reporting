@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 from pathlib import Path
+
 import pandas as pd
 
 from pipeline.excel import build_workbook, sheet_to_html

@@ -8,11 +8,11 @@ from __future__ import annotations
 from pathlib import Path
 
 from fastapi import FastAPI
+from sharepoint_sim.api import router as sim_router
 
 from config.settings import load_settings
 from pipeline import aggregator, collector, excel, loader
 from services.sharepoint_stub import SharePointStub
-from sharepoint_sim.api import router as sim_router
 
 app = FastAPI(title="Reporting Foundation", version="0.1.0")
 app.include_router(sim_router)

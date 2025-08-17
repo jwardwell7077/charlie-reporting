@@ -148,6 +148,19 @@ Pre-commit (`pre-commit install`) runs Ruff, mypy subset, Pyright, quick pytest 
 
 Workflow `.github/workflows/quality-gate.yml` enforces the gate on pushes / PRs to `main` & `main-foundation`.
 
+## Development Principles
+
+We adhere to a core design principle: **Minimal Entry / Minimal Exit**.
+
+> Each component exposes the fewest necessary public entry points and leaves every object or return value in a fully validated, deterministic state immediately upon exit—no redundant wrapper layers or deferred hidden side effects.
+
+Practical examples:
+* `Roster` self-loads on construction (optional `from_csv` classmethod) — removed former `load_roster()` wrapper.
+* Dataset generators expose a single `build()` path instead of scattered helper functions.
+* Service orchestration keeps state explicit (roster, RNG, storage) with no hidden globals.
+
+See `docs/development_principles.md` for rationale, review checklist, and contribution guidelines.
+
 ## Baseline Tag
 
 Tag the stabilized foundation:

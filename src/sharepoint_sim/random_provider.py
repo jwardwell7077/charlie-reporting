@@ -1,34 +1,50 @@
 """Random utilities with deterministic seeding and injectable clock."""
 from __future__ import annotations
 
-from dataclasses import dataclass
 import random
-from datetime import datetime, timezone
-from typing import Callable
+from collections.abc import Callable, Sequence
+from typing import TypeVar
+from dataclasses import dataclass
+from datetime import UTC, datetime
 
 ClockFn = Callable[[], datetime]
 
 
 def default_clock() -> datetime:
-    return datetime.now(timezone.utc)
+    """Return current UTC time (separate for easier test injection)."""
+    return datetime.now(UTC)
+
+
+T = TypeVar("T")
 
 
 @dataclass
 class RandomProvider:
+    """Deterministic random + time provider wrapper.
+
+    Not cryptographically secure (uses ``random.Random``); acceptable for
+    simulation. A seed of ``None`` delegates to system randomness.
+    """
+
     seed: int | None
     clock: ClockFn = default_clock
 
-    def __post_init__(self) -> None:  # noqa: D401 - simple init
-        self._rng = random.Random(self.seed)
+    def __post_init__(self) -> None:
+        """Initialize underlying PRNG (non-cryptographic)."""
+        self._rng = random.Random(self.seed)  # noqa: S311 - simulation only
 
     def rand_int(self, a: int, b: int) -> int:
+        """Return random integer in [a, b] inclusive."""
         return self._rng.randint(a, b)
 
-    def choice(self, seq: list[object]) -> object:
-        return self._rng.choice(seq)
+    def choice(self, seq: Sequence[T]) -> T:  # type: ignore[type-var]
+        """Return random element from sequence with preserved element type."""
+        return self._rng.choice(list(seq))
 
     def random(self) -> float:
+        """Return random float in [0, 1)."""
         return self._rng.random()
 
     def now(self) -> datetime:
+        """Return current (possibly injected) time."""
         return self.clock()

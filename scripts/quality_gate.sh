@@ -4,6 +4,15 @@ set -euo pipefail
 start_ts=$(date -u +%Y-%m-%dT%H:%M:%SZ)
 echo "QUALITY GATE START ${start_ts}"
 
+# Enforce venv usage early
+if ! python scripts/ensure_venv.py 2>/dev/null; then
+  # fallback: try project venv explicitly
+  if ! ./.venv/bin/python scripts/ensure_venv.py; then
+    echo "Aborting: must run within project .venv" >&2
+    exit 1
+  fi
+fi
+
 run() {
   local name="$1"; shift
   echo "\n== ${name} =="

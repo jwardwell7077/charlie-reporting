@@ -1,12 +1,12 @@
 """Characterization tests for aggregator module."""
 from __future__ import annotations
 
-from pathlib import Path
 import sqlite3
+from pathlib import Path
 
 import pandas as pd
 
-from pipeline.aggregator import fetch_hourly_productivity, build_report_frames
+from pipeline.aggregator import build_report_frames, fetch_hourly_productivity
 
 
 def _seed_productivity(db: Path, rows: list[tuple[str, str, int, float]]) -> None:

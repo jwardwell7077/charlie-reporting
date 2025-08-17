@@ -3,8 +3,15 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from config.settings import DataSource, CollectorConfig, Settings, SchedulesConfig, ReportConfig, EmailConfig
-from pipeline.collector import discover_source_files, stage_file, collect
+from config.settings import (
+	CollectorConfig,
+	DataSource,
+	EmailConfig,
+	ReportConfig,
+	SchedulesConfig,
+	Settings,
+)
+from pipeline.collector import collect, discover_source_files, stage_file
 
 
 def _settings_for(root: Path) -> Settings:

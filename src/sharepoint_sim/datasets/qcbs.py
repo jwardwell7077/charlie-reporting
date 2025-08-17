@@ -1,23 +1,27 @@
 """QCBS dataset generator."""
 from __future__ import annotations
 
-from datetime import datetime, timezone
+from datetime import UTC, datetime
+
 from sharepoint_sim.datasets.base import DatasetGenerator
 from sharepoint_sim.schemas import QCBS_HEADERS, ROLE_RULES
 
 
 class QCBSGenerator(DatasetGenerator):
+    """Generator for the QCBS dataset."""
     name = "QCBS"
     headers = QCBS_HEADERS
 
     def row_count(self, requested: int | None = None) -> int:
+        """Return the number of rows to generate for this interval."""
         if requested is not None:
             return max(10, min(1000, requested))
         return 50
 
-    def generate_rows(self, count: int):  # type: ignore[override]
+    def generate_rows(self, count: int) -> list[dict[str, str]]:
+        """Generate a list of QCBS dataset rows as dictionaries."""
         rows: list[dict[str, str]] = []
-        now = datetime.now(timezone.utc).replace(second=0, microsecond=0)
+        now = datetime.now(UTC).replace(second=0, microsecond=0)
         for _ in range(count):
             while True:
                 emp = self.pick_employee()

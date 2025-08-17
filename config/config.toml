@@ -25,7 +25,7 @@ process_subdirs = false  # Whether to scan subdirectories
 
 [attachments]
 "IB_Calls.csv"              = ["Agent Name", "Handle", "Avg Handle"]
-"QCBs.csv"                  = ["Agent Name", "Handle"]
+"QCBS.csv"                  = ["Agent Name", "Handle"]
 "Dials.csv"                 = ["Agent Name", "Handle", "Avg Handle", "Avg Talk", "Avg Hold"]
 "Productivity.csv"          = ["Agent Name", "Logged In", "On Queue", "Idle", "Off Queue", "Interacting"]
 "Campaign_Interactions.csv" = ["Date", "Initial Direction", "First Queue"]

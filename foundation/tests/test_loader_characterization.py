@@ -1,8 +1,8 @@
 """Characterization tests for CSV loader -> SQLite ingestion."""
 from __future__ import annotations
 
-from pathlib import Path
 import sqlite3
+from pathlib import Path
 
 from config.settings import (
 	CollectorConfig,

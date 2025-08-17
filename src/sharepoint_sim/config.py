@@ -9,9 +9,9 @@ Config keys:
 """
 from __future__ import annotations
 
+import tomllib
 from dataclasses import dataclass
 from pathlib import Path
-import tomllib
 
 CONFIG_PATH = Path("config/sharepoint_sim.toml")
 DEFAULT_OUTPUT = Path("sharepoint_sim")
@@ -19,17 +19,22 @@ DEFAULT_OUTPUT = Path("sharepoint_sim")
 
 @dataclass(frozen=True, slots=True)
 class SimConfig:
+    """Runtime configuration values for the simulator."""
+
     seed: int | None
     output_dir: Path
     timezone: str = "UTC"
 
 
 def load_config(path: Path | None = None) -> SimConfig:
+    """Load configuration from TOML file or return defaults.
+
+    Parameters
+    ----------
+    path: Optional override path for tests.
+    """
     p = path or CONFIG_PATH
-    if p.exists():
-        data = tomllib.loads(p.read_text())
-    else:
-        data = {}
+    data = tomllib.loads(p.read_text()) if p.exists() else {}
     seed = data.get("seed")
     output_dir = Path(data.get("output_dir", DEFAULT_OUTPUT))
     timezone = data.get("timezone", "UTC")

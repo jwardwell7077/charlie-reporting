@@ -2,7 +2,6 @@
 from __future__ import annotations
 
 from fastapi import APIRouter, HTTPException, Response
-from typing import Optional, List, Dict
 
 from sharepoint_sim.service import SharePointCSVGenerator
 
@@ -11,9 +10,9 @@ _service = SharePointCSVGenerator()
 
 
 @router.post("/generate")
-async def generate(types: str, rows: Optional[int] = None) -> Dict[str, List[Dict[str, int | str]]]:
+async def generate(types: str, rows: int | None = None) -> dict[str, list[dict[str, int | str]]]:
     datasets = [t.strip() for t in types.split(",") if t.strip()]
-    files: List[Dict[str, int | str]] = []
+    files: list[dict[str, int | str]] = []
     for d in datasets:
         try:
             path = _service.generate(d, rows)
@@ -24,7 +23,7 @@ async def generate(types: str, rows: Optional[int] = None) -> Dict[str, List[Dic
 
 
 @router.get("/files")
-async def files() -> Dict[str, List[Dict[str, int | str]]]:  # list
+async def files() -> dict[str, list[dict[str, int | str]]]:  # list
     return {"files": _service.list_files()}
 
 
