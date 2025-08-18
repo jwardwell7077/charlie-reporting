@@ -9,6 +9,7 @@ Config keys:
 """
 from __future__ import annotations
 
+import os
 import tomllib
 from dataclasses import dataclass
 from pathlib import Path
@@ -36,7 +37,13 @@ def load_config(path: Path | None = None) -> SimConfig:
     p = path or CONFIG_PATH
     data = tomllib.loads(p.read_text()) if p.exists() else {}
     seed = data.get("seed")
-    output_dir = Path(data.get("output_dir", DEFAULT_OUTPUT))
+    # Allow environment variable override primarily for tests / ephemeral runs
+    env_override = os.getenv("SP_SIM_OUTPUT_DIR")
+    output_dir = (
+        Path(env_override)
+        if env_override
+        else Path(data.get("output_dir", DEFAULT_OUTPUT))
+    )
     timezone = data.get("timezone", "UTC")
     return SimConfig(seed=seed, output_dir=output_dir, timezone=timezone)
 

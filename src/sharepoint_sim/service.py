@@ -53,14 +53,20 @@ class SharePointCSVGenerator:
     def _get_generator(self, dataset: str) -> DatasetGenerator:
         """Return concrete dataset generator for a dataset name.
 
-        Args:
-            dataset: Key identifying the dataset (must exist in GENERATOR_MAP).
+        Parameters
+        ----------
+        dataset: str
+            Key identifying the dataset (must exist in GENERATOR_MAP).
 
         Returns:
-            Instantiated concrete generator corresponding to ``dataset``.
+        -------
+        DatasetGenerator
+            Instantiated concrete generator.
 
         Raises:
-            ValueError: If the provided dataset key is unknown.
+        ------
+        ValueError
+            If the provided dataset key is unknown.
         """
         cls = GENERATOR_MAP.get(dataset)
         if cls is None:
@@ -68,18 +74,7 @@ class SharePointCSVGenerator:
         return cls(self._get_roster(), self.rnd)
 
     def generate(self, dataset: str, rows: int | None = None) -> Path:
-        """Generate a single dataset CSV and return its path.
-
-        Args:
-            dataset: Dataset name key.
-            rows: Optional requested row count (generator may clamp or default).
-
-        Returns:
-            Path to the written CSV file.
-
-        Raises:
-            ValueError: If an unknown dataset name is provided.
-        """
+        """Generate a single dataset CSV and return its path."""
         with self._lock:
             gen = self._get_generator(dataset)
             row_dicts = gen.build(rows)
@@ -89,16 +84,13 @@ class SharePointCSVGenerator:
     def generate_many(
         self, datasets: list[str], rows: int | dict[str, int] | None = None
     ) -> list[Path]:
-        """Generate multiple datasets optionally overriding per-dataset row counts.
+        """Generate multiple datasets (optionally overriding per-dataset row counts).
 
-        Args:
-            datasets: List of dataset keys to generate.
-            rows: Either a single integer applied to all datasets, a mapping of
-                dataset -> row count, or None to accept defaults.
-
-        Returns:
-            List of paths to generated CSV files in the same order as ``datasets``.
+        Raises:
+            ValueError: If datasets is not a list of strings.
         """
+        if not isinstance(datasets, list) or not all(isinstance(d, str) for d in datasets):
+            raise ValueError("datasets must be a list of strings")
         outputs: list[Path] = []
         for d in datasets:
             r: int | None = None
@@ -110,11 +102,7 @@ class SharePointCSVGenerator:
         return outputs
 
     def list_files(self) -> list[dict[str, int | str]]:
-        """Return metadata for generated CSV files.
-
-        Returns:
-            List of dictionaries each containing filename and size bytes.
-        """
+        """Return metadata for generated CSV files."""
         return [
             {"filename": f.name, "size": f.size()} for f in self.storage.list_files()
         ]

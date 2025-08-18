@@ -1,7 +1,10 @@
-"""Campaign_Interactions dataset generator."""
+"""Campaign_Interactions dataset generator.
+
+Addendum: timestamps sourced from shared ``RandomProvider`` for deterministic tests.
+"""
 from __future__ import annotations
 
-from datetime import UTC, datetime
+from datetime import UTC
 
 from sharepoint_sim.datasets.base import DatasetGenerator
 from sharepoint_sim.schemas import CAMPAIGN_INTERACTIONS_HEADERS
@@ -22,7 +25,7 @@ class CampaignInteractionsGenerator(DatasetGenerator):
     def generate_rows(self, count: int) -> list[dict[str, str]]:
         """Generate Campaign_Interactions rows."""
         rows: list[dict[str, str]] = []
-        now = datetime.now(UTC).replace(second=0, microsecond=0)
+        now = self.rnd.now().astimezone(UTC).replace(second=0, microsecond=0)
         for _ in range(count):
             emp = self.pick_employee()  # all roles allowed
             rows.append(
