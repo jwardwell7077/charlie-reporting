@@ -193,6 +193,11 @@ git push origin v0.2.0-foundation
 
 All prior architecture rationale, migration notes, and phase achievements remain under `docs/`.
 
+## Diagrams
+
+- Architecture Overview (Mermaid): docs/architecture/diagrams/architecture-overview.md
+- Service Boundaries (Mermaid): docs/architecture/diagrams/service-boundaries.md
+
 ## License
 
 Proprietary / internal (adjust as needed). Add explicit license if distribution scope changes.
