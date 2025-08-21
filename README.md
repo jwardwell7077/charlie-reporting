@@ -205,6 +205,13 @@ All prior architecture rationale, migration notes, and phase achievements remain
 - [Component: API](docs/architecture/diagrams/component-api.md)
 - [Component: Simulator](docs/architecture/diagrams/component-simulator.md)
 
+### UML (Mermaid)
+
+- [UML Class: Foundation](docs/architecture/diagrams/uml/class-foundation.md)
+- [UML Sequence: Ingest Flow](docs/architecture/diagrams/uml/sequence-ingest.md)
+- [UML Sequence: Generate Hourly Report](docs/architecture/diagrams/uml/sequence-generate-hourly.md)
+- [UML Sequence: Simulator Generate](docs/architecture/diagrams/uml/sequence-simulator-generate.md)
+
 ### Architecture Overview (inline)
 
 ```mermaid
