@@ -6,8 +6,8 @@ Interval Start,Interval End,Interval Complete,Filters,Media Type,Agent Id,Agent 
 from __future__ import annotations
 
 from datetime import UTC
-
 # from typing import Final  # noqa: F401
+
 from sharepoint_sim.datasets.base import DatasetGenerator
 from sharepoint_sim.schemas import ACQ_HEADERS, ROLE_RULES
 

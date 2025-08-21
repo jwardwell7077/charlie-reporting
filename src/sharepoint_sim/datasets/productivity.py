@@ -19,13 +19,6 @@ class ProductivityGenerator(DatasetGenerator):
     """Generator for the Productivity dataset."""
     name = "Productivity"
     headers = PRODUCTIVITY_HEADERS
-    # Bucket bounds
-    MIN_ON_QUEUE = 50
-    MAX_ON_QUEUE = 300
-    MIN_INTERACTING = 20
-    MAX_INTERACTING = 200
-    MAX_IDLE = 120
-    MAX_OFF_QUEUE = 60
 
     def row_count(self, requested: int | None = None) -> int:
         """Return the number of rows to generate for this interval.
@@ -61,25 +54,17 @@ class ProductivityGenerator(DatasetGenerator):
                     break
             logged_in = self.rnd.rand_int(200, 480)
             remaining = logged_in
-            # On Queue
-            on_queue = (
-                self.rnd.rand_int(self.MIN_ON_QUEUE, min(self.MAX_ON_QUEUE, remaining))
-                if remaining >= self.MIN_ON_QUEUE
-                else 0
-            )
+            # On Queue: min 50, max 300 or remaining
+            on_queue = self.rnd.rand_int(50, min(300, remaining)) if remaining >= 50 else 0
             remaining -= on_queue
-            # Interacting
-            interacting = (
-                self.rnd.rand_int(self.MIN_INTERACTING, min(self.MAX_INTERACTING, remaining))
-                if remaining >= self.MIN_INTERACTING
-                else 0
-            )
+            # Interacting: min 20, max 200 or remaining
+            interacting = self.rnd.rand_int(20, min(200, remaining)) if remaining >= 20 else 0
             remaining -= interacting
-            # Idle
-            idle = self.rnd.rand_int(0, min(self.MAX_IDLE, remaining)) if remaining > 0 else 0
+            # Idle: min 0, max 120 or remaining
+            idle = self.rnd.rand_int(0, min(120, remaining)) if remaining > 0 else 0
             remaining -= idle
-            # Off Queue
-            off_queue = self.rnd.rand_int(0, min(self.MAX_OFF_QUEUE, remaining)) if remaining > 0 else 0
+            # Off Queue: min 0, max 60 or remaining
+            off_queue = self.rnd.rand_int(0, min(60, remaining)) if remaining > 0 else 0
             # Any residual remaining time is implicitly unallocated but constraint holds.
             rows.append({
                 "Interval Start": now.isoformat(timespec="seconds"),

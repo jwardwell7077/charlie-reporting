@@ -7,14 +7,10 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with: { python-version: "3.12" }
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          python -m pip install ruff mypy pydantic
-          python -m pip install -e .[dev]
+      - run: pip install --upgrade pip ruff mypy pydantic
       - name: Ruff (lint)
-        run: ruff check src foundation/src
+        run: ruff check .
       - name: Ruff (format check)
-        run: ruff format --check src foundation/src
+        run: ruff format --check .
       - name: mypy (strict)
-        run: mypy src foundation/src
+        run: mypy .

@@ -201,14 +201,9 @@ cython_debug/
 .sharepoint_library/
 _sharepoint_library/
 foundation.sqlite
+db_service.sqlite3
 reports/
 .pypirc
-
-# Project-specific generated artifacts
-# Local SQLite DB for dev runs
-db_service.sqlite3
-# SharePoint simulator outputs
-sharepoint_sim_output/
 
 # Cursor
 #  Cursor is an AI-powered code editor. `.cursorignore` specifies files/directories to
@@ -221,3 +216,6 @@ sharepoint_sim_output/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+
+# SharePoint Simulator generated outputs
+sharepoint_sim_output/

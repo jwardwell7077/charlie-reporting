@@ -24,8 +24,6 @@ dev = ["pytest", "ruff", "mypy", "types-openpyxl", "pytest-asyncio"]
 
 [tool.ruff]
 line-length = 100
-
-[tool.ruff.lint]
 select = ["E","F","I","UP","B","ANN","C4","SIM"]
 ignore = ["ANN101","ANN102"]
 

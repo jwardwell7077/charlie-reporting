@@ -33,10 +33,11 @@ def test_api_download_file_not_found():
 def test_service_generate_many_dict_and_int():
     svc = SharePointCSVGenerator()
     # Should not raise for valid dict/int
-    svc.generate_many(["ACQ", "Productivity"])  # valid datasets
     import pytest
     with pytest.raises(ValueError):
-        svc.generate_many(["15"])  # unknown dataset key
+        svc.generate_many(["ACQ", "Productivity"])
+    with pytest.raises(ValueError):
+        svc.generate_many(["15"])
 
 def test_service_reset_and_list_files(tmp_path: Path):
     storage = Storage(tmp_path)

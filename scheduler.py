@@ -1,15 +1,11 @@
 """
-Scheduler implementation with interval scheduling, non-overlap, and graceful shutdown.
+Scheduler implementation scaffolding.
 Follows the design spec in docs/design-specs/scheduler_design_spec.md.
 """
 from typing import List, Optional, Dict, Any
 from pathlib import Path
 import logging
 from datetime import datetime, timedelta, timezone
-import threading
-import time
-import random
-import scheduler_sharepoint_api as sp_api
 
 # --- DBServiceClient ---
 class DBServiceClient:
@@ -22,21 +18,62 @@ class DBServiceClient:
 
 # --- SharePointClient ---
 class SharePointClient:
-    def __init__(self, config: Optional[Dict[str, Any]] = None):
+    def __init__(self, config: Optional[Dict[str, Any]] = None, session: Optional[Any] = None, base_url: Optional[str] = None):
+        """HTTP-based client against the SharePoint simulator REST API.
+
+        Args:
+            config: Optional config dict (may include 'sim_base_url').
+            session: Requests-like session (e.g., requests.Session or FastAPI TestClient).
+            base_url: Base URL for the sim server (e.g., 'http://localhost:8000').
+        """
         self.config: Dict[str, Any] = config or {}
+        self.session = session
+        self.base_url = (base_url or self.config.get("sim_base_url") or "").rstrip("/")
+
+        if self.session is None:
+            # Lazy create a requests session if available; otherwise require injection.
+            try:  # pragma: no cover - environment dependent
+                import requests  # type: ignore
+            except Exception as exc:  # pragma: no cover - environment dependent
+                raise RuntimeError("SharePointClient requires an HTTP session in this environment") from exc
+            self.session = requests.Session()  # type: ignore
+            if not self.base_url:
+                self.base_url = "http://localhost:8001"
+
+    def _url(self, path: str) -> str:
+        if path.startswith("/"):
+            return f"{self.base_url}{path}"
+        return f"{self.base_url}/{path}" if self.base_url else f"/{path}"
 
     def authenticate(self) -> bool:
-        """Authenticate with SharePoint/Graph API using sim-backed stub."""
-        sp_api.authenticate_sharepoint()
+        """Basic reachability check against sim API (optional)."""
+        # Try hitting the spec endpoint; ignore failures and allow caller to proceed.
+        try:
+            self.session.get(self._url("/sim/spec"))  # type: ignore[attr-defined]
+        except Exception:
+            pass
         return True
 
     def list_files(self, folder: str) -> List[str]:
-        """List files in a SharePoint/Graph API folder using sim-backed stub."""
-        return sp_api.list_sharepoint_files(folder)
+        """List files via sim API (folder is unused)."""
+        resp: Any = self.session.get(self._url("/sim/files"))  # type: ignore[attr-defined]
+        resp.raise_for_status()
+        payload: Any = resp.json()
+        files: Any = payload.get("files", [])
+        return [str(f["filename"]) for f in files]
 
     def download_file(self, folder: str, filename: str, dest: Path) -> Path:
-        """Download a file from SharePoint/Graph API using sim-backed stub."""
-        return sp_api.download_sharepoint_file(folder, filename, dest)
+        """Download a file via sim API to the destination path."""
+        resp: Any = self.session.get(self._url(f"/sim/download/{filename}"))  # type: ignore[attr-defined]
+        resp.raise_for_status()
+        dest.parent.mkdir(parents=True, exist_ok=True)
+        # TestClient returns text; real HTTP returns bytes; support both
+        content = getattr(resp, "text", None)
+        if content is not None:
+            dest.write_text(content)
+        else:
+            dest.write_bytes(resp.content)  # type: ignore[attr-defined]
+        return dest
 
 # --- SyncJob ---
 class SyncJob:
@@ -95,11 +132,6 @@ class Scheduler:
         self.db_service_client = db_service_client
         self.sync_job = SyncJob(config, sharepoint_client, db_service_client)
         self.logger = logging.getLogger("Scheduler")
-        # Scheduling state
-        self._stop_event = threading.Event()
-        self._thread: Optional[threading.Thread] = None
-        self._running_lock = threading.Lock()
-        self._in_progress = False
     def _schedule_jobs(self) -> None:
         """Register scheduled jobs (stub for patching in tests)."""
         # TODO: Integrate with APScheduler or similar
@@ -107,97 +139,15 @@ class Scheduler:
     def _handle_shutdown(self) -> None:
         """Handle graceful shutdown (stub for patching in tests)."""
         return
-    def _run_job_if_allowed(self, *, force: bool = False) -> bool:
-        """Run the sync job respecting overlap policy.
-
-        Returns True if the job started; False if skipped due to overlap.
-        """
-        allow_overlap = bool(self.config.get("allow_overlap", False))
-    # overlap_policy reserved for future queue behavior; default is skip
-
-        with self._running_lock:
-            if self._in_progress and not (allow_overlap or force):
-                # Skip according to policy (queue is not implemented in-process; next tick will run)
-                self.logger.warning("Skip run: previous job still in progress (overlap disabled)")
-                return False
-            # Mark as in-progress
-            self._in_progress = True
-
-        try:
-            self.sync_job.run()
-        finally:
-            with self._running_lock:
-                self._in_progress = False
-        return True
-
-    def run_once(self) -> None:
+    def run_once(self):
         self.logger.info("Running scheduled sync job...")
-        # run_once is a direct call; allow_overlap does not apply here unless concurrently invoked
-        self._run_job_if_allowed()
-
-    def trigger(self, *, force: bool = False) -> bool:
-        self.logger.info("Manual trigger of sync job%s...", " (force)" if force else "")
-        return self._run_job_if_allowed(force=force)
-
-    def _scheduler_loop(self) -> None:
-        interval_minutes = int(self.config.get("interval_minutes", 60))
-        interval_seconds = float(self.config.get("interval_seconds", interval_minutes * 60))
-        jitter_seconds = int(self.config.get("jitter_seconds", 0))
-        self.logger.info(
-            "Scheduler loop started (interval=%ss, jitter=%ss)", interval_seconds, jitter_seconds
-        )
-        while not self._stop_event.is_set():
-            start = time.monotonic()
-            try:
-                self._run_job_if_allowed()
-            except Exception as exc:  # noqa: BLE001
-                self.logger.exception("Scheduled run failed: %s", exc)
-            # Compute next sleep with optional jitter
-            base_delay = max(0.001, float(interval_seconds))
-            jitter = random.randint(0, jitter_seconds) if jitter_seconds > 0 else 0
-            elapsed = time.monotonic() - start
-            sleep_for = max(0, base_delay + jitter - elapsed)
-            # Wait but wake early on shutdown
-            if self._stop_event.wait(timeout=sleep_for):
-                break
-        self.logger.info("Scheduler loop exiting")
-
-    def start(self) -> None:
-        """Start the background scheduler loop."""
-        if self._thread and self._thread.is_alive():
-            self.logger.info("Scheduler already running")
-            return
-        self._stop_event.clear()
-        self._thread = threading.Thread(target=self._scheduler_loop, name="SchedulerLoop", daemon=True)
-        self._thread.start()
-
-    def shutdown(self) -> None:
-        """Signal the scheduler to stop and wait for in-flight work up to timeout."""
+        self.sync_job.run()
+    def trigger(self):
+        self.logger.info("Manual trigger of sync job...")
+        self.sync_job.run()
+    def shutdown(self):
         self.logger.info("Scheduler shutting down...")
-        self._stop_event.set()
-        timeout = float(self.config.get("shutdown_timeout_seconds", 30))
-        if self._thread and self._thread.is_alive():
-            self._thread.join(timeout=timeout)
-        # Best-effort wait for in-flight job
-        t0 = time.monotonic()
-        while True:
-            with self._running_lock:
-                if not self._in_progress:
-                    break
-            if time.monotonic() - t0 > timeout:
-                self.logger.warning("Shutdown timeout reached with job still in progress")
-                break
-            time.sleep(0.05)
-        self.logger.info("Scheduler shutdown complete")
-    # TODO: Add signal handling, full config loading, cron times support.
-
-    # --- Introspection helpers for API/UI ---
-    def is_running(self) -> bool:
-        return bool(self._thread and self._thread.is_alive())
-
-    def in_progress(self) -> bool:
-        with self._running_lock:
-            return self._in_progress
+    # TODO: Add scheduling, signal handling, config loading, etc.
 
 # --- CLI Entrypoint ---
 def main():

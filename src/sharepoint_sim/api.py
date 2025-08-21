@@ -8,13 +8,13 @@ Added endpoints:
 """
 from __future__ import annotations
 
-from pathlib import Path
-
 from fastapi import APIRouter, HTTPException, Response
 from fastapi.responses import PlainTextResponse
-
+from pathlib import Path
 from sharepoint_sim.schemas import ROLE_RULES
-from sharepoint_sim.service import GENERATOR_MAP, SharePointCSVGenerator
+from sharepoint_sim.service import GENERATOR_MAP
+
+from sharepoint_sim.service import SharePointCSVGenerator
 
 router = APIRouter(prefix="/sim", tags=["sim"])
 _service = SharePointCSVGenerator()
@@ -109,7 +109,7 @@ async def list_datasets() -> dict[str, list[dict[str, object]]]:
         out.append({
             "name": name,
             "headers": list(cls.headers),  # type: ignore[attr-defined]
-            "roles": sorted(ROLE_RULES.get(name, set())),
+            "roles": sorted(list(ROLE_RULES.get(name, set()))),
         })
     return {"datasets": out}
 
@@ -133,7 +133,7 @@ async def get_dataset(name: str) -> dict[str, object]:
     return {
         "name": name,
         "headers": list(cls.headers),  # type: ignore[attr-defined]
-        "roles": sorted(ROLE_RULES.get(name, set())),
+        "roles": sorted(list(ROLE_RULES.get(name, set()))),
     }
 
 
