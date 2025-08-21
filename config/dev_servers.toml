@@ -1,0 +1,14 @@
+# Dev servers configuration
+# You can override host and ports or choose which services to run by default.
+
+[dev_servers]
+# Bind host (default 127.0.0.1). Do not expose to public networks in dev.
+host = "127.0.0.1"
+
+# Ports for each service
+sim_port = 8001
+db_port = 8002
+sched_port = 8003
+
+# Default services to run when no CLI flags are provided
+run = ["sim", "db", "sched"]

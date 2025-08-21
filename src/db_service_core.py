@@ -18,18 +18,25 @@ class DBService:
         self.SessionLocal = SessionLocal
 
     def create_table(self, table_name: str, columns_dict: Dict[str, str]):
-        columns: list[Column[Any]] = []
-        for col, col_type in columns_dict.items():
-            if not col or not col_type:
-                raise HTTPException(status_code=400, detail=f"Invalid column definition: {col}")
-            if col_type.upper() == "INTEGER":
-                coltype = Integer
-            else:
-                coltype = String
-            columns.append(Column(col, coltype))
+        # Recreate table fresh each time to ensure deterministic tests
         try:
-            table = Table(table_name, self.metadata, *columns, extend_existing=True)
-            table.create(bind=self.engine, checkfirst=True)
+            self.metadata.reflect(bind=self.engine)
+            if table_name in self.metadata.tables:
+                existing = self.metadata.tables[table_name]
+                existing.drop(bind=self.engine, checkfirst=True)
+                self.metadata.remove(existing)
+
+            cols: list[Column[Any]] = []
+            for col, decl in columns_dict.items():
+                if not col or not decl:
+                    raise HTTPException(status_code=400, detail=f"Invalid column definition: {col}")
+                up = str(decl).upper()
+                coltype = Integer if "INTEGER" in up else String
+                is_pk = "PRIMARY KEY" in up
+                cols.append(Column(col, coltype, primary_key=is_pk))
+
+            table = Table(table_name, self.metadata, *cols)
+            table.create(bind=self.engine, checkfirst=False)
             self.metadata.reflect(bind=self.engine)
         except Exception as e:
             raise HTTPException(status_code=400, detail=f"DB error: {e}")
@@ -91,7 +98,7 @@ class DBService:
                 if end_time:
                     stmt = stmt.where(table.c[timestamp_column] <= end_time)
                 result = session.execute(stmt)
-                return [dict(row) for row in result.fetchall()]
+                return [dict(m) for m in result.mappings().all()]
             except Exception as e:
                 raise HTTPException(status_code=400, detail=f"DB error: {e}")
 
@@ -102,7 +109,12 @@ class DBService:
         table = self.metadata.tables[table_name]
         with self.SessionLocal() as session:
             try:
-                stmt = table.delete().where(text(f"rowid = :rowid")).params(rowid=row_id)
+                pk_cols = list(table.primary_key.columns)
+                key_col = pk_cols[0] if pk_cols else (table.c.get("id") if "id" in table.c else None)
+                if key_col is None:
+                    stmt = table.delete().where(text("rowid = :rowid")).params(rowid=row_id)
+                else:
+                    stmt = table.delete().where(key_col == row_id)
                 result = session.execute(stmt)
                 session.commit()
                 if result.rowcount == 0:
@@ -118,7 +130,12 @@ class DBService:
         table = self.metadata.tables[table_name]
         with self.SessionLocal() as session:
             try:
-                stmt = table.update().where(text(f"rowid = :rowid")).values(**row).params(rowid=row_id)
+                pk_cols = list(table.primary_key.columns)
+                key_col = pk_cols[0] if pk_cols else (table.c.get("id") if "id" in table.c else None)
+                if key_col is None:
+                    stmt = table.update().where(text("rowid = :rowid")).values(**row).params(rowid=row_id)
+                else:
+                    stmt = table.update().where(key_col == row_id).values(**row)
                 result = session.execute(stmt)
                 session.commit()
                 if result.rowcount == 0:

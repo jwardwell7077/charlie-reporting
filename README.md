@@ -35,6 +35,7 @@ docs/ (original documentation preserved)
 ## SharePoint CSV Simulator Testing
 
 All dataset generators are covered by property-based tests (using Hypothesis) that verify:
+
 * Header and schema invariants
 * Role enforcement
 * Value ranges and edge cases
@@ -142,6 +143,42 @@ Generate an hourly workbook via API:
 curl -X POST http://localhost:8000/ingest
 curl -X POST http://localhost:8000/generate/hourly
 ```
+
+## Dev Servers (Simulator, DB API, Scheduler)
+
+A convenience runner is available to launch the local FastAPI dev servers for components that expose an API:
+
+- SharePoint Simulator API: http://127.0.0.1:8001 (module: `sharepoint_sim.server:app`)
+- DB Service API: http://127.0.0.1:8002 (module: `db_service_api:app`)
+- Scheduler Control API: http://127.0.0.1:8003 (module: `scheduler_api:app`)
+
+Usage (from repo root, inside the venv):
+
+```bash
+python scripts/run_dev_servers.py              # start all
+python scripts/run_dev_servers.py --sim        # only simulator
+python scripts/run_dev_servers.py --db --sched # db + scheduler
+```
+
+Preflight checks performed:
+- Ensures `uvicorn` is installed in the active environment; exits with a helpful message if missing.
+- Verifies ports 8001/8002/8003 (or selected ones) are free on 127.0.0.1 before starting.
+- Verifies the SQLite path `./db_service.sqlite3` is writable when starting the DB API.
+
+Security: For now, these dev servers run without auth and bind to localhost. Do not expose them to untrusted networks.
+
+Config file (optional): `config/dev_servers.toml`
+
+```toml
+[dev_servers]
+host = "127.0.0.1"  # override bind host
+sim_port = 8001
+db_port = 8002
+sched_port = 8003
+run = ["sim", "db", "sched"]  # default set when no flags are provided
+```
+
+CLI flags override config: `--host`, and `--sim/--db/--sched` control selection.
 
 ## Quality Gate & Tooling
 
