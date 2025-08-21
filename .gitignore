@@ -204,6 +204,12 @@ foundation.sqlite
 reports/
 .pypirc
 
+# Project-specific generated artifacts
+# Local SQLite DB for dev runs
+db_service.sqlite3
+# SharePoint simulator outputs
+sharepoint_sim_output/
+
 # Cursor
 #  Cursor is an AI-powered code editor. `.cursorignore` specifies files/directories to
 #  exclude from AI features like autocomplete and code analysis. Recommended for sensitive data
