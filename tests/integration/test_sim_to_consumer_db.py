@@ -4,7 +4,7 @@ from pathlib import Path
 from fastapi.testclient import TestClient
 from sharepoint_sim.server import app
 from consumer.file_watcher import FileConsumer
-from src.db_service import DBClient
+from db_service import DBClient
 
 
 def test_simulator_to_consumer_to_db(tmp_path: Path) -> None:

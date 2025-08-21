@@ -13,7 +13,7 @@ from fastapi.testclient import TestClient
 
 
 # Import the FastAPI app
-from src.db_service_api import app
+from db_service_api import app
 
 # Create the TestClient for the FastAPI app
 client = TestClient(app)

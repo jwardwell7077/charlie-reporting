@@ -10,13 +10,19 @@ from __future__ import annotations
 import json
 import subprocess
 from pathlib import Path
+import sys
 from typing import Any, Dict
 
 import pytest
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
+SRC_DIR = PROJECT_ROOT / "src"
 SUMMARY_PATH = PROJECT_ROOT / "tests" / "integration_preflight_summary.json"
 PRECHECK_SCRIPT = PROJECT_ROOT / "tests" / "check_integration_dependencies.py"
+
+# Ensure 'src' folder is on sys.path so tests can import modules without 'src.' prefix
+if str(SRC_DIR) not in sys.path:
+    sys.path.insert(0, str(SRC_DIR))
 
 
 def _run_preflight() -> dict[str, Any]:

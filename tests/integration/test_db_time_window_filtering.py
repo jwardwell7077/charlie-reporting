@@ -1,5 +1,5 @@
 """Integration: Verify DBService time-window filtering by timestamp column."""
-from src.db_service_core import DBService
+from db_service_core import DBService
 
 
 def test_db_time_window_filtering_lexical_iso() -> None:

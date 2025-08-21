@@ -6,15 +6,64 @@ from typing import List, Optional, Dict, Any
 from pathlib import Path
 import logging
 from datetime import datetime, timedelta, timezone
+import re
+import signal
+import time
+
+try:  # Optional APScheduler import for runtime scheduling (not required for tests)
+    from apscheduler.schedulers.background import BackgroundScheduler  # type: ignore
+except Exception:  # pragma: no cover - optional dependency
+    BackgroundScheduler = None  # type: ignore
 
 # --- DBServiceClient ---
 class DBServiceClient:
-    def __init__(self, api_url: Optional[str] = None):
-        self.api_url = api_url or "http://localhost:8000"
+    def __init__(self, api_url: Optional[str] = None, session: Optional[Any] = None):
+        """HTTP client for DB service API, used to derive already ingested files.
+
+        Args:
+            api_url: Base URL for DB API (e.g., http://localhost:8000). Can be empty when using TestClient.
+            session: Requests-like session object (requests.Session or FastAPI TestClient).
+        """
+        self.api_url = (api_url or "http://localhost:8000").rstrip("/")
+        self.session = session
+        if self.session is None:  # pragma: no cover - environment dependent
+            try:
+                import requests  # type: ignore
+            except Exception as exc:  # pragma: no cover
+                raise RuntimeError("DBServiceClient requires an HTTP session in this environment") from exc
+            self.session = requests.Session()  # type: ignore
+        # Precompile pattern like ACQ__2025-08-20_1130 (kept for potential future use)
+        self._name_re = re.compile(r"^(?P<prefix>[A-Za-z0-9_]+)__(?P<dt>\d{4}-\d{2}-\d{2}_\d{4})$")
+
+    def _url(self, path: str) -> str:
+        if path.startswith("/"):
+            return f"{self.api_url}{path}"
+        return f"{self.api_url}/{path}"
+
+    # _parse_table_dt retained if we revert to table-name based query in future
+
     def get_ingested_files(self, start_time: str, end_time: str) -> List[str]:
-        """Query the DB service for already ingested files in the given interval."""
-        # TODO: Implement real HTTP call
-        return []
+        """Return CSV filenames already ingested within the time window.
+
+        Logic: uses DB's list of tables, assuming each ingested file created a table with
+        the filename stem, e.g., ACQ__2025-08-20_1130 -> ACQ__2025-08-20_1130.csv.
+        Non-matching table names are ignored.
+        """
+        start = datetime.fromisoformat(start_time)
+        end = datetime.fromisoformat(end_time)
+        # Query ingestion log via DB API rows endpoint
+        params = {
+            "start_time": start.isoformat(timespec="seconds"),
+            "end_time": end.isoformat(timespec="seconds"),
+            "timestamp_column": "ingested_at",
+            "columns": "filename",
+        }
+        resp: Any = self.session.get(self._url("/tables/ingestion_log/rows"), params=params)  # type: ignore[attr-defined]
+        if resp.status_code == 404:
+            return []
+        resp.raise_for_status()
+        rows: List[Dict[str, Any]] = list(resp.json())
+        return [str(r.get("filename")) for r in rows if r.get("filename")]
 
 # --- SharePointClient ---
 class SharePointClient:
@@ -107,16 +156,30 @@ class SyncJob:
             return []
 
         downloaded: List[str] = []
+        max_retries: int = int(self.config.get("max_retries", 1))
+        retry_delay: float = float(self.config.get("retry_delay_seconds", 0))
         for name in files:
             if name in already_ingested:
                 continue
             dest = ingestion_dir / name
-            try:
-                self.sharepoint_client.download_file(folder, name, dest)
-            except Exception as exc:  # noqa: BLE001
-                self.logger.error("Failed to download %s: %s", name, exc)
-                continue
-            downloaded.append(name)
+            attempt = 0
+            success = False
+            while True:
+                try:
+                    self.sharepoint_client.download_file(folder, name, dest)
+                    success = True
+                    break
+                except Exception as exc:  # noqa: BLE001
+                    attempt += 1
+                    if attempt >= max_retries:
+                        self.logger.error("Failed to download %s after %s attempts: %s", name, attempt, exc)
+                        dest.unlink(missing_ok=True)
+                        break
+                    if retry_delay > 0:
+                        time.sleep(retry_delay)
+                    continue
+            if success:
+                downloaded.append(name)
 
         return downloaded
     def _move_file(self, path: Path) -> None:
@@ -133,9 +196,14 @@ class Scheduler:
         self.sync_job = SyncJob(config, sharepoint_client, db_service_client)
         self.logger = logging.getLogger("Scheduler")
     def _schedule_jobs(self) -> None:
-        """Register scheduled jobs (stub for patching in tests)."""
-        # TODO: Integrate with APScheduler or similar
-        return
+        """Register scheduled jobs using APScheduler if available."""
+        interval_minutes = int(self.config.get("interval_minutes", 60))
+        if BackgroundScheduler is None:  # pragma: no cover - optional dependency
+            self.logger.warning("APScheduler not available; skipping background scheduling")
+            return
+        self._scheduler = BackgroundScheduler()  # type: ignore[attr-defined]
+        self._scheduler.add_job(self.sync_job.run, "interval", minutes=interval_minutes, id="sync_job")  # type: ignore[call-arg]
+        self._scheduler.start()  # type: ignore[misc]
     def _handle_shutdown(self) -> None:
         """Handle graceful shutdown (stub for patching in tests)."""
         return
@@ -147,12 +215,48 @@ class Scheduler:
         self.sync_job.run()
     def shutdown(self):
         self.logger.info("Scheduler shutting down...")
+        sched = getattr(self, "_scheduler", None)
+        if sched is not None:  # pragma: no cover
+            try:
+                sched.shutdown()
+            except Exception:
+                pass
     # TODO: Add scheduling, signal handling, config loading, etc.
 
 # --- CLI Entrypoint ---
 def main():
-    # TODO: Parse CLI args, load config, instantiate Scheduler, run/trigger
-    pass
+    # Minimal CLI for running once or starting scheduled mode
+    import argparse
+
+    parser = argparse.ArgumentParser(description="Scheduler CLI")
+    parser.add_argument("command", choices=["run-once", "start", "trigger"], help="Action to perform")
+    args = parser.parse_args()
+
+    cfg = load_config()
+    sp = SharePointClient(cfg)
+    db = DBServiceClient()
+    scheduler = Scheduler(cfg, sp, db)
+
+    def _handle_sig(_sig: int, _frm: Any) -> None:  # pragma: no cover - runtime only
+        scheduler.shutdown()
+
+    for s in (signal.SIGINT, signal.SIGTERM):  # pragma: no cover - runtime only
+        try:
+            signal.signal(s, _handle_sig)
+        except Exception:
+            pass
+
+    if args.command == "run-once":
+        scheduler.run_once()
+    elif args.command == "trigger":
+        scheduler.trigger()
+    else:  # start
+        scheduler._schedule_jobs()  # type: ignore[protected-access]
+        try:  # keep process alive
+            while True:
+                time.sleep(1)
+        except KeyboardInterrupt:  # pragma: no cover
+            scheduler.shutdown()
 
 # Provide a minimal load_config stub to support tests that patch this symbol.
 def load_config() -> Dict[str, Any]:

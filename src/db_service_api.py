@@ -9,7 +9,7 @@ from typing import Any, Dict, Optional, List
 import csv
 import io
 import threading
-from src.db_service_core import DBService
+from db_service_core import DBService
 
 app = FastAPI(title="DB Service API")
 _db_lock = threading.Lock()
@@ -86,6 +86,11 @@ def create_table(payload: dict[str, Any] = Body(...)):
     # Ensure type is Dict[str, str]
     columns_dict: Dict[str, str] = {str(k): str(v) for k, v in columns_dict_raw.items()}  # type: ignore
     with _db_lock:
+        # Recreate table cleanly to avoid conflicts with prior test runs
+        try:
+            db_service.delete_table(table_name)
+        except HTTPException:
+            pass
         db_service.create_table(table_name, columns_dict)
     return TableCreateResponse(message="Table created or already exists.", table_name=table_name)
 

@@ -9,7 +9,7 @@ from typing import Any, Dict, List
 import csv
 import io
 
-from .db_service_core import DBService
+from db_service_core import DBService
 
 
 class DBClient:
@@ -18,7 +18,7 @@ class DBClient:
 	def __init__(self, service: DBService | None = None) -> None:
 		self.service = service or DBService()
 
-	def send_to_db(self, data: str, table_name: str | None = None) -> Dict[str, Any]:
+	def send_to_db(self, data: str, table_name: str | None = None, original_filename: str | None = None) -> Dict[str, Any]:
 		"""Ingest CSV text into a table.
 
 		Args:
@@ -42,6 +42,10 @@ class DBClient:
 		for r in rows:
 			self.service.insert_row(tbl, r)
 			inserted += 1
+		# Log ingestion for downstream filtering
+		if original_filename:
+			dataset = tbl
+			self.service.log_ingestion(original_filename, dataset)
 		return {"table": tbl, "row_count": inserted}
 
 
