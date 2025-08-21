@@ -5,16 +5,17 @@
 This repository has been reset to a **minimal, configurable reporting foundation** focused on:
 
 * Ingesting SharePoint‑exported CSV drops
+
 # Charlie Reporting (Lean Foundation Restart)
 
 [![Quality Gate](https://github.com/jwardwell7077/charlie-reporting/actions/workflows/quality-gate.yml/badge.svg)](https://github.com/jwardwell7077/charlie-reporting/actions/workflows/quality-gate.yml)
 
 This repository has been reset to a minimal, configurable reporting foundation focused on:
 
-- Ingesting SharePoint‑exported CSV drops
-- Loading data into a lightweight local SQLite store
-- Generating hourly and quad‑daily Excel/HTML outputs
-- Preparing for later email distribution and real SharePoint / Graph API integration
+* Ingesting SharePoint‑exported CSV drops
+* Loading data into a lightweight local SQLite store
+* Generating hourly and quad‑daily Excel/HTML outputs
+* Preparing for later email distribution and real SharePoint / Graph API integration
 
 Historic microservice code has been pruned (kept in prior Git history). Documentation and configuration files remain for reference/value.
 
@@ -43,10 +44,10 @@ The repository includes a lightweight SharePoint CSV simulator (deterministic te
 
 All dataset generators are covered by property-based tests (using Hypothesis) that verify:
 
-- Header and schema invariants
-- Role enforcement
-- Value ranges and edge cases
-- Row count clamping
+* Header and schema invariants
+* Role enforcement
+* Value ranges and edge cases
+* Row count clamping
 
 Edge-case and regression tests are included for all error branches and invariants. See `tests/sim/` for details.
 
@@ -54,10 +55,10 @@ Edge-case and regression tests are included for all error branches and invariant
 
 The simulator is mounted at `/sim` in the main API. Example endpoints:
 
-- `POST /sim/generate?types=ACQ,Productivity&rows=25` — generate one or more datasets
-- `GET /sim/files` — list generated files
-- `GET /sim/download/{filename}` — download CSV
-- `POST /sim/reset` — clear generated files
+* `POST /sim/generate?types=ACQ,Productivity&rows=25` — generate one or more datasets
+* `GET /sim/files` — list generated files
+* `GET /sim/download/{filename}` — download CSV
+* `POST /sim/reset` — clear generated files
 
 Simulator configuration: edit `config/sharepoint_sim.toml`:
 
@@ -74,11 +75,11 @@ Files are named `<DATASET>__YYYY-MM-DD_HHMM.csv` (5‑minute UTC rounding) and r
 
 Active runtime configuration now lives in `config/settings.toml` (see populated example in repo). Key sections:
 
-- `[schedules]` – hourly interval + explicit quad‑daily times
-- `[data_sources]` / `[[data_sources.sources]]` – list of named CSV patterns to ingest
-- `[collector]` – input (SharePoint dump), staging, archive directories
-- `[report]` – output directory, workbook name, per‑source column whitelists
-- `[email]` – (placeholder) future outbound email metadata
+* `[schedules]` – hourly interval + explicit quad‑daily times
+* `[data_sources]` / `[[data_sources.sources]]` – list of named CSV patterns to ingest
+* `[collector]` – input (SharePoint dump), staging, archive directories
+* `[report]` – output directory, workbook name, per‑source column whitelists
+* `[email]` – (placeholder) future outbound email metadata
 
 Legacy `config/config.toml` provided email folder filters and per‑file column selections. These have been mapped forward:
 
@@ -132,9 +133,9 @@ We adhere to a core design principle: Minimal Entry / Minimal Exit.
 
 Examples:
 
-- `Roster` self-loads on construction (optional `from_csv` classmethod) — removed former `load_roster()` wrapper.
-- Dataset generators expose a single `build()` path instead of scattered helper functions.
-- Service orchestration keeps state explicit (roster, RNG, storage) with no hidden globals.
+* `Roster` self-loads on construction (optional `from_csv` classmethod) — removed former `load_roster()` wrapper.
+* Dataset generators expose a single `build()` path instead of scattered helper functions.
+* Service orchestration keeps state explicit (roster, RNG, storage) with no hidden globals.
 
 See `docs/development_principles.md` for rationale, review checklist, and contribution guidelines.
 
@@ -163,21 +164,21 @@ All prior architecture rationale, migration notes, and phase achievements remain
 
 ## Diagrams
 
-- [Architecture Overview (Mermaid)](docs/architecture/diagrams/architecture-overview.md)
-- [Service Boundaries (Mermaid)](docs/architecture/diagrams/service-boundaries.md)
-- [Component: Collector](docs/architecture/diagrams/component-collector.md)
-- [Component: Loader](docs/architecture/diagrams/component-loader.md)
-- [Component: Aggregator](docs/architecture/diagrams/component-aggregator.md)
-- [Component: Excel/HTML Generator](docs/architecture/diagrams/component-excel.md)
-- [Component: API](docs/architecture/diagrams/component-api.md)
-- [Component: Simulator](docs/architecture/diagrams/component-simulator.md)
+* [Architecture Overview (Mermaid)](docs/architecture/diagrams/architecture-overview.md)
+* [Service Boundaries (Mermaid)](docs/architecture/diagrams/service-boundaries.md)
+* [Component: Collector](docs/architecture/diagrams/component-collector.md)
+* [Component: Loader](docs/architecture/diagrams/component-loader.md)
+* [Component: Aggregator](docs/architecture/diagrams/component-aggregator.md)
+* [Component: Excel/HTML Generator](docs/architecture/diagrams/component-excel.md)
+* [Component: API](docs/architecture/diagrams/component-api.md)
+* [Component: Simulator](docs/architecture/diagrams/component-simulator.md)
 
 ### UML (Mermaid)
 
-- [UML Class: Foundation](docs/architecture/diagrams/uml/class-foundation.md)
-- [UML Sequence: Ingest Flow](docs/architecture/diagrams/uml/sequence-ingest.md)
-- [UML Sequence: Generate Hourly Report](docs/architecture/diagrams/uml/sequence-generate-hourly.md)
-- [UML Sequence: Simulator Generate](docs/architecture/diagrams/uml/sequence-simulator-generate.md)
+* [UML Class: Foundation](docs/architecture/diagrams/uml/class-foundation.md)
+* [UML Sequence: Ingest Flow](docs/architecture/diagrams/uml/sequence-ingest.md)
+* [UML Sequence: Generate Hourly Report](docs/architecture/diagrams/uml/sequence-generate-hourly.md)
+* [UML Sequence: Simulator Generate](docs/architecture/diagrams/uml/sequence-simulator-generate.md)
 
 ### Architecture Overview (inline)
 
@@ -233,4 +234,3 @@ Proprietary / internal (adjust as needed). Add explicit license if distribution 
 ---
 
 For deeper architectural description see `foundation/README.md`.
-
