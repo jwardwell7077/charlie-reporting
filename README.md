@@ -196,14 +196,14 @@ All prior architecture rationale, migration notes, and phase achievements remain
 
 ## Diagrams
 
-- Architecture Overview (Mermaid): docs/architecture/diagrams/architecture-overview.md
-- Service Boundaries (Mermaid): docs/architecture/diagrams/service-boundaries.md
- - Component: Collector — docs/architecture/diagrams/component-collector.md
- - Component: Loader — docs/architecture/diagrams/component-loader.md
- - Component: Aggregator — docs/architecture/diagrams/component-aggregator.md
- - Component: Excel/HTML Generator — docs/architecture/diagrams/component-excel.md
- - Component: API — docs/architecture/diagrams/component-api.md
- - Component: Simulator — docs/architecture/diagrams/component-simulator.md
+- [Architecture Overview (Mermaid)](docs/architecture/diagrams/architecture-overview.md)
+- [Service Boundaries (Mermaid)](docs/architecture/diagrams/service-boundaries.md)
+- [Component: Collector](docs/architecture/diagrams/component-collector.md)
+- [Component: Loader](docs/architecture/diagrams/component-loader.md)
+- [Component: Aggregator](docs/architecture/diagrams/component-aggregator.md)
+- [Component: Excel/HTML Generator](docs/architecture/diagrams/component-excel.md)
+- [Component: API](docs/architecture/diagrams/component-api.md)
+- [Component: Simulator](docs/architecture/diagrams/component-simulator.md)
 
 ### Architecture Overview (inline)
 
