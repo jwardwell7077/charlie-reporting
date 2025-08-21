@@ -10,50 +10,57 @@ It is optional and can be run in-process for simple deployments.
 """
 from __future__ import annotations
 
-from typing import Any, Dict, Optional
+import threading
+from typing import Any
+
 from fastapi import FastAPI
 from pydantic import BaseModel
-import threading
 
-from scheduler import Scheduler, SharePointClient, DBServiceClient
-
+from scheduler import DBServiceClient, Scheduler, SharePointClient
 
 app = FastAPI(title="Scheduler API")
 _lock = threading.Lock()
-_scheduler: Optional[Scheduler] = None
+
+
+class _SchedulerHolder:
+    """Mutable holder for lazily created singleton scheduler."""
+
+    instance: Scheduler | None = None
 
 
 class SchedulerConfig(BaseModel):
-    interval_minutes: Optional[int] = None
-    interval_seconds: Optional[float] = None
-    jitter_seconds: Optional[int] = None
-    allow_overlap: Optional[bool] = None
-    shutdown_timeout_seconds: Optional[float] = None
-    sharepoint_folder: Optional[str] = None
-    ingestion_dir: Optional[str] = None
+    """Scheduler configuration surface exposed via API."""
+    interval_minutes: int | None = None
+    interval_seconds: float | None = None
+    jitter_seconds: int | None = None
+    allow_overlap: bool | None = None
+    shutdown_timeout_seconds: float | None = None
+    sharepoint_folder: str | None = None
+    ingestion_dir: str | None = None
 
 
 def _get_or_create_scheduler() -> Scheduler:
-    global _scheduler
     with _lock:
-        if _scheduler is None:
-            cfg: Dict[str, Any] = {
+        if _SchedulerHolder.instance is None:
+            cfg: dict[str, Any] = {
                 "interval_minutes": 60,
                 "jitter_seconds": 0,
                 "allow_overlap": False,
                 "shutdown_timeout_seconds": 30,
             }
-            _scheduler = Scheduler(cfg, SharePointClient(), DBServiceClient())
-        return _scheduler
+            _SchedulerHolder.instance = Scheduler(cfg, SharePointClient(), DBServiceClient())
+        return _SchedulerHolder.instance
 
 
 @app.get("/health")
-def health() -> Dict[str, str]:
+def health() -> dict[str, str]:
+    """Return service health."""
     return {"status": "ok"}
 
 
 @app.get("/status")
-def status() -> Dict[str, Any]:
+def status() -> dict[str, Any]:
+    """Return scheduler runtime status and current config."""
     s = _get_or_create_scheduler()
     return {
         "running": s.is_running(),
@@ -63,7 +70,8 @@ def status() -> Dict[str, Any]:
 
 
 @app.post("/start")
-def start() -> Dict[str, str]:
+def start() -> dict[str, str]:
+    """Start the scheduler loop if not already running."""
     s = _get_or_create_scheduler()
     if s.is_running():
         return {"message": "scheduler already running"}
@@ -72,34 +80,39 @@ def start() -> Dict[str, str]:
 
 
 @app.post("/trigger")
-def trigger(force: bool = False) -> Dict[str, Any]:
+def trigger(force: bool = False) -> dict[str, Any]:
+    """Manually trigger a run; set force=true to bypass non-overlap policy."""
     s = _get_or_create_scheduler()
     started = s.trigger(force=force)
     return {"started": started}
 
 
 @app.post("/run-once")
-def run_once() -> Dict[str, str]:
+def run_once() -> dict[str, str]:
+    """Run the scheduled job once synchronously."""
     s = _get_or_create_scheduler()
     s.run_once()
     return {"message": "run_once invoked"}
 
 
 @app.post("/shutdown")
-def shutdown() -> Dict[str, str]:
+def shutdown() -> dict[str, str]:
+    """Signal the scheduler to stop and wait for in-flight work."""
     s = _get_or_create_scheduler()
     s.shutdown()
     return {"message": "scheduler stopped"}
 
 
 @app.get("/config")
-def get_config() -> Dict[str, Any]:
+def get_config() -> dict[str, Any]:
+    """Return the current scheduler configuration."""
     s = _get_or_create_scheduler()
     return s.config
 
 
 @app.put("/config")
-def update_config(cfg: SchedulerConfig) -> Dict[str, Any]:
+def update_config(cfg: SchedulerConfig) -> dict[str, Any]:
+    """Update mutable configuration keys; returns the resulting config."""
     s = _get_or_create_scheduler()
     # Update only provided fields
     for k, v in cfg.model_dump(exclude_none=True).items():

@@ -1,10 +1,9 @@
-"""
-DBService: Business logic and SQLAlchemy operations for the DB Service API.
-"""
-from typing import Any, Dict, List, Optional
-from sqlalchemy import create_engine, MetaData, Table, Column, String, Integer, select, text
-from sqlalchemy.orm import sessionmaker
+"""DBService: Business logic and SQLAlchemy operations for the DB Service API."""
+from typing import Any
+
 from fastapi import HTTPException
+from sqlalchemy import Column, Integer, MetaData, String, Table, create_engine, select, text
+from sqlalchemy.orm import sessionmaker
 
 DB_PATH = "sqlite:///db_service.sqlite3"
 engine = create_engine(DB_PATH, connect_args={"check_same_thread": False})
@@ -12,12 +11,16 @@ SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 metadata = MetaData()
 
 class DBService:
-    def __init__(self):
+    """Service that manages simple table CRUD using SQLAlchemy/SQLite."""
+
+    def __init__(self) -> None:
+        """Initialize the DB service with shared engine/metadata/session factory."""
         self.engine = engine
         self.metadata = metadata
         self.SessionLocal = SessionLocal
 
-    def create_table(self, table_name: str, columns_dict: Dict[str, str]):
+    def create_table(self, table_name: str, columns_dict: dict[str, str]) -> None:
+        """Create or replace a table with the provided column declarations."""
         # Recreate table fresh each time to ensure deterministic tests
         try:
             self.metadata.reflect(bind=self.engine)
@@ -38,27 +41,30 @@ class DBService:
             table = Table(table_name, self.metadata, *cols)
             table.create(bind=self.engine, checkfirst=False)
             self.metadata.reflect(bind=self.engine)
-        except Exception as e:
-            raise HTTPException(status_code=400, detail=f"DB error: {e}")
+        except Exception as e:  # noqa: BLE001
+            raise HTTPException(status_code=400, detail=f"DB error: {e}") from e
 
-    def list_tables(self) -> List[str]:
+    def list_tables(self) -> list[str]:
+        """Return list of user table names."""
         try:
             self.metadata.reflect(bind=self.engine)
             return list(self.metadata.tables.keys())
-        except Exception as e:
-            raise HTTPException(status_code=400, detail=f"DB error: {e}")
+        except Exception as e:  # noqa: BLE001
+            raise HTTPException(status_code=400, detail=f"DB error: {e}") from e
 
-    def get_table_schema(self, table_name: str) -> List[Dict[str, str]]:
+    def get_table_schema(self, table_name: str) -> list[dict[str, str]]:
+        """Return table schema as a list of name/type dicts."""
         try:
             self.metadata.reflect(bind=self.engine)
             if table_name not in self.metadata.tables:
                 raise HTTPException(status_code=404, detail="Table not found.")
             table = self.metadata.tables[table_name]
             return [{"name": col.name, "type": str(col.type)} for col in table.columns]
-        except Exception as e:
-            raise HTTPException(status_code=400, detail=f"DB error: {e}")
+        except Exception as e:  # noqa: BLE001
+            raise HTTPException(status_code=400, detail=f"DB error: {e}") from e
 
-    def delete_table(self, table_name: str):
+    def delete_table(self, table_name: str) -> None:
+        """Delete a table if it exists, else 404."""
         try:
             self.metadata.reflect(bind=self.engine)
             if table_name not in self.metadata.tables:
@@ -66,10 +72,11 @@ class DBService:
             table = self.metadata.tables[table_name]
             table.drop(bind=self.engine, checkfirst=True)
             self.metadata.remove(table)
-        except Exception as e:
-            raise HTTPException(status_code=400, detail=f"DB error: {e}")
+        except Exception as e:  # noqa: BLE001
+            raise HTTPException(status_code=400, detail=f"DB error: {e}") from e
 
-    def insert_row(self, table_name: str, row: Dict[str, Any]) -> Optional[int]:
+    def insert_row(self, table_name: str, row: dict[str, Any]) -> int | None:
+        """Insert a row and return the inserted primary key if present."""
         self.metadata.reflect(bind=self.engine)
         if table_name not in self.metadata.tables:
             raise HTTPException(status_code=404, detail="Table not found.")
@@ -79,12 +86,22 @@ class DBService:
                 ins = table.insert().values(**row)
                 result = session.execute(ins)
                 session.commit()
-                return int(result.inserted_primary_key[0]) if result.inserted_primary_key and result.inserted_primary_key[0] is not None else None
-            except Exception as e:
+                if result.inserted_primary_key and result.inserted_primary_key[0] is not None:
+                    return int(result.inserted_primary_key[0])
+                return None
+            except Exception as e:  # noqa: BLE001
                 session.rollback()
-                raise HTTPException(status_code=400, detail=f"DB error: {e}")
+                raise HTTPException(status_code=400, detail=f"DB error: {e}") from e
 
-    def get_rows(self, table_name: str, start_time: Optional[str], end_time: Optional[str], timestamp_column: str, columns: Optional[List[str]]) -> List[Dict[str, Any]]:
+    def get_rows(
+        self,
+        table_name: str,
+        start_time: str | None,
+        end_time: str | None,
+        timestamp_column: str,
+        columns: list[str] | None,
+    ) -> list[dict[str, Any]]:
+        """Return rows with optional timestamp filtering and column projection."""
         self.metadata.reflect(bind=self.engine)
         if table_name not in self.metadata.tables:
             raise HTTPException(status_code=404, detail="Table not found.")
@@ -99,10 +116,11 @@ class DBService:
                     stmt = stmt.where(table.c[timestamp_column] <= end_time)
                 result = session.execute(stmt)
                 return [dict(m) for m in result.mappings().all()]
-            except Exception as e:
-                raise HTTPException(status_code=400, detail=f"DB error: {e}")
+            except Exception as e:  # noqa: BLE001
+                raise HTTPException(status_code=400, detail=f"DB error: {e}") from e
 
-    def delete_row(self, table_name: str, row_id: int):
+    def delete_row(self, table_name: str, row_id: int) -> None:
+        """Delete a row by primary key or SQLite rowid fallback."""
         self.metadata.reflect(bind=self.engine)
         if table_name not in self.metadata.tables:
             raise HTTPException(status_code=404, detail="Table not found.")
@@ -119,11 +137,12 @@ class DBService:
                 session.commit()
                 if result.rowcount == 0:
                     raise HTTPException(status_code=404, detail="Row not found.")
-            except Exception as e:
+            except Exception as e:  # noqa: BLE001
                 session.rollback()
-                raise HTTPException(status_code=400, detail=f"DB error: {e}")
+                raise HTTPException(status_code=400, detail=f"DB error: {e}") from e
 
-    def update_row(self, table_name: str, row_id: int, row: Dict[str, Any]):
+    def update_row(self, table_name: str, row_id: int, row: dict[str, Any]) -> None:
+        """Update a row by primary key or SQLite rowid fallback."""
         self.metadata.reflect(bind=self.engine)
         if table_name not in self.metadata.tables:
             raise HTTPException(status_code=404, detail="Table not found.")
@@ -140,6 +159,6 @@ class DBService:
                 session.commit()
                 if result.rowcount == 0:
                     raise HTTPException(status_code=404, detail="Row not found.")
-            except Exception as e:
+            except Exception as e:  # noqa: BLE001
                 session.rollback()
-                raise HTTPException(status_code=400, detail=f"DB error: {e}")
+                raise HTTPException(status_code=400, detail=f"DB error: {e}") from e
