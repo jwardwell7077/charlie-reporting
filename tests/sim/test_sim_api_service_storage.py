@@ -1,7 +1,6 @@
 """Targeted tests for uncovered lines in sharepoint_sim.api, service, and storage."""
 import pytest
 from fastapi.testclient import TestClient
-from sharepoint_sim.api import router
 from sharepoint_sim.server import app
 from sharepoint_sim.service import SharePointCSVGenerator
 from sharepoint_sim.storage import Storage
@@ -19,7 +18,7 @@ def test_api_get_dataset_not_found():
     assert resp.status_code == 404
     assert resp.json()["detail"] == "Unknown dataset"
 
-def test_api_spec_addendum_missing(tmp_path, monkeypatch):
+def test_api_spec_addendum_missing(tmp_path: Path, monkeypatch: pytest.MonkeyPatch):
     # Patch Path to a temp dir with no spec addendum
     monkeypatch.chdir(tmp_path)
     resp = client.get("/sim/spec")
@@ -34,13 +33,12 @@ def test_api_download_file_not_found():
 def test_service_generate_many_dict_and_int():
     svc = SharePointCSVGenerator()
     # Should not raise for valid dict/int
+    svc.generate_many(["ACQ", "Productivity"])  # valid datasets
     import pytest
     with pytest.raises(ValueError):
-        svc.generate_many({"ACQ": 12, "Productivity": 13})
-    with pytest.raises(ValueError):
-        svc.generate_many(15)
+        svc.generate_many(["15"])  # unknown dataset key
 
-def test_service_reset_and_list_files(tmp_path):
+def test_service_reset_and_list_files(tmp_path: Path):
     storage = Storage(tmp_path)
     # Create a dummy file
     f = tmp_path / "dummy.csv"

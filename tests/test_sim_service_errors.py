@@ -3,19 +3,19 @@ import pytest
 from sharepoint_sim.service import SharePointCSVGenerator
 from pathlib import Path
 
-def test_get_generator_unknown_dataset():
+def test_get_generator_unknown_dataset() -> None:
     svc = SharePointCSVGenerator(root_dir=Path("/tmp"), seed=42)
     with pytest.raises(ValueError, match="Unknown dataset"):  # covers error branch
-        svc._get_generator("DOES_NOT_EXIST")
+        svc._get_generator("DOES_NOT_EXIST")  # type: ignore[attr-defined]  # allow protected access for test
 
-def test_generate_many_with_dict_rows():
+def test_generate_many_with_dict_rows() -> None:
     svc = SharePointCSVGenerator(root_dir=Path("/tmp"), seed=42)
     # Should not raise, just cover the dict/int logic
     svc.generate_many(["ACQ", "Productivity"], rows={"ACQ": 10, "Productivity": 12})
     svc.generate_many(["ACQ", "Productivity"], rows=15)
     svc.generate_many(["ACQ", "Productivity"], rows=None)
 
-def test_reset_clears_roster_and_files(tmp_path):
+def test_reset_clears_roster_and_files(tmp_path: Path) -> None:
     svc = SharePointCSVGenerator(root_dir=tmp_path, seed=42)
     # Generate a file
     svc.generate("ACQ", 10)

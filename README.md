@@ -32,14 +32,13 @@ docs/ (original documentation preserved)
 
 * Lightweight SharePoint CSV simulator (deterministic test data generator) under `sharepoint_sim` with FastAPI endpoints mounted at `/sim`:
 
-
 ## SharePoint CSV Simulator Testing
 
 All dataset generators are covered by property-based tests (using Hypothesis) that verify:
-- Header and schema invariants
-- Role enforcement
-- Value ranges and edge cases
-- Row count clamping
+* Header and schema invariants
+* Role enforcement
+* Value ranges and edge cases
+* Row count clamping
 
 Edge-case and regression tests are included for all error branches and invariants. See `tests/sim/` for details.
 

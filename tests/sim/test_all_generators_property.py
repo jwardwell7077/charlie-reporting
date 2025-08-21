@@ -1,5 +1,33 @@
-"""Property-based tests for all SharePoint dataset generators using Hypothesis."""
 from hypothesis import given, strategies as st
+# Strategies must be defined before use in decorators
+row_count_strategy = st.integers(min_value=1, max_value=2000)
+seed_strategy = st.integers(min_value=0, max_value=2**32 - 1)
+# ACQ property-based test
+@given(row_count=row_count_strategy, seed=seed_strategy)
+def test_acq_generator_invariants(row_count: int, seed: int) -> None:
+    """
+    Property-based test for ACQGenerator invariants.
+
+    Args:
+        row_count (int): Number of rows to generate.
+        seed (int): Random seed for reproducibility.
+    """
+    roster = Roster()
+    rnd = RandomProvider(seed=seed)
+    gen = ACQGenerator(roster, rnd)
+    count = gen.row_count(row_count)
+    rows = gen.build(count)
+    allowed = ROLE_RULES[gen.name]
+    uuid_to_role = {e.uuid: e.role for e in roster.employees}
+    for r in rows:
+        assert list(r.keys()) == ACQ_HEADERS
+        assert uuid_to_role[r["Agent Id"]] in allowed
+        # Example invariants for ACQ (customize as needed):
+        # Replace with actual ACQ column names and logic:
+        if "ACQ" in r:
+            assert int(r["ACQ"]) >= 0
+    assert count == max(10, min(1000, row_count))
+"""Property-based tests for all SharePoint dataset generators using Hypothesis."""
 from sharepoint_sim.datasets.acq import ACQGenerator, ACQ_HEADERS
 from sharepoint_sim.datasets.productivity import ProductivityGenerator, PRODUCTIVITY_HEADERS
 from sharepoint_sim.datasets.qcbs import QCBSGenerator, QCBS_HEADERS
@@ -12,8 +40,6 @@ from sharepoint_sim.roster import Roster
 from sharepoint_sim.schemas import ROLE_RULES
 
 # Helper for all generators
-row_count_strategy = st.integers(min_value=1, max_value=2000)
-seed_strategy = st.integers(min_value=0, max_value=2**32 - 1)
 
 @given(row_count=row_count_strategy, seed=seed_strategy)
 def test_productivity_generator_invariants(row_count: int, seed: int) -> None:

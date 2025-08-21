@@ -1,9 +1,9 @@
 """Test Storage and StoredFile for 100% coverage."""
-from sharepoint_sim.storage import Storage, StoredFile
+from sharepoint_sim.storage import Storage
 from pathlib import Path
 import os
 
-def test_storage_write_list_reset(tmp_path):
+def test_storage_write_list_reset(tmp_path: Path) -> None:
     s = Storage(tmp_path)
     # Write a file
     fpath = s.write_csv("foo.csv", ["A", "B"], [{"A": "1", "B": "2"}])

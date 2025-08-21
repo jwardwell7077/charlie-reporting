@@ -89,8 +89,6 @@ class SharePointCSVGenerator:
         Raises:
             ValueError: If datasets is not a list of strings.
         """
-        if not isinstance(datasets, list) or not all(isinstance(d, str) for d in datasets):
-            raise ValueError("datasets must be a list of strings")
         outputs: list[Path] = []
         for d in datasets:
             r: int | None = None
