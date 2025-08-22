@@ -37,6 +37,11 @@ class DBClient:
 		# Infer schema as TEXT columns
 		columns = {str(k): "TEXT" for k in rows[0].keys()}
 		tbl = table_name or "ingest"
+		# Recreate table to avoid stale schemas across tests/runs
+		try:
+			self.service.delete_table(tbl)
+		except Exception:
+			pass
 		self.service.create_table(tbl, columns)
 		inserted = 0
 		for r in rows:
