@@ -184,8 +184,20 @@ class SyncJob:
         return downloaded
     def _move_file(self, path: Path) -> None:
         """Move file to ingestion directory (stub)."""
-        # TODO: Implement real move
-        pass
+        dest = Path(self.config.get("ingestion_dir", ".")) / path.name
+        dest.parent.mkdir(parents=True, exist_ok=True)
+        try:
+            # Prefer atomic rename move within same filesystem
+            path.replace(dest)
+        except Exception:
+            # Fallback to copy+remove across filesystems
+            import shutil
+            shutil.copy2(path, dest)
+            try:
+                path.unlink()
+            except Exception:
+                # Ignore cleanup failures; caller may handle
+                pass
 
 # --- Scheduler ---
 class Scheduler:

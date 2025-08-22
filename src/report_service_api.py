@@ -10,13 +10,14 @@ from __future__ import annotations
 
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Optional, cast
 
 from fastapi import FastAPI, HTTPException, Body
 from fastapi.responses import FileResponse, JSONResponse
 from pydantic import BaseModel, Field
 import csv
 import os
+import pandas as pd
 
 
 app = FastAPI(title="Report Service API")
@@ -71,7 +72,9 @@ def health() -> Dict[str, str]:
 def list_reports() -> JSONResponse:
     reports_dir = _get_reports_dir()
     items: List[Dict[str, Any]] = []
-    for p in sorted(reports_dir.glob("*.csv")):
+    # Include both CSV and XLSX outputs
+    files = list(reports_dir.glob("*.csv")) + list(reports_dir.glob("*.xlsx"))
+    for p in sorted(files):
         stat = p.stat()
         items.append({
             "filename": p.name,
@@ -101,12 +104,9 @@ def _fetch_rows(dataset: str, start_time: str, end_time: str) -> List[Dict[str, 
         raise HTTPException(status_code=502, detail="Unexpected DB API response")
     rows: List[Dict[str, Any]] = []
     for item in data_raw:
-        try:
-            mapping: Dict[str, Any] = dict(item) if isinstance(item, dict) else dict(item)
-            rows.append(mapping)
-        except Exception:
-            # Skip rows that cannot be coerced; defensive
-            continue
+        if isinstance(item, dict):
+            rows.append(cast(Dict[str, Any], item))
+        # ignore non-dict rows defensively
     return rows
 
 
@@ -124,23 +124,48 @@ def _write_csv(rows: List[Dict[str, Any]], path: Path) -> int:
     return len(rows)
 
 
+def _write_xlsx(rows: List[Dict[str, Any]], path: Path) -> int:
+    # Write an XLSX using pandas; supports empty datasets as an empty sheet
+    df = pd.DataFrame(rows)
+    # Use openpyxl engine by default
+    with pd.ExcelWriter(path, engine="openpyxl") as writer:
+        sheet = "Sheet1"
+        # Truncate sheet name to Excel's 31-char limit if we can infer from filename stem
+        try:
+            stem = path.stem
+            sheet = (stem.split("_", 1)[0] or sheet)[:31]
+        except Exception:
+            pass
+        df.to_excel(writer, sheet_name=sheet, index=False)  # type: ignore
+    return int(len(df))
+
+
 @app.post("/reports/generate")
 def generate_report(payload: ReportRequest = Body(...)) -> JSONResponse:
-    if payload.format.lower() != "csv":
-        raise HTTPException(status_code=400, detail="Only csv format is supported")
+    fmt = payload.format.lower()
+    if fmt not in {"csv", "xlsx", "excel"}:
+        raise HTTPException(status_code=400, detail="Only csv or xlsx formats are supported")
 
     rows = _fetch_rows(payload.dataset, payload.start_time, payload.end_time)
     reports_dir = _get_reports_dir()
     safe_dataset = "".join(ch for ch in payload.dataset if ch.isalnum() or ch in ("_", "-")) or "dataset"
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    filename = f"{safe_dataset}_{timestamp}.csv"
-    out_path = reports_dir / filename
-    count = _write_csv(rows, out_path)
+
+    if fmt == "csv":
+        filename = f"{safe_dataset}_{timestamp}.csv"
+        out_path = reports_dir / filename
+        count = _write_csv(rows, out_path)
+        out_fmt = "csv"
+    else:
+        filename = f"{safe_dataset}_{timestamp}.xlsx"
+        out_path = reports_dir / filename
+        count = _write_xlsx(rows, out_path)
+        out_fmt = "xlsx"
 
     return JSONResponse(content={
         "message": "Report generated",
         "dataset": payload.dataset,
-        "format": "csv",
+        "format": out_fmt,
         "row_count": count,
         "filename": filename,
         "path": str(out_path.resolve()),
@@ -153,5 +178,8 @@ def download_report(filename: str) -> FileResponse:
     path = (reports_dir / filename).resolve()
     if not path.exists() or not str(path).startswith(str(reports_dir.resolve())):
         raise HTTPException(status_code=404, detail="Report not found")
-    return FileResponse(path, media_type="text/csv", filename=filename)
+    media = "text/csv"
+    if path.suffix.lower() == ".xlsx":
+        media = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    return FileResponse(path, media_type=media, filename=filename)
  

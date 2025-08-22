@@ -11,6 +11,8 @@ This repository has been reset to a **minimal, configurable reporting foundation
 
 Historic microservice code has been pruned (kept in prior Git history). Documentation & configuration files remain for reference/value.
 
+See also: docs/e2e-quickstart.md for a step-by-step end-to-end demo using VS Code tasks.
+
 ## Current Core
 
 ```text

@@ -26,8 +26,3 @@ sequenceDiagram
   C->>RS: GET /reports/download/{filename}
   RS-->>C: File bytes
 ```
-
-Related documents:
-
-- Report Jobs Architecture (scheduler-driven): report-jobs-architecture.md
-- Design Spec: ../../design-specs/reporting/report_jobs_spec.md
