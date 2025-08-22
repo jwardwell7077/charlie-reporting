@@ -10,6 +10,8 @@ This directory now reflects the trimmed, restart-focused project. Most verbose m
 | Current architecture & roadmap | `foundation-overview.md` |
 | API surface (MVP) | `api_overview.md` |
 | Testing strategy | `testing-approach.md` |
+| Report Jobs Architecture | `architecture/diagrams/report-jobs-architecture.md` |
+| Report Jobs Design Spec | `design-specs/reporting/report_jobs_spec.md` |
 
 ## Historical (Kept Brief)
 

@@ -1,0 +1,175 @@
+openapi: 3.1.0
+info:
+  title: Report Jobs API
+  version: 0.1.0
+  description: Scheduler-driven Excel report generation via the DB Service.
+servers:
+  - url: http://localhost:8000
+paths:
+  /reports/jobs:
+    post:
+      summary: Create a report job
+      operationId: createReportJob
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReportJobRequest'
+      responses:
+        '201':
+          description: Job accepted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReportJobCreated'
+        '409':
+          description: Idempotent duplicate; returning existing job
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReportJobCreated'
+        '400':
+          description: Validation error
+  /reports/jobs/{job_id}:
+    get:
+      summary: Get report job status
+      operationId: getReportJob
+      parameters:
+        - name: job_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Job status
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReportJobStatus'
+        '404':
+          description: Not found
+  /reports/files:
+    get:
+      summary: List generated report files
+      operationId: listReportFiles
+      parameters:
+        - name: dataset
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: start_time
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date-time
+        - name: end_time
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date-time
+      responses:
+        '200':
+          description: List of report files
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  files:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ReportFile'
+  /reports/download/{filename}:
+    get:
+      summary: Download a generated report
+      operationId: downloadReport
+      parameters:
+        - name: filename
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: XLSX file
+          content:
+            application/vnd.openxmlformats-officedocument.spreadsheetml.sheet:
+              schema:
+                type: string
+                format: binary
+        '404':
+          description: Not found
+components:
+  schemas:
+    ReportJobRequest:
+      type: object
+      required: [dataset, start_time, end_time, format, columns, interval_start_column, interval_end_column, idempotency_key]
+      properties:
+        dataset:
+          type: string
+        start_time:
+          type: string
+          format: date-time
+        end_time:
+          type: string
+          format: date-time
+        format:
+          type: string
+          enum: [xlsx]
+        columns:
+          type: array
+          items:
+            type: string
+        interval_start_column:
+          type: string
+          example: Interval Start
+        interval_end_column:
+          type: string
+          example: Interval End
+        idempotency_key:
+          type: string
+          description: sha256 of dataset|start|end|format|columns
+    ReportJobCreated:
+      type: object
+      required: [job_id, status]
+      properties:
+        job_id:
+          type: string
+        status:
+          type: string
+          enum: [queued, succeeded]
+    ReportJobStatus:
+      type: object
+      required: [status]
+      properties:
+        status:
+          type: string
+          enum: [queued, running, succeeded, failed]
+        filename:
+          type: string
+          nullable: true
+        row_count:
+          type: integer
+          nullable: true
+        error:
+          type: string
+          nullable: true
+    ReportFile:
+      type: object
+      required: [filename, dataset, generated_at]
+      properties:
+        filename:
+          type: string
+        dataset:
+          type: string
+        generated_at:
+          type: string
+          format: date-time
+        row_count:
+          type: integer
+          nullable: true

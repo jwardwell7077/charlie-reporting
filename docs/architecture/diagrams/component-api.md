@@ -1,7 +1,7 @@
 # Component: API (FastAPI)
 
-```mermaid
 This repository exposes two FastAPI apps:
+
 - SharePoint Simulator API (test data generation and file listing/download)
 - DB Service API (table/row CRUD, CSV ingest, time-window filtering via ISO timestamps)
 
@@ -30,12 +30,17 @@ flowchart LR
   C -->|DELETE /tables/{table}/rows/{id}| DBAPI
   C -->|PUT /tables/{table}/rows/{id}| DBAPI
   C -->|POST /ingest (CSV or JSON rows)| DBAPI
+  C -->|POST /reports/jobs| DBAPI
+  C -->|GET /reports/jobs/{id}| DBAPI
+  C -->|GET /reports/files?dataset&start_time&end_time| DBAPI
+  C -->|GET /reports/download/{filename}| DBAPI
 ```
 
 Notes:
 
 - Time-window filtering is lexical on ISO 8601 strings (e.g., 2025-08-20T11:00:00+00:00).
 - ingestion_log is a first-class table used by the scheduler to determine already ingested filenames.
+- Report Jobs API computes and writes .xlsx artifacts using config-defined column sets and Interval Start/End filtering.
 
 ## End-to-end API touchpoints
 
@@ -59,5 +64,3 @@ sequenceDiagram
   end
 ```
 
-```markdown
-````

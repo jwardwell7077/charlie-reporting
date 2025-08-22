@@ -23,3 +23,8 @@ flowchart TB
   CON -->|Insert per-dataset rows| DBAPI
   CON -->|Log ingestion| DBAPI
 ```
+
+Related documents:
+
+- Report Jobs Architecture: report-jobs-architecture.md
+- Report Jobs Design Spec: ../../design-specs/reporting/report_jobs_spec.md

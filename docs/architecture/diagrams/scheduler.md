@@ -1,6 +1,5 @@
 # Component: Scheduler
 
- 
 ## Responsibilities
 
 - Poll SharePoint Simulator for available files via HTTP.
