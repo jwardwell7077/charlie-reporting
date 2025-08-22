@@ -11,7 +11,39 @@ This repository has been reset to a **minimal, configurable reporting foundation
 
 Historic microservice code has been pruned (kept in prior Git history). Documentation & configuration files remain for reference/value.
 
-See also: docs/e2e-quickstart.md for a step-by-step end-to-end demo using VS Code tasks.
+## System Architecture
+
+At a high level, the system consists of a REST-only SharePoint Simulator, a Scheduler that lists and downloads available CSVs, a File Consumer that ingests CSVs into the DB Service API, and a Report Service that queries the DB to produce CSV/XLSX outputs.
+
+```mermaid
+flowchart TB
+  subgraph External
+    SIM[SharePoint Simulator API]
+  end
+
+  subgraph Services
+    S[Scheduler]
+    CON[File Consumer]
+    DBAPI[DB Service API]
+    RS[Report Service API]
+  end
+
+  S -->|GET ingestion_log (ISO window)| DBAPI
+  S -->|GET files| SIM
+  S -->|GET download/{file}| SIM
+  S -->|write CSV| FS[(Ingestion Dir)]
+
+  FS --> CON
+  CON -->|Insert per-dataset rows| DBAPI
+  CON -->|Log ingestion| DBAPI
+
+  RS -->|GET rows (time-window)| DBAPI
+  RS -->|write CSV/XLSX| RFS[(reports/)]
+```
+
+See more diagrams and component breakdowns in docs/architecture/diagrams/, and a categorized index in docs/index.md.
+
+See also: docs/index.md for a categorized documentation index, and docs/e2e-quickstart.md for a step-by-step end-to-end demo using VS Code tasks.
 
 ## Current Core
 
