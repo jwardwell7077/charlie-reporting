@@ -63,4 +63,3 @@ sequenceDiagram
     CON->>DB: POST /tables/ingestion_log/rows { filename, dataset, ingested_at }
   end
 ```
-
