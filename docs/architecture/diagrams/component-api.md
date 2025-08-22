@@ -1,7 +1,7 @@
 # Component: API (FastAPI)
 
-```mermaid
 This repository exposes two FastAPI apps:
+
 - SharePoint Simulator API (test data generation and file listing/download)
 - DB Service API (table/row CRUD, CSV ingest, time-window filtering via ISO timestamps)
 
@@ -58,6 +58,3 @@ sequenceDiagram
     CON->>DB: POST /tables/ingestion_log/rows { filename, dataset, ingested_at }
   end
 ```
-
-```markdown
-````
