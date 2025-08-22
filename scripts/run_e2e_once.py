@@ -26,9 +26,9 @@ def main() -> None:
     _ = os.environ.get("DB_API_URL", "http://localhost:8000").rstrip("/")
     rpt = os.environ.get("REPORT_API_URL", "http://localhost:8091").rstrip("/")
 
-    # 1) Generate datasets in simulator
-    gen_body = {"types": ["ACQ", "Productivity"], "rows": 25}
-    r = requests.post(f"{sim}/sim/generate", json=gen_body, timeout=20)
+    # 1) Generate datasets in simulator (API expects query params)
+    params = {"types": "ACQ,Productivity", "rows": 25}
+    r = requests.post(f"{sim}/sim/generate", params=params, timeout=20)
     r.raise_for_status()
     print("Simulator generated:", r.json())
 
@@ -39,14 +39,19 @@ def main() -> None:
 
     # 3) Consumer run-once (ingest + archive)
     cmd_cons = [sys.executable, "scripts/run_consumer_once.py"]
-    subprocess.check_call(cmd_cons, cwd=os.getcwd())
+    env = os.environ.copy()
+    env_py = env.get("PYTHONPATH", "")
+    repo_root = os.getcwd()
+    env["PYTHONPATH"] = f"{repo_root}:{env_py}" if env_py else repo_root
+    subprocess.check_call(cmd_cons, cwd=os.getcwd(), env=env)
     print("Consumer run-once complete")
 
-    # 4) Generate report (CSV) over last 1 hour for ACQ
+    # 4) Generate report over a wider window to ensure rows are included
     now = datetime.now(timezone.utc)
-    start = (now - timedelta(hours=1)).isoformat(timespec="seconds")
+    start = (now - timedelta(days=7)).isoformat(timespec="seconds")
     end = now.isoformat(timespec="seconds")
-    body = {"dataset": "ACQ", "start_time": start, "end_time": end, "format": "csv"}
+    fmt = os.environ.get("REPORT_FORMAT", "csv")
+    body = {"dataset": "ACQ", "start_time": start, "end_time": end, "format": fmt}
     rr = requests.post(f"{rpt}/reports/generate", json=body, timeout=20)
     rr.raise_for_status()
     print("Report generated:", json.dumps(rr.json(), indent=2))
