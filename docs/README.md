@@ -31,3 +31,14 @@ This directory now reflects the trimmed, restart-focused project. Most verbose m
 - Add/refresh `OPERATIONS.md` once scheduler + email sending implemented.
 
 If a file here feels like narrative rather than enabling action, consider pruning or summarizing it.
+
+---
+
+Navigation & Sidebar
+
+- Categorized index: see `docs/index.md`.
+- Optional docs site with sidebar: `mkdocs.yml` is included. To preview locally:
+	- Optional:
+		- pip install mkdocs mkdocs-material
+		- mkdocs serve
+	- Then open <http://127.0.0.1:8000/>
