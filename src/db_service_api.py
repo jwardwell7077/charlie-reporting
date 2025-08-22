@@ -1,157 +1,149 @@
-"""FastAPI in-memory DB Service API for tests.
-
-Implements simple table and row operations used by tests:
-- Health check
-- Create/List/Delete tables
-- Insert/Get/Update/Delete rows with optional time and column filters
-
-This is intentionally minimal and in-memory.
 """
+DB Service API (FastAPI endpoints only).
+All business logic is delegated to db_service_core.DBService.
+"""
+from fastapi import FastAPI, HTTPException, Query, File, UploadFile, Request, status, Body
+from fastapi.responses import JSONResponse
+from pydantic import BaseModel, Field
+from typing import Any, Dict, Optional, List
+import csv
+import io
+import threading
+from db_service_core import DBService
 
-from __future__ import annotations
+app = FastAPI(title="DB Service API")
+_db_lock = threading.Lock()
+db_service = DBService()
 
-from typing import Any, Dict, List, Optional
+class TableSchema(BaseModel):
+    table_name: str = Field(..., description="Name of the table.")
+    columns: Dict[str, str] = Field(..., description="Column definitions as {name: type}.")
 
-from fastapi import Body, FastAPI, HTTPException, Query
-from pydantic import BaseModel
-
-
-app = FastAPI(title="DB Service API (In-Memory)")
-
-
-# In-memory storage structure: {table: {"columns": Dict[str,str], "rows": List[Dict[str,Any]]}}
-_TABLES: Dict[str, Dict[str, Any]] = {}
-
-
-class InsertRowRequest(BaseModel):
+class RowInsertRequest(BaseModel):
     row: Dict[str, Any]
 
+class RowInsertResponse(BaseModel):
+    message: str
+    row_id: Optional[int] = None
+
+class TableCreateResponse(BaseModel):
+    message: str
+    table_name: str
 
 @app.get("/health")
-def health() -> Dict[str, str]:
+def health_check() -> Dict[str, str]:
     return {"status": "ok"}
 
+@app.post("/ingest")
+async def ingest(
+    request: Request,
+    file: UploadFile = File(None),
+    dataset: Optional[str] = None
+) -> JSONResponse:
+    if file:
+        content = await file.read()
+        csv_text = content.decode("utf-8")
+        reader = csv.DictReader(io.StringIO(csv_text))
+        rows = list(reader)
+        if not rows:
+            return JSONResponse(status_code=400, content={"error": "Empty CSV file."})
+        if not file.filename:
+            return JSONResponse(status_code=400, content={"error": "Missing filename for uploaded file."})
+        table_name = file.filename.rsplit(".", 1)[0]
+        columns = {str(col): "TEXT" for col in rows[0].keys()}
+    else:
+        try:
+            body = await request.json()
+        except Exception:
+            return JSONResponse(status_code=400, content={"error": "Invalid JSON body."})
+        rows = body.get("rows") if isinstance(body, dict) else body
+        if not rows or not isinstance(rows, list):
+            return JSONResponse(status_code=400, content={"error": "No rows provided."})
+        if not dataset:
+            dataset = body.get("dataset") if isinstance(body, dict) else None
+        if not dataset:
+            return JSONResponse(status_code=400, content={"error": "Missing dataset name."})
+        table_name = dataset
+        columns = {str(col): "TEXT" for col in rows[0].keys()}
+    try:
+        db_service.create_table(table_name, columns)
+    except HTTPException as e:
+        if e.status_code != 400:
+            raise
+    inserted = 0
+    with _db_lock:
+        for row in rows:
+            db_service.insert_row(table_name, row)
+            inserted += 1
+    return JSONResponse(status_code=200, content={"message": "Ingested rows.", "row_count": inserted, "table": table_name})
 
-@app.post("/tables", status_code=201)
-def create_table(payload: Dict[str, Any] = Body(...)) -> Dict[str, str]:
-    name = payload.get("table_name")
-    if not isinstance(name, str) or not name:
-        raise HTTPException(status_code=422, detail="Invalid table name")
-
-    schema = payload.get("schema")
-    columns = payload.get("columns")
-    effective: Optional[Dict[str, str]] = None
-    if isinstance(schema, dict) and schema:
-        tmp: Dict[str, str] = {}
-        for k, v in schema.items():
-            tmp[str(k)] = str(v)
-        effective = tmp
-    elif isinstance(columns, dict) and columns:
-        tmp2: Dict[str, str] = {}
-        for k, v in columns.items():
-            tmp2[str(k)] = str(v)
-        effective = tmp2
-    if effective is None:
-        raise HTTPException(status_code=422, detail="Invalid schema/columns")
-
-    existing = _TABLES.get(name)
-    existing_rows: List[Dict[str, Any]] = list(existing["rows"]) if isinstance(existing, dict) else []
-    _TABLES[name] = {"columns": effective, "rows": existing_rows}
-    return {"message": f"table '{name}' created"}
-
+@app.post("/tables", response_model=TableCreateResponse, status_code=status.HTTP_201_CREATED)
+def create_table(payload: dict[str, Any] = Body(...)):
+    table_name: str = str(payload.get("table_name")) if payload.get("table_name") else ""
+    columns_dict_raw = payload.get("columns") or payload.get("schema")
+    if not table_name or not columns_dict_raw or not isinstance(columns_dict_raw, dict):
+        raise HTTPException(status_code=422, detail="Invalid table name or schema.")
+    # Ensure type is Dict[str, str]
+    columns_dict: Dict[str, str] = {str(k): str(v) for k, v in columns_dict_raw.items()}  # type: ignore
+    with _db_lock:
+        # Recreate table cleanly to avoid conflicts with prior test runs
+        try:
+            db_service.delete_table(table_name)
+        except HTTPException:
+            pass
+        db_service.create_table(table_name, columns_dict)
+    return TableCreateResponse(message="Table created or already exists.", table_name=table_name)
 
 @app.get("/tables")
-def list_tables() -> Dict[str, List[str]]:
-    return {"tables": list(_TABLES.keys())}
-
+def list_tables() -> JSONResponse:
+    with _db_lock:
+        tables = db_service.list_tables()
+    return JSONResponse(content={"tables": tables})
 
 @app.get("/tables/{table_name}/schema")
-def get_table_schema(table_name: str) -> Dict[str, Any]:
-    table = _TABLES.get(table_name)
-    if not isinstance(table, dict):
-        raise HTTPException(status_code=404, detail="table not found")
-    schema_dict: Dict[str, str] = table.get("columns", {})
-    schema_list = [{"name": k, "type": v} for k, v in schema_dict.items()]
-    return {"schema": schema_list}
+def get_table_schema(table_name: str) -> JSONResponse:
+    with _db_lock:
+        schema = db_service.get_table_schema(table_name)
+    return JSONResponse(content={"schema": schema})
 
+@app.delete("/tables/{table_name}")
+def delete_table(table_name: str) -> JSONResponse:
+    with _db_lock:
+        db_service.delete_table(table_name)
+    return JSONResponse(content={"message": f"Table '{table_name}' deleted."})
 
-@app.post("/tables/{table_name}/rows", status_code=201)
-def insert_row(table_name: str, payload: InsertRowRequest) -> Dict[str, Any]:
-    table = _TABLES.get(table_name)
-    if not isinstance(table, dict):
-        raise HTTPException(status_code=404, detail="table not found")
-    table.setdefault("rows", []).append(payload.row)
-    return {"message": "row inserted"}
-
+@app.post("/tables/{table_name}/rows", response_model=RowInsertResponse, status_code=status.HTTP_201_CREATED)
+def insert_row(table_name: str, payload: RowInsertRequest):
+    row = payload.row
+    if not row:
+        raise HTTPException(status_code=422, detail="Invalid row data.")
+    with _db_lock:
+        row_id = db_service.insert_row(table_name, row)
+    return RowInsertResponse(message="Row inserted.", row_id=row_id)
 
 @app.get("/tables/{table_name}/rows")
 def get_rows(
     table_name: str,
-    start_time: Optional[str] = Query(default=None),
-    end_time: Optional[str] = Query(default=None),
-    columns: Optional[str] = Query(default=None),
+    start_time: Optional[str] = Query(None, description="Start time (inclusive) in ISO format."),
+    end_time: Optional[str] = Query(None, description="End time (inclusive) in ISO format."),
+    timestamp_column: str = Query("timestamp", description="Name of the timestamp column to filter on."),
+    columns: Optional[str] = Query(None, description="Comma-separated list of columns to return.")
 ) -> List[Dict[str, Any]]:
-    table = _TABLES.get(table_name)
-    if not isinstance(table, dict):
-        raise HTTPException(status_code=404, detail="table not found")
-    rows: List[Dict[str, Any]] = table.get("rows", [])
-
-    # Apply time filtering (string compare on ISO8601 works for tests)
-    def within_time(row: Dict[str, Any]) -> bool:
-        ts = row.get("timestamp")
-        if ts is None:
-            return True
-        if start_time is not None and ts < start_time:
-            return False
-        if end_time is not None and ts > end_time:
-            return False
-        return True
-
-    filtered = [r for r in rows if within_time(r)]
-
-    # Column selection
-    if columns:
-        desired = [c for c in columns.split(",") if c]
-        projected: List[Dict[str, Any]] = []
-        for r in filtered:
-            # Preserve order of requested columns
-            projected.append({c: r[c] for c in desired if c in r})
-        return projected
-
-    return filtered
-
-
-@app.delete("/tables/{table_name}")
-def delete_table(table_name: str) -> Dict[str, str]:
-    _TABLES.pop(table_name, None)
-    return {"message": f"table '{table_name}' deleted"}
-
+    col_list = [col.strip() for col in columns.split(",") if col.strip()] if columns else None
+    with _db_lock:
+        rows = db_service.get_rows(table_name, start_time, end_time, timestamp_column, col_list)
+    return rows
 
 @app.delete("/tables/{table_name}/rows/{row_id}")
-def delete_row(table_name: str, row_id: int) -> Dict[str, str]:
-    table = _TABLES.get(table_name)
-    if not isinstance(table, dict):
-        raise HTTPException(status_code=404, detail="table not found")
-    # Remove first matching row with id
-    rows: List[Dict[str, Any]] = table.get("rows", [])
-    for idx, r in enumerate(rows):
-        if r.get("id") == row_id:
-            rows.pop(idx)
-            break
-    return {"message": f"row {row_id} deleted"}
-
+def delete_row(table_name: str, row_id: int) -> JSONResponse:
+    with _db_lock:
+        db_service.delete_row(table_name, row_id)
+    return JSONResponse(content={"message": f"Row {row_id} deleted from '{table_name}'."})
 
 @app.put("/tables/{table_name}/rows/{row_id}")
-def update_row(table_name: str, row_id: int, row: Dict[str, Any]) -> Dict[str, str]:
-    table = _TABLES.get(table_name)
-    if not isinstance(table, dict):
-        raise HTTPException(status_code=404, detail="table not found")
+def update_row(table_name: str, row_id: int, row: Dict[str, Any]) -> JSONResponse:
     if not row:
-        # Let FastAPI/Pydantic return 422 when body is missing/invalid by requiring the body param
-        raise HTTPException(status_code=422, detail="No row data provided")
-    rows: List[Dict[str, Any]] = table.get("rows", [])
-    for r in rows:
-        if r.get("id") == row_id:
-            r.update(row)
-            break
-    return {"message": f"row {row_id} updated"}
+        raise HTTPException(status_code=422, detail="No row data provided.")
+    with _db_lock:
+        db_service.update_row(table_name, row_id, row)
+    return JSONResponse(content={"message": f"Row {row_id} updated in '{table_name}'."})

@@ -42,7 +42,11 @@ class FileConsumer:
         try:
             with path.open("r") as f:
                 data = f.read()
-            self.send_to_db(data)
+            # Use dataset prefix (before '__') as the destination table name
+            filename = path.name
+            stem = path.stem
+            dataset = stem.split("__", 1)[0] if "__" in stem else stem
+            self.send_to_db(data, table_name=dataset, original_filename=filename)
             self.archive_file(path)
             self.tracker.mark_processed(path.name)
         except Exception as e:
@@ -54,18 +58,27 @@ class FileConsumer:
         Args:
             path (Path): Path to the file to archive.
         """
-        # Ensure archive directory exists before moving
-        self.archive_dir.mkdir(parents=True, exist_ok=True)
         dest = self.archive_dir / path.name
         shutil.move(str(path), str(dest))
 
-    def send_to_db(self, data: str) -> None:
+    def send_to_db(self, data: str, table_name: str | None = None, original_filename: str | None = None) -> None:
         """Send file data to the DB service.
 
         Args:
             data (str): File contents to send.
+            table_name (str | None): Optional explicit table name.
+            original_filename (str | None): Original filename for ingestion logging.
         """
-        self.db_service.send_to_db(data)
+        # Forward optional table name if supported by the DB client
+        try:
+            # Prefer newer signature supporting filename
+            try:
+                self.db_service.send_to_db(data, table_name=table_name, original_filename=original_filename)
+            except TypeError:
+                self.db_service.send_to_db(data, table_name=table_name)
+        except TypeError:
+            # Fallback for legacy clients that only accept a single positional argument
+            self.db_service.send_to_db(data)
 
     def validate_file(self, path: Path) -> bool:
         """Validate file extension and (optionally) schema.

@@ -1,289 +1,184 @@
 {
+    "$schema": "vscode://schemas/tasks",
     "version": "2.0.0",
     "tasks": [
+        {
+            "label": "Run Simulator (uvicorn)",
+            "type": "shell",
+            "command": "${workspaceFolder}/.venv/bin/python",
+            "args": ["-m", "uvicorn", "src.sharepoint_sim.server:app", "--reload", "--port", "8001"],
+            "isBackground": true,
+            "group": "build",
+            "options": { "cwd": "${workspaceFolder}" }
+        },
+        {
+            "label": "Run DB Service API (uvicorn)",
+            "type": "shell",
+            "command": "${workspaceFolder}/.venv/bin/python",
+            "args": ["-m", "uvicorn", "src.db_service_api:app", "--reload", "--port", "8000"],
+            "isBackground": true,
+            "group": "build",
+            "options": { "cwd": "${workspaceFolder}" }
+        },
+        {
+            "label": "Run Report Service API (uvicorn)",
+            "type": "shell",
+            "command": "${workspaceFolder}/.venv/bin/python",
+            "args": ["-m", "uvicorn", "src.report_service_api:app", "--reload", "--port", "8091"],
+            "isBackground": true,
+            "group": "build",
+            "options": { "cwd": "${workspaceFolder}" }
+        },
+        {
+            "label": "Scheduler (Run Once)",
+            "type": "shell",
+            "command": "${workspaceFolder}/.venv/bin/python",
+            "args": ["scheduler.py", "run-once"],
+            "group": "build",
+            "options": { "cwd": "${workspaceFolder}" }
+        },
+        {
+            "label": "Consumer (Run Once)",
+            "type": "shell",
+            "command": "${workspaceFolder}/.venv/bin/python",
+            "args": ["scripts/run_consumer_once.py"],
+            "group": "build",
+            "options": { "cwd": "${workspaceFolder}" }
+        },
+        {
+            "label": "Preflight Health Check",
+            "type": "shell",
+            "command": "${workspaceFolder}/.venv/bin/python",
+            "args": ["scripts/preflight_health.py"],
+            "group": "build",
+            "options": { "cwd": "${workspaceFolder}" }
+        },
+        {
+            "label": "Run E2E Once (Sim→Sched→Cons→Report)",
+            "type": "shell",
+            "command": "${workspaceFolder}/.venv/bin/python",
+            "args": ["scripts/run_e2e_once.py"],
+            "group": "build",
+            "options": { "cwd": "${workspaceFolder}" }
+        },
         {
             "label": "Install Requirements",
             "type": "shell",
             "command": "${workspaceFolder}/.venv/bin/pip",
-            "args": [
-                "install",
-                "-r",
-                "requirements-unified.txt"
-            ],
+            "args": ["install", "-r", "requirements-unified.txt"],
             "group": "build",
-            "presentation": {
-                "echo": true,
-                "reveal": "always",
-                "focus": false,
-                "panel": "new"
-            },
-            "options": {
-                "cwd": "${workspaceFolder}"
-            },
+            "presentation": { "echo": true, "reveal": "always", "focus": false, "panel": "new" },
+            "options": { "cwd": "${workspaceFolder}" },
             "problemMatcher": []
         },
         {
             "label": "Run Integration Tests",
             "type": "shell",
             "command": "${workspaceFolder}/.venv/bin/python",
-            "args": [
-                "tests/run_integration_tests.py"
-            ],
-            "group": {
-                "kind": "test",
-                "isDefault": true
-            },
-            "presentation": {
-                "echo": true,
-                "reveal": "always",
-                "focus": false,
-                "panel": "new"
-            },
-            "options": {
-                "cwd": "${workspaceFolder}",
-                "env": {
-                    "PYTHONPATH": "${workspaceFolder}/src:${workspaceFolder}/tests:${workspaceFolder}/shared:${workspaceFolder}/services"
-                }
-            },
+            "args": ["tests/run_integration_tests.py"],
+            "group": { "kind": "test", "isDefault": true },
+            "presentation": { "echo": true, "reveal": "always", "focus": false, "panel": "new" },
+            "options": { "cwd": "${workspaceFolder}", "env": { "PYTHONPATH": "${workspaceFolder}/src:${workspaceFolder}/tests:${workspaceFolder}/shared:${workspaceFolder}/services" } },
             "problemMatcher": []
         },
         {
             "label": "Run Unit Tests (pytest)",
             "type": "shell",
             "command": "${workspaceFolder}/.venv/bin/python",
-            "args": [
-                "-m",
-                "pytest",
-                "-v",
-                "--tb=short",
-                "tests/"
-            ],
+            "args": ["-m", "pytest", "-v", "--tb=short", "tests/"],
             "group": "test",
-            "presentation": {
-                "echo": true,
-                "reveal": "always",
-                "focus": false,
-                "panel": "new"
-            },
-            "options": {
-                "cwd": "${workspaceFolder}",
-                "env": {
-                    "PYTHONPATH": "${workspaceFolder}/src:${workspaceFolder}/tests:${workspaceFolder}/shared:${workspaceFolder}/services"
-                }
-            },
+            "presentation": { "echo": true, "reveal": "always", "focus": false, "panel": "new" },
+            "options": { "cwd": "${workspaceFolder}", "env": { "PYTHONPATH": "${workspaceFolder}/src:${workspaceFolder}/tests:${workspaceFolder}/shared:${workspaceFolder}/services" } },
             "problemMatcher": []
         },
         {
             "label": "Test with Coverage (Extended)",
             "type": "shell",
             "command": "${workspaceFolder}/.venv/bin/python",
-            "args": [
-                "-m",
-                "pytest",
-                "--cov=services",
-                "--cov-report=html",
-                "--cov-report=term",
-                "-v",
-                "tests/"
-            ],
+            "args": ["-m", "pytest", "--cov=services", "--cov-report=html", "--cov-report=term", "-v", "tests/"],
             "group": "test",
-            "presentation": {
-                "echo": true,
-                "reveal": "always",
-                "focus": false,
-                "panel": "new"
-            },
-            "options": {
-                "cwd": "${workspaceFolder}",
-                "env": {
-                    "PYTHONPATH": "${workspaceFolder}/src:${workspaceFolder}/tests:${workspaceFolder}/shared:${workspaceFolder}/services"
-                }
-            },
+            "presentation": { "echo": true, "reveal": "always", "focus": false, "panel": "new" },
+            "options": { "cwd": "${workspaceFolder}", "env": { "PYTHONPATH": "${workspaceFolder}/src:${workspaceFolder}/tests:${workspaceFolder}/shared:${workspaceFolder}/services" } },
             "problemMatcher": []
         },
         {
             "label": "Performance Benchmark (Scripts)",
             "type": "shell",
             "command": "${workspaceFolder}/.venv/bin/python",
-            "args": [
-                "scripts/performance_benchmark.py"
-            ],
+            "args": ["scripts/performance_benchmark.py"],
             "group": "test",
-            "presentation": {
-                "echo": true,
-                "reveal": "always",
-                "focus": false,
-                "panel": "new"
-            },
-            "options": {
-                "cwd": "${workspaceFolder}",
-                "env": {
-                    "PYTHONPATH": "${workspaceFolder}/src:${workspaceFolder}/shared:${workspaceFolder}/services"
-                }
-            },
+            "presentation": { "echo": true, "reveal": "always", "focus": false, "panel": "new" },
+            "options": { "cwd": "${workspaceFolder}", "env": { "PYTHONPATH": "${workspaceFolder}/src:${workspaceFolder}/shared:${workspaceFolder}/services" } },
             "problemMatcher": []
         },
         {
             "label": "Test with Coverage",
             "type": "shell",
             "command": "${workspaceFolder}/.venv/bin/python",
-            "args": [
-                "-m",
-                "pytest",
-                "--cov=services",
-                "--cov-report=html",
-                "--cov-report=term",
-                "-v",
-                "tests/"
-            ],
+            "args": ["-m", "pytest", "--cov=services", "--cov-report=html", "--cov-report=term", "-v", "tests/"],
             "group": "test",
-            "presentation": {
-                "echo": true,
-                "reveal": "always",
-                "focus": false,
-                "panel": "new"
-            },
-            "options": {
-                "cwd": "${workspaceFolder}",
-                "env": {
-                    "PYTHONPATH": "${workspaceFolder}/src:${workspaceFolder}/tests:${workspaceFolder}/shared:${workspaceFolder}/services"
-                }
-            },
+            "presentation": { "echo": true, "reveal": "always", "focus": false, "panel": "new" },
+            "options": { "cwd": "${workspaceFolder}", "env": { "PYTHONPATH": "${workspaceFolder}/src:${workspaceFolder}/tests:${workspaceFolder}/shared:${workspaceFolder}/services" } },
             "problemMatcher": []
         },
         {
             "label": "Performance Benchmark",
             "type": "shell",
             "command": "${workspaceFolder}/.venv/bin/python",
-            "args": [
-                "scripts/performance_benchmark.py"
-            ],
+            "args": ["scripts/performance_benchmark.py"],
             "group": "test",
-            "presentation": {
-                "echo": true,
-                "reveal": "always",
-                "focus": false,
-                "panel": "new"
-            },
-            "options": {
-                "cwd": "${workspaceFolder}",
-                "env": {
-                    "PYTHONPATH": "${workspaceFolder}/src:${workspaceFolder}/shared:${workspaceFolder}/services"
-                }
-            },
+            "presentation": { "echo": true, "reveal": "always", "focus": false, "panel": "new" },
+            "options": { "cwd": "${workspaceFolder}", "env": { "PYTHONPATH": "${workspaceFolder}/src:${workspaceFolder}/shared:${workspaceFolder}/services" } },
             "problemMatcher": []
         },
         {
             "label": "Phase 2 Validation",
             "type": "shell",
             "command": "${workspaceFolder}/.venv/bin/python",
-            "args": [
-                "scripts/phase2_validation.py"
-            ],
+            "args": ["scripts/phase2_validation.py"],
             "group": "test",
-            "presentation": {
-                "echo": true,
-                "reveal": "always",
-                "focus": false,
-                "panel": "new"
-            },
-            "options": {
-                "cwd": "${workspaceFolder}",
-                "env": {
-                    "PYTHONPATH": "${workspaceFolder}/src:${workspaceFolder}/shared:${workspaceFolder}/services"
-                }
-            },
+            "presentation": { "echo": true, "reveal": "always", "focus": false, "panel": "new" },
+            "options": { "cwd": "${workspaceFolder}", "env": { "PYTHONPATH": "${workspaceFolder}/src:${workspaceFolder}/shared:${workspaceFolder}/services" } },
             "problemMatcher": []
         },
         {
             "label": "Check Dependencies",
             "type": "shell",
             "command": "${workspaceFolder}/.venv/bin/python",
-            "args": [
-                "tests/check_integration_dependencies.py"
-            ],
+            "args": ["tests/check_integration_dependencies.py"],
             "group": "test",
-            "presentation": {
-                "echo": true,
-                "reveal": "always",
-                "focus": false,
-                "panel": "new"
-            },
-            "options": {
-                "cwd": "${workspaceFolder}",
-                "env": {
-                    "PYTHONPATH": "${workspaceFolder}/src:${workspaceFolder}/tests:${workspaceFolder}/shared"
-                }
-            },
+            "presentation": { "echo": true, "reveal": "always", "focus": false, "panel": "new" },
+            "options": { "cwd": "${workspaceFolder}", "env": { "PYTHONPATH": "${workspaceFolder}/src:${workspaceFolder}/tests:${workspaceFolder}/shared" } },
             "problemMatcher": []
         },
         {
             "label": "Format Code (Black)",
             "type": "shell",
             "command": "${workspaceFolder}/.venv/bin/python",
-            "args": [
-                "-m",
-                "black",
-                "."
-            ],
+            "args": ["-m", "black", "."],
             "group": "build",
-            "presentation": {
-                "echo": true,
-                "reveal": "always",
-                "focus": false,
-                "panel": "new"
-            },
-            "options": {
-                "cwd": "${workspaceFolder}"
-            },
+            "presentation": { "echo": true, "reveal": "always", "focus": false, "panel": "new" },
+            "options": { "cwd": "${workspaceFolder}" },
             "problemMatcher": []
         },
         {
             "label": "API Documentation Server",
             "type": "shell",
             "command": "${workspaceFolder}/.venv/bin/python",
-            "args": [
-                "-m",
-                "http.server",
-                "8090",
-                "--directory",
-                "docs/api"
-            ],
+            "args": ["-m", "http.server", "8090", "--directory", "docs/api"],
             "group": "build",
-            "presentation": {
-                "echo": true,
-                "reveal": "always",
-                "focus": false,
-                "panel": "new"
-            },
-            "options": {
-                "cwd": "${workspaceFolder}"
-            },
+            "presentation": { "echo": true, "reveal": "always", "focus": false, "panel": "new" },
+            "options": { "cwd": "${workspaceFolder}" },
             "problemMatcher": []
         },
         {
             "label": "Quality Gate",
             "type": "shell",
             "command": "/bin/bash",
-            "args": [
-                "scripts/quality_gate.sh"
-            ],
-            "group": {
-                "kind": "test",
-                "isDefault": false
-            },
-            "presentation": {
-                "echo": true,
-                "reveal": "always",
-                "focus": false,
-                "panel": "new"
-            },
-            "options": {
-                "cwd": "${workspaceFolder}",
-                "env": {
-                    "PYTHONPATH": "${workspaceFolder}/src:${workspaceFolder}/tests:${workspaceFolder}/shared"
-                }
-            },
+            "args": ["scripts/quality_gate.sh"],
+            "group": { "kind": "test", "isDefault": false },
+            "presentation": { "echo": true, "reveal": "always", "focus": false, "panel": "new" },
+            "options": { "cwd": "${workspaceFolder}", "env": { "PYTHONPATH": "${workspaceFolder}/src:${workspaceFolder}/tests:${workspaceFolder}/shared" } },
             "problemMatcher": []
         }
     ]
