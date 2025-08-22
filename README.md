@@ -35,6 +35,7 @@ docs/ (original documentation preserved)
 ## SharePoint CSV Simulator Testing
 
 All dataset generators are covered by property-based tests (using Hypothesis) that verify:
+
 * Header and schema invariants
 * Role enforcement
 * Value ranges and edge cases
@@ -157,6 +158,24 @@ Pre-commit (`pre-commit install`) runs Ruff, mypy subset, Pyright, quick pytest 
 ## CI
 
 Workflow `.github/workflows/quality-gate.yml` enforces the gate on pushes / PRs to `main` & `main-foundation`.
+
+## Report Service API (experimental)
+
+Lightweight CSV report generation over the DB Service API is available in `src/report_service_api.py`.
+
+- Endpoints:
+  - `GET /health` – liveness
+  - `POST /reports/generate` – body: `{ dataset, start_time, end_time, format: "csv" }`; returns filename and row_count
+  - `GET /reports` – list generated CSVs
+  - `GET /reports/download/{filename}` – download a generated CSV
+
+By default reports are written to `./reports` (override with `REPORTS_DIR`). The DB API base can be set via `DB_API_URL` or by injecting `app.state.db_session` in tests.
+
+To run locally (example):
+
+```bash
+python -m uvicorn src.report_service_api:app --reload --port 8090
+```
 
 ## Development Principles
 
